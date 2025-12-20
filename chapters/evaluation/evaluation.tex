@@ -1,0 +1,218 @@
+\documentclass[11pt, a4paper]{article}
+
+% ============================================================================
+% PACKAGES
+% ============================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}   % For professional looking tables
+\usepackage{tabularx}   % For flexible table widths
+\usepackage{hyperref}   % For links
+\usepackage{xcolor}     % For placeholder text
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{caption}
+
+% ============================================================================
+% CONFIGURATION
+% ============================================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% Placeholder command for easy visual identification
+\newcommand{\placeholder}[1]{\textcolor{red}{\textit{[#1]}}}
+
+% Line spacing
+\renewcommand{\baselinestretch}{1.15}
+
+\begin{document}
+
+% ============================================================================
+% EVALUATION SECTION
+% ============================================================================
+
+\section{Evaluation Methodology}
+\label{sec:evaluation}
+
+This chapter details the methodology used to evaluate the \textbf{Agentic Project Management (APM)} framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants.\newline\newline
+The evaluation was designed to measure two distinct dimensions of efficiency: 
+
+\begin{itemize}
+    \item \textbf{Economic Efficiency} (monetary and computational cost)
+    \item \textbf{Process Efficiency} (human cognitive load and interaction burden)
+\end{itemize}
+
+To accurately capture these distinct metrics, the study was divided into two complementary sub-studies, leveraging the unique data-collection capabilities of two different IDE platforms (Cursor and VSCode with GitHub Copilot).
+
+\subsection{Research Objectives}
+
+The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Setup and Task Loop phases) yields a tangible return on investment compared to single or double-agent workflows.\newline\newline
+We define the following Research Questions (RQs):
+
+\begin{itemize}
+    \item \textbf{RQ1 (Economic Efficiency):} Does the multi-agent structure of APM significantly increase the token consumption and financial cost compared to single-agent or double-agent workflows?
+    \item \textbf{RQ2 (Process Efficiency):} Does the structured coordination of APM reduce the "human burden" during execution? Specifically, does it reduce the need for user interventions, corrections, and clarifications? Are the agents able to effectively coordinate and complete the task without the need for constant human oversight?
+    \item \textbf{RQ3 (Functional Efficacy):} Can APM successfully deliver complex, non-trivial features in scenarios where unstructured agentic workflows typically encounter "Agentic Handoff Failures"?
+\end{itemize}
+
+\subsection{Testbed and Task Design}
+
+To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server}, a Python-based Model Context Protocol (MCP) server designed to interface with the \texttt{openeclass} platform. Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
+
+\newpage
+
+\subsubsection{The Task:}
+Participants were tasked with implementing new functionality for the MCP server. The task evolved through iteration: an initial prototype task (adding a new feature to the MCP server) proved insufficient for differentiating multi-agent from single-agent approaches; the latter handled it without difficulty. The final task specification adds a \textbf{C replica} requirement, demanding both the Python feature implementation and a native C implementation of the MCP server.\footnote{Task specifications and submissions available at: \url{https://github.com/sdi2200262/bsc-case-study-task}}\newline\newline
+This combined task requires investigating the \texttt{openeclass} legacy PHP codebase, coordinating research and implementation phases, and demonstrating proficiency across two programming languages with different paradigms.\newline\newline
+\textbf{Key Technical Challenges:}
+\begin{enumerate}
+    \item \textbf{Dynamic Data Source:} The required data for implementing the new feature is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
+    \begin{itemize}
+        \item \textbf{Header Requirements:} The endpoint requires specific headers (e.g., \texttt{X-Requested-With: XMLHttpRequest}) to return valid JSON.
+    \end{itemize}
+    \item \textbf{Nested Parsing:} The server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
+    \item \textbf{Client-Side Filtering:} The legacy API does not support date filtering. The agent must implement robust client-side logic to parse complex locale-formatted dates (e.g., "Today, 2:30 pm") and filter them based on the user's request.
+    \item \textbf{C Implementation:} Agents must implement a native C replica of the MCP server, requiring implementation of MCP's JSON-RPC 2.0 protocol from scratch in native C (no external libraries), and strict adherence to external library usage for HTTP requests and HTML parsing in eclass-specific functionality.
+    \item \textbf{Memory Safety:} The C implementation must be memory-safe, passing Valgrind checks without leaks or errors.
+\end{enumerate}
+\vspace{1em}
+\textbf{Deliverables:}
+\begin{enumerate}
+    \item Core server logic in modular Python files (existing and new functionality).
+    \item A native C implementation of the MCP server with equivalent (existing and new) functionality.
+    \item A working build system (Makefile) for the C replica.
+\end{enumerate}
+
+Submissions are evaluated using an automated black-box test suite.\footnote{Grader available at: \url{https://github.com/sdi2200262/bsc-case-study-grader}}
+
+\newpage
+
+\subsection{The Two Sub-Studies:}
+
+To provide a holistic evaluation, we split the experiment into two sub-studies. This design choice was driven by the need to isolate specific variables and leverage the distinct logging capabilities of the available tools.
+
+\begin{table}[h]
+    \centering
+    \caption{Comparison of Sub-Study Designs}
+    \label{tab:study-comparison}
+    \begin{tabularx}{\textwidth}{@{}lXX@{}}
+        \toprule
+        \textbf{Feature} & \textbf{Sub-Study A (Cursor)} & \textbf{Sub-Study B (GitHub Copilot)} \\
+        \midrule
+        \textbf{Primary Focus} & Quantitative Economic Analysis & Qualitative Process Analysis \\
+        \textbf{Target Audience} & Pro Users (Controlled Group) & University Students\\
+        \textbf{Primary Metric} & Tokens (I/O) \& Cost (\$) & Interaction Patterns \& User Burden \\
+        \textbf{Data Source} & Cursor Usage Statistics & Exported GitHub Copilot JSON Chat Logs \\
+        \textbf{AI Model Strategy} & \textbf{Standardized:} Cursor Composer 1 (All chats) & \textbf{Hybrid:} Premium (Setup and Manager) + Budget (Implementation) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Sub-Study A: Quantitative Economic Analysis (Cursor)}
+This study focused on \textbf{RQ1}. It utilized a smaller, controlled group of participants with access to Cursor's premium AI features.
+\begin{itemize}
+    \item \textbf{Rationale:} Cursor provides precise, session-based dashboards for Token Input/Output/Cache and Cost per request.
+    \item \textbf{Model Standardization:} To ensure rigorous comparison, all participants were strictly required to use \textbf{Cursor's Composer 1} model for the entire duration of the study. This eliminates model variance as a confounding variable for cost.
+\end{itemize}
+
+\subsubsection{Sub-Study B: Qualitative Process Analysis (GitHub Copilot)}
+This study focused on \textbf{RQ2}. It utilized a larger cohort of university students with access to GitHub Copilot's premium AI features (via the GitHub Education Pack).
+\begin{itemize}
+    \item \textbf{Rationale:} GitHub Copilot provides detailed JSON chat exports that include metadata on tool calls, timestamps, and speaker roles. This granular data allows for programmatic analysis of interaction patterns that is not possible with Cursor's summary dashboard.
+    \item \textbf{Hybrid Model Strategy:} To mimic real-world usage constraints (request quotas), participants in the APM group followed a hybrid strategy: using a Premium Model (Claude Sonnet 4) for high-level planning (Setup/Manager agents) and a Budget Model (with a 0x request multiplier) for execution (Implementation agents).
+\end{itemize}
+
+\newpage
+
+\subsection{Frameworks Under Evaluation}
+
+Three distinct workflow configurations were evaluated across both sub-studies:
+
+\begin{enumerate}
+    \item \textbf{Agentic Project Management (APM):} The proposed framework. It enforces a strict separation of concerns:
+    \begin{itemize}
+        \item \textit{Setup Agent:} Project discovery and planning.
+        \item \textit{Manager Agent:} Coordination, task assignment, and review.
+        \item \textit{Implementation Agent:} Execution and memory logging.
+    \end{itemize}
+    
+    \item \textbf{GitHub Spec-kit:} A structured, "constitutional" baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}).
+    
+    \item \textbf{Plan Mode (Baseline):} The industry-standard "First plan, then execute" feature native to the IDE (Cursor's Plan Mode or GitHub Copilot's Plan Agent). This represents the current state-of-the-art for AI-powered planning workflows.
+\end{enumerate}
+
+\subsection{Metrics and Data Collection}
+
+\subsubsection{Economic Metrics (Study A)}
+Collected via Cursor's usage statistics of each participant's session to address \textbf{RQ1}:
+\begin{itemize}
+    \item \textbf{Total Input Tokens:} The volume of context processed by the models during the session.
+    \item \textbf{Total Output Tokens:} The volume of code and text generated during the session.
+    \item \textbf{Total Cached Tokens:} The volume of tokens served from Cursor's cache, reducing overall cost.
+    \item \textbf{Total Cost (\$):} The financial cost of the session based on Cursor's API pricing.
+\end{itemize}
+
+\subsubsection{Process Metrics (Study B)}
+Derived from parsing the exported GitHub Copilot JSON chat logs to address \textbf{RQ2}:
+\begin{itemize}
+    \item \textbf{User Intervention Rate:} The ratio of user messages to agent messages. A lower ratio indicates higher autonomy and less need for human intervention.
+    \item \textbf{Tool Usage Count:} The total number of successful tool calls (file reads, terminal commands), serving as a proxy for agentic activity. 
+    \item \textbf{Error/Correction Count:} The number of times the user had to explicitly correct or guide the agent. 
+\end{itemize}
+
+\subsubsection{Functional Metrics (Both Studies)}
+To address \textbf{RQ3}, the final code artifacts (\texttt{.patch} files) were evaluated against a blind test suite:
+\begin{itemize}
+    \item \textbf{Deliverable Completeness:} Presence of all required deliverables.
+    \item \textbf{Functional Correctness:} Success/Failure on an automated E2E test harness.
+    \item \textbf{Robustness:} Handling of edge cases (e.g., authentication failure, empty responses, etc.).
+\end{itemize}
+
+% ============================================================================
+% RESULTS PLACEHOLDER
+% ============================================================================
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Economic Performance (Study A)}
+\placeholder{Table comparing Token/Cost metrics across APM, Spec-kit, and Plan Mode.}
+\placeholder{Analysis: Does APM's overhead result in a linear or exponential cost increase? Is the cost justified by the output?}
+
+\subsection{Process Efficiency (Study B)}
+\placeholder{Graphs showing User vs. Agent turns.}
+\placeholder{Analysis: Did APM users intervene less? Did the Manager agent effectively absorb the coordination burden?}
+
+\subsection{Code Quality and Functional Success}
+\placeholder{Pass/Fail rates for the automated E2E test suite.}
+\placeholder{Qualitative analysis of the code: Did the agents successfully identify the AJAX endpoint?}
+
+% ============================================================================
+% DISCUSSION PLACEHOLDER
+% ============================================================================
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{The Cost of Context vs. The Cost of Failure}
+\placeholder{Discuss the trade-off. APM likely has higher upfront costs (Setup Phase), but does it prevent the costly "Agentic Handoff Failures" observed in the baselines? How does the cost of the APM framework compare to the cost of the baselines?}
+
+\subsection{The Hybrid Model Efficacy}
+\placeholder{Evaluate the strategy used in Study B. Did switching to a budget model for implementation degrade code quality, or did the strong plan from the Premium Manager protect against it? How does the hybrid model strategy compare to the single-agent or double-agent strategies in terms of code quality and robustness?}
+
+\subsection{Threats to Validity}
+\begin{itemize}
+    \item \textbf{Learning Effects:} Addressed via counterbalancing (Tool A/Tool B order).
+    \item \textbf{Model Variance:} Mitigated in Study A by standardizing on Composer 1. Addressed in Study B by using a Claude Sonnet 4 for the planning phase of all tools, and a budget model for the implementation phase of all tools.
+    \item \textbf{Participant Experience:} Variance in student skill levels (mitigated by the "Detailed PRD" which acts as a leveling mechanism and the "Default Prompt" containing hints and guidance for the agents).
+\end{itemize}
+
+\end{document}
