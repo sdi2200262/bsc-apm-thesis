@@ -115,7 +115,25 @@ To ensure participant privacy and robust data security, the case study employs a
 
 \noindent Access to the restricted-access repository is available only upon request, following the signing of formal data usage agreements and compliance with data access terms, which are subject to final approval prior to publication.\footnote{Data access terms and consent forms are currently under review and will be finalized prior to publication.} This controlled access mechanism enables peer review and reproducibility while maintaining participant privacy protections.
 
-\newpage
+\subsubsection{Sanitization and PII Handling in Study B}
+
+GitHub Copilot chat exports contain sensitive information (file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, exports are sanitized before storage using reversible encryption.
+
+\noindent \textbf{Sanitization Method:}
+
+Fields containing personally identifiable information are encrypted using an HMAC-SHA256 XOR cipher:
+
+\begin{itemize}
+    \item \textbf{Keystream Generation:} HMAC-SHA256 is applied to a combination of a shared secret and per-field random salt, generating a keystream matching the field length.
+    \item \textbf{XOR Encryption:} The plaintext field is XORed against the keystream, producing ciphertext of identical length.
+    \item \textbf{Encoding:} Encrypted fields are stored as \texttt{ENC:<salt\_b64>:<ciphertext\_b64>}, enabling deterministic decryption.
+\end{itemize}
+
+\noindent \textbf{Coverage:} File paths, tool arguments, command histories, and text content containing paths are encrypted. Session IDs (computed as SHA256 hashes of request IDs) remain in plaintext for session tracking.
+
+\noindent \textbf{Integrity:} Decryption using the shared secret produces data bitwise-identical to the original. Metrics computed from sanitized exports are identical to those from unsanitized data, ensuring analysis validity.
+
+
 
 \subsection{The Two Sub-Studies:}
 
@@ -184,11 +202,41 @@ Collected via Cursor's usage statistics of each participant's session to address
 \end{itemize}
 
 \subsubsection{Process Efficiency Metrics (Study B)}
-Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. The following metrics are extracted from these sanitized transcripts:
+Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. Metrics are organized into three tiers of increasing interpretive complexity:
+
+\noindent \textbf{Session Metadata:}
 \begin{itemize}
-    \item \textbf{User Intervention Rate:} The ratio of user messages to agent messages. A lower ratio indicates higher autonomy and less need for human intervention.
-    \item \textbf{Tool Usage Count:} The total number of successful tool calls (file reads, terminal commands), serving as a proxy for agentic activity. 
-    \item \textbf{Error/Correction Count:} The number of times the user had to explicitly correct or guide the agent. 
+    \item \textbf{Session ID:} SHA256 hash (first 16 chars) of the chat request ID.
+    \item \textbf{Model ID:} The specific language model used (e.g., \texttt{copilot/claude-opus-4.5}).
+\end{itemize}
+
+\noindent \textbf{Core Metrics (Tier 1)} — Direct Measures of Autonomy and Effectiveness:
+\begin{itemize}
+    \item \textbf{Total Requests:} Number of user prompts.
+    \item \textbf{Total Tool Invocations:} Sum of all tool calls across all requests.
+    \item \textbf{User Edit Count:} Times the user modified an auto-generated terminal command (proxy for correction burden).
+    \item \textbf{Terminal Invocations:} Total number of terminal command tool calls.
+    \item \textbf{User Edit Rate:} Ratio of edited to total terminal invocations; lower indicates fewer corrections needed.
+    \item \textbf{Tool Success Count:} Number of successfully completed tool invocations.
+    \item \textbf{Tool Success Rate:} Ratio of successful to total tool invocations.
+    \item \textbf{Session Duration:} Total elapsed time in milliseconds.
+\end{itemize}
+
+\noindent \textbf{Supporting Metrics (Tier 2)} — Measures of Iteration and Coordination:
+\begin{itemize}
+    \item \textbf{Total Rounds:} Count of tool execution rounds (batches of tools executed per request).
+    \item \textbf{Retry Count:} Total tool invocation retries across all rounds.
+    \item \textbf{Tool Retry Rate:} Ratio of retries to rounds; indicates iterative problem-solving frequency.
+    \item \textbf{Invocations Per Request:} Average tools per request; reflects task complexity and thoroughness.
+    \item \textbf{Unique Tools Used:} Count of distinct tool types invoked.
+\end{itemize}
+
+\noindent \textbf{Agentic Activity (Tier 3)} — Measures of Code and File Interaction:
+\begin{itemize}
+    \item \textbf{File Modifications:} Count of file creation, deletion, or edit operations.
+    \item \textbf{Read Operations:} Total file read operations.
+    \item \textbf{Write Operations:} Total file write operations.
+    \item \textbf{Read/Write Ratio:} Ratio of reads to writes; higher values suggest deliberate exploration before modification.
 \end{itemize}
 
 \subsubsection{Functional Metrics (Both Studies)}

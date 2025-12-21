@@ -40,7 +40,17 @@ The evaluation consists of two complementary sub-studies:
 
 2. **Sub-Study B (GitHub Copilot)** - Qualitative Process Analysis
    - University students using GitHub Copilot (via GitHub Education)
-   - Measures interaction patterns, user interventions, and tool usage
+   - Metrics extracted from chat exports across 3 tiers
+   - Data sanitized using HMAC-XOR encryption for participant privacy
+
+### Sub-Study B Metrics
+
+Process efficiency is measured via automatically extracted metrics from GitHub Copilot chat exports:
+
+- **Session Metadata:** Session ID (SHA256), Model ID
+- **Core Metrics:** Request counts, tool invocations, success rates, user interventions, session duration
+- **Supporting Metrics:** Execution rounds, retry patterns, tool diversity  
+- **Agentic Activity:** File modifications, read/write operations, modification strategy
 
 ## Building
 
