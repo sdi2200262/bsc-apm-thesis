@@ -70,28 +70,50 @@ To evaluate the frameworks under realistic constraints, we utilized an existing 
 \newpage
 
 \subsubsection{The Task:}
-Participants were tasked with implementing new functionality for the MCP server. The task evolved through iteration: an initial prototype task (adding a new feature to the MCP server) proved insufficient for differentiating multi-agent from single-agent approaches; the latter handled it without difficulty. The final task specification adds a \textbf{C replica} requirement, demanding both the Python feature implementation and a native C implementation of the MCP server.\footnote{Task specifications and submissions available at: \url{https://github.com/sdi2200262/bsc-case-study-task}}\newline\newline
-This combined task requires investigating the \texttt{openeclass} legacy PHP codebase, coordinating research and implementation phases, and demonstrating proficiency across two programming languages with different paradigms.\newline\newline
-\textbf{Key Technical Challenges:}
+Participants were tasked with implementing new functionality for the MCP server. The task evolved through iteration: an initial prototype task (adding a new feature to the MCP server) proved insufficient for differentiating multi-agent from single-agent approaches; the latter handled it without difficulty. The final task specification adds a \textbf{C replica} requirement, demanding both the Python feature implementation and a native C implementation of the MCP server.\footnote{Task specification and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}\newline
+
+\noindent The C replica requirement was intended as a \textbf{context window stress test}. By forcing agents to manage complex, cross-paradigm context and multiple constraints, this task increases cognitive load and the risk of context failures for single-agent approaches. This highlights the advantages of multi-agent coordination, where structured separation of concerns and workload distribution better manages such complexity.\newline
+
+\noindent \textbf{Key Technical Challenges:}
 \begin{enumerate}
     \item \textbf{Dynamic Data Source:} The required data for implementing the new feature is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
     \begin{itemize}
         \item \textbf{Header Requirements:} The endpoint requires specific headers (e.g., \texttt{X-Requested-With: XMLHttpRequest}) to return valid JSON.
     \end{itemize}
     \item \textbf{Nested Parsing:} The server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
-    \item \textbf{Client-Side Filtering:} The legacy API does not support date filtering. The agent must implement robust client-side logic to parse complex locale-formatted dates (e.g., "Today, 2:30 pm") and filter them based on the user's request.
+    \item \textbf{Client-Side Filtering:} The legacy API does not support date filtering. The agent must implement robust client-side logic to parse and filter unique locale-formatted dates.
     \item \textbf{C Implementation:} Agents must implement a native C replica of the MCP server, requiring implementation of MCP's JSON-RPC 2.0 protocol from scratch in native C (no external libraries), and strict adherence to external library usage for HTTP requests and HTML parsing in eclass-specific functionality.
     \item \textbf{Memory Safety:} The C implementation must be memory-safe, passing Valgrind checks without leaks or errors.
 \end{enumerate}
-\vspace{1em}
-\textbf{Deliverables:}
+
+\noindent \textbf{Deliverables:}
 \begin{enumerate}
     \item Core server logic in modular Python files (existing and new functionality).
     \item A native C implementation of the MCP server with equivalent (existing and new) functionality.
     \item A working build system (Makefile) for the C replica.
 \end{enumerate}
 
-Submissions are evaluated using an automated black-box test suite.\footnote{Grader available at: \url{https://github.com/sdi2200262/bsc-case-study-grader}}
+\noindent Submissions are evaluated using an automated black-box test suite.\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}}
+
+\subsubsection{Repository Architecture and Data Management}
+
+To ensure participant privacy and robust data security, the case study employs a two-repository system that clearly separates public resources from sensitive research data. This architecture balances research transparency with participant confidentiality: it ensures that dataset components necessary for peer review and reproducibility are available through controlled channels, while personally identifiable material and unsanitizable transcripts are never made public.\newline
+
+\noindent The \textbf{public repository} (\texttt{bsc-apm-case-study-task}) is openly accessible and includes:
+\begin{itemize}
+    \item Task specification documents (Product Requirements Document, Default Prompt)
+    \item Grading infrastructure and automated test suite
+    \item Participant guides and setup instructions
+\end{itemize}
+
+\noindent The \textbf{restricted-access repository} (\texttt{bsc-apm-case-study-data}) contains all submitted participant data and sensitive interaction records:
+\begin{itemize}
+    \item Code patches and implementation artifacts
+    \item Sanitized AI assistant chat transcripts \textendash~identity-revealing information (such as file paths, tool calls, timestamps, and user IDs) is systematically filtered out. However, it is not possible to fully sanitize unstructured user-input text, which may inadvertently reveal identities. Therefore, raw interaction logs are never published, and even sanitized transcripts remain in the restricted repository.
+    \item Session metadata and metrics (fully anonymized wherever possible)
+\end{itemize}
+
+\noindent Access to the restricted-access repository is available only upon request, following the signing of formal data usage agreements and compliance with data access terms, which are subject to final approval prior to publication.\footnote{Data access terms and consent forms are currently under review and will be finalized prior to publication.} This controlled access mechanism enables peer review and reproducibility while maintaining participant privacy protections.
 
 \newpage
 
@@ -158,10 +180,11 @@ Collected via Cursor's usage statistics of each participant's session to address
     \item \textbf{Total Output Tokens:} The volume of code and text generated during the session.
     \item \textbf{Total Cached Tokens:} The volume of tokens served from Cursor's cache, reducing overall cost.
     \item \textbf{Total Cost (\$):} The financial cost of the session based on Cursor's API pricing.
+    \item \textbf{Time to Completion:} The total elapsed time from task initiation to final submission, measured in minutes.
 \end{itemize}
 
-\subsubsection{Process Metrics (Study B)}
-Derived from parsing the exported GitHub Copilot JSON chat logs to address \textbf{RQ2}:
+\subsubsection{Process Efficiency Metrics (Study B)}
+Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. The following metrics are extracted from these sanitized transcripts:
 \begin{itemize}
     \item \textbf{User Intervention Rate:} The ratio of user messages to agent messages. A lower ratio indicates higher autonomy and less need for human intervention.
     \item \textbf{Tool Usage Count:} The total number of successful tool calls (file reads, terminal commands), serving as a proxy for agentic activity. 
