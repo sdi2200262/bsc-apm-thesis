@@ -118,23 +118,23 @@ To ensure participant privacy and robust data security, the case study employs a
 \subsubsection{Sanitization and PII Handling}
 \label{sec:sanitization}
 
-Chat exports from both sub-studies (Cursor and GitHub Copilot) contain sensitive information such as file paths, command histories, and timestamps. To protect participant privacy while enabling reproducibility, all exports are sanitized before storage using reversible encryption. The same sanitization method is applied uniformly across both platforms.\newline
+Chat exports from both sub-studies (Cursor and GitHub Copilot) contain sensitive information such as file paths, command histories, and timestamps. To protect participant privacy while enabling reproducibility, all exports are sanitized before storage using reversible full-file encryption. The same sanitization method is applied uniformly across both platforms.\newline
 
 \noindent \textbf{Sanitization Method:}
 
-\noindent Fields containing personally identifiable information are encrypted using an HMAC-SHA256 XOR cipher:
+\noindent The entire chat export is serialized and encrypted as a single blob using an HMAC-SHA256 XOR cipher:
 
 \begin{itemize}
-    \item \textbf{Keystream Generation:} HMAC-SHA256 is applied to a combination of a shared secret and per-field random salt, generating a keystream matching the field length.
-    \item \textbf{XOR Encryption:} The plaintext field is XORed against the keystream, producing ciphertext of identical length.
-    \item \textbf{Encoding:} Encrypted fields are stored as \texttt{ENC:<salt\_b64>:<ciphertext\_b64>}, enabling deterministic decryption.
+    \item \textbf{Keystream Generation:} HMAC-SHA256 is applied to a combination of a shared secret and a random salt, generating a keystream matching the payload length.
+    \item \textbf{XOR Encryption:} The serialized JSON payload is XORed against the keystream, producing ciphertext.
+    \item \textbf{Encoding:} The encrypted payload is stored as \texttt{ENC:<salt\_b64>:<ciphertext\_b64>}, enabling deterministic decryption.
 \end{itemize}
 
-\noindent \textbf{Coverage:} File paths, tool arguments, command histories, and text content containing paths are encrypted. Session IDs (computed as SHA256 hashes of request IDs) remain in plaintext for session tracking.
+\noindent \textbf{Metadata Preservation:} Session metadata (session ID, model IDs, request count) is hoisted to plaintext for cataloging without decryption. Session IDs are computed as SHA256 hashes of request IDs.
 
-\noindent \textbf{Integrity:} Decryption using the shared secret produces data bitwise-identical to the original. Metrics computed from sanitized exports are identical to those from unsanitized data, ensuring analysis validity.
+\noindent \textbf{Integrity:} Decryption using the shared secret produces data bitwise-identical to the original. Metrics must be extracted before sanitization; sanitized exports cannot be analyzed without decryption.
 
-\noindent \textbf{Limitations:} Unstructured user-input text (e.g., natural language prompts) may inadvertently reveal participant identities and cannot be fully sanitized through automated means. For this reason, even encrypted transcripts remain in the restricted-access repository and are never made public.
+\noindent \textbf{Limitations:} Unstructured user-input text (e.g., natural language prompts) may inadvertently reveal participant identities. For this reason, even encrypted transcripts remain in the restricted-access repository and are never made public.
 
 
 
