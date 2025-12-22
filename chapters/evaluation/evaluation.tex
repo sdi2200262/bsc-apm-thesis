@@ -109,19 +109,20 @@ To ensure participant privacy and robust data security, the case study employs a
 \noindent The \textbf{restricted-access repository} (\texttt{bsc-apm-case-study-data}) contains all submitted participant data and sensitive interaction records:
 \begin{itemize}
     \item Code patches and implementation artifacts
-    \item Sanitized AI assistant chat transcripts \textendash~identity-revealing information (such as file paths, tool calls, timestamps, and user IDs) is systematically filtered out. However, it is not possible to fully sanitize unstructured user-input text, which may inadvertently reveal identities. Therefore, raw interaction logs are never published, and even sanitized transcripts remain in the restricted repository.
+    \item Sanitized AI assistant chat transcripts (see Section~\ref{sec:sanitization} for sanitization methodology)
     \item Session metadata and metrics (fully anonymized wherever possible)
 \end{itemize}
 
 \noindent Access to the restricted-access repository is available only upon request, following the signing of formal data usage agreements and compliance with data access terms, which are subject to final approval prior to publication.\footnote{Data access terms and consent forms are currently under review and will be finalized prior to publication.} This controlled access mechanism enables peer review and reproducibility while maintaining participant privacy protections.
 
-\subsubsection{Sanitization and PII Handling in Study B}
+\subsubsection{Sanitization and PII Handling}
+\label{sec:sanitization}
 
-GitHub Copilot chat exports contain sensitive information (file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, exports are sanitized before storage using reversible encryption.
+Chat exports from both sub-studies (Cursor and GitHub Copilot) contain sensitive information such as file paths, command histories, and timestamps. To protect participant privacy while enabling reproducibility, all exports are sanitized before storage using reversible encryption. The same sanitization method is applied uniformly across both platforms.\newline
 
 \noindent \textbf{Sanitization Method:}
 
-Fields containing personally identifiable information are encrypted using an HMAC-SHA256 XOR cipher:
+\noindent Fields containing personally identifiable information are encrypted using an HMAC-SHA256 XOR cipher:
 
 \begin{itemize}
     \item \textbf{Keystream Generation:} HMAC-SHA256 is applied to a combination of a shared secret and per-field random salt, generating a keystream matching the field length.
@@ -132,6 +133,8 @@ Fields containing personally identifiable information are encrypted using an HMA
 \noindent \textbf{Coverage:} File paths, tool arguments, command histories, and text content containing paths are encrypted. Session IDs (computed as SHA256 hashes of request IDs) remain in plaintext for session tracking.
 
 \noindent \textbf{Integrity:} Decryption using the shared secret produces data bitwise-identical to the original. Metrics computed from sanitized exports are identical to those from unsanitized data, ensuring analysis validity.
+
+\noindent \textbf{Limitations:} Unstructured user-input text (e.g., natural language prompts) may inadvertently reveal participant identities and cannot be fully sanitized through automated means. For this reason, even encrypted transcripts remain in the restricted-access repository and are never made public.
 
 
 
@@ -202,41 +205,40 @@ Collected via Cursor's usage statistics of each participant's session to address
 \end{itemize}
 
 \subsubsection{Process Efficiency Metrics (Study B)}
-Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. Metrics are organized into three tiers of increasing interpretive complexity:
+Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. To ensure fair comparison between APM's multi-agent workflow (which spans multiple chat sessions for Setup, Manager, and Implementation agents) and the single-session baselines, metrics are computed by aggregating all session files belonging to a single participant submission into a unified project-level view. This aggregation captures the total interaction cost regardless of how the work was distributed across sessions.\newline
+
+\noindent Metrics are organized into four tiers:
 
 \noindent \textbf{Session Metadata:}
 \begin{itemize}
-    \item \textbf{Session ID:} SHA256 hash (first 16 chars) of the chat request ID.
-    \item \textbf{Model ID:} The specific language model used (e.g., \texttt{copilot/claude-opus-4.5}).
+    \item \textbf{Session IDs:} SHA256 hashes (first 16 chars) of each chat session's request ID.
+    \item \textbf{Unique Model IDs:} The distinct language models used across all sessions (e.g., \texttt{copilot/claude-sonnet-4}, \texttt{copilot/gpt-4.1}). Used to verify adherence to the Hybrid Model Strategy.
+    \item \textbf{Global Start/End:} The earliest and latest timestamps across all sessions, used to compute project-level duration.
 \end{itemize}
 
-\noindent \textbf{Core Metrics (Tier 1)} — Direct Measures of Autonomy and Effectiveness:
+\noindent \textbf{Reliability Metrics (Tier 1)} — Measures of System Competence:
 \begin{itemize}
-    \item \textbf{Total Requests:} Number of user prompts.
-    \item \textbf{Total Tool Invocations:} Sum of all tool calls across all requests.
-    \item \textbf{User Edit Count:} Times the user modified an auto-generated terminal command (proxy for correction burden).
-    \item \textbf{Terminal Invocations:} Total number of terminal command tool calls.
-    \item \textbf{User Edit Rate:} Ratio of edited to total terminal invocations; lower indicates fewer corrections needed.
-    \item \textbf{Tool Success Count:} Number of successfully completed tool invocations.
-    \item \textbf{Tool Success Rate:} Ratio of successful to total tool invocations.
-    \item \textbf{Session Duration:} Total elapsed time in milliseconds.
+    \item \textbf{Tool Success Rate:} Ratio of successfully completed tool invocations to total invocations. Measures agent autonomy and ability to execute without failure.
+    \item \textbf{Tool Retry Rate:} Ratio of tool invocation retries to total tool execution rounds. Indicates frequency of self-correction loops during execution.
+    \item \textbf{User Edit Rate:} Ratio of user-edited terminal commands to total terminal invocations. A direct proxy for correction burden—higher values indicate the agent frequently generated incorrect commands that required manual intervention.
 \end{itemize}
 
-\noindent \textbf{Supporting Metrics (Tier 2)} — Measures of Iteration and Coordination:
+\noindent \textbf{Volume Metrics (Tier 2)} — Measures of Project Cost:
 \begin{itemize}
-    \item \textbf{Total Rounds:} Count of tool execution rounds (batches of tools executed per request).
-    \item \textbf{Retry Count:} Total tool invocation retries across all rounds.
-    \item \textbf{Tool Retry Rate:} Ratio of retries to rounds; indicates iterative problem-solving frequency.
-    \item \textbf{Invocations Per Request:} Average tools per request; reflects task complexity and thoroughness.
-    \item \textbf{Unique Tools Used:} Count of distinct tool types invoked.
+    \item \textbf{Total Requests:} Sum of all user messages across all session files.
+    \item \textbf{Session Duration:} Global wall-clock time (Project End Time $-$ Project Start Time), measured in minutes. Captures the real-world time cost of the entire workflow.
 \end{itemize}
 
-\noindent \textbf{Agentic Activity (Tier 3)} — Measures of Code and File Interaction:
+\noindent \textbf{Behavior Distribution (Tier 3)} — Measures of Process Efficiency:
 \begin{itemize}
-    \item \textbf{File Modifications:} Count of file creation, deletion, or edit operations.
-    \item \textbf{Read Operations:} Total file read operations.
-    \item \textbf{Write Operations:} Total file write operations.
-    \item \textbf{Read/Write Ratio:} Ratio of reads to writes; higher values suggest deliberate exploration before modification.
+    \item \textbf{Ratio of Short Inputs:} Fraction of user inputs with fewer than 50 characters. Represents "supervisor" behavior—quick approvals and confirmations that require minimal cognitive effort.
+    \item \textbf{Ratio of Protocol Inputs:} Fraction of user inputs containing APM-specific signatures (e.g., YAML frontmatter keys, handover headers). Represents the administrative overhead of the framework—mechanical copy-paste operations required for agent coordination.
+    \item \textbf{Ratio of Standard Inputs:} Fraction of user inputs that are natural language without APM signatures. Represents the intervention burden—actual debugging, clarifications, and corrections. This metric isolates genuine user effort from the mechanical overhead captured by Protocol inputs.
+\end{itemize}
+
+\noindent \textbf{Behavior Magnitude (Tier 4)} — Depth of Interaction:
+\begin{itemize}
+    \item \textbf{Average Characters per Bucket:} Mean character count for Short, Protocol, and Standard input categories. Provides context for the distribution ratios—for example, confirming that Protocol inputs are large (full task assignments) while Short inputs are minimal (single-word approvals).
 \end{itemize}
 
 \subsubsection{Functional Metrics (Both Studies)}
