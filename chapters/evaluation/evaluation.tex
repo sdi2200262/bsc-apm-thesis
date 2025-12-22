@@ -130,7 +130,7 @@ Chat exports from both sub-studies (Cursor and GitHub Copilot) contain sensitive
     \item \textbf{Encoding:} The encrypted payload is stored as \texttt{ENC:<salt\_b64>:<ciphertext\_b64>}, enabling deterministic decryption.
 \end{itemize}
 
-\noindent \textbf{Metadata Preservation:} Session metadata (session ID, model IDs, request count) is hoisted to plaintext for cataloging without decryption. Session IDs are computed as SHA256 hashes of request IDs.
+\noindent \textbf{Metadata Preservation:} Chat metadata (chat ID, model IDs, request count) is hoisted to plaintext for cataloging without decryption. Chat IDs are computed as SHA256 hashes of concatenated user messages.
 
 \noindent \textbf{Integrity:} Decryption using the shared secret produces data bitwise-identical to the original. Metrics must be extracted before sanitization; sanitized exports cannot be analyzed without decryption.
 
@@ -211,7 +211,7 @@ Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \
 
 \noindent \textbf{Session Metadata:}
 \begin{itemize}
-    \item \textbf{Session IDs:} SHA256 hashes (first 16 chars) of each chat session's request ID.
+    \item \textbf{Chat IDs:} SHA256 hashes (first 16 chars) of concatenated user messages per chat file.
     \item \textbf{Unique Model IDs:} The distinct language models used across all sessions (e.g., \texttt{copilot/claude-sonnet-4}, \texttt{copilot/gpt-4.1}). Used to verify adherence to the Hybrid Model Strategy.
     \item \textbf{Global Start/End:} The earliest and latest timestamps across all sessions, used to compute project-level duration.
 \end{itemize}
