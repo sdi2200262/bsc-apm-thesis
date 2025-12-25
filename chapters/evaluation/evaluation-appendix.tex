@@ -1,0 +1,352 @@
+\documentclass[11pt, a4paper]{article}
+
+% ============================================================================
+% PACKAGES
+% ============================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{url}
+
+% Custom command for GitHub-style links
+\newcommand{\ghlink}[2]{\href{#2}{\texttt{[GitHub] #1}}}
+\newcommand{\weblink}[2]{\href{#2}{\texttt{[Link] #1}}}
+
+% ============================================================================
+% CONFIGURATION
+% ============================================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% Line spacing
+\renewcommand{\baselinestretch}{1.15}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    tabsize=2
+}
+
+\begin{document}
+
+% ============================================================================
+% EVALUATION APPENDIX
+% ============================================================================
+
+\section{Evaluation Infrastructure and Implementation Details}
+\label{sec:evaluation-appendix}
+
+This appendix provides detailed documentation of the case study infrastructure, submission processing pipeline, and repository organization. All source code, documentation, and specifications are available in the public repository: \ghlink{bsc-apm-case-study-task}{https://github.com/sdi2200262/bsc-apm-case-study-task}.
+
+\subsection{Repository Structure and Organization}
+
+The case study infrastructure is organized into a public repository (\texttt{bsc-apm-case-study-task}) containing all task specifications, grading infrastructure, and participant materials:
+
+\begin{itemize}
+    \item \textbf{\texttt{task/}} - Task specification materials:
+    \begin{itemize}
+        \item \texttt{Specification.md} - Product Requirements Document (PRD)
+        \item \texttt{Default-Prompt.md} - Default prompt for AI assistant conversations
+        \item \texttt{SCORING.md} - Detailed scoring rubric (48 points total)
+    \end{itemize}
+    
+    \item \textbf{\texttt{grader/}} - Grading and data processing infrastructure:
+    \begin{itemize}
+        \item \texttt{src/} - Core grading modules (protocol testing, memory testing, scoring)
+        \item \texttt{pipeline/} - Submission processing pipeline scripts
+        \item \texttt{scripts/} - Utility scripts for chat parsing and result viewing
+        \item \texttt{fixtures/} - SSO mock HTML fixtures for testing
+        \item \texttt{grade} - Main grading entry point script
+    \end{itemize}
+    
+    \item \textbf{\texttt{participant-guides/}} - LaTeX participant documentation:
+    \begin{itemize}
+        \item \texttt{participant-guide-cursor.tex} - Sub-Study A guide (Cursor)
+        \item \texttt{participant-guide-copilot.tex} - Sub-Study B guide (GitHub Copilot)
+    \end{itemize}
+\end{itemize}
+
+\noindent For complete repository documentation, see: \ghlink{bsc-apm-case-study-task/README.md}{https://github.com/bsc-apm-case-study-task/blob/main/README.md}
+
+\subsection{Baseline Reproducibility}
+\label{sec:baseline}
+
+All tests are run against fixed baseline commits to ensure reproducibility:
+
+\begin{itemize}
+    \item \textbf{eclass-mcp-server:} Commit \texttt{8b4e39c} (main branch)
+    \item \textbf{openeclass:} Commit \texttt{e8b3329} / Docker image \texttt{openeclass:test}
+\end{itemize}
+
+\noindent The grading infrastructure applies participant patches against these exact baseline versions. The baseline score (no patch applied) is \textbf{12/48 points}, representing only the Python baseline functionality.\newline
+
+\noindent Environment setup instructions, including Docker configuration and test data seeding, are documented in: \ghlink{bsc-apm-case-study-task/grader/SETUP.md}{https://github.com/bsc-apm-case-study-task/blob/main/grader/SETUP.md}
+
+\newpage
+
+\subsection{Test Suite Structure}
+
+The automated test suite evaluates submissions across three categories (48 points total):
+
+\begin{itemize}
+    \item \textbf{Python Baseline (12 points)} - Tests existing functionality from main branch (11 test cases: build, protocol, login, logout, courses, authstatus)
+    
+    \item \textbf{Python Feature (12 points)} - Tests new \texttt{get\_course\_announcements} implementation (5 test cases: error handling, date filtering, output format)
+    
+    \item \textbf{C Replica (24 points)} - Tests complete C implementation (16 test cases: compilation, memory safety, protocol compliance, all tool functionality)
+\end{itemize}
+
+\noindent Test definitions and point allocations are specified in \texttt{grader/src/scorer.py}. Test execution logic is implemented in:
+\begin{itemize}
+    \item \texttt{grader/src/protocol\_tester.py} - MCP protocol and tool functionality tests
+    \item \texttt{grader/src/memory\_tester.py} - Valgrind memory leak detection
+    \item \texttt{grader/src/build\_tester.py} - Build system verification
+\end{itemize}
+
+\noindent For the detailed scoring rubric, see: \ghlink{bsc-apm-case-study-task/task/SCORING.md}{https://github.com/bsc-apm-case-study-task/blob/main/task/SCORING.md}\newline
+
+\noindent For complete test specifications, see the source code documentation in \texttt{grader/src/}.
+
+\subsection{Submission Workflow and Format}
+
+This section describes the complete participant submission process: what participants do, how they ensure session isolation, and what they deliver.
+
+\subsubsection{Task Workflow}
+
+Participants complete the task in two isolated sessions, each using a different AI tool. The workflow for each session is:
+
+\begin{enumerate}
+    \item Create an isolated Git branch from the clean baseline
+    \item Work on the task using the assigned AI tool
+    \item Generate submission artifacts (code patch and interaction logs)
+    \item Clean up the session branch to ensure isolation
+\end{enumerate}
+
+\subsubsection{Session Isolation Mechanism}
+
+To ensure clean separation between sessions and minimize learning effects from contaminating results, participants work on isolated Git branches:
+
+\begin{enumerate}
+    \item \textbf{Session 1:} Create branch \texttt{s1\_\{tool\}} from clean \texttt{main} branch
+    \item Work on task, commit changes to session branch
+    \newpage
+    \item Generate patch: \texttt{git diff main s1\_\{tool\} > \{PID\}\_S1\_\{platform\}\_\{tool\}\_solution.patch}
+    \item Export logs and save patch to safe location
+    \item Delete session branch: \texttt{git branch -D s1\_\{tool\}}
+    \item \textbf{Session 2:} Repeat process with \texttt{s2\_\{tool\}} branch
+\end{enumerate}
+
+\noindent This workflow ensures that:
+\begin{itemize}
+    \item Each session starts from an identical baseline state
+    \item No code or context from Session 1 influences Session 2
+    \item Patches accurately represent only the changes made during that specific session
+\end{itemize}
+
+\subsubsection{Submission Format and Contents}
+
+Submissions follow a strict naming format to enable automated processing:
+
+\noindent \underline{\texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_submission.zip}}\newline
+
+\noindent Where:
+\begin{itemize}
+    \item \texttt{\{PID\}} - Participant ID (e.g., \texttt{P001})
+    \item \texttt{\{S1|2\}} - Session number (\texttt{S1} for first tool, \texttt{S2} for second tool)
+    \item \texttt{\{platform\}} - Platform identifier: \texttt{cursor} or \texttt{copilot} (lowercase)
+    \item \texttt{\{tool\}} - Tool identifier: \texttt{apm}, \texttt{spec-kit}, \texttt{cursor-plan}, or \texttt{copilot-plan} (lowercase, hyphenated)
+\end{itemize}
+
+\noindent Example: \texttt{P001\_S1\_cursor\_apm\_submission.zip}\newline
+
+\noindent Each submission zip file must contain exactly two items at the root level:
+
+\begin{enumerate}
+    \item \textbf{Patch file} - \texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_solution.patch}
+    \begin{itemize}
+        \item Git patch file created via \texttt{git diff main s\{1|2\}\_\{tool\}}
+        \item Contains all code changes for the session
+    \end{itemize}
+    
+    \item \textbf{Logs folder} - \texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_logs/}
+    \begin{itemize}
+        \item \texttt{chats/} - Exported chat conversations (\texttt{.md} for Cursor, \texttt{.json} for Copilot)
+        \item \texttt{stats/} - (Cursor only) Filtered CSV usage statistics
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+\subsection{Participant Guides and Data Collection}
+
+The case study provides platform-specific participant guides due to differences in data collection methods and tool workflows. Both guides include identical task specifications, environment setup requirements, and submission procedures. The differences reflect platform-specific data collection capabilities.\newline
+
+\noindent For the complete participant guides, see: \ghlink{bsc-apm-case-study-task/participant-guides}{https://github.com/bsc-apm-case-study-task/tree/main/participant-guides}
+
+\subsubsection{Sub-Study A (Cursor)}
+
+The Cursor participant guide (\texttt{participant-guide-cursor.tex}) includes:
+
+\begin{itemize}
+    \item Instructions for exporting chat conversations as \texttt{.md} files
+    \item Instructions for exporting CSV usage statistics from Cursor dashboard (see Section~\ref{sec:cursor-usage-statistics})
+    \item Python script workflow for filtering CSV by session start time
+    \item Organization of logs into \texttt{chats/} and \texttt{stats/} subfolders
+    \item Requirement to use Cursor Composer 1 model for entire session
+\end{itemize}
+
+\noindent \textbf{\underline{Cursor Usage Statistics Collection:}}\newline
+\label{sec:cursor-usage-statistics}
+
+\noindent Cursor participants export CSV files containing all AI requests across their account, then filter by session start time:
+
+\begin{enumerate}
+    \item Export CSV from Cursor Dashboard (\weblink{cursor.com/dashboard}{https://cursor.com/dashboard})
+    \item Note session start time at beginning of work session
+    \item Run filtering script: \texttt{python3 filter\_csv\_by\_datetime.py usage-events.csv \{date\} \{time\} \{timezone\}}
+    \item Filtered CSV contains only requests from session start time onward
+    \item Save filtered CSV as \texttt{\{PID\}\_\{S1|2\}\_cursor\_\{tool\}\_requests.csv} in \texttt{stats/} subfolder
+\end{enumerate}
+
+\noindent This method enables precise session isolation when participants may have other Cursor activity outside the study session.
+
+\subsubsection{Sub-Study B (GitHub Copilot)}
+
+The Copilot participant guide (\texttt{participant-guide-copilot.tex}) includes:
+
+\begin{itemize}
+    \item Instructions for exporting chat conversations as \texttt{.json} files via VS Code Command Palette
+    \item No CSV statistics export (Copilot does not provide session-based usage dashboards)
+    \item Organization of logs into \texttt{chats/} subfolder only
+    \item Hybrid model strategy: Premium model (Claude Sonnet 4) for Setup/Manager, budget model for Implementation
+\end{itemize}
+
+\newpage
+
+\subsection{Data Privacy and Anonymization}
+\label{sec:privacy}
+
+To protect participant privacy while enabling reproducibility, all chat exports are processed through anonymization and sanitization procedures before storage. This process is performed during the parsing stage of the grading pipeline.
+
+\subsubsection{Metadata Preservation}
+
+Each chat conversation is assigned a unique identifier using cryptographic hashing for anonymous cataloging:
+
+\begin{itemize}
+    \item \textbf{Method:} SHA256 hash of concatenated user messages
+    \item \textbf{Format:} First 16 hexadecimal characters of the hash
+    \item \textbf{Purpose:} Enables unique identification of chats without revealing participant identity or conversation content
+\end{itemize}
+
+\noindent The chat ID is computed before sanitization and preserved in plaintext metadata, allowing cataloging and deduplication without decryption. Along with the chat ID, the following metadata is preserved in plaintext:
+
+\begin{itemize}
+    \item \textbf{Model IDs:} Distinct language models used in the conversation
+    \item \textbf{Request Count:} Total number of AI requests in the chat
+    \item \textbf{Timestamp:} Sanitization timestamp
+    \item \textbf{Original Size:} Size of original payload in bytes
+\end{itemize}
+
+\noindent This metadata enables dataset organization, integrity validation, and basic analysis without requiring access to encrypted content.
+
+\subsubsection{Sanitization Process}
+
+Chat exports are sanitized using reversible encryption to protect sensitive information such as file paths, command histories, and timestamps:
+
+\begin{itemize}
+    \item \textbf{Encryption Method:} HMAC-SHA256 XOR cipher
+    \begin{itemize}
+        \item Keystream generation via HMAC-SHA256 expansion with random salt
+        \item XOR encryption of serialized chat payload
+        \item Base64 encoding of salt and ciphertext
+    \end{itemize}
+    \item \textbf{Storage Format:} \texttt{ENC:<salt\_b64>:<ciphertext\_b64>}
+    \item \textbf{Reversibility:} Decryption using the shared secret produces data bitwise-identical to the original
+\end{itemize}
+
+\noindent For implementation details, see: \ghlink{bsc-apm-case-study-task/grader/scripts}{https://github.com/bsc-apm-case-study-task/tree/main/grader/scripts}
+
+\newpage
+
+\subsection{Grading Pipeline Architecture}
+
+The grading infrastructure processes submissions through a multi-stage pipeline with checkpoint-based error recovery. Each stage is logged in a manifest file (see Section~\ref{sec:manifest}) with checksums and timestamps for audit trails and reproducibility.
+
+\subsubsection{Pipeline Stages}
+
+The submission processing workflow consists of six discrete stages:
+
+\begin{enumerate}
+    \item \textbf{Validation} - Validates zip structure and naming format, extracts submission to workspace root. Script: \texttt{pipeline/validate\_submission.py}
+    
+    \item \textbf{Grading} - Runs automated black-box test suite against Python and C implementations. Outputs results to JSON and TXT files. Script: \texttt{pipeline/grade\_submission.py}
+    
+    \item \textbf{Parsing} - Extracts interaction metrics from chat exports and sanitizes chat logs using reversible encryption (see Section~\ref{sec:privacy} for details). Script: \texttt{pipeline/parse\_submission.py}
+    
+    \item \textbf{Combination} - Merges grading results with extracted interaction metrics into unified participant result files. Script: \texttt{pipeline/combine\_participant.py}
+    
+    \item \textbf{Dataset Aggregation} - Appends processed submission data to platform-level CSV datasets. Script: \texttt{pipeline/add\_to\_dataset.py}
+    
+    \item \textbf{Integrity Validation} - Validates dataset integrity against manifest checksums and timestamps. Script: \texttt{pipeline/validate\_dataset.py}
+\end{enumerate}
+
+\noindent For detailed pipeline documentation, see: \ghlink{bsc-apm-case-study-task/grader/PIPELINE.md}{https://github.com/bsc-apm-case-study-task/blob/main/grader/PIPELINE.md}
+
+\subsection{Pipeline Manifest System}
+\label{sec:manifest}
+
+The pipeline uses a manifest-based checkpointing system for traceability and error recovery. Each platform maintains a manifest at:
+
+\noindent \underline{\texttt{submissions\_sanitized/\{platform\}/pipeline\_manifest.json}}
+
+\subsubsection{Manifest Structure}
+
+Manifest entries use key format: \texttt{\{PID\}\_\{S1|2\}\_\{Platform\}\_\{Tool\}}
+
+\noindent Each entry tracks:
+\begin{itemize}
+    \item \textbf{Validation} - Zip checksum, extraction timestamp, validation status
+    \item \textbf{Grading} - Test results, scores, grading timestamp
+    \item \textbf{Parsing} - Metrics extraction status, sanitization checksums
+    \item \textbf{Combination} - Merged result file checksum
+    \item \textbf{Dataset} - CSV row checksum, dataset append timestamp
+    \item \textbf{Validation} - Integrity check results
+\end{itemize}
+
+\noindent The processing history for any submission can be queried via:\newline
+\ghlink{bsc-apm-case-study-task/grader/pipeline/inspect\_submission.py}{https://github.com/bsc-apm-case-study-task/blob/main/grader/pipeline/inspect\_submission.py}.
+
+\newpage
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \textbf{Manifest Implementation Details:} \ghlink{bsc-apm-case-study-task/grader/pipeline/manifest.py}{https://github.com/bsc-apm-case-study-task/blob/main/grader/pipeline/manifest.py}
+    \item \textbf{Task Specification:} \ghlink{bsc-apm-case-study-task/task}{https://github.com/bsc-apm-case-study-task/tree/main/task}
+    \item \textbf{Grading Infrastructure:} \ghlink{bsc-apm-case-study-task/grader}{https://github.com/bsc-apm-case-study-task/tree/main/grader}
+    \item \textbf{Participant Guides:} \ghlink{bsc-apm-case-study-task/participant-guides}{https://github.com/bsc-apm-case-study-task/tree/main/participant-guides}
+    \item \textbf{Pipeline Documentation:} \ghlink{bsc-apm-case-study-task/grader/PIPELINE.md}{https://github.com/bsc-apm-case-study-task/blob/main/grader/PIPELINE.md}
+    \item \textbf{Setup Instructions:} \ghlink{bsc-apm-case-study-task/grader/SETUP.md}{https://github.com/bsc-apm-case-study-task/blob/main/grader/SETUP.md}
+\end{itemize}
+
+\end{document}
