@@ -1,4 +1,3 @@
-````markdown
 # BSc APM Thesis
 
 BSc thesis evaluating Agentic Project Management (APM) frameworks against single-agent workflows in AI-assisted software development.
@@ -77,5 +76,3 @@ GPL-3.0-or-later. See [LICENSE](LICENSE).
 ---
 
 *BSc thesis - Department of Informatics and Telecommunications, University of Athens*
-
-````
