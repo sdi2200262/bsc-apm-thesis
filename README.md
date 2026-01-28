@@ -23,8 +23,10 @@ bsc-apm-thesis/
 ├── latexmkrc                # LaTeX build configuration
 ├── chapters/
 │   └── evaluation/
-│       ├── evaluation.tex   # Evaluation methodology section
-│       └── evaluation.pdf   # Compiled PDF
+│       ├── evaluation.tex         # Evaluation methodology section
+│       ├── evaluation.pdf         # Compiled PDF
+│       ├── evaluation-appendix.tex # Infrastructure and implementation details
+│       └── evaluation-appendix.pdf # Compiled appendix PDF
 ├── assets/                  # Images and figures
 └── build/                   # LaTeX auxiliary files
 ```
@@ -53,16 +55,21 @@ Process efficiency is measured via automatically extracted metrics from GitHub C
 
 ## Building
 
-Auxiliary files are output to `build/` to keep the root directory clean.
+Auxiliary files are output to `build/` to keep the root directory clean. **Always run latexmk from the repository root** to ensure the `latexmkrc` configuration is found.
 
 ```bash
-# Build a specific chapter
-cd chapters/evaluation
-latexmk -pdf evaluation.tex
+# Build a specific chapter (run from repo root)
+cd /path/to/bsc-apm-thesis
+latexmk -pdf chapters/evaluation/evaluation.tex
 
-# Clean auxiliary files
+# Build the evaluation appendix (run from repo root)
+latexmk -pdf chapters/evaluation/evaluation-appendix.tex
+
+# Clean auxiliary files (run from repo root)
 latexmk -c
 ```
+
+**Note:** If you run latexmk from a subdirectory, it may not find the `latexmkrc` configuration file and auxiliary files will be placed in the subdirectory instead of `build/`.
 
 ## Related Repositories
 
