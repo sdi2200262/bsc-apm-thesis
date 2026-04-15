@@ -176,11 +176,11 @@ Submissions follow a strict naming format to enable automated processing:
 \begin{itemize}
     \item \texttt{\{PID\}} - Participant ID (e.g., \texttt{P001})
     \item \texttt{\{S1|2\}} - Session number (\texttt{S1} for first tool, \texttt{S2} for second tool)
-    \item \texttt{\{platform\}} - Platform identifier: \texttt{cursor} or \texttt{copilot} (lowercase)
-    \item \texttt{\{tool\}} - Tool identifier: \texttt{apm}, \texttt{spec-kit}, \texttt{cursor-plan}, or \texttt{copilot-plan} (lowercase, hyphenated)
+    \item \texttt{\{platform\}} - Platform identifier: \texttt{copilot} (the study uses a single platform)
+    \item \texttt{\{tool\}} - Tool identifier: \texttt{apm} or \texttt{spec-kit} (lowercase, hyphenated)
 \end{itemize}
 
-\noindent Example: \texttt{P001\_S1\_cursor\_apm\_submission.zip}\newline
+\noindent Example: \texttt{P001\_S1\_copilot\_apm\_submission.zip}\newline
 
 \noindent Each submission zip file must contain exactly two items at the root level:
 
@@ -190,11 +190,10 @@ Submissions follow a strict naming format to enable automated processing:
         \item Git patch file created via \texttt{git diff main s\{1|2\}\_\{tool\}}
         \item Contains all code changes for the session
     \end{itemize}
-    
+
     \item \textbf{Logs folder} - \texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_logs/}
     \begin{itemize}
-        \item \texttt{chats/} - Exported chat conversations (\texttt{.md} for Cursor, \texttt{.json} for Copilot)
-        \item \texttt{stats/} - (Cursor only) Filtered CSV usage statistics
+        \item \texttt{chats/} - Exported Copilot chat conversations (\texttt{.json})
     \end{itemize}
 \end{enumerate}
 
