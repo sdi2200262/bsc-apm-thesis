@@ -133,18 +133,42 @@ Chat exports contain sensitive information (unstructured user-input text, file p
 
 \subsection{Study Design}
 
-\placeholder{Full study design forthcoming. Will cover the Copilot-based comparative evaluation: data source (Copilot JSON chat exports), participant pool (University students with GitHub Education Pack or premium subscription), two-session within-subjects design with counterbalanced framework order, and the cost framing (pending literature review).}
+The study is conducted on a single IDE platform, \textbf{GitHub Copilot}, and compares the two frameworks under evaluation across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.\newline
+
+\subsubsection{Experimental Design}
+
+Each participant completes the case study task twice: once with APM, once with Spec-kit. The order of the two frameworks is \textbf{counterbalanced} across participants, so that approximately half of the cohort encounters APM first and the other half encounters Spec-kit first. This counterbalancing lets us attribute any observed S1-to-S2 improvement to task familiarity rather than to the framework itself, and is analyzed explicitly in Section~\ref{sec:results} under Learning Effects.\newline
+
+\noindent The two sessions are isolated from one another via dedicated Git branches created from the baseline commit, so no code, state, or context from the first session can influence the second. The branch workflow, patch-generation steps, and submission format are documented in the evaluation appendix.
+
+\subsubsection{Data Source}
+
+The primary data source for the study is \textbf{GitHub Copilot chat exports}, captured in JSON form from the VS Code Command Palette at the end of each session. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without any manual annotation of the transcripts.\newline
+
+\noindent APM's multi-agent workflow spans multiple Copilot conversations within a single session — one for the Planner, one for the Manager, and one per Worker defined in the Plan — while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view, so that the total interaction cost of the session is captured regardless of how the work was distributed across conversations.
+
+\subsubsection{Participant Pool}
+
+Participants are drawn from a cohort of University students and working professionals with active access to GitHub Copilot, either through the GitHub Education Pack or through a standard premium subscription. Access requirements, recruitment criteria, and the participant-facing workflow are documented in the participant guide (see the evaluation appendix).
 
 \newpage
 
 \subsection{Frameworks Under Evaluation}
 
-Two workflow configurations are evaluated:
+Two spec-driven workflow configurations are evaluated. Both are open-source and both run on the same underlying IDE platform; the key axis of comparison is whether spec-driven execution is distributed across a team of specialized agents (APM) or handled by a single agent following a structured template (Spec-kit).
 
 \begin{enumerate}
-    \item \textbf{Agentic Project Management (APM v1):} The proposed framework. \placeholder{Full description forthcoming. Will cover the multi-agent, spec-driven architecture (Planner, Manager, Worker), the Planning and Implementation phases, and file-based coordination via the Message Bus.}
+    \item \textbf{Agentic Project Management (APM v1):} The proposed framework. APM replaces the single continuously-growing chat with a team of specialized agents coordinating through file-based artifacts, and structures work into two phases:
 
-    \item \textbf{GitHub Spec-kit:} A structured, spec-driven baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}).
+    \begin{itemize}
+        \item \textit{Planning Phase:} A \textbf{Planner} conducts structured discovery with the User and decomposes the project into three planning documents — a \textit{Spec} (what to build: design decisions and workspace layout), a \textit{Plan} (how work is organized: Stages, Tasks, Worker assignments, dependencies), and \textit{Rules} (how work is performed: universal execution patterns written to the platform's rules file). The Planner runs once at project start and hands off to execution.
+
+        \item \textit{Implementation Phase:} A \textbf{Manager} dispatches Tasks to \textbf{Workers}, reviews the resulting Task Logs, and drives follow-ups, planning-document revisions, or the next ready dispatch. Workers execute Tasks against explicit validation criteria and write structured logs that the Manager reads to coordinate progress.
+    \end{itemize}
+
+    All agent coordination is mediated through a file-based \textbf{Message Bus} — the Manager writes Task assignments, Workers write results back, and the User carries messages between conversations. When an agent's context fills, a \textbf{Handoff} procedure transfers working knowledge to a fresh instance so state survives in files rather than depending on any single conversation.
+
+    \item \textbf{GitHub Spec-kit:} A structured, spec-driven baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}). All planning and implementation happens within one conversation, with the agent acting as both planner and executor.
 \end{enumerate}
 
 \subsection{Metrics and Data Collection}
