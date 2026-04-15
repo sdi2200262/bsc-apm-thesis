@@ -1,16 +1,21 @@
 # BSc APM Thesis
 
-BSc thesis evaluating Agentic Project Management (APM) frameworks against single-agent workflows in AI-assisted software development.
+BSc thesis evaluating Agentic Project Management (APM v1) against GitHub Spec-kit on the GitHub Copilot platform.
 
 **Status:** Work in Progress
 
 ## Overview
 
-This thesis investigates whether multi-agent coordination structures (like APM) provide tangible benefits over single-agent or double-agent workflows when applied to complex software development tasks.
+This thesis investigates whether multi-agent coordination structures (like APM) provide tangible benefits over single-agent workflows when applied to complex software development tasks. The case study compares two spec-driven frameworks on a shared IDE platform:
 
-The research evaluates three key dimensions:
+- **APM v1** - Multi-agent, spec-driven (Planner, Manager, Workers; file-based Message Bus)
+- **GitHub Spec-kit** - Single-agent, spec-driven (`specify`, `plan`, `tasks`)
 
-- **Economic Efficiency** - Token consumption and financial cost comparison
+Both frameworks are open-source and run on GitHub Copilot, so the evaluation isolates the effect of multi-agent coordination overhead rather than platform or tooling differences.
+
+The research evaluates three dimensions:
+
+- **Economic Efficiency** - Request consumption as a proxy for enterprise budget impact
 - **Process Efficiency** - Human cognitive load and interaction burden
 - **Functional Efficacy** - Ability to complete non-trivial tasks without "Agentic Handoff Failures"
 
@@ -33,25 +38,11 @@ bsc-apm-thesis/
 
 ## Evaluation Methodology
 
-The evaluation consists of two complementary sub-studies:
+The study is a within-subjects experiment on GitHub Copilot. Each participant completes the case study task twice — once with APM v1, once with Spec-kit — with the order counterbalanced across the cohort to control for task-familiarity effects.
 
-1. **Sub-Study A (Cursor)** - Quantitative Economic Analysis
-   - Controlled group using Cursor with standardized model (Composer 1)
-   - Measures token consumption, cost, and cache efficiency
+Metrics are extracted programmatically from the Copilot JSON chat exports and organized into five categories: session metadata, cost, reliability, process, and functional. Chat exports are sanitized with HMAC-XOR encryption before storage to protect participant privacy while preserving reproducibility.
 
-2. **Sub-Study B (GitHub Copilot)** - Qualitative Process Analysis
-   - University students using GitHub Copilot (via GitHub Education)
-   - Metrics extracted from chat exports across 3 tiers
-   - Data sanitized using HMAC-XOR encryption for participant privacy
-
-### Sub-Study B Metrics
-
-Process efficiency is measured via automatically extracted metrics from GitHub Copilot chat exports:
-
-- **Session Metadata:** Session ID (SHA256), Model ID
-- **Core Metrics:** Request counts, tool invocations, success rates, user interventions, session duration
-- **Supporting Metrics:** Execution rounds, retry patterns, tool diversity  
-- **Agentic Activity:** File modifications, read/write operations, modification strategy
+Full methodology, including the testbed, grading rubric (48 points), and infrastructure details, lives in [`chapters/evaluation/`](chapters/evaluation/).
 
 ## Building
 
