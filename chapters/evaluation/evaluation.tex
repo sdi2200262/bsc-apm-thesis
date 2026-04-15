@@ -173,7 +173,33 @@ Two spec-driven workflow configurations are evaluated. Both are open-source and 
 
 \subsection{Metrics and Data Collection}
 
-\placeholder{Metrics section forthcoming, pending the literature review on enterprise request-based cost framing. The final metric set will cover: Session Metadata, Cost Metrics (request consumption as a proxy for enterprise budget impact), Reliability Metrics (tool success and retry rates, user edit rate), Process Metrics (behavior distribution and magnitude, session duration), and Functional Metrics (the 48-point grading rubric).}
+The metrics collected for this study are organized into five categories: session metadata, the three efficiency dimensions introduced above (economic, process, and reliability), and the functional grading rubric. Their concrete definitions are deferred to the forthcoming literature review on enterprise request-based cost framing, since the cost framing drives several of the metric-level design choices and a subset of the process and reliability metrics may be adjusted once it is established.
+
+\subsubsection{Session Metadata}
+
+\placeholder{Forthcoming. Will cover the distinct model identifiers used across a session, the per-conversation and project-level timestamps, and the session count for each APM submission.}
+
+\subsubsection{Cost Metrics}
+
+\placeholder{Forthcoming, blocked on the literature review. Will operationalise Copilot request consumption as a proxy for enterprise budget impact, with request-per-functional-point as the primary efficiency ratio.}
+
+\subsubsection{Reliability Metrics}
+
+\placeholder{Forthcoming. Will cover platform-agnostic measures of system competence — tool success rate, tool retry rate, and user edit rate on terminal commands — as indicators of how autonomously each framework executes work.}
+
+\subsubsection{Process Metrics}
+
+\placeholder{Forthcoming. Will cover behavior distribution (ratios of short, protocol, and standard user inputs), behavior magnitude (average characters per input bucket), and session duration, as indicators of the human coordination burden each framework imposes.}
+
+\subsubsection{Functional Metrics}
+
+The functional dimension is evaluated against the 48-point grading rubric already introduced in Section~1.2.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
+
+\begin{itemize}
+    \item \textbf{Baseline Regression:} Ensures that existing functionality (12 points) remains intact after the patch is applied, isolating the framework's impact on code stability.
+    \item \textbf{Functional Correctness:} End-to-end validation of the new Python feature (12 points) and the complete C replica (24 points) against the specification.
+    \item \textbf{Robustness:} Edge-case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for the C implementation).
+\end{itemize}
 
 \newpage
 
