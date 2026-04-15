@@ -44,32 +44,33 @@
 
 This chapter details the methodology used to evaluate the \textbf{Agentic Project Management (APM)} framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants.\newline
 
-\noindent The evaluation was designed to measure two distinct dimensions of efficiency: 
+\noindent The evaluation was designed to measure three distinct dimensions:
 
 \begin{itemize}
-    \item \textbf{Economic Efficiency} (monetary and computational cost)
+    \item \textbf{Economic Efficiency} \placeholder{cost framing pending lit review}
     \item \textbf{Process Efficiency} (human cognitive load and interaction burden)
+    \item \textbf{Functional Efficacy} (ability to complete non-trivial tasks)
 \end{itemize}
 
-\noindent To accurately capture these distinct metrics, the study was divided into two complementary sub-studies, leveraging the unique data-collection capabilities of two different IDE platforms (Cursor and VSCode with GitHub Copilot).
+\placeholder{Unified study design — single section describing the Copilot-based comparative study. To be written in Phase 3.}
 
 \subsection{Research Objectives}
 
-The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Setup and Task Loop phases) yields a tangible return on investment compared to single or double-agent workflows.\newline\newline
+The primary objective of this research is to determine whether the structural overhead introduced by APM \placeholder{phase names pending APM v1 terminology update in Phase 2} yields a tangible return on investment compared to a single-agent workflow.\newline\newline
 We define the following Research Questions (RQs):
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic Efficiency):} Does the multi-agent structure of APM significantly increase the token consumption and financial cost compared to single-agent or double-agent workflows?
-    \item \textbf{RQ2 (Process Efficiency):} 
+    \item \textbf{RQ1 (Economic Efficiency):} \placeholder{cost framing pending lit review — to be reframed around request consumption / resource efficiency rather than raw token cost}
+    \item \textbf{RQ2 (Process Efficiency):}
     \begin{itemize}
-        \item Does the structured coordination of APM reduce the "human burden" during execution? Specifically, does it reduce the need for user interventions, corrections, and clarifications? 
+        \item Does the structured coordination of APM reduce the "human burden" during execution? Specifically, does it reduce the need for user interventions, corrections, and clarifications?
         \item Is the reduction in human burden due to the structured coordination of APM significant enough to justify the structural overhead?
         \item Are the agents able to effectively coordinate and complete the task without the need for constant human oversight?
     \end{itemize}
-    \item \textbf{RQ3 (Functional Efficacy):} 
+    \item \textbf{RQ3 (Functional Efficacy):}
     \begin{itemize}
         \item Can APM successfully deliver complex, non-trivial features in scenarios where unstructured agentic workflows typically encounter "Agentic Handoff Failures"?
-        \item How does the performance of APM compare to the performance of single-agent and double-agent workflows?
+        \item How does the performance of APM compare to the performance of a single-agent workflow?
     \end{itemize}
 \end{itemize}
 
@@ -126,148 +127,29 @@ Chat exports contain sensitive information (unstructured user-input text, file p
 
 \noindent Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. The same sanitization method is applied uniformly across both platforms. \newline
 
-\noindent For detailed technical specifications of the anonymization and encryption processes, see the evaluation appendix (Section~\ref{sec:appendix-sanitization}).
+\noindent For detailed technical specifications of the anonymization and encryption processes, see the evaluation appendix.
 
 \newpage
 
-\subsection{The Two Sub-Studies:}
+\subsection{Study Design}
 
-To provide a holistic evaluation, we split the experiment into two sub-studies. This design allowed us to isolate specific variables and leverage the distinct data collection and logging capabilities of each tool.
-
-\begin{table}[h]
-    \centering
-    \caption{Comparison of Sub-Study Designs}
-    \label{tab:study-comparison}
-    \begin{tabularx}{\textwidth}{|l|X|X|}
-        \hline
-        \textbf{Feature} & \textbf{Sub-Study A (Cursor)} & \textbf{Sub-Study B (GitHub Copilot)} \\
-        \hline
-        \textbf{Primary Focus} & Quantitative Economic Analysis & Qualitative Process Analysis \\
-        \hline
-        \textbf{Target Audience} & Controlled, homogeneous group with Cursor Premium features & Broader cohort with Copilot Premium features, primarily University students \\
-        \hline
-        \textbf{Primary Metric} & Total tokens (input/output), total cost (\$) & Interaction patterns, user/system action burden \\
-        \hline
-        \textbf{Data Source} & Exported usage statistics (CSV/JSON) from the Cursor dashboard, filtered by session & Exported GitHub Copilot JSON chat logs capturing message details, tool calls, timestamps \\
-        \hline
-    \end{tabularx}
-\end{table}
-
-\subsubsection{Sub-Study A: Quantitative Economic Analysis (Cursor)}
-
-This study focused on \textbf{RQ1}. It utilized a smaller, controlled group of participants with access to Cursor's premium AI features.
-
-\begin{itemize}
-    \item \textbf{Rationale:} Cursor participants export CSV usage statistics from the Cursor dashboard and filter them by session start time using a provided Python script to isolate session-specific metrics (see Section~\ref{sec:appendix-cursor-usage-statistics} for detailed workflow).
-    \item \textbf{Model Standardization:} To ensure rigorous comparison, all participants were strictly required to use \textbf{Cursor's Composer 1} model for the entire duration of the study. This eliminates model variance as a confounding variable for cost.
-\end{itemize}
-
-\subsubsection{Sub-Study B: Qualitative Process Analysis (GitHub Copilot)}
-
-This study focused on \textbf{RQ2}. It utilized a larger cohort of mainly University students and professionals with access to GitHub Copilot's premium AI features (via the GitHub Education Pack or regular premium subscription).
-
-\begin{itemize}
-    \item \textbf{Rationale:} GitHub Copilot provides detailed JSON chat exports that include metadata on tool calls, timestamps, and speaker roles. This granular data allows for programmatic analysis of interaction patterns that is not possible with Cursor's limited chat export functionality.
-    \item \textbf{Hybrid Model Strategy:} To mimic real-world usage constraints (request quotas), participants in the APM group followed a hybrid strategy: using a Premium Model (Claude Sonnet 4) for high-level planning and a Budget Model (with a 0x request multiplier) for low-level execution.
-\end{itemize}
+\placeholder{Unified single-study design — to be written in Phase 3. Will describe the Copilot-based comparative evaluation: data source (Copilot JSON chat exports), participant pool (University students with GitHub Education Pack or premium subscription), two-session within-subjects design with counterbalanced framework order, and the cost framing (pending lit review).}
 
 \newpage
 
 \subsection{Frameworks Under Evaluation}
 
-Three distinct workflow configurations were evaluated across both sub-studies:
+Two workflow configurations are evaluated:
 
 \begin{enumerate}
-    \item \textbf{Agentic Project Management (APM):} The proposed framework. It enforces a strict separation of concerns:
+    \item \textbf{Agentic Project Management (APM v1):} The proposed framework. \placeholder{APM v1 description pending Phase 3 rewrite — to be grounded in apm-website/docs/. Will cover the multi-agent, spec-driven architecture (Planner/Manager/Worker), the Planning and Implementation phases, and file-based coordination via the Message Bus.}
 
-    \begin{itemize}
-        \item \textit{Setup Agent:} Project discovery and planning.
-        \item \textit{Manager Agent:} Coordination, task assignment, and review.
-        \item \textit{Implementation Agent:} Execution and memory logging.
-    \end{itemize}
-    
-    \item \textbf{GitHub Spec-kit:} A structured, "constitutional" baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}).
-    
-    \item \textbf{Plan Mode/Plan Agent (Baseline):} The industry-standard "First plan, then execute" feature native to the IDE. Cursor provides \textbf{Plan Mode}, while GitHub Copilot provides the \textbf{Plan Agent}. Both represent the current state-of-the-art for AI-powered planning workflows.
+    \item \textbf{GitHub Spec-kit:} A structured, spec-driven baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}).
 \end{enumerate}
 
 \subsection{Metrics and Data Collection}
 
-\subsubsection{Study A Metrics (Cursor)}
-
-Study A addresses \textbf{RQ1} (Economic Efficiency) and provides supplementary process efficiency data from chat exports.\newline
-
-\noindent \textbf{Economic Metrics} - Collected via Cursor's CSV usage statistics:
-
-\begin{itemize}
-    \item \textbf{Total Input Tokens:} The volume of context processed by the models during the session.
-    \item \textbf{Total Output Tokens:} The volume of code and text generated during the session.
-    \item \textbf{Total Cached Tokens:} The volume of tokens served from Cursor's cache, reducing cost.
-    \item \textbf{Total Cost (\$):} The financial cost of the session based on Cursor's API pricing.
-    \item \textbf{Time to Completion:} The total elapsed time from task initiation to final submission, measured in minutes.
-\end{itemize}
-
-\noindent \textbf{Process Efficiency Metrics} - Derived from parsing Cursor markdown chat exports:
-
-\begin{itemize}
-    \item \textbf{Total Requests:} Sum of all user messages across all chat files.
-    \item \textbf{Behavior Distribution:} Ratios of Short/Protocol/Standard inputs (same classification scheme as Study B, using 50-character threshold and APM protocol signatures).
-    \item \textbf{Behavior Magnitude:} Average characters per input category (Short/Protocol/Standard).
-\end{itemize}
-
-\newpage
-
-\subsubsection{Study B Metrics (GitHub Copilot)}
-
-Derived from parsing sanitized GitHub Copilot JSON chat transcripts to address \textbf{RQ2}. APM's multi-agent workflow spans multiple chat sessions (Setup, Manager, and Implementation agents), while other evaluated frameworks use single or double-agent workflows. To ensure fair comparison, metrics are computed by aggregating all session files belonging to a single participant submission into a unified project-level view, capturing the total interaction cost regardless of how the work was distributed across sessions.\newline
-
-\noindent Metrics are organized into four tiers:
-
-\noindent \textbf{Session Metadata:}
-
-\begin{itemize}
-    \item \textbf{Unique Model IDs:} The distinct language models used across all sessions. Used to verify adherence to the Hybrid Model Strategy (e.g., \texttt{copilot/claude-sonnet-4} for planning, \texttt{copilot/gpt-4.1} for execution).
-    \item \textbf{Global Start/End:} The earliest and latest timestamps across all sessions, used to compute project-level duration.
-\end{itemize}
-
-\noindent \textbf{Reliability Metrics (Tier 1)} - Measures of System Competence:
-
-\begin{itemize}
-    \item \textbf{Tool Success Rate:} Ratio of successfully completed tool invocations to total invocations. Measures agent autonomy and ability to execute without failure.
-    \item \textbf{Tool Retry Rate:} Ratio of tool invocation retries to total tool execution rounds. Indicates frequency of self-correction loops during execution.
-    \item \textbf{User Edit Rate:} Ratio of user-edited terminal commands to total terminal invocations. A direct proxy for correction burden; higher values indicate the agent frequently generated incorrect commands that required manual intervention by the user.
-\end{itemize}
-
-\noindent \textbf{Volume Metrics (Tier 2)} - Measures of Project Cost:
-
-\begin{itemize}
-    \item \textbf{Total Requests:} Sum of all user messages across all session files. Also serves as a cost proxy, since GitHub Copilot charges per request/credit in premium subscription tiers.
-    \item \textbf{Session Duration:} Global wall-clock time (Project End Time - Project Start Time), measured in minutes. Captures the real-world time cost of the entire workflow. Calculated as the difference between the earliest and latest timestamps across all sessions.
-\end{itemize}
-
-\noindent \textbf{Behavior Distribution (Tier 3)} - Measures of Process Efficiency:
-
-\begin{itemize}
-    \item \textbf{Ratio of Short Inputs:} Fraction of user inputs with fewer than 50 characters. Represents "supervisor" behavior; quick approvals/ confirmations/ acknowledgements that require minimal cognitive effort.
-    \item \textbf{Ratio of Protocol Inputs:} Fraction of user inputs containing APM-specific signatures (e.g., YAML frontmatter keys, meta-prompt headers). Represents the administrative overhead of the framework: mechanical copy-paste operations required for agent coordination. This metric represents the "routing" responsibilities that are inherent in the APM framework.
-    \item \textbf{Ratio of Standard Inputs:} Fraction of user inputs that are natural language without APM signatures. Represents the intervention burden; actual debugging, clarifications, and corrections. This metric isolates genuine user effort from the mechanical overhead captured by Protocol inputs. 
-\end{itemize}
-
-\noindent \textbf{Behavior Magnitude (Tier 4)} - Depth of Interaction:
-
-\begin{itemize}
-    \item \textbf{Average Characters per Bucket:} Mean character count for Short, Protocol, and Standard input categories. Provides context for the distribution ratios. For example, confirming that Protocol inputs are large (full task assignments) while Short inputs are minimal (single-word approvals).
-\end{itemize}
-
-\subsubsection{Functional Metrics (Both Studies)}
-
-To address \textbf{RQ3}, final code artifacts (\texttt{.patch} files) were evaluated against the automated test suite described in the Grading subsection (48 points total). The suite validates both Python and C implementations across three dimensions:
-
-\begin{itemize}
-    \item \textbf{Baseline Regression:} Ensures existing functionality (12 points) remains intact after patch application, critical for measuring framework impact on code stability.
-    \item \textbf{Functional Correctness:} End-to-end validation of new feature implementation (12 points) and complete C replica (24 points) against specification requirements.
-    \item \textbf{Robustness:} Edge case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for C implementation).
-\end{itemize}
+\placeholder{Metrics section pending Phase 4 redesign and the separate cost literature search effort. The final metric set will cover: Session Metadata, Cost Metrics (request consumption as proxy for enterprise budget impact), Reliability Metrics (tool success/retry, user edit rate), Process Metrics (behavior distribution and magnitude, session duration), and Functional Metrics (the 48-point grading rubric).}
 
 \newpage
 
@@ -284,13 +166,11 @@ To address \textbf{RQ3}, final code artifacts (\texttt{.patch} files) were evalu
 
 \noindent \textbf{Category Analysis:} Success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations. Identifies framework-specific failure patterns and strengths.
 
-\noindent \textbf{Comparative Analysis:} T-tests comparing APM vs. Spec-kit and APM vs. Plan Agent for total score, category scores, and completion rates. Effect sizes (Cohen's d) to assess practical significance.
+\noindent \textbf{Comparative Analysis:} T-tests comparing APM vs. Spec-kit for total score, category scores, and completion rates. Effect sizes (Cohen's d) to assess practical significance.
 
 \subsection{Economic and Process Efficiency Analysis}
 
-\textbf{Study A (Economic):} Mean cost, token consumption, and efficiency metrics (cost per point, tokens per point) per framework. Comparative analysis of APM vs. baselines with correlation to functional scores.
-
-\noindent \textbf{Study B (Process):} Reliability metrics (tool\_success\_rate, user\_edit\_rate), behavior distribution (ratio\_short, ratio\_protocol, ratio\_standard), and volume metrics (total\_requests, session\_duration). Correlation analysis between process metrics and functional scores.
+\placeholder{Pending Phase 5 rewrite — single unified analysis section (no Study A/B split). Will reference the request-based cost framing and the redesigned process metrics once the lit review lands.}
 
 \subsection{Learning Effects and Confounding}
 
@@ -298,14 +178,12 @@ To address \textbf{RQ3}, final code artifacts (\texttt{.patch} files) were evalu
 
 \noindent \textbf{Analysis Strategy:}
 \begin{itemize}
-    \item \textbf{Learning Effect Matrix:} Calculate mean improvement (percentage change) from S1 to S2 for all S1→S2 framework combinations across all metrics (functional scores, cost, process efficiency)
-    \item \textbf{S1 Framework Effect:} Compare mean improvement when S1 is APM vs. Spec-kit vs. Plan Agent (averaged across all S2 frameworks). Tests whether the S1 framework affects task learning quality.
-    \item \textbf{S2 Framework Effect:} Compare mean improvement when S2 is APM vs. Spec-kit vs. Plan Agent (averaged across all S1 frameworks). Tests whether the S2 framework affects how much improvement is visible.
-    \item \textbf{Order Effect:} For each framework pair, compare both directions (e.g., APM→Spec-kit vs. Spec-kit→APM). Tests whether order of framework exposure affects learning.
-    \item \textbf{Baseline Learning:} Overall mean improvement across all combinations (pure task learning effect regardless of framework)
+    \item \textbf{Learning Effect Matrix:} Calculate mean improvement (percentage change) from S1 to S2 for both S1→S2 framework combinations across all metrics (functional scores, cost, process efficiency)
+    \item \textbf{Order Effect:} Compare APM→Spec-kit vs. Spec-kit→APM directions. Tests whether order of framework exposure affects learning.
+    \item \textbf{Baseline Learning:} Overall mean improvement across both directions (pure task learning effect regardless of framework)
 \end{itemize}
 
-\noindent \textbf{Key Questions:} Does task learning confound framework comparisons? Which S1→S2 combinations show strongest learning effects? Is there a "best first framework" that maximizes S2 improvement? How do we control for learning effects when comparing frameworks?
+\noindent \textbf{Key Questions:} Does task learning confound framework comparisons? Is there a "best first framework" that maximizes S2 improvement? How do we control for learning effects when comparing frameworks?
 
 % ============================================================================
 % DISCUSSION PLACEHOLDER
@@ -316,38 +194,22 @@ To address \textbf{RQ3}, final code artifacts (\texttt{.patch} files) were evalu
 
 \subsection{Cost-Benefit Analysis: Context Overhead vs. Failure Prevention}
 
-\noindent Synthesize economic metrics (Study A) with functional success rates to assess whether APM's higher cost is justified by reduced failure rates. Key analyses: (1) Cost-benefit: Compare mean cost of failed baseline submissions vs. APM's mean cost (including successes). (2) ROI: Calculate cost per point for each framework. (3) Failure cost: Quantify "wasted cost" of baseline failures vs. APM's cost premium. (4) Consistency: Compare variance in cost and scores across frameworks.
-
-\noindent \textbf{Key Questions:} Is APM's cost increase justified by reduced failure rates? What is the break-even point? Does APM prevent costly "Agentic Handoff Failures"? Is the cost increase linear or exponential?
+\placeholder{Pending Phase 5 rewrite — to be reframed around request consumption overhead vs failure prevention, once the lit review establishes the cost framing.}
 
 \subsection{Process Efficiency: Protocol Overhead vs. Intervention Reduction}
 
-Synthesize process metrics (Study B) to assess whether APM's protocol overhead (ratio\_protocol) is offset by reduced intervention burden (ratio\_standard, user\_edit\_rate). Key analyses: (1) Net cognitive load: Compare ratio\_protocol + ratio\_standard across frameworks. (2) Role shift: Compare ratio\_short (supervisor behavior) across frameworks. (3) Autonomy: Correlate tool\_success\_rate with user\_edit\_rate. (4) Time efficiency: Compare session\_duration and requests per minute.
-
-\noindent \textbf{Key Questions:} Does APM's Manager agent reduce coordination burden? Is protocol overhead offset by reduced intervention? Do APM users shift from "debugger" to "supervisor" role? Is total cognitive load lower for APM?
+\placeholder{Pending Phase 5 rewrite — to be updated for APM v1 terminology and the two-framework comparison.}
 
 \subsection{Functional Efficacy: Reliability and Failure Patterns}
 
-Synthesize functional scores, completion rates, and category breakdowns to assess APM's reliability. Key analyses: (1) Success rates: Percentage achieving full completion (48/48) per framework. (2) Baseline regression: Compare regression rates (python\_baseline\_score < 12). (3) Failure patterns: Identify which test categories fail most per framework. (4) Consistency: Calculate coefficient of variation (SD/mean) for scores.
-
-\noindent \textbf{Key Questions:} Does APM achieve higher functional success rates? Does APM prevent catastrophic failures? Is APM more consistent (lower variance)? Does APM's structured approach help with specific challenges (C implementation, memory safety)?
+\placeholder{Pending Phase 5 rewrite — to be updated for the two-framework comparison.}
 
 \subsection{Learning Effects: Confounding and Framework Transferability}
 
-Address how task learning (S1→S2 improvement) may confound framework comparisons. Key analyses: (1) Learning effect magnitude: Overall mean improvement across all S1→S2 combinations (baseline task learning). (2) S1 framework effect: Does the S1 framework affect task learning quality? (3) S2 framework effect: Does the S2 framework affect how much improvement is visible? (4) Order effects: Compare framework pairs in both directions (e.g., APM→Spec-kit vs. Spec-kit→APM). (5) Framework transferability: Does learning APM in S1 improve S2 performance regardless of S2 framework?
-
-\noindent \textbf{Key Questions:} How do we control for learning effects when comparing frameworks? Which S1→S2 combinations show strongest learning? Is there a "best first framework" for task learning? Do learning effects confound framework comparisons?
-
-\subsection{Hybrid Model Strategy and Platform Generalizability}
-
-\noindent Assess whether APM's hybrid model strategy (premium planning, budget execution) maintained quality while reducing cost. Verify strategy adherence via unique\_model\_ids and compare functional scores vs. single-model baselines. Discuss platform differences (Cursor vs. Copilot) and model effects (Composer 1 vs. Claude Sonnet 4) on generalizability.
+\placeholder{Pending Phase 5 rewrite — simplified for the two-framework design (APM v1 vs Spec-kit, in both orders).}
 
 \subsection{Threats to Validity}
 
-\begin{itemize}
-    \item \textbf{Learning Effects:} Addressed via counterbalancing (Tool A/Tool B order).
-    \item \textbf{Model Variance:} Mitigated in Study A by standardizing on Composer 1. Addressed in Study B by using a Claude Sonnet 4 for the planning phase of all tools, and a budget model for the implementation phase of all tools.
-    \item \textbf{Participant Experience:} Variance in student skill levels (mitigated by the "Detailed PRD" which acts as a leveling mechanism and the "Default Prompt" containing hints and guidance for the agents).
-\end{itemize}
+\placeholder{Pending Phase 5 rewrite — Cursor/model-standardization threats removed; new threats relevant to a single-platform, two-framework study to be added.}
 
 \end{document}
