@@ -33,6 +33,10 @@
 % Line spacing
 \renewcommand{\baselinestretch}{1.15}
 
+% Paragraph formatting: no indent, vertical separation between paragraphs
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+
 \begin{document}
 
 % ============================================================================
@@ -42,38 +46,63 @@
 \section{Evaluation Methodology}
 \label{sec:evaluation}
 
-This chapter details the methodology used to evaluate the \textbf{Agentic Project Management (APM)} framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants.
+This chapter details the methodology used to evaluate the Agentic Project Management (APM) framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants. The study compares APM, a multi-agent framework that distributes work across specialized agents, against GitHub Spec-kit, a single-agent toolkit that guides one AI agent through a structured specification-driven workflow. Both frameworks are described in Section~\ref{sec:frameworks}.
 
-\noindent The evaluation was designed to measure three distinct dimensions:
+The evaluation measures three distinct dimensions:
 
 \begin{itemize}
-    \item \textbf{Economic Efficiency} \placeholder{Cost framing forthcoming.}
-    \item \textbf{Process Efficiency} (human cognitive load and interaction burden)
-    \item \textbf{Functional Efficacy} (ability to complete non-trivial tasks)
+    \item Economic Efficiency \placeholder{Cost framing forthcoming.}
+    \item Process Efficiency (human cognitive load and interaction burden)
+    \item Functional Efficacy (ability to complete non-trivial tasks)
 \end{itemize}
 
 \placeholder{Overview of the Copilot-based comparative study — forthcoming.}
 
 \subsection{Research Objectives}
 
-The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow.
-
-\noindent We define the following Research Questions (RQs):
+The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow. We define the following Research Questions (RQs):
 
 \begin{itemize}
     \item \textbf{RQ1 (Economic Efficiency):} \placeholder{Forthcoming. To be reframed around request consumption and resource efficiency rather than raw token cost.}
     \item \textbf{RQ2 (Process Efficiency):}
     \begin{itemize}
-        \item Does the structured coordination of APM reduce the "human burden" during execution? Specifically, does it reduce the need for user interventions, corrections, and clarifications?
-        \item Is the reduction in human burden due to the structured coordination of APM significant enough to justify the structural overhead?
-        \item Are the agents able to effectively coordinate and complete the task without the need for constant human oversight?
+        \item Does the structured coordination of APM reduce the amount of manual effort the user must invest during execution, particularly interventions, corrections, and clarifications?
+        \item If a difference in user effort is observed, is it significant enough to justify the structural overhead APM introduces?
+        \item Given that the User remains in the loop as a message carrier, can the agents coordinate effectively enough that the User's role stays limited to shuttling messages rather than correcting or redirecting agent behavior?
     \end{itemize}
     \item \textbf{RQ3 (Functional Efficacy):}
     \begin{itemize}
-        \item Can APM successfully deliver complex, non-trivial features in scenarios where unstructured agentic workflows typically encounter "Agentic Handoff Failures"?
+        \item Can APM successfully deliver complex, non-trivial features in scenarios where single-agent workflows are prone to failure due to context exhaustion, loss of coherence across long sessions, or inability to coordinate work across multiple concerns?
         \item How does the performance of APM compare to the performance of a single-agent workflow?
     \end{itemize}
 \end{itemize}
+
+\newpage
+
+\subsection{Frameworks Under Evaluation}
+\label{sec:frameworks}
+
+The two frameworks are both open-source and spec-driven, running on the same AI IDE platform. Both structure work through explicit specification and planning artifacts before implementation begins. They differ in how execution is organized: Spec-kit operates within a single agent conversation, while APM distributes work across multiple specialized agents.
+
+\subsubsection{GitHub Spec-kit}
+
+Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spec-kit/}} is a specification-driven development toolkit developed by GitHub. It guides a single AI agent through a structured workflow using three sequential commands:
+
+\begin{enumerate}
+    \item \texttt{/speckit.specify}: transforms a feature description into a structured specification containing requirements, user stories, and acceptance criteria.
+    \item \texttt{/speckit.plan}: converts the specification into a technical implementation plan with architecture decisions, data models, API contracts, and supporting documents.
+    \item \texttt{/speckit.tasks}: derives an executable task list (\texttt{tasks.md}) from the plan, with parallelism annotations and sequencing constraints.
+\end{enumerate}
+
+Additional commands support iterative refinement, plan validation, and execution. A constitution mechanism allows users to establish architectural rules that the agent enforces throughout the workflow.
+
+All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
+
+\subsubsection{APM in Comparison}
+
+Where Spec-kit runs the entire workflow in a single conversation, APM (described in detail in the preceding chapters) separates planning, coordination, and execution across three agent roles, each operating in its own conversation with deliberately scoped context. Agents communicate through a file-based Message Bus rather than sharing a context window, planning documents adapt their structure to the project rather than matching to a predetermined artifact layout, and the user acts as a message carrier between conversations. When an agent's context fills, an explicit Handoff mechanism preserves working knowledge across context boundaries.
+
+The evaluation tests whether this multi-agent overhead produces measurably better outcomes than Spec-kit's single-agent approach. The task is designed to be complex enough to challenge a single context window, making it a meaningful test of whether distributing work across specialized agents with scoped context yields tangible benefits in practice.
 
 \newpage
 
@@ -81,101 +110,85 @@ The primary objective of this research is to determine whether the structural ov
 
 To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server}, a Python-based Model Context Protocol (MCP) server designed to interface with the \texttt{openeclass} platform. Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
 
-\subsubsection{The Task:}
+\subsubsection{Task Description}
 
-The final task requires participants to implement two new announcement tools in the Python MCP server and, crucially, to create a complete native C replica of the entire server. The two tools are \texttt{get\_course\_announcements} (per-course retrieval) and \texttt{get\_general\_announcements} (system-wide aggregation across all enrolled courses). The task specification was refined through iteration to ensure sufficient complexity for differentiating multi-agent from single-agent approaches.\footnote{\raggedright Task specification and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}
+The task requires participants to implement two new announcement tools in the Python MCP server and to create a complete native C replica of the entire server.\footnote{\raggedright Task specification and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} The two tools are:
 
-\noindent This C implementation adds significant complexity, turning the assignment into a challenge of managing code translation, memory safety, and protocol details across two very different languages. As such, the task is specifically designed to stress-test the limits of agent coordination and reveal differences between multi-agent and single-agent approaches, especially in scenarios where context management becomes a bottleneck.
+\begin{itemize}
+    \item \texttt{get\_course\_announcements}: retrieves announcements for a specific course.
+    \item \texttt{get\_general\_announcements}: aggregates system-wide and per-course announcements.
+\end{itemize}
 
-\noindent \textbf{Key Technical Challenges:}
+The C implementation adds significant complexity: participants must manage code translation, memory safety, and protocol details across two very different languages. This combination of feature implementation and full-language replication is calibrated to stress-test the limits of agent coordination and expose any differences between the two frameworks, especially when context management becomes a bottleneck.
+
+Key technical challenges:
 
 \begin{enumerate}
-    \item \textbf{Dynamic Data Source:} The required data for implementing the new features is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
-    \item \textbf{Nested Parsing:} The server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
-    \item \textbf{Client-Side Filtering:} The legacy API does not support date filtering. The agent must implement robust client-side logic to parse and filter unique locale-formatted dates.
-    \item \textbf{C Implementation:} Agents must build a native C MCP server replica, manually implementing JSON-RPC 2.0 with standard C string manipulation (no external JSON libraries such as cJSON/Jansson). Use of \texttt{libcurl} for HTTP/HTTPS and \texttt{libxml2} for HTML parsing, was required for the eclass MCP server functionality.
-    \item \textbf{Memory Safety:} The C implementation must be memory-safe, passing Valgrind checks without leaks or errors.
+    \item Dynamic Data Source: the required data for implementing the new features is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
+    \item Nested Parsing: the server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
+    \item Client-Side Filtering: the legacy API does not support date filtering. The agent must implement robust client-side logic to parse and filter unique locale-formatted dates.
+    \item C Implementation: agents must build a native C MCP server replica, manually implementing JSON-RPC 2.0 with standard C string manipulation (no external JSON libraries such as cJSON/Jansson). Use of \texttt{libcurl} for HTTP/HTTPS and \texttt{libxml2} for HTML parsing was required.
 \end{enumerate}
 
-\noindent \textbf{Deliverables:}
+Deliverables:
 
 \begin{enumerate}
     \item Core server logic in modular Python files (existing and new functionality).
-    \item A native C implementation of the MCP server with equivalent (existing and new) functionality.
+    \item A native C implementation of the MCP server with equivalent functionality.
     \item A working build system (Makefile) for the C replica.
 \end{enumerate}
 
 \newpage
 
-\subsubsection{Grading:}
+\subsubsection{Grading}
 
 Submissions are evaluated using an automated black-box test suite with comprehensive validation, grading, metric extraction, and dataset aggregation capabilities (see the evaluation appendix for detailed infrastructure documentation).\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}}
 
-\noindent The test suite awards \textbf{100 points total}: 12 points for baseline functionality (existing Python tools), 36 points for the two new Python features (18 points each), and 52 points for the complete C replica implementation. A submission with no patch applied receives the baseline score of \textbf{12/100 points}.
+The test suite awards 100 points total: 12 points for baseline functionality (existing Python tools), 36 points for the two new Python features (18 points each), and 52 points for the complete C replica implementation. A submission with no patch applied receives the baseline score of 12/100 points.
 
-\noindent All tests are run against fixed baseline commits to ensure reproducibility: \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} and \texttt{openeclass} at commit \texttt{e8b3329} (Docker image \texttt{openeclass:test}). 
+All tests run against fixed baseline commits to ensure reproducibility: \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} and \texttt{openeclass} at commit \texttt{e8b3329}.
 
 \subsubsection{Repository Architecture and Data Management}
 
-The case study employs a two-repository system separating public resources from sensitive participant data. The \textbf{task repository} (\texttt{bsc-apm-case-study-task}) is openly accessible and includes task specifications, grading infrastructure, and participant guides. The \textbf{dataset repository} (\texttt{bsc-apm-case-study-data}) contains all submitted participant data: code patches, sanitized chat transcripts (see Section~\ref{sec:sanitization}), and anonymized session metadata.
+The case study employs a two-repository system separating public resources from sensitive participant data. The task repository (\texttt{bsc-apm-case-study-task}) is openly accessible and includes task specifications, grading infrastructure, and participant guides. The dataset repository (\texttt{bsc-apm-case-study-data}) contains all submitted participant data: code patches, sanitized chat transcripts (see Section~\ref{sec:sanitization}), and anonymized session metadata.
 
-\noindent Access to the dataset repository's secret access key requires explicit authorization and compliance with data usage agreements. This controlled access mechanism enables peer review and reproducibility while maintaining participant privacy protections.
+Access to the dataset repository requires explicit authorization and compliance with data usage agreements, enabling peer review and reproducibility while maintaining participant privacy.
 
 \subsubsection{Sanitization and PII Handling}
 \label{sec:sanitization}
 
 Chat exports contain sensitive information (unstructured user-input text, file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, all exports are sanitized using reversible encryption before storage.
 
-\noindent Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. The same sanitization method is applied uniformly across both platforms.
-
-\noindent For detailed technical specifications of the anonymization and encryption processes, see the evaluation appendix.
+Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. Detailed technical specifications are provided in the evaluation appendix.
 
 \newpage
 
 \subsection{Study Design}
 
-The study is conducted on a single IDE platform, \textbf{GitHub Copilot}, and compares the two frameworks under evaluation across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
+The study is conducted on a single AI IDE platform, VS Code with GitHub Copilot, and compares the two frameworks across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
 
 \subsubsection{Experimental Design}
 
-Each participant completes the case study task twice: once with APM, once with Spec-kit. The order of the two frameworks is \textbf{counterbalanced} across participants, so that approximately half of the cohort encounters APM first and the other half encounters Spec-kit first. This counterbalancing lets us attribute any observed S1-to-S2 improvement to task familiarity rather than to the framework itself, and is analyzed explicitly in Section~\ref{sec:results} under Learning Effects.
+Each participant completes the case study task twice: once with APM, once with Spec-kit. The order of the two frameworks is counterbalanced across participants, so that approximately half of the cohort encounters APM first and the other half encounters Spec-kit first. This counterbalancing lets us attribute any observed first-to-second session improvement to task familiarity rather than to the framework itself, and is analyzed explicitly in Section~\ref{sec:results} under Learning Effects.
 
-\noindent The two sessions are isolated from one another via dedicated Git branches created from the baseline commit, so no code, state, or context from the first session can influence the second. The branch workflow, patch-generation steps, and submission format are documented in the evaluation appendix.
+The two sessions are isolated from one another using Git, so no code, state, or context from the first session can influence the second. The participation workflow including session isolation and patch submission are documented in the evaluation appendix.
 
 \subsubsection{Data Source}
 
-The primary data source for the study is \textbf{GitHub Copilot chat exports}, captured in JSON form from the VS Code Command Palette at the end of each session. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without any manual annotation of the transcripts.
+The primary data source for the study is GitHub Copilot chat exports, captured in JSON form from the VS Code Command Palette at the end of each session, alongside each participant's patch submission. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without manual annotation.
 
-\noindent APM's multi-agent workflow spans multiple Copilot conversations within a single session — one for the Planner, one for the Manager, and one per Worker defined in the Plan — while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view, so that the total interaction cost of the session is captured regardless of how the work was distributed across conversations.
+APM's multi-agent workflow spans multiple Copilot conversations within a single session (one for the Planner, one for the Manager, and multiple for the Workers), while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view, so that the total interaction cost of the session is captured regardless of how the work was distributed across conversations.
 
 \subsubsection{Participant Pool}
 
-Participants are drawn from a cohort of University students and working professionals with active access to GitHub Copilot, either through the GitHub Education Pack or through a standard premium subscription. Access requirements, recruitment criteria, and the participant-facing workflow are documented in the participant guide (see the evaluation appendix).
+Participants are drawn from a cohort of University students and working professionals with active access to GitHub Copilot, either through the GitHub Education Pack or through a standard premium subscription.
 
 \newpage
-
-\subsection{Frameworks Under Evaluation}
-
-Two spec-driven workflow configurations are evaluated. Both are open-source and both run on the same underlying IDE platform; the key axis of comparison is whether spec-driven execution is distributed across a team of specialized agents (APM) or handled by a single agent following a structured template (Spec-kit).
-
-\begin{enumerate}
-    \item \textbf{Agentic Project Management (APM v1):} The proposed framework. APM replaces the single continuously-growing chat with a team of specialized agents coordinating through file-based artifacts, and structures work into two phases:
-
-    \begin{itemize}
-        \item \textit{Planning Phase:} A \textbf{Planner} conducts structured discovery with the User and decomposes the project into three planning documents — a \textit{Spec} (what to build: design decisions and workspace layout), a \textit{Plan} (how work is organized: Stages, Tasks, Worker assignments, dependencies), and \textit{Rules} (how work is performed: universal execution patterns written to the platform's rules file). The Planner runs once at project start and hands off to execution.
-
-        \item \textit{Implementation Phase:} A \textbf{Manager} dispatches Tasks to \textbf{Workers}, reviews the resulting Task Logs, and drives follow-ups, planning-document revisions, or the next ready dispatch. Workers execute Tasks against explicit validation criteria and write structured logs that the Manager reads to coordinate progress.
-    \end{itemize}
-
-    All agent coordination is mediated through a file-based \textbf{Message Bus} — the Manager writes Task assignments, Workers write results back, and the User carries messages between conversations. When an agent's context fills, a \textbf{Handoff} procedure transfers working knowledge to a fresh instance so state survives in files rather than depending on any single conversation.
-
-    \item \textbf{GitHub Spec-kit:} A structured, spec-driven baseline. It utilizes a single-agent workflow guided by rigid templates and three sequential commands (\texttt{specify}, \texttt{plan}, \texttt{tasks}). All planning and implementation happens within one conversation, with the agent acting as both planner and executor.
-\end{enumerate}
 
 \subsection{Metrics and Data Collection}
 \label{sec:metrics}
 
-The metrics collected for this study are organized into five categories: session metadata, the three efficiency dimensions introduced above (economic, process, and reliability), and the functional grading rubric. Concrete definitions for most categories are deferred to a follow-up pass on the cost framing, since the cost framing drives several of the metric-level design choices and a subset of the process and reliability metrics may be adjusted once it is established.
+The metrics collected for this study are organized into five categories: session metadata, the three dimensions introduced above (economic efficiency, process efficiency, and functional efficacy), and the functional grading rubric. Concrete definitions for most categories depend on the cost framing, which drives several metric-level design choices; these are marked as forthcoming below.
 
 \subsubsection{Session Metadata}
 
@@ -195,12 +208,12 @@ The metrics collected for this study are organized into five categories: session
 
 \subsubsection{Functional Metrics}
 
-The functional dimension is evaluated against the 100-point grading rubric already introduced in Section~1.2.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
+The functional dimension is evaluated against the 100-point grading rubric introduced in Section~1.3.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
 
 \begin{itemize}
-    \item \textbf{Baseline Regression:} Ensures that existing functionality (12 points) remains intact after the patch is applied, isolating the framework's impact on code stability.
-    \item \textbf{Functional Correctness:} End-to-end validation of the new Python features (36 points) and the complete C replica (52 points) against the specification.
-    \item \textbf{Robustness:} Edge-case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for the C implementation).
+    \item Baseline Regression: ensures that existing functionality (12 points) remains intact after the patch is applied, isolating the framework's impact on code stability.
+    \item Functional Correctness: end-to-end validation of the new Python features (36 points) and the complete C replica (52 points) against the specification.
+    \item Robustness: edge-case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for the C implementation).
 \end{itemize}
 
 \newpage
@@ -209,16 +222,18 @@ The functional dimension is evaluated against the 100-point grading rubric alrea
 % RESULTS PLACEHOLDER
 % ============================================================================
 
+\newpage
+
 \section{Results}
 \label{sec:results}
 
 \subsection{Functional Performance Analysis}
 
-\textbf{Primary Metrics:} Total score distribution, completion rates (100/100, 49-99, 12-48, baseline-only), baseline regression rates (python\_baseline\_score < 12), feature implementation success (Python features and C replica completion rates).
+Primary metrics: total score distribution, completion rates (100/100, 49--99, 12--48, baseline-only), baseline regression rates, and feature implementation success rates for Python and C.
 
-\noindent \textbf{Category Analysis:} Success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations. Identifies framework-specific failure patterns and strengths.
+Category analysis: success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations, identifying framework-specific failure patterns.
 
-\noindent \textbf{Comparative Analysis:} T-tests comparing APM vs. Spec-kit for total score, category scores, and completion rates. Effect sizes (Cohen's d) to assess practical significance.
+Comparative analysis: t-tests comparing APM vs.\ Spec-kit for total score, category scores, and completion rates, with effect sizes (Cohen's d) to assess practical significance.
 
 \subsection{Economic and Process Efficiency Analysis}
 
@@ -226,20 +241,23 @@ The functional dimension is evaluated against the 100-point grading rubric alrea
 
 \subsection{Learning Effects and Confounding}
 
-\textbf{Critical Issue:} Participants complete the same task twice (Session 1 and Session 2) using different frameworks. This creates a learning effect where task familiarity from S1 influences S2 performance, potentially confounding framework comparisons.
+Participants complete the same task twice (Session 1 and Session 2) using different frameworks. This creates a learning effect where task familiarity from S1 influences S2 performance, potentially confounding framework comparisons.
 
-\noindent \textbf{Analysis Strategy:}
+Analysis strategy:
+
 \begin{itemize}
-    \item \textbf{Learning Effect Matrix:} Calculate mean improvement (percentage change) from S1 to S2 for both S1→S2 framework combinations across all metrics (functional scores, cost, process efficiency)
-    \item \textbf{Order Effect:} Compare APM→Spec-kit vs. Spec-kit→APM directions. Tests whether order of framework exposure affects learning.
-    \item \textbf{Baseline Learning:} Overall mean improvement across both directions (pure task learning effect regardless of framework)
+    \item Learning Effect Matrix: calculate mean improvement from S1 to S2 for both framework orderings across all metrics (functional scores, cost, process efficiency).
+    \item Order Effect: compare APM-first vs.\ Spec-kit-first directions to test whether order of framework exposure affects learning.
+    \item Baseline Learning: overall mean improvement across both directions (pure task learning effect regardless of framework).
 \end{itemize}
 
-\noindent \textbf{Key Questions:} Does task learning confound framework comparisons? Is there a "best first framework" that maximizes S2 improvement? How do we control for learning effects when comparing frameworks?
+Key questions: does task learning confound framework comparisons? Is there a preferred first framework that maximizes S2 improvement? How should learning effects be controlled for when comparing frameworks?
 
 % ============================================================================
 % DISCUSSION PLACEHOLDER
 % ============================================================================
+
+\newpage
 
 \section{Discussion}
 \label{sec:discussion}
@@ -258,7 +276,7 @@ The functional dimension is evaluated against the 100-point grading rubric alrea
 
 \subsection{Learning Effects: Confounding and Framework Transferability}
 
-\placeholder{Forthcoming. Interprets the learning-effect matrix from Section~\ref{sec:results} and discusses how S1-to-S2 improvement affects the framework comparison.}
+\placeholder{Forthcoming. Interprets the learning-effect matrix from Section~\ref{sec:results} and discusses how first-to-second session improvement affects the framework comparison.}
 
 \subsection{Threats to Validity}
 
