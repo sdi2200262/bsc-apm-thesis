@@ -42,7 +42,7 @@
 \section{Evaluation Methodology}
 \label{sec:evaluation}
 
-This chapter details the methodology used to evaluate the \textbf{Agentic Project Management (APM)} framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants.\newline
+This chapter details the methodology used to evaluate the \textbf{Agentic Project Management (APM)} framework. To assess the framework's effectiveness against current industry standards, we conducted a comparative case study involving human participants.
 
 \noindent The evaluation was designed to measure three distinct dimensions:
 
@@ -56,8 +56,9 @@ This chapter details the methodology used to evaluate the \textbf{Agentic Projec
 
 \subsection{Research Objectives}
 
-The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow.\newline\newline
-We define the following Research Questions (RQs):
+The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow.
+
+\noindent We define the following Research Questions (RQs):
 
 \begin{itemize}
     \item \textbf{RQ1 (Economic Efficiency):} \placeholder{Forthcoming. To be reframed around request consumption and resource efficiency rather than raw token cost.}
@@ -82,14 +83,14 @@ To evaluate the frameworks under realistic constraints, we utilized an existing 
 
 \subsubsection{The Task:}
 
-The final task requires participants to implement a new \texttt{get\_course\_announcements} tool in the Python MCP server and, crucially, to create a complete native C replica of the MCP server. The task specification was refined through iteration to ensure sufficient complexity for differentiating multi-agent from single-agent approaches.\footnote{Task specification and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}\newline
+The final task requires participants to implement two new announcement tools in the Python MCP server and, crucially, to create a complete native C replica of the entire server. The two tools are \texttt{get\_course\_announcements} (per-course retrieval) and \texttt{get\_general\_announcements} (system-wide aggregation across all enrolled courses). The task specification was refined through iteration to ensure sufficient complexity for differentiating multi-agent from single-agent approaches.\footnote{\raggedright Task specification and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}
 
-\noindent This C implementation adds significant complexity, turning the assignment into a challenge of managing code translation, memory safety, and protocol details across two very different languages. As such, the task is specifically designed to stress-test the limits of agent coordination and reveal differences between multi-agent and single-agent approaches, especially in scenarios where context management becomes a bottleneck.\newline
+\noindent This C implementation adds significant complexity, turning the assignment into a challenge of managing code translation, memory safety, and protocol details across two very different languages. As such, the task is specifically designed to stress-test the limits of agent coordination and reveal differences between multi-agent and single-agent approaches, especially in scenarios where context management becomes a bottleneck.
 
 \noindent \textbf{Key Technical Challenges:}
 
 \begin{enumerate}
-    \item \textbf{Dynamic Data Source:} The required data for implementing the new feature is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
+    \item \textbf{Dynamic Data Source:} The required data for implementing the new features is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
     \item \textbf{Nested Parsing:} The server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
     \item \textbf{Client-Side Filtering:} The legacy API does not support date filtering. The agent must implement robust client-side logic to parse and filter unique locale-formatted dates.
     \item \textbf{C Implementation:} Agents must build a native C MCP server replica, manually implementing JSON-RPC 2.0 with standard C string manipulation (no external JSON libraries such as cJSON/Jansson). Use of \texttt{libcurl} for HTTP/HTTPS and \texttt{libxml2} for HTML parsing, was required for the eclass MCP server functionality.
@@ -108,24 +109,24 @@ The final task requires participants to implement a new \texttt{get\_course\_ann
 
 \subsubsection{Grading:}
 
-Submissions are evaluated using an automated black-box test suite with comprehensive validation, grading, metric extraction, and dataset aggregation capabilities (see the evaluation appendix for detailed infrastructure documentation).\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}} \newline
+Submissions are evaluated using an automated black-box test suite with comprehensive validation, grading, metric extraction, and dataset aggregation capabilities (see the evaluation appendix for detailed infrastructure documentation).\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}}
 
-\noindent The test suite awards \textbf{48 points total}: 12 points for baseline functionality (existing Python tools), 12 points for the new Python feature (\texttt{get\_course\_announcements}), and 24 points for the complete C replica implementation. A submission with no patch applied receives the baseline score of \textbf{12/48 points}.\newline
+\noindent The test suite awards \textbf{100 points total}: 12 points for baseline functionality (existing Python tools), 36 points for the two new Python features (18 points each), and 52 points for the complete C replica implementation. A submission with no patch applied receives the baseline score of \textbf{12/100 points}.
 
 \noindent All tests are run against fixed baseline commits to ensure reproducibility: \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} and \texttt{openeclass} at commit \texttt{e8b3329} (Docker image \texttt{openeclass:test}). 
 
 \subsubsection{Repository Architecture and Data Management}
 
-The case study employs a two-repository system separating public resources from sensitive participant data. The \textbf{task repository} (\texttt{bsc-apm-case-study-task}) is openly accessible and includes task specifications, grading infrastructure, and participant guides. The \textbf{dataset repository} (\texttt{bsc-apm-case-study-data}) contains all submitted participant data: code patches, sanitized chat transcripts (see Section~\ref{sec:sanitization}), and anonymized session metadata.\newline
+The case study employs a two-repository system separating public resources from sensitive participant data. The \textbf{task repository} (\texttt{bsc-apm-case-study-task}) is openly accessible and includes task specifications, grading infrastructure, and participant guides. The \textbf{dataset repository} (\texttt{bsc-apm-case-study-data}) contains all submitted participant data: code patches, sanitized chat transcripts (see Section~\ref{sec:sanitization}), and anonymized session metadata.
 
 \noindent Access to the dataset repository's secret access key requires explicit authorization and compliance with data usage agreements. This controlled access mechanism enables peer review and reproducibility while maintaining participant privacy protections.
 
 \subsubsection{Sanitization and PII Handling}
 \label{sec:sanitization}
 
-Chat exports contain sensitive information (unstructured user-input text, file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, all exports are sanitized using reversible encryption before storage. \newline
+Chat exports contain sensitive information (unstructured user-input text, file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, all exports are sanitized using reversible encryption before storage.
 
-\noindent Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. The same sanitization method is applied uniformly across both platforms. \newline
+\noindent Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. The same sanitization method is applied uniformly across both platforms.
 
 \noindent For detailed technical specifications of the anonymization and encryption processes, see the evaluation appendix.
 
@@ -133,17 +134,17 @@ Chat exports contain sensitive information (unstructured user-input text, file p
 
 \subsection{Study Design}
 
-The study is conducted on a single IDE platform, \textbf{GitHub Copilot}, and compares the two frameworks under evaluation across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.\newline
+The study is conducted on a single IDE platform, \textbf{GitHub Copilot}, and compares the two frameworks under evaluation across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
 
 \subsubsection{Experimental Design}
 
-Each participant completes the case study task twice: once with APM, once with Spec-kit. The order of the two frameworks is \textbf{counterbalanced} across participants, so that approximately half of the cohort encounters APM first and the other half encounters Spec-kit first. This counterbalancing lets us attribute any observed S1-to-S2 improvement to task familiarity rather than to the framework itself, and is analyzed explicitly in Section~\ref{sec:results} under Learning Effects.\newline
+Each participant completes the case study task twice: once with APM, once with Spec-kit. The order of the two frameworks is \textbf{counterbalanced} across participants, so that approximately half of the cohort encounters APM first and the other half encounters Spec-kit first. This counterbalancing lets us attribute any observed S1-to-S2 improvement to task familiarity rather than to the framework itself, and is analyzed explicitly in Section~\ref{sec:results} under Learning Effects.
 
 \noindent The two sessions are isolated from one another via dedicated Git branches created from the baseline commit, so no code, state, or context from the first session can influence the second. The branch workflow, patch-generation steps, and submission format are documented in the evaluation appendix.
 
 \subsubsection{Data Source}
 
-The primary data source for the study is \textbf{GitHub Copilot chat exports}, captured in JSON form from the VS Code Command Palette at the end of each session. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without any manual annotation of the transcripts.\newline
+The primary data source for the study is \textbf{GitHub Copilot chat exports}, captured in JSON form from the VS Code Command Palette at the end of each session. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without any manual annotation of the transcripts.
 
 \noindent APM's multi-agent workflow spans multiple Copilot conversations within a single session — one for the Planner, one for the Manager, and one per Worker defined in the Plan — while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view, so that the total interaction cost of the session is captured regardless of how the work was distributed across conversations.
 
@@ -194,11 +195,11 @@ The metrics collected for this study are organized into five categories: session
 
 \subsubsection{Functional Metrics}
 
-The functional dimension is evaluated against the 48-point grading rubric already introduced in Section~1.2.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
+The functional dimension is evaluated against the 100-point grading rubric already introduced in Section~1.2.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
 
 \begin{itemize}
     \item \textbf{Baseline Regression:} Ensures that existing functionality (12 points) remains intact after the patch is applied, isolating the framework's impact on code stability.
-    \item \textbf{Functional Correctness:} End-to-end validation of the new Python feature (12 points) and the complete C replica (24 points) against the specification.
+    \item \textbf{Functional Correctness:} End-to-end validation of the new Python features (36 points) and the complete C replica (52 points) against the specification.
     \item \textbf{Robustness:} Edge-case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for the C implementation).
 \end{itemize}
 
@@ -213,7 +214,7 @@ The functional dimension is evaluated against the 48-point grading rubric alread
 
 \subsection{Functional Performance Analysis}
 
-\textbf{Primary Metrics:} Total score distribution, completion rates (48/48, 24-47, 12-23, baseline-only), baseline regression rates (python\_baseline\_score < 12), feature implementation success (Python feature and C replica completion rates).
+\textbf{Primary Metrics:} Total score distribution, completion rates (100/100, 49-99, 12-48, baseline-only), baseline regression rates (python\_baseline\_score < 12), feature implementation success (Python features and C replica completion rates).
 
 \noindent \textbf{Category Analysis:} Success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations. Identifies framework-specific failure patterns and strengths.
 

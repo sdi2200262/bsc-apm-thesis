@@ -68,9 +68,9 @@ The case study infrastructure is organized into a public repository (\texttt{bsc
 \begin{itemize}
     \item \textbf{\texttt{task/}} - Task specification materials:
     \begin{itemize}
-        \item \texttt{Specification.md} - Product Requirements Document (PRD)
-        \item \texttt{Default-Prompt.md} - Default prompt for AI assistant conversations
-        \item \texttt{SCORING.md} - Detailed scoring rubric (48 points total)
+        \item \texttt{PRD.md} - Product Requirements Document
+        \item \texttt{Prompt.md} - Default prompt for AI assistant conversations
+        \item \texttt{SCORING.md} - Detailed scoring rubric (100 points total)
     \end{itemize}
     
     \item \textbf{\texttt{grader/}} - Grading and data processing infrastructure:
@@ -100,7 +100,7 @@ All tests are run against fixed baseline commits to ensure reproducibility:
     \item \textbf{openeclass:} Commit \texttt{e8b3329} / Docker image \texttt{openeclass:test}
 \end{itemize}
 
-\noindent The grading infrastructure applies participant patches against these exact baseline versions. The baseline score (no patch applied) is \textbf{12/48 points}, representing only the Python baseline functionality.\newline
+\noindent The grading infrastructure applies participant patches against these exact baseline versions. The baseline score (no patch applied) is \textbf{12/100 points}, representing only the Python baseline functionality.
 
 \noindent Environment setup instructions, including Docker configuration and test data seeding, are documented in: \ghlink{bsc-apm-case-study-task/grader/SETUP.md}{https://github.com/bsc-apm-case-study-task/blob/main/grader/SETUP.md}
 
@@ -108,14 +108,14 @@ All tests are run against fixed baseline commits to ensure reproducibility:
 
 \subsection{Test Suite Structure}
 
-The automated test suite evaluates submissions across three categories (48 points total):
+The automated test suite evaluates submissions across three categories (100 points total):
 
 \begin{itemize}
     \item \textbf{Python Baseline (12 points)} - Tests existing functionality from main branch (11 test cases: build, protocol, login, logout, courses, authstatus)
-    
-    \item \textbf{Python Feature (12 points)} - Tests new \texttt{get\_course\_announcements} implementation (5 test cases: error handling, date filtering, output format)
-    
-    \item \textbf{C Replica (24 points)} - Tests complete C implementation (16 test cases: compilation, memory safety, protocol compliance, all tool functionality)
+
+    \item \textbf{Python Features (36 points)} - Tests \texttt{get\_course\_announcements} (18 points, 6 test cases) and \texttt{get\_general\_announcements} (18 points, 6 test cases): error handling, date filtering, output format, source aggregation
+
+    \item \textbf{C Replica (52 points)} - Tests complete C implementation (28 test cases: compilation, memory safety, protocol compliance, all tool functionality including both announcement tools)
 \end{itemize}
 
 \noindent Test definitions and point allocations are specified in \texttt{grader/src/scorer.py}. Test execution logic is implemented in:
@@ -125,7 +125,7 @@ The automated test suite evaluates submissions across three categories (48 point
     \item \texttt{grader/src/build\_tester.py} - Build system verification
 \end{itemize}
 
-\noindent For the detailed scoring rubric, see: \ghlink{bsc-apm-case-study-task/task/SCORING.md}{https://github.com/bsc-apm-case-study-task/blob/main/task/SCORING.md}\newline
+\noindent For the detailed scoring rubric, see: \ghlink{bsc-apm-case-study-task/task/SCORING.md}{https://github.com/bsc-apm-case-study-task/blob/main/task/SCORING.md}
 
 \noindent For complete test specifications, see the source code documentation in \texttt{grader/src/}.
 
@@ -170,7 +170,7 @@ To ensure clean separation between sessions and minimize learning effects from c
 
 Submissions follow a strict naming format to enable automated processing:
 
-\noindent \underline{\texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_submission.zip}}\newline
+\noindent \underline{\texttt{\{PID\}\_\{S1|2\}\_\{platform\}\_\{tool\}\_submission.zip}}
 
 \noindent Where:
 \begin{itemize}
@@ -180,7 +180,7 @@ Submissions follow a strict naming format to enable automated processing:
     \item \texttt{\{tool\}} - Tool identifier: \texttt{apm} or \texttt{spec-kit} (lowercase, hyphenated)
 \end{itemize}
 
-\noindent Example: \texttt{P001\_S1\_copilot\_apm\_submission.zip}\newline
+\noindent Example: \texttt{P001\_S1\_copilot\_apm\_submission.zip}
 
 \noindent Each submission zip file must contain exactly two items at the root level:
 
