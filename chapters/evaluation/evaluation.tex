@@ -270,7 +270,7 @@ This subsection enumerates internal, external, and construct validity threats an
 
 \textbf{Participant experience heterogeneity.} Productivity and process-efficiency effects of AI coding assistants vary with developer experience and daily coding volume \citep{pengetal2023, ziegleretal2024, paradisetal2024}. The within-subjects design partially absorbs cross-participant variance by pairing each participant with themselves, but residual dispersion may limit the precision of cohort-level estimates.
 
-\textbf{Self-reported versus observed measures.} Subjective developer-reported productivity often diverges from objective time-in-motion measurements, occasionally in the opposite direction \citep{beckeretal2025, pengetal2023}. This study reports only instrumented, export-derived metrics and does not combine them with self-reports, which limits the process-efficiency findings to measurable coordination activity rather than subjective effort or satisfaction.
+\textbf{Self-reported versus observed measures.} Subjective developer-reported productivity often diverges from objective time-in-motion measurements, occasionally in the opposite direction \citep{beckeretal2025, pengetal2023}. This study pairs the instrumented, export-derived metrics with a post-session questionnaire covering workload, confidence, and perceived framework effectiveness (Section~\ref{sec:questionnaire}); observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
 
 \subsubsection{External Validity}
 
@@ -280,7 +280,7 @@ This subsection enumerates internal, external, and construct validity threats an
 
 \textbf{Lab-to-field generalisation gap.} Lab-style productivity measurements for AI coding assistants have exceeded enterprise field measurements by more than a factor of two, and experienced developers on mature codebases have been observed to be slower with AI than without \citep{pengetal2023, cuietal2025, beckeretal2025}. The case study is positioned between lab and field conditions, and its measurements are neither pure laboratory benchmarks nor natural-setting observations.
 
-\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Specific effect sizes are tied to the model version, the Copilot pricing parameters, and the framework releases available during the participant window. The three-part tariff allowance sizes and model multipliers are subject to vendor change, and cost-efficiency findings are defensible against current pricing but may require re-estimation under materially different parameters \citep{lambrechtseimskiera2007}.
+\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Not only effect sizes but also descriptive claims throughout this chapter (plan allowances, model multipliers, command sets, and framework releases) are tied to the May 2026 participant window stated in Section~\ref{sec:evaluation}. Allowance sizes and multipliers are subject to vendor change, and findings that rest on specific pricing parameters are defensible against that snapshot but may require re-estimation under materially different parameters \citep{lambrechtseimskiera2007}.
 
 \subsubsection{Construct Validity}
 
@@ -290,7 +290,9 @@ This subsection enumerates internal, external, and construct validity threats an
 
 \textbf{Binary functional outcomes.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Prior empirical work on AI coding assistants has consistently noted that code-quality dimensions are not captured by pass/fail functional measurement \citep{paradisetal2024, cuietal2025}, and this study inherits that limitation.
 
-\textbf{Chat-export data scope.} Metric extraction is limited to the per-conversation JSON exports produced from the VS Code Command Palette. Inline code-completion events that do not appear in the chat export are invisible to the metric set. The reliability and process metrics therefore characterise only the agent-driven portion of the workflow rather than the full IDE interaction.
+\textbf{Chat-export data scope.} Metric extraction is limited to the per-conversation JSON chat exports that accompany each participant submission. Inline code-completion events that are not part of a chat conversation are invisible to the metric set. The reliability and process metrics therefore characterise only the agent-driven portion of the workflow rather than the full IDE interaction.
+
+\textbf{Grader environment parity.} The grading pipeline runs submitted patches against a Docker-based replica of the openeclass platform rather than against the live University of Athens instance that participants develop against. The replica environment (Docker image, fixture data, authentication stubs) is documented in the evaluation appendix. Divergences between the replica and the live instance (for example, timezone handling, localized date parsing, or session-cookie behavior) can in principle cause a patch that works locally to miss points during grading. Fixed baseline commits and deterministic seeded test data mitigate but do not eliminate this risk.
 
 \newpage
 
