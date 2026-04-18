@@ -15,9 +15,9 @@ Both frameworks are open-source and run on GitHub Copilot, so the evaluation iso
 
 The research evaluates three dimensions:
 
-- **Economic Efficiency** - Request consumption as a proxy for enterprise budget impact
+- **Economic Efficiency** - Share of the Copilot monthly request allowance consumed per session
 - **Process Efficiency** - Human cognitive load and interaction burden
-- **Functional Efficacy** - Ability to complete non-trivial tasks without "Agentic Handoff Failures"
+- **Functional Efficacy** - Ability to complete non-trivial tasks that stress single-context-window workflows
 
 ## Repository Structure
 
@@ -38,11 +38,11 @@ bsc-apm-thesis/
 
 ## Evaluation Methodology
 
-The study is a within-subjects experiment on GitHub Copilot. Each participant completes the case study task twice — once with APM v1, once with Spec-kit — with the order counterbalanced across the cohort to control for task-familiarity effects.
+The study is a within-subjects experiment on GitHub Copilot. Each participant completes the case study task twice, once with APM v1 and once with Spec-kit, with the order counterbalanced across the cohort to control for task-familiarity effects. Sessions are time-boxed to three hours.
 
-Metrics are extracted programmatically from the Copilot JSON chat exports and organized into five categories: session metadata, cost, reliability, process, and functional. Chat exports are sanitized with HMAC-XOR encryption before storage to protect participant privacy while preserving reproducibility.
+Metrics are extracted programmatically from the Copilot JSON chat exports and organized into three measurement dimensions (economic, process, functional) plus a consolidated analysis plan. Each session's submission bundles the patch, the JSON chat exports, and a post-session questionnaire response. Chat exports are sanitized with HMAC-SHA256 XOR encryption before storage to protect participant privacy while preserving reproducibility.
 
-Full methodology, including the testbed, grading rubric (48 points), and infrastructure details, lives in [`chapters/evaluation/`](chapters/evaluation/).
+Full methodology, including the testbed, the 100-point grading rubric, and infrastructure details, lives in [`chapters/evaluation/`](chapters/evaluation/).
 
 ## Building
 
