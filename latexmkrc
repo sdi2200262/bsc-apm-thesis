@@ -93,6 +93,20 @@ my $build_dir = File::Spec->catdir($repo_root, 'build');
 ensure_build_directory($build_dir);
 
 # ============================================================================
+# Bibliography Input Path Configuration
+# ============================================================================
+#
+# bibtex runs from the aux_dir (build/) and searches for .bib files via the
+# BIBINPUTS environment variable. Because references.bib lives alongside its
+# .tex file in chapters/<chapter>/ rather than at the repo root, we extend
+# BIBINPUTS to include the evaluation chapter directory so bibtex can resolve
+# \bibliography{references} during compilation.
+
+my $eval_chapter_dir = File::Spec->catdir($repo_root, 'chapters', 'evaluation');
+my $existing_bibinputs = $ENV{BIBINPUTS} // '';
+$ENV{BIBINPUTS} = join(':', $eval_chapter_dir, $existing_bibinputs, '');
+
+# ============================================================================
 # Output Directory Configuration
 # ============================================================================
 

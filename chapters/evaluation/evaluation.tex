@@ -16,6 +16,9 @@
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{caption}
+\usepackage[numbers,sort&compress]{natbib}  % Numeric citations
+\bibliographystyle{plainnat}
+\usepackage[bottom,flushmargin]{footmisc}  % Pin footnotes to page bottom, flush left
 
 % ============================================================================
 % CONFIGURATION
@@ -51,19 +54,28 @@ This chapter details the methodology used to evaluate the Agentic Project Manage
 The evaluation measures three distinct dimensions:
 
 \begin{itemize}
-    \item Economic Efficiency \placeholder{Cost framing forthcoming.}
+    \item Economic Efficiency (share of the Copilot monthly request allowance consumed per session)
     \item Process Efficiency (human cognitive load and interaction burden)
     \item Functional Efficacy (ability to complete non-trivial tasks)
 \end{itemize}
 
-\placeholder{Overview of the Copilot-based comparative study — forthcoming.}
+The remainder of this chapter is organized as follows. Section~\ref{sec:frameworks} describes the two frameworks under evaluation. The subsequent sections specify the testbed and task, the study design, and the metrics and data collection approach. Section~\ref{sec:results} presents the results of the comparison, and Section~\ref{sec:discussion} discusses their implications.
 
 \subsection{Research Objectives}
 
-The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow. We define the following Research Questions (RQs):
+The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow. Prior empirical work on AI coding assistants has concentrated on productivity and task-completion time \citep{pengetal2023, cuietal2025, paradisetal2024, ziegleretal2024, vukovicetal2026}, with comparatively little systematic treatment of cost under the subscription-based procurement model through which Copilot is predominantly adopted. This evaluation contributes a cost perspective alongside the process and functional dimensions.
+
+\newpage
+
+We define the following Research Questions (RQs):
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic Efficiency):} \placeholder{Forthcoming. To be reframed around request consumption and resource efficiency rather than raw token cost.}
+    \item \textbf{RQ1 (Economic Efficiency):}
+    \begin{itemize}
+        \item Under GitHub Copilot's subscription-plus-quota pricing structure, does APM's multi-agent coordination consume fewer premium requests per session than Spec-kit's single-agent workflow?
+        \item If a difference in request consumption is observed, is it large enough to meaningfully shift the share of a buyer's monthly allowance burned per task completion?
+        \item Where in each framework's workflow (planning phase versus implementation phase) does request consumption concentrate, and does that concentration pattern differ between frameworks?
+    \end{itemize}
     \item \textbf{RQ2 (Process Efficiency):}
     \begin{itemize}
         \item Does the structured coordination of APM reduce the amount of manual effort the user must invest during execution, particularly interventions, corrections, and clarifications?
@@ -94,7 +106,7 @@ Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spe
     \item \texttt{/speckit.tasks}: derives an executable task list (\texttt{tasks.md}) from the plan, with parallelism annotations and sequencing constraints.
 \end{enumerate}
 
-Additional commands support iterative refinement, plan validation, and execution. A constitution mechanism allows users to establish architectural rules that the agent enforces throughout the workflow.
+Execution is triggered by a fourth command, \texttt{/speckit.implement}, which parses the task list and carries out each task in sequence. Additional commands support iterative refinement (\texttt{/speckit.clarify}), cross-artifact consistency checking (\texttt{/speckit.analyze}), and custom quality checklists (\texttt{/speckit.checklist}). A constitution mechanism, maintained via the \texttt{/speckit.constitution} command, allows users to establish architectural rules that the agent enforces throughout the workflow.
 
 All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
 
@@ -104,11 +116,9 @@ Where Spec-kit runs the entire workflow in a single conversation, APM (described
 
 The evaluation tests whether this multi-agent overhead produces measurably better outcomes than Spec-kit's single-agent approach. The task is designed to be complex enough to challenge a single context window, making it a meaningful test of whether distributing work across specialized agents with scoped context yields tangible benefits in practice.
 
-\newpage
-
 \subsection{Testbed and Task Design}
 
-To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server}, a Python-based Model Context Protocol (MCP) server designed to interface with the \texttt{openeclass} platform. Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
+To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
 
 \subsubsection{Task Description}
 
@@ -127,20 +137,11 @@ Key technical challenges:
     \item Dynamic Data Source: the required data for implementing the new features is not available in static HTML for parsing. Agents must research the legacy codebase to discover a specific AJAX endpoint and its behavior.
     \item Nested Parsing: the server returns JSON where the payload is an array of raw HTML strings, requiring a second layer of parsing to extract the data.
     \item Client-Side Filtering: the legacy API does not support date filtering. The agent must implement robust client-side logic to parse and filter unique locale-formatted dates.
-    \item C Implementation: agents must build a native C MCP server replica, manually implementing JSON-RPC 2.0 with standard C string manipulation (no external JSON libraries such as cJSON/Jansson). Use of \texttt{libcurl} for HTTP/HTTPS and \texttt{libxml2} for HTML parsing was required.
+    \item C Implementation: agents must build a native C MCP server replica, manually implementing JSON-RPC 2.0 with standard C string manipulation (no external JSON libraries such as cJSON/Jansson). Use of \texttt{libcurl} for HTTP/HTTPS and \texttt{libxml2} for HTML parsing was required. A working Makefile must build the C binary.
 \end{enumerate}
-
-Deliverables:
-
-\begin{enumerate}
-    \item Core server logic in modular Python files (existing and new functionality).
-    \item A native C implementation of the MCP server with equivalent functionality.
-    \item A working build system (Makefile) for the C replica.
-\end{enumerate}
-
-\newpage
 
 \subsubsection{Grading}
+\label{sec:grading}
 
 Submissions are evaluated using an automated black-box test suite with comprehensive validation, grading, metric extraction, and dataset aggregation capabilities (see the evaluation appendix for detailed infrastructure documentation).\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}}
 
@@ -175,7 +176,7 @@ The two sessions are isolated from one another using Git, so no code, state, or 
 
 \subsubsection{Data Source}
 
-The primary data source for the study is GitHub Copilot chat exports, captured in JSON form from the VS Code Command Palette at the end of each session, alongside each participant's patch submission. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without manual annotation.
+The primary data source for the study is GitHub Copilot chat exports, captured in JSON form from the VS Code Command Palette at the end of each session, alongside each participant's patch submission. Copilot's export format provides structured records of every conversation, including model identifiers, message timestamps, tool invocations, and per-message speaker roles. This granularity enables programmatic extraction of both request-level and interaction-level metrics directly from the exports, without manual annotation. Because GitHub Copilot is billed per seat with a monthly premium-request allowance and a marginal per-request charge for overage consumption, the per-conversation request counts preserved in the export metadata correspond directly to the unit in which the buyer's cost is incurred.\footnote{Premium-request billing structure and overage rates documented at: \url{https://docs.github.com/en/billing/concepts/product-billing/github-copilot-premium-requests}}
 
 APM's multi-agent workflow spans multiple Copilot conversations within a single session (one for the Planner, one for the Manager, and multiple for the Workers), while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view, so that the total interaction cost of the session is captured regardless of how the work was distributed across conversations.
 
@@ -183,12 +184,10 @@ APM's multi-agent workflow spans multiple Copilot conversations within a single 
 
 Participants are drawn from a cohort of University students and working professionals with active access to GitHub Copilot, either through the GitHub Education Pack or through a standard premium subscription.
 
-\newpage
-
 \subsection{Metrics and Data Collection}
 \label{sec:metrics}
 
-The metrics collected for this study are organized into five categories: session metadata, the three dimensions introduced above (economic efficiency, process efficiency, and functional efficacy), and the functional grading rubric. Concrete definitions for most categories depend on the cost framing, which drives several metric-level design choices; these are marked as forthcoming below.
+The metrics collected for this study are organized into five categories: session metadata, the three dimensions introduced above (economic efficiency, process efficiency, and functional efficacy), and the functional grading rubric. The subsections below specify each category in turn.
 
 \subsubsection{Session Metadata}
 
@@ -196,19 +195,37 @@ The metrics collected for this study are organized into five categories: session
 
 \subsubsection{Cost Metrics}
 
-\placeholder{Forthcoming. Will operationalise Copilot request consumption as a proxy for enterprise budget impact, with request-per-functional-point as the primary efficiency ratio.}
+GitHub Copilot is billed as a three-part tariff: a per-seat monthly access price, an included allowance of premium requests per user per month, and a marginal charge of \$0.04 for each premium request beyond the allowance.\footnote{Tiered premium-request allowances documented at: \url{https://docs.github.com/en/copilot/get-started/plans}} The structure is uniform across the Student plan (300 included premium requests per month), the Pro plan (300), the Pro+ plan (1{,}500), the Business plan (300 per user), and the Enterprise plan (1{,}000 per user). Each supported model is associated with a premium-request multiplier that determines how many premium requests a single model interaction deducts from the allowance: a $1{\times}$ model consumes one premium request per interaction, while advanced reasoning or fast-mode models apply higher multipliers (for example, $3{\times}$ or $30{\times}$). A framework that consumes fewer premium requests to complete the same task therefore consumes a smaller share of the buyer's monthly allowance. Economic research on three-part tariff choice shows that buyer preference for this pricing structure is driven by demand uncertainty rather than marginal price alone, with consumers steering toward allowance-based plans to hedge against bill variance \citep{lambrechtseimskiera2007, liandkumar2022}.
+
+The primary cost metric for the study is \textbf{premium requests per session}: the total number of premium requests consumed across all conversations of a single framework session. Each participant contributes one APM-session count and one Spec-kit-session count for the same task, aggregated and compared across the cohort. This metric maps directly onto the buyer's budget exposure under the subscription plans described above. The metric is deliberately decoupled from the task rubric: request counts are compared between frameworks for the same completed work, without attempting to attribute requests to individual rubric points or features.
+
+The secondary cost metric is a phase-broken breakdown of the per-session request count. For APM, the planning phase corresponds to the Planner conversation and the implementation phase to the Manager and Worker conversations, a boundary marked naturally by the conversation identity in the chat export. For Spec-kit, the planning phase covers all requests up to and including the last \texttt{/speckit.tasks} invocation, together with any preceding commands in the planning cluster: \texttt{/speckit.constitution}, \texttt{/speckit.specify}, \texttt{/speckit.plan}, \texttt{/speckit.clarify}, \texttt{/speckit.analyze}, and \texttt{/speckit.checklist}. The implementation phase covers all requests from \texttt{/speckit.implement} onward. The phase split locates where each framework spends its budget and exposes the source of any observed cost differential between frameworks.
+
+All sessions use a single underlying model, held fixed across both frameworks and across both sessions of each participant: GPT-5.4. This is a $1{\times}$ premium-request model, available to participants on the Student plan as well as the Pro, Pro+, Business, and Enterprise tiers.\footnote{Model multiplier values and plan availability documented at: \url{https://docs.github.com/en/copilot/reference/ai-models/supported-models}} Holding the model fixed at a uniform $1{\times}$ multiplier eliminates multiplier-induced variance in the cost metric, so that a difference in premium-request counts reflects a difference in framework behavior rather than a difference in model choice.
+
+The study does not measure raw inference cost in terms of tokens consumed or dollar-equivalent API pricing. Recent empirical work on the LLM market documents that the raw inference price of a comparably capable model has declined by roughly three orders of magnitude over the preceding two years, and that the same model hosted by competing providers can differ in price by as much as 90\% \citep{demireretal2025}. A subscription buyer is insulated from both the deflationary curve and the cross-provider heterogeneity: the cost paid per month is fixed by the plan, and the cost paid per request is set by the vendor's multiplier table rather than by inference economics. Measuring dollar-equivalent token cost would therefore reflect a quantity that neither framework's user actually incurs. GitHub Actions minutes consumed by Copilot cloud agents are also out of scope: neither APM nor Spec-kit invokes the cloud agent feature in the testbed task, so the dual-consumption mechanism documented for cloud agents does not apply.\footnote{Dual consumption of premium requests and Actions minutes by Copilot cloud agents documented at: \url{https://docs.github.com/en/billing/concepts/product-billing/github-copilot-premium-requests}}
 
 \subsubsection{Reliability Metrics}
 
-\placeholder{Forthcoming. Will cover platform-agnostic measures of system competence — tool success rate, tool retry rate, and user edit rate on terminal commands — as indicators of how autonomously each framework executes work.}
+The reliability metrics capture how autonomously each framework executes work once a task has been delegated to an AI agent. Prior empirical work has shown that the acceptance rate of AI-generated output is one of the strongest observable predictors of perceived productivity \citep{ziegleretal2024}, and that acceptance rates in field settings can fall below 44\% for experienced developers working on mature codebases \citep{beckeretal2025}. When suggestions are accepted but later modified, the modification itself reflects a reliability gap: the agent produced output close enough to be useful but not correct enough to be used as is. The metrics below operationalize these reliability signals directly from the tool-call and code-modification events in the Copilot chat export.
+
+The \textbf{tool success rate} is the proportion of agent tool invocations that return a non-error result. The \textbf{tool retry rate} is the proportion of tool invocations followed by a repeated call to the same tool with adjusted arguments within the same agent turn, indicating that the first attempt failed or was rejected. The \textbf{user edit rate on terminal commands} is the proportion of terminal-execution tool calls whose command string was modified by the user before execution rather than executed verbatim, indicating a lack of trust in the agent's generated command. Together these metrics capture the frequency with which agents produce directly usable output rather than output requiring re-attempts or human correction.
 
 \subsubsection{Process Metrics}
 
-\placeholder{Forthcoming. Will cover behavior distribution (ratios of short, protocol, and standard user inputs), behavior magnitude (average characters per input bucket), and session duration, as indicators of the human coordination burden each framework imposes.}
+The process-efficiency metrics capture the human coordination burden each framework imposes across a session. Developer productivity is conventionally measured along the SPACE dimensions: satisfaction, performance, activity, communication, and efficiency. Recent empirical work has documented that AI coding assistants shift the allocation of developer time toward review and prompting activities rather than active coding \citep{ziegleretal2024, beckeretal2025}. \citet{beckeretal2025} measured that developers allowed to use AI tools spent 9\% of their time reviewing AI output, 8\% prompting, and 4\% waiting, while accepting fewer than 44\% of generated suggestions. The metrics below operationalize the user's coordination effort in a form extractable directly from the Copilot chat exports.
+
+The primary process metrics characterize the distribution and magnitude of user inputs during a session. Each user message is assigned to one of three buckets: short (brief acknowledgments or routing messages), protocol (framework-protocol messages such as APM handoff routing or Spec-kit slash-command invocations), and standard (substantive task-related prompts). The \textbf{behavior distribution} reports the share of each bucket in the session's total user-message count. The \textbf{behavior magnitude} reports the average character count per bucket. Together these views expose whether a framework's user burden is concentrated in mechanical message-shuttling (high protocol share, low magnitude) or in substantive problem-solving (high standard share, high magnitude).
+
+\textbf{Session duration} is measured as the wall-clock time from the first user message of the session to the last assistant message. For APM, this spans all of the Planner, Manager, and Worker conversations belonging to the session. For Spec-kit, this is the span of the single conversation from session start to completion.
+
+The shape of this metric set follows the verification-burden pattern documented in enterprise-scale AI coding studies \citep{paradisetal2024, cuietal2025}. In those settings, developers with heavier daily coding practice extracted disproportionately larger speed benefits from AI assistance, consistent with the hypothesis that verifying generated output imposes a cognitive cost that scales with prompt complexity. A framework that keeps user inputs short and protocol-routed trades substantive prompt engineering for higher-volume mechanical coordination. A framework that pushes the user toward long substantive prompts makes the opposite trade, requiring more per-prompt engineering effort in return for fewer coordinating interactions \citep{vukovicetal2026}.
+
+\newpage
 
 \subsubsection{Functional Metrics}
 
-The functional dimension is evaluated against the 100-point grading rubric introduced in Section~1.3.2. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
+The functional dimension is evaluated against the 100-point grading rubric introduced in Section~\ref{sec:grading}. Final code artifacts (\texttt{.patch} files) are scored across three dimensions:
 
 \begin{itemize}
     \item Baseline Regression: ensures that existing functionality (12 points) remains intact after the patch is applied, isolating the framework's impact on code stability.
@@ -216,7 +233,7 @@ The functional dimension is evaluated against the 100-point grading rubric intro
     \item Robustness: edge-case handling including authentication failures, invalid inputs, empty responses, and memory safety (Valgrind validation for the C implementation).
 \end{itemize}
 
-\newpage
+This three-dimensional scoring captures partial credit across baseline preservation, feature-level correctness, and robustness, rather than collapsing task completion into a single binary outcome of the kind commonly used in prior empirical work on AI coding assistants \citep{cuietal2025, pengetal2023, paradisetal2024}.
 
 % ============================================================================
 % RESULTS PLACEHOLDER
@@ -233,11 +250,21 @@ Primary metrics: total score distribution, completion rates (100/100, 49--99, 12
 
 Category analysis: success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations, identifying framework-specific failure patterns.
 
-Comparative analysis: t-tests comparing APM vs.\ Spec-kit for total score, category scores, and completion rates, with effect sizes (Cohen's d) to assess practical significance.
+Comparative analysis: paired t-tests comparing APM and Spec-kit for total score, category scores, and completion rates. Each test is accompanied by a standardized effect-size estimate, Cohen's $d$, which expresses the mean difference between two groups in pooled-standard-deviation units and distinguishes statistical significance from practical significance.
+
+\placeholder{Forthcoming. Quantitative results of the analyses above, including score distributions, per-category success rates, and paired statistical comparisons between APM and Spec-kit with their associated effect-size estimates.}
 
 \subsection{Economic and Process Efficiency Analysis}
 
-\placeholder{Forthcoming. Unified analysis of the economic and process metrics introduced in Section~\ref{sec:metrics}, correlated with the functional outcomes.}
+Economic and process metrics defined in Section~\ref{sec:metrics} are compared between frameworks on a per-participant paired basis. For the primary cost metric (premium requests per session), paired t-tests compare the APM and Spec-kit distributions across the cohort, with Cohen's $d$ reported alongside each test to quantify effect size. The phase-broken secondary cost metric is reported as the mean share of planning-phase versus implementation-phase requests per framework.
+
+For process metrics, behavior distribution and behavior magnitude are reported by input bucket for each framework. Per-bucket paired t-tests are applied to the participant-level differences across the short, protocol, and standard buckets. Session duration is compared using the same paired t-test approach.
+
+Correlation analysis relates the cost and process metrics to the functional rubric score. Pearson correlation coefficients are reported for premium-requests-per-session against total rubric score, and for session duration against rubric score, both within each framework and across the combined cohort. These correlations surface whether framework-induced variation in cost or process burden translates into functional outcomes.
+
+\placeholder{Forthcoming. Quantitative results of the analyses above, including per-session request deltas, phase-broken breakdowns, behavior-distribution and magnitude tables, session durations, and the correlation coefficients relating cost and process metrics to functional outcomes.}
+
+\newpage
 
 \subsection{Learning Effects and Confounding}
 
@@ -253,6 +280,8 @@ Analysis strategy:
 
 Key questions: does task learning confound framework comparisons? Is there a preferred first framework that maximizes S2 improvement? How should learning effects be controlled for when comparing frameworks?
 
+\placeholder{Forthcoming. Quantitative results of the learning-effect analysis, including the S1-to-S2 improvement matrix across framework orderings, the order-effect comparison, and the baseline-learning estimate.}
+
 % ============================================================================
 % DISCUSSION PLACEHOLDER
 % ============================================================================
@@ -262,24 +291,52 @@ Key questions: does task learning confound framework comparisons? Is there a pre
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Cost-Benefit Analysis: Context Overhead vs. Failure Prevention}
+\subsection{Economic Efficiency}
 
-\placeholder{Forthcoming. Synthesises the cost metrics with functional outcomes to assess whether APM's structural overhead is justified by improved reliability.}
+\placeholder{Forthcoming. Synthesises the observed per-session request deltas against Lambrecht, Seim, and Skiera's (2007) allowance-dominance finding and the single-model concentration pattern documented by Demirer et al. (2025), to assess whether measured differences between APM and Spec-kit translate into meaningful cost-exposure shifts for the buyer.}
 
-\subsection{Process Efficiency: Protocol Overhead vs. Intervention Reduction}
+\subsection{Process Efficiency}
 
-\placeholder{Forthcoming. Synthesises the process metrics to assess whether APM's coordination overhead is offset by reduced intervention burden on the User.}
+\placeholder{Forthcoming. Synthesises the observed behavior-distribution and session-duration deltas against the verification-burden pattern documented by Paradis et al. (2024) and the coordination-time breakdown from Becker et al. (2025), to assess whether APM's structural coordination overhead is offset by a reduced per-interaction verification burden on the user.}
 
-\subsection{Functional Efficacy: Reliability and Failure Patterns}
+\subsection{Functional Efficacy}
 
-\placeholder{Forthcoming. Synthesises functional scores, completion rates, and failure patterns to characterise each framework's reliability.}
-
-\subsection{Learning Effects: Confounding and Framework Transferability}
-
-\placeholder{Forthcoming. Interprets the learning-effect matrix from Section~\ref{sec:results} and discusses how first-to-second session improvement affects the framework comparison.}
+\placeholder{Forthcoming. Synthesises rubric scores and completion rates against the Cui et al. (2025) +26\% enterprise baseline and the Becker et al. (2025) slowdown finding on mature codebases, to characterise each framework's efficacy on complex tasks that stress single-context-window workflows.}
 
 \subsection{Threats to Validity}
 
-\placeholder{Forthcoming. Enumerates the internal, external, and construct validity threats relevant to the study and the mitigations applied.}
+This subsection enumerates internal, external, and construct validity threats and the mitigations applied.
+
+\subsubsection{Internal Validity}
+
+\textbf{Learning effects from the within-subjects design.} Each participant completes the same task twice, and task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants mitigates the framework-effect confound but does not eliminate the underlying learning curve. The Learning Effects analysis in Section~\ref{sec:results} quantifies the mean improvement between sessions across both orderings and is the primary defence against this threat.
+
+\textbf{Participant experience heterogeneity.} Productivity and process-efficiency effects of AI coding assistants vary with developer experience and daily coding volume \citep{pengetal2023, ziegleretal2024, paradisetal2024}. The within-subjects design partially absorbs cross-participant variance by pairing each participant with themselves, but residual dispersion may limit the precision of cohort-level estimates.
+
+\textbf{Self-reported versus observed measures.} Subjective developer-reported productivity often diverges from objective time-in-motion measurements, occasionally in the opposite direction \citep{beckeretal2025, pengetal2023}. This study reports only instrumented, export-derived metrics and does not combine them with self-reports, which limits the process-efficiency findings to measurable coordination activity rather than subjective effort or satisfaction.
+
+\subsubsection{External Validity}
+
+\textbf{Single-vendor, single-model evaluation.} The case study is run exclusively on GitHub Copilot with a fixed $1{\times}$ multiplier model. Empirical enterprise data shows that most API workloads concentrate on a single model even when multi-homing is available, with more than 90\% of volume typically routed to a single chosen model \citep{demireretal2025}. The design therefore reflects empirical adoption patterns, but the findings do not generalise to settings where frameworks dynamically route between models.
+
+\textbf{Task complexity and domain specificity.} The testbed task is a complex software engineering assignment requiring two-language implementation and legacy-codebase research. In an empirical analysis of twelve commercial LLM use-case categories, \citet{demireretal2025} report that programming commands both the highest average intelligence index and the highest willingness to pay among buyers. The chosen testbed is therefore representative of the domain most sensitive to marginal AI capability, but not of administrative, analytical, or creative workflows.
+
+\textbf{Lab-to-field generalisation gap.} Lab-style productivity measurements for AI coding assistants have exceeded enterprise field measurements by more than a factor of two, and experienced developers on mature codebases have been observed to be slower with AI than without \citep{pengetal2023, cuietal2025, beckeretal2025}. The case study is positioned between lab and field conditions, and its measurements are neither pure laboratory benchmarks nor natural-setting observations.
+
+\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Specific effect sizes are tied to the model version, the Copilot pricing parameters, and the framework releases available during the participant window. The three-part tariff allowance sizes and model multipliers are subject to vendor change, and cost-efficiency findings are defensible against current pricing but may require re-estimation under materially different parameters \citep{lambrechtseimskiera2007}.
+
+\subsubsection{Construct Validity}
+
+\textbf{Cost measured within a single procurement model.} The cost metric measures share of the monthly premium-request allowance consumed within the subscription-plus-quota procurement model. It does not measure dollar-equivalent inference cost, which is decoupled from the subscription price and has declined by roughly three orders of magnitude over the preceding two years \citep{demireretal2025}. The subscription buyer is by definition insulated from that translation, so the scoping is intentional rather than a defect.
+
+\textbf{Behavioral input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets are defined for this study and extracted from the chat-export content. They are not validated against an external coordination-burden instrument such as the SPACE framework \citep{ziegleretal2024} or the NASA Task Load Index. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
+
+\textbf{Binary functional outcomes.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Prior empirical work on AI coding assistants has consistently noted that code-quality dimensions are not captured by pass/fail functional measurement \citep{paradisetal2024, cuietal2025}, and this study inherits that limitation.
+
+\textbf{Chat-export data scope.} Metric extraction is limited to the per-conversation JSON exports produced from the VS Code Command Palette. Inline code-completion events that do not appear in the chat export are invisible to the metric set. The reliability and process metrics therefore characterise only the agent-driven portion of the workflow rather than the full IDE interaction.
+
+\newpage
+
+\bibliography{references}
 
 \end{document}
