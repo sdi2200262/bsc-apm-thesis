@@ -69,31 +69,38 @@ The case study uses two repositories. The task repository (\texttt{bsc-apm-case-
 All tests run against fixed baseline commits:
 
 \begin{itemize}
-    \item \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} (main branch)
-    \item \texttt{openeclass} at commit \texttt{e8b3329} (Docker image \texttt{openeclass:test})
+    \item \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} (main branch).
+    \item \texttt{openeclass} at commit \texttt{e8b3329} (Docker image \texttt{openeclass:test}).
 \end{itemize}
 
 The grading infrastructure applies participant patches against these exact versions. A submission with no patch applied receives the baseline score of 12/100, representing only the existing Python functionality. Environment setup, Docker configuration, and test data seeding are documented in \texttt{grader/SETUP.md}.
 
-\subsection{Test Suite}
+\subsection{Grader Environment Replication}
+\label{sec:grader-env}
 
-The test suite has three categories totaling 100 points:
+Grading runs against a Docker-based replica of the openeclass platform rather than against the live University of Athens instance that participants develop against. The replica pins openeclass to the baseline commit \texttt{e8b3329}, seeds deterministic fixture data for courses, announcements, and users, and handles authentication through an SSO mock standing in for the live SAML provider. Together these make every grading run reproducible: the same patch produces the same score independent of live-instance availability or content drift.
 
-\begin{itemize}
-    \item Python Baseline (12 points):11 test cases covering build, protocol compliance, login, logout, courses, and authentication status.
+The replica and the live instance are not bit-identical. Divergence modes that can in principle affect grading outcomes (timezone handling of announcement dates, locale-sensitive parsing of Greek date strings, session-cookie lifecycle and scoping, and cross-origin behavior between the MCP server and the SSO mock) are discussed as a threat to construct validity in the Discussion. Replica-construction details live in the grader \texttt{SETUP.md} and \texttt{PIPELINE.md} documents.
 
-    \item Python Features (36 points):12 test cases split evenly between the two announcement tools (18 points each), covering error handling, date filtering, output format, and source aggregation.
+\subsection{Grading Pipeline}
+\label{sec:pipeline}
 
-    \item C Replica (52 points):28 test cases covering compilation, Valgrind memory safety, protocol compliance, and all six tools (login, logout, courses, authstatus, and both announcement tools).
-\end{itemize}
+The grading pipeline has six stages with manifest-based checkpointing:
 
-Point allocations and test definitions are in \texttt{grader/src/scorer.py}; the scoring rubric is in \texttt{task/SCORING.md}.
+\begin{enumerate}
+    \item Validation: verifies zip structure and naming format.
+    \item Grading: runs the black-box test suite against Python and C implementations.
+    \item Parsing: extracts interaction metrics from chat exports and applies the encryption described in Section~\ref{sec:privacy}.
+    \item Combination: merges grading results with interaction metrics into unified result files.
+    \item Dataset Aggregation: appends processed data to platform-level CSV datasets.
+    \item Integrity Validation: verifies dataset consistency against manifest checksums.
+\end{enumerate}
 
-\newpage
+Manifests are stored per-platform, recording checksums and timestamps at each stage. Pipeline documentation is in \texttt{grader/PIPELINE.md}.
 
-\subsection{Submission Workflow}
+\subsection{Submission Workflow and Format}
 
-Each participant completes the task twice in isolated sessions. For each session, the participant creates a dedicated Git branch from the clean \texttt{main} baseline (e.g., \texttt{s1\_apm}), works on the task using the assigned framework, then generates a solution patch as the diff between \texttt{main} and the session branch. After exporting chat logs and saving the patch, the session branch is deleted before the second session begins.
+Each participant completes the task twice in isolated sessions, each session time-boxed to three hours. For each session, the participant creates a dedicated Git branch from the clean \texttt{main} baseline (for example, \texttt{s1\_apm}), works on the task using the assigned framework, then generates a solution patch as the diff between \texttt{main} and the session branch. After exporting chat logs and saving the patch, the session branch is deleted before the second session begins.
 
 \subsubsection{Submission Format}
 \label{sec:submission-format}
@@ -104,41 +111,57 @@ Submissions follow a fixed naming convention for automated processing:
 \texttt{\{PID\}\_\{S1|S2\}\_\{platform\}\_\{tool\}\_submission.zip}
 \end{center}
 
-The fields are: participant ID (e.g., \texttt{P001}), session number, platform identifier (\texttt{copilot}), and framework identifier (\texttt{apm} or \texttt{spec-kit}).
-
-Each zip contains two items:
+The fields are: participant ID (for example, \texttt{P001}), session number, platform identifier (\texttt{copilot}), and framework identifier (\texttt{apm} or \texttt{spec-kit}). Each zip contains two items:
 
 \begin{enumerate}
     \item A patch file (\texttt{\_solution.patch}) generated via \texttt{git diff main <branch>}.
     \item A logs folder (\texttt{\_logs/chats/}) containing exported Copilot conversations in JSON format.
 \end{enumerate}
 
-The participant guide (\texttt{participant-guide-copilot.tex}) provides full instructions for environment setup, chat export, and submission packaging.
+The per-session submission is uploaded alongside the post-session questionnaire response through a single web form. Full instructions for environment setup, chat export, and submission packaging are provided in the participant guide (\texttt{participant-guide-copilot.tex}).
 
-\subsection{Data Privacy and Anonymization}
+\subsection{Data Privacy and Sanitization}
 \label{sec:privacy}
 
 All chat exports are anonymized and encrypted during the parsing stage of the grading pipeline.
 
-Each conversation is assigned a unique chat ID computed as the first 16 hexadecimal characters of a SHA256 hash over concatenated user messages. This ID is computed before encryption and preserved in plaintext alongside the following metadata: distinct model IDs, total request count, sanitization timestamp, and original payload size. This metadata enables dataset organization and integrity validation without requiring decryption.
+Each conversation is assigned a unique chat ID computed as the first 16 hexadecimal characters of a SHA256 hash over concatenated user messages. This ID is computed before encryption and preserved in plaintext alongside the following metadata: distinct model IDs, total request count, sanitization timestamp, and original payload size. The metadata enables dataset organization and integrity validation without requiring decryption.
 
 Conversation content is encrypted using an HMAC-SHA256 XOR cipher. A random salt seeds keystream expansion; the serialized chat payload is XOR-encrypted against this keystream and stored in the format \texttt{ENC:<salt>:<ciphertext>}, both Base64-encoded. Decryption with the shared secret produces output bitwise-identical to the original.
 
-\newpage
+\subsection{Copilot Procurement Model}
+\label{sec:procurement}
 
-\subsection{Grading Pipeline}
+GitHub Copilot is sold as a three-part tariff: a per-seat monthly access price, an included allowance of premium requests per user per month, and a marginal charge of \$0.04 for each premium request beyond the allowance.\footnote{Tiered plans and allowances documented at: \url{https://docs.github.com/en/copilot/get-started/plans}; premium-request billing and overage rates documented at: \url{https://docs.github.com/en/billing/concepts/product-billing/github-copilot-premium-requests}} Allowance sizes as of May 2026 are: Student (300 premium requests per month, free through the GitHub Education Pack), Pro (300), Pro+ (1{,}500), Business (300 per seat), and Enterprise (1{,}000 per seat).
 
-The grading pipeline has six stages with manifest-based checkpointing:
+Each supported model is associated with a \textbf{premium-request multiplier} that determines how many premium requests a single model interaction consumes. A $1{\times}$ model consumes one premium request per interaction; reasoning and fast-mode models apply larger multipliers (common values are $3{\times}$, $5{\times}$, and $30{\times}$). The published multiplier table is periodically updated, and promotional multipliers are time-limited and subject to vendor change.\footnote{Supported models and plan availability documented at: \url{https://docs.github.com/en/copilot/reference/ai-models/supported-models}}
 
-\begin{enumerate}
-    \item Validation:verifies zip structure and naming format.
-    \item Grading:runs the black-box test suite against Python and C implementations.
-    \item Parsing:extracts interaction metrics from chat exports and applies the encryption described in Section~\ref{sec:privacy}.
-    \item Combination:merges grading results with interaction metrics into unified result files.
-    \item Dataset Aggregation:appends processed data to platform-level CSV datasets.
-    \item Integrity Validation:verifies dataset consistency against manifest checksums.
-\end{enumerate}
+All case-study sessions use GPT-5.4, a $1{\times}$ premium-request model available on every plan tier relevant to the participant pool. Holding the model fixed at a uniform $1{\times}$ multiplier eliminates multiplier-induced variance in the economic metric across frameworks and across the two sessions of each participant.
 
-Manifests are stored per-platform, recording checksums and timestamps at each stage. Pipeline documentation is in \texttt{grader/PIPELINE.md}.
+The Copilot cloud-agent feature invokes a second consumption stream alongside premium requests (GitHub Actions minutes), but neither APM nor Spec-kit invokes cloud agents in the testbed task, so the dual-consumption mechanism is out of scope for the case study.
+
+\subsection{Framework Phase Detection}
+\label{sec:phase-detection}
+
+The secondary economic metric and the Analysis Plan both rely on a planning-versus-implementation phase split for each framework session. Because the two frameworks express phases differently, detection uses framework-specific rules applied at parse time.
+
+For \textbf{APM}, the phase boundary coincides with conversation identity: the Planner conversation counts as planning phase, and the Manager and Worker conversations count as implementation phase. Conversation identities are preserved in the chat-export filenames and in the exported metadata, so detection is a lookup rather than a heuristic.
+
+For \textbf{Spec-kit}, the phase boundary is the \texttt{/speckit.implement} slash-command invocation. All requests from the first user message up to and including the last pre-implement command count as planning phase; the pre-implement command set is \texttt{/speckit.constitution}, \texttt{/speckit.specify}, \texttt{/speckit.plan}, \texttt{/speckit.tasks}, \texttt{/speckit.clarify}, \texttt{/speckit.analyze}, and \texttt{/speckit.checklist}. All requests from \texttt{/speckit.implement} onward count as implementation phase.
+
+Detection is applied independently per participant submission, and the phase-broken counts are aggregated at the cohort level in the results analysis.
+
+\subsection{Test Suite Composition}
+\label{sec:test-suite}
+
+The test suite has three categories totaling 100 points:
+
+\begin{itemize}
+    \item Python Baseline (12 points): 11 test cases covering build, protocol compliance, login, logout, courses, and authentication status.
+    \item Python Features (36 points): 12 test cases split evenly between the two announcement tools (18 points each), covering error handling, date filtering, output format, and source aggregation.
+    \item C Replica (52 points): 28 test cases covering compilation, Valgrind memory safety, protocol compliance, and all six tools (login, logout, courses, authstatus, and both announcement tools).
+\end{itemize}
+
+Point allocations and test definitions are in \texttt{grader/src/scorer.py}; the scoring rubric is in \texttt{task/SCORING.md}.
 
 \end{document}

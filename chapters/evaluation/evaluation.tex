@@ -120,7 +120,7 @@ The evaluation tests whether this multi-agent overhead produces measurably bette
 
 \subsection{Testbed and Task Design}
 
-To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
+To evaluate the frameworks under realistic constraints, we utilized an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments. The case study's own material is organized across two repositories, a public task repository and a restricted-access dataset repository for submitted participant data; both are documented in the evaluation appendix.
 
 \subsubsection{Task Description}
 
@@ -145,11 +145,9 @@ Key technical challenges:
 \subsubsection{Grading}
 \label{sec:grading}
 
-Submissions are evaluated using an automated black-box test suite with comprehensive validation, grading, metric extraction, and dataset aggregation capabilities (see the evaluation appendix for detailed infrastructure documentation).\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}}
+Submissions are evaluated by an automated black-box test suite that applies each participant's patch against fixed baseline commits of the upstream repositories and runs a comprehensive test battery.\footnote{Grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task/tree/main/grader}} The test suite awards 100 points total: 12 points for baseline functionality (existing Python tools), 36 points for the two new Python features (18 points each), and 52 points for the C replica implementation. A submission with no patch applied receives the baseline score of 12/100 points.
 
-The test suite awards 100 points total: 12 points for baseline functionality (existing Python tools), 36 points for the two new Python features (18 points each), and 52 points for the complete C replica implementation. A submission with no patch applied receives the baseline score of 12/100 points.
-
-All tests run against fixed baseline commits to ensure reproducibility: \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} and \texttt{openeclass} at commit \texttt{e8b3329}.
+The grader runs these tests against a Docker-based replica of the openeclass platform rather than against the live University instance that participants develop against. Baseline commits, the replica environment, the multi-stage grading pipeline, and the test-suite composition are documented in the evaluation appendix.
 
 \subsection{Study Design}
 
@@ -167,7 +165,7 @@ Each session produces three artifacts that together form the participant submiss
 
 Because GitHub Copilot is billed per seat with a monthly premium-request allowance and a marginal per-request charge for overage consumption, the per-conversation request counts preserved in the export metadata correspond directly to the unit in which the buyer's cost is incurred.\footnote{Premium-request billing structure and overage rates documented at: \url{https://docs.github.com/en/billing/concepts/product-billing/github-copilot-premium-requests}} The Copilot procurement model (three-part tariff, plan allowances, and model multipliers) is described in the evaluation appendix.
 
-APM's multi-agent workflow spans multiple Copilot conversations within a single session (one for the Planner, one for the Manager, and multiple for the Workers), while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view.
+APM's multi-agent workflow spans multiple Copilot conversations within a single session (one for the Planner, one for the Manager, and multiple for the Workers), while Spec-kit operates within a single conversation. To keep the two frameworks comparable, all metrics are computed by aggregating every conversation file belonging to a participant submission into a unified session-level view. Participant data is anonymized and encrypted before storage; the sanitization scheme is documented in the evaluation appendix.
 
 \subsubsection{Participant Pool}
 
