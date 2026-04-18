@@ -40,6 +40,10 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.5\baselineskip}
 
+% Allow a small amount of extra inter-word stretch as a last resort when
+% breaking paragraphs, to avoid minor overfull boxes in dense prose.
+\setlength{\emergencystretch}{3em}
+
 \begin{document}
 
 % ============================================================================
@@ -219,43 +223,21 @@ Learning effects are analyzed separately across the counterbalanced orderings. A
 \section{Results}
 \label{sec:results}
 
-\subsection{Functional Performance Analysis}
+\subsection{Economic}
 
-Primary metrics: total score distribution, completion rates (100/100, 49--99, 12--48, baseline-only), baseline regression rates, and feature implementation success rates for Python and C.
+\placeholder{Forthcoming. Quantitative results for the primary metric (premium requests per session) and the secondary phase-broken breakdown. Tables: paired APM-versus-Spec-kit distributions with paired $t$-test statistics, $p$-values, and Cohen's $d$; planning-versus-implementation phase shares per framework; Pearson correlations against rubric score within and across frameworks.}
 
-Category analysis: success rates per test category (build, protocol, login, logout, courses, authstatus, announcements) for both Python and C implementations, identifying framework-specific failure patterns.
+\subsection{Process}
 
-Comparative analysis: paired t-tests comparing APM and Spec-kit for total score, category scores, and completion rates. Each test is accompanied by a standardized effect-size estimate, Cohen's $d$, which expresses the mean difference between two groups in pooled-standard-deviation units and distinguishes statistical significance from practical significance.
+\placeholder{Forthcoming. Quantitative results for the user-burden and reliability metrics. Tables: behavior distribution and magnitude per bucket (short, protocol, standard) paired across frameworks with $t$-statistics and Cohen's $d$; tool success rate, tool retry rate, and user edit rate on terminal commands per framework; session-duration distributions against the three-hour cap; Pearson correlations against rubric score. Self-reported workload items from the post-session questionnaire are reported alongside the instrumented coordination metrics.}
 
-\placeholder{Forthcoming. Quantitative results of the analyses above, including score distributions, per-category success rates, and paired statistical comparisons between APM and Spec-kit with their associated effect-size estimates.}
+\subsection{Functional}
 
-\subsection{Economic and Process Efficiency Analysis}
+\placeholder{Forthcoming. Quantitative results for the 100-point rubric. Tables: total score distribution, completion-rate bands (full 100/100, partial 49--99, partial 12--48, baseline-only 12/100), baseline-regression rates, per-test-category success rates (build, protocol, login, logout, courses, authstatus, announcements) for both the Python and C implementations, and paired framework comparisons with $t$-statistics and Cohen's $d$. Perceived framework effectiveness from the post-session questionnaire is reported alongside the rubric outcomes.}
 
-Economic and process metrics defined in Section~\ref{sec:metrics} are compared between frameworks on a per-participant paired basis. For the primary cost metric (premium requests per session), paired t-tests compare the APM and Spec-kit distributions across the cohort, with Cohen's $d$ reported alongside each test to quantify effect size. The phase-broken secondary cost metric is reported as the mean share of planning-phase versus implementation-phase requests per framework.
+\subsection{Learning Effects}
 
-For process metrics, behavior distribution and behavior magnitude are reported by input bucket for each framework. Per-bucket paired t-tests are applied to the participant-level differences across the short, protocol, and standard buckets. Session duration is compared using the same paired t-test approach.
-
-Correlation analysis relates the cost and process metrics to the functional rubric score. Pearson correlation coefficients are reported for premium-requests-per-session against total rubric score, and for session duration against rubric score, both within each framework and across the combined cohort. These correlations surface whether framework-induced variation in cost or process burden translates into functional outcomes.
-
-\placeholder{Forthcoming. Quantitative results of the analyses above, including per-session request deltas, phase-broken breakdowns, behavior-distribution and magnitude tables, session durations, and the correlation coefficients relating cost and process metrics to functional outcomes.}
-
-\newpage
-
-\subsection{Learning Effects and Confounding}
-
-Participants complete the same task twice (Session 1 and Session 2) using different frameworks. This creates a learning effect where task familiarity from S1 influences S2 performance, potentially confounding framework comparisons.
-
-Analysis strategy:
-
-\begin{itemize}
-    \item Learning Effect Matrix: calculate mean improvement from S1 to S2 for both framework orderings across all metrics (functional scores, cost, process efficiency).
-    \item Order Effect: compare APM-first vs.\ Spec-kit-first directions to test whether order of framework exposure affects learning.
-    \item Baseline Learning: overall mean improvement across both directions (pure task learning effect regardless of framework).
-\end{itemize}
-
-Key questions: does task learning confound framework comparisons? Is there a preferred first framework that maximizes S2 improvement? How should learning effects be controlled for when comparing frameworks?
-
-\placeholder{Forthcoming. Quantitative results of the learning-effect analysis, including the S1-to-S2 improvement matrix across framework orderings, the order-effect comparison, and the baseline-learning estimate.}
+\placeholder{Forthcoming. Quantitative results for the learning-effect analysis: first-to-second-session improvement matrix across framework orderings for functional, economic, and process metrics; order-effect comparison between APM-first and Spec-kit-first directions; and the aggregate baseline task-learning estimate across orderings.}
 
 % ============================================================================
 % DISCUSSION PLACEHOLDER
@@ -268,15 +250,15 @@ Key questions: does task learning confound framework comparisons? Is there a pre
 
 \subsection{Economic Efficiency}
 
-\placeholder{Forthcoming. Synthesises the observed per-session request deltas against Lambrecht, Seim, and Skiera's (2007) allowance-dominance finding and the single-model concentration pattern documented by Demirer et al. (2025), to assess whether measured differences between APM and Spec-kit translate into meaningful cost-exposure shifts for the buyer.}
+\placeholder{Forthcoming. Synthesis anchors: \citet{lambrechtseimskiera2007} on allowance-size dominance over marginal price under demand uncertainty, translating any observed per-session request delta into a shift in the buyer's monthly-allowance exposure; \citet{demireretal2025} on the subscription-predictability premium over metered inference and the single-model concentration pattern in enterprise workloads, situating the cost finding within the broader LLM procurement landscape; \citet{liandkumar2022} on predictable operating cost as the primary driver of SaaS pricing structure, grounding why monthly-allowance exposure is the buyer-relevant cost signal. Observation links: per-session and phase-broken request deltas, share of allowance consumed per framework, and the phase breakdown read against the workflow structures described in Section~\ref{sec:frameworks}.}
 
 \subsection{Process Efficiency}
 
-\placeholder{Forthcoming. Synthesises the observed behavior-distribution and session-duration deltas against the verification-burden pattern documented by Paradis et al. (2024) and the coordination-time breakdown from Becker et al. (2025), to assess whether APM's structural coordination overhead is offset by a reduced per-interaction verification burden on the user.}
+\placeholder{Forthcoming. Synthesis anchors: \citet{beckeretal2025} on the time-allocation breakdown of AI-assisted coding (review, prompt, wait) and the sub-44\% acceptance rate, establishing the verification-burden shape to which observed deltas are compared; \citet{paradisetal2024} on the scaling of verification cost with coder experience, interpreting any across-framework asymmetry in prompt magnitude; \citet{ziegleretal2024} on acceptance rate as the strongest observable predictor of perceived productivity, connecting the reliability sub-metrics to perceived productivity; \citet{vukovicetal2026} on multi-file architect reasoning as an unmet enterprise requirement, framing the structural motivation for the multi-agent comparison; \citet{cuietal2025} on the build-count versus pull-request-count asymmetry, giving a coordination-burden signature against which behavior-distribution shifts are read. Observation links: behavior distribution and magnitude deltas per bucket, reliability sub-metrics (tool success, retry, and user-edit rates), session-duration distributions against the three-hour cap, and self-reported workload items from the post-session questionnaire paired against the instrumented coordination measures.}
 
 \subsection{Functional Efficacy}
 
-\placeholder{Forthcoming. Synthesises rubric scores and completion rates against the Cui et al. (2025) +26\% enterprise baseline and the Becker et al. (2025) slowdown finding on mature codebases, to characterise each framework's efficacy on complex tasks that stress single-context-window workflows.}
+\placeholder{Forthcoming. Synthesis anchors: \citet{cuietal2025} on the +26\% pull-request-completion baseline observed in enterprise-field conditions, the reference point for cross-framework functional comparison; \citet{pengetal2023} on the 55.8\% time-reduction finding in the isolated-task lab setting, establishing the lab-to-field gradient against which the case-study setting is positioned; \citet{beckeretal2025} on the 19\% slowdown of experienced developers working with AI on mature complex repositories, framing the single-context-window limit case that the testbed task is designed to challenge; \citet{vukovicetal2026} on multi-file architect reasoning as the top unmet enterprise requirement, connecting observed functional outcomes to the design motivation for multi-agent coordination. Observation links: total rubric score, per-category test-category success rates, completion-rate bands distinguishing full, partial, and baseline-only outcomes, framework-specific failure patterns, and perceived framework effectiveness from the post-session questionnaire reported alongside the rubric outcomes.}
 
 \subsection{Threats to Validity}
 
