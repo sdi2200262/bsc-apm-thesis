@@ -59,8 +59,6 @@ The evaluation measures three distinct dimensions:
     \item Functional Efficacy (ability to complete non-trivial tasks)
 \end{itemize}
 
-The remainder of this chapter is organized as follows. Section~\ref{sec:frameworks} describes the two frameworks under evaluation. The subsequent sections specify the testbed and task, the study design, and the metrics and data collection approach. Section~\ref{sec:results} presents the results of the comparison, and Section~\ref{sec:discussion} discusses their implications.
-
 \subsection{Research Objectives}
 
 The primary objective of this research is to determine whether the structural overhead introduced by APM (i.e., the Planning and Implementation phases) yields a tangible return on investment compared to a single-agent workflow. Prior empirical work on AI coding assistants has concentrated on productivity and task-completion time \citep{pengetal2023, cuietal2025, paradisetal2024, ziegleretal2024, vukovicetal2026}, with comparatively little systematic treatment of cost under the subscription-based procurement model through which Copilot is predominantly adopted. This evaluation contributes a cost perspective alongside the process and functional dimensions.
@@ -149,21 +147,6 @@ The test suite awards 100 points total: 12 points for baseline functionality (ex
 
 All tests run against fixed baseline commits to ensure reproducibility: \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} and \texttt{openeclass} at commit \texttt{e8b3329}.
 
-\subsubsection{Repository Architecture and Data Management}
-
-The case study employs a two-repository system separating public resources from sensitive participant data. The task repository (\texttt{bsc-apm-case-study-task}) is openly accessible and includes task specifications, grading infrastructure, and participant guides. The dataset repository (\texttt{bsc-apm-case-study-data}) contains all submitted participant data: code patches, sanitized chat transcripts (see Section~\ref{sec:sanitization}), and anonymized session metadata.
-
-Access to the dataset repository requires explicit authorization and compliance with data usage agreements, enabling peer review and reproducibility while maintaining participant privacy.
-
-\subsubsection{Sanitization and PII Handling}
-\label{sec:sanitization}
-
-Chat exports contain sensitive information (unstructured user-input text, file paths, command histories, timestamps). To protect participant privacy while enabling reproducibility, all exports are sanitized using reversible encryption before storage.
-
-Each chat is assigned a unique identifier via SHA256 hashing of concatenated user messages for anonymous cataloging. Essential metadata (chat ID, model IDs, request count) is preserved in plaintext to enable dataset organization without decryption, while conversation content is encrypted using an HMAC-SHA256 XOR cipher. Detailed technical specifications are provided in the evaluation appendix.
-
-\newpage
-
 \subsection{Study Design}
 
 The study is conducted on a single AI IDE platform, VS Code with GitHub Copilot, and compares the two frameworks across a homogeneous cohort of participants. It is designed as a within-subjects experiment, so that each participant contributes data points for both frameworks and per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
@@ -188,10 +171,6 @@ Participants are drawn from a cohort of University students and working professi
 \label{sec:metrics}
 
 The metrics collected for this study are organized into five categories: session metadata, the three dimensions introduced above (economic efficiency, process efficiency, and functional efficacy), and the functional grading rubric. The subsections below specify each category in turn.
-
-\subsubsection{Session Metadata}
-
-\placeholder{Forthcoming. Will cover the distinct model identifiers used across a session, the per-conversation and project-level timestamps, and the session count for each APM submission.}
 
 \subsubsection{Cost Metrics}
 

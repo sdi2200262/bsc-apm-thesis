@@ -18,12 +18,7 @@
 \usepackage{caption}
 \usepackage{listings}
 \usepackage{url}
-\usepackage[numbers,sort&compress]{natbib}  % Numeric citations
-\bibliographystyle{plainnat}
 \usepackage[bottom,flushmargin]{footmisc}  % Pin footnotes to page bottom, flush left
-
-% Placeholder command for easy visual identification
-\newcommand{\placeholder}[1]{\textcolor{red}{\textit{[#1]}}}
 
 % ============================================================================
 % CONFIGURATION
@@ -64,15 +59,9 @@
 
 All case study source code, specifications, and grading infrastructure are available in a single public repository (\texttt{bsc-apm-case-study-task}).\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}
 
-\subsection{Repository Organization}
+\subsection{Case Study Repositories}
 
-The repository has three top-level directories:
-
-\begin{itemize}
-    \item \texttt{task/}:Product Requirements Document, default prompt, and scoring rubric.
-    \item \texttt{grader/}:Black-box test suite, data processing pipeline, chat parsers, and SSO mock fixtures.
-    \item \texttt{participant-guides/}:LaTeX participant guide for GitHub Copilot.
-\end{itemize}
+The case study uses two repositories. The task repository (\texttt{bsc-apm-case-study-task}) is openly accessible and holds task specifications, grading infrastructure, and participant guides, organized into three top-level directories: \texttt{task/} (Product Requirements Document, default prompt, scoring rubric), \texttt{grader/} (black-box test suite, data processing pipeline, chat parsers, SSO mock fixtures), and \texttt{participant-guides/} (LaTeX participant guide for GitHub Copilot). The dataset repository (\texttt{bsc-apm-case-study-data}) holds all submitted participant data: code patches, sanitized chat transcripts, and anonymized session metadata. Access to the dataset repository requires explicit authorization and compliance with data usage agreements, enabling peer review and reproducibility while maintaining participant privacy.
 
 \subsection{Baseline Reproducibility}
 \label{sec:baseline}
@@ -124,7 +113,7 @@ Each zip contains two items:
     \item A logs folder (\texttt{\_logs/chats/}) containing exported Copilot conversations in JSON format.
 \end{enumerate}
 
-The participant guide (\texttt{participant-guide-copilot.tex}) provides full instructions for environment setup, chat export via the VS Code Command Palette, and submission packaging. \placeholder{Model strategy forthcoming.}
+The participant guide (\texttt{participant-guide-copilot.tex}) provides full instructions for environment setup, chat export, and submission packaging.
 
 \subsection{Data Privacy and Anonymization}
 \label{sec:privacy}
@@ -151,17 +140,5 @@ The grading pipeline has six stages with manifest-based checkpointing:
 \end{enumerate}
 
 Manifests are stored per-platform, recording checksums and timestamps at each stage. Pipeline documentation is in \texttt{grader/PIPELINE.md}.
-
-\subsection{Additional Resources}
-
-All resources live in the public repository:
-
-\begin{description}
-    \item[Task Specification] \texttt{task/}
-    \item[Grading Infrastructure] \texttt{grader/}
-    \item[Participant Guide] \texttt{participant-guides/}
-    \item[Pipeline Documentation] \texttt{grader/PIPELINE.md}
-    \item[Setup Instructions] \texttt{grader/SETUP.md}
-\end{description}
 
 \end{document}
