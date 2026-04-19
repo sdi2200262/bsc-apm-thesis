@@ -136,7 +136,7 @@ GitHub Copilot is sold as a three-part tariff: a per-seat monthly access price, 
 
 Each supported model is associated with a \textbf{premium-request multiplier} that determines how many premium requests a single model interaction consumes. A $1{\times}$ model consumes one premium request per interaction; reasoning and fast-mode models apply larger multipliers (common values are $3{\times}$, $5{\times}$, and $30{\times}$). The published multiplier table is periodically updated, and promotional multipliers are time-limited and subject to vendor change.\footnote{Supported models and plan availability documented at: \url{https://docs.github.com/en/copilot/reference/ai-models/supported-models}}
 
-All case-study sessions use GPT-5.4, a $1{\times}$ premium-request model available on every plan tier relevant to the participant pool. Holding the model fixed at a uniform $1{\times}$ multiplier eliminates multiplier-induced variance in the economic metric across frameworks and across the two sessions of each participant.
+All case-study sessions use GPT-5.3-Codex, a $1{\times}$ premium-request model available on every plan tier relevant to the participant pool. Holding the model fixed at a uniform $1{\times}$ multiplier eliminates multiplier-induced variance in the economic metric across frameworks and across the two sessions of each participant.
 
 The Copilot cloud-agent feature invokes a second consumption stream alongside premium requests (GitHub Actions minutes), but neither APM nor Spec-kit invokes cloud agents in the testbed task, so the dual-consumption mechanism is out of scope for the case study.
 
@@ -159,7 +159,7 @@ The test suite has three categories totaling 100 points:
 \begin{itemize}
     \item Python Baseline (12 points): 11 test cases covering build, protocol compliance, login, logout, courses, and authentication status.
     \item Python Features (36 points): 12 test cases split evenly between the two announcement tools (18 points each), covering error handling, date filtering, output format, and source aggregation.
-    \item C Replica (52 points): 28 test cases covering compilation, Valgrind memory safety, protocol compliance, and all six tools (login, logout, courses, authstatus, and both announcement tools).
+    \item C Replica (52 points): 24 test cases covering compilation, Valgrind memory safety, protocol compliance, and all six tools (login, logout, courses, authstatus, and both announcement tools).
 \end{itemize}
 
 Point allocations and test definitions are in \texttt{grader/src/scorer.py}; the scoring rubric is in \texttt{task/SCORING.md}.
