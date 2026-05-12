@@ -1,22 +1,22 @@
 # BSc APM Thesis
 
-BSc thesis evaluating Agentic Project Management (APM v1) against GitHub Spec-kit on the GitHub Copilot platform.
+BSc thesis evaluating Agentic Project Management (APM v1) against GitHub Spec-kit on the Claude Code CLI platform.
 
 **Status:** Work in Progress
 
 ## Overview
 
-This thesis investigates whether multi-agent coordination structures (like APM) provide tangible benefits over single-agent workflows when applied to complex software development tasks. The case study compares two spec-driven frameworks on a shared IDE platform:
+This thesis investigates whether multi-agent coordination structures provide tangible benefits over single-agent workflows when applied to complex software development tasks. The case study compares two spec-driven frameworks on a shared AI coding platform:
 
 - **APM v1** - Multi-agent, spec-driven (Planner, Manager, Workers; file-based Message Bus)
-- **GitHub Spec-kit** - Single-agent, spec-driven (`specify`, `plan`, `tasks`)
+- **GitHub Spec-kit** - Single-agent, spec-driven (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`)
 
-Both frameworks are open-source and run on GitHub Copilot, so the evaluation isolates the effect of multi-agent coordination overhead rather than platform or tooling differences.
+Both frameworks are open-source and run on the same AI coding CLI, so the evaluation isolates the effect of multi-agent coordination overhead from platform or tooling differences.
 
 The research evaluates three dimensions:
 
-- **Economic Efficiency** - Share of the Copilot monthly request allowance consumed per session
-- **Process Efficiency** - Human cognitive load and interaction burden
+- **Economic Efficiency** - Dollar cost of a session, computed against the platform's per-token rate card
+- **Process Efficiency** - Human coordination and verification burden across a session
 - **Functional Efficacy** - Ability to complete non-trivial tasks that stress single-context-window workflows
 
 ## Repository Structure
@@ -38,9 +38,9 @@ bsc-apm-thesis/
 
 ## Evaluation Methodology
 
-The study is a within-subjects experiment on GitHub Copilot. Each participant completes the case study task twice, once with APM v1 and once with Spec-kit, with the order counterbalanced across the cohort to control for task-familiarity effects. Sessions are time-boxed to three hours.
+The study is a within-subjects experiment on Claude Code. Each participant completes the case study task twice, once with APM v1 and once with Spec-kit, with the order counterbalanced across the cohort to control for task-familiarity effects. Sessions are time-boxed to three hours.
 
-Metrics are extracted programmatically from the Copilot JSON chat exports and organized into three measurement dimensions (economic, process, functional) plus a consolidated analysis plan. Each session's submission bundles the patch, the JSON chat exports, and a post-session questionnaire response. Chat exports are sanitized with HMAC-SHA256 XOR encryption before storage to protect participant privacy while preserving reproducibility.
+Metrics are extracted programmatically from the per-session Claude Code JSONL transcripts and organised into three measurement dimensions (economic, process, functional) plus a consolidated analysis plan. Each session's submission bundles the patch, the transcripts, and a post-session questionnaire response, packaged as a single zip and submitted alongside the questionnaire through one per-session web form. Transcripts are anonymised and encrypted with an HMAC-SHA256 XOR cipher before storage, protecting participant privacy while preserving reproducibility.
 
 Full methodology, including the testbed, the 100-point grading rubric, and infrastructure details, lives in [`chapters/evaluation/`](chapters/evaluation/).
 
@@ -64,8 +64,9 @@ latexmk -c
 
 ## Related Repositories
 
-- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task) - Task specification and grading suite
-- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data) - Participant submissions (private)
+- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task) - Participant package and containerised testing environment
+- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra) - Grading suite, transcript parser, and submission processing pipeline (private)
+- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data) - Participant submissions (restricted access)
 
 ## License
 
