@@ -129,17 +129,6 @@ Each conversation is assigned a unique chat ID computed as the first 16 hexadeci
 
 Conversation content is encrypted using an HMAC-SHA256 XOR cipher. A random salt seeds keystream expansion; the serialized chat payload is XOR-encrypted against this keystream and stored in the format \texttt{ENC:<salt>:<ciphertext>}, both Base64-encoded. Decryption with the shared secret produces output bitwise-identical to the original.
 
-\subsection{Copilot Procurement Model}
-\label{sec:procurement}
-
-GitHub Copilot is sold as a three-part tariff: a per-seat monthly access price, an included allowance of premium requests per user per month, and a marginal charge of \$0.04 for each premium request beyond the allowance.\footnote{Tiered plans and allowances documented at: \url{https://docs.github.com/en/copilot/get-started/plans}; premium-request billing and overage rates documented at: \url{https://docs.github.com/en/billing/concepts/product-billing/github-copilot-premium-requests}} Allowance sizes as of May 2026 are: Student (300 premium requests per month, free through the GitHub Education Pack), Pro (300), Pro+ (1{,}500), Business (300 per seat), and Enterprise (1{,}000 per seat).
-
-Each supported model is associated with a \textbf{premium-request multiplier} that determines how many premium requests a single model interaction consumes. A $1{\times}$ model consumes one premium request per interaction; reasoning and fast-mode models apply larger multipliers (common values are $3{\times}$, $5{\times}$, and $30{\times}$). The published multiplier table is periodically updated, and promotional multipliers are time-limited and subject to vendor change.\footnote{Supported models and plan availability documented at: \url{https://docs.github.com/en/copilot/reference/ai-models/supported-models}}
-
-All case-study sessions use GPT-5.3-Codex, a $1{\times}$ premium-request model available on every plan tier relevant to the participant pool. Holding the model fixed at a uniform $1{\times}$ multiplier eliminates multiplier-induced variance in the economic metric across frameworks and across the two sessions of each participant.
-
-The Copilot cloud-agent feature invokes a second consumption stream alongside premium requests (GitHub Actions minutes), but neither APM nor Spec-kit invokes cloud agents in the testbed task, so the dual-consumption mechanism is out of scope for the case study.
-
 \subsection{Framework Phase Detection}
 \label{sec:phase-detection}
 
