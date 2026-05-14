@@ -57,100 +57,133 @@
 \section{Evaluation Appendix}
 \label{sec:evaluation-appendix}
 
-All case study source code, specifications, and grading infrastructure are available in a single public repository (\texttt{bsc-apm-case-study-task}).\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}}
+This appendix is a lookup-shaped reference for the evaluation chapter. The chapter references individual subsections by name as it needs them; each subsection below is self-contained and may be read in isolation.
 
-\subsection{Case Study Repositories}
+The case study's source code, specifications, and grading infrastructure are split across three repositories. The task repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} carries the task specification, the participant package, and the containerised testing environment that participants download and run during their sessions. The grading-infrastructure repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}} carries the automated grading suite, the transcript parser, and the submission-processing pipeline; it runs on the researcher's machine against each submission. The dataset repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-data}} carries every submitted participant artefact in sanitised form: code patches, transcripts, and session metadata.
 
-The case study uses two repositories. The task repository (\texttt{bsc-apm-case-study-task}) is openly accessible and holds task specifications, grading infrastructure, and participant guides, organized into three top-level directories: \texttt{task/} (Product Requirements Document, default prompt, scoring rubric), \texttt{grader/} (black-box test suite, data processing pipeline, chat parsers, SSO mock fixtures), and \texttt{participant-guides/} (LaTeX participant guide for GitHub Copilot). The dataset repository (\texttt{bsc-apm-case-study-data}) holds all submitted participant data: code patches, sanitized chat transcripts, and anonymized session metadata. Access to the dataset repository requires explicit authorization and compliance with data usage agreements, enabling peer review and reproducibility while maintaining participant privacy.
-
-\subsection{Baseline Reproducibility}
+\subsection{Reference Environments}
 \label{sec:baseline}
 
-All tests run against fixed baseline commits:
+The task is anchored on two open source codebases fixed to specific upstream commits and one containerised replica. Each commit and the replica serves a distinct role in the participant's session.
 
 \begin{itemize}
-    \item \texttt{eclass-mcp-server} at commit \texttt{8b4e39c} (main branch).
-    \item \texttt{openeclass} at commit \texttt{e8b3329} (Docker image \texttt{openeclass:test}).
+    \item \texttt{eclass-mcp-server} at commit \texttt{dbd2d16} is the patch baseline. The participant clones this repository at the start of each session, checks out the pin as a detached \texttt{HEAD}, and implements the task directly in the resulting working tree. The participant's submission patch is the diff between this baseline and the participant's staged changes; the grader applies that diff to the same pin and runs the test suite against the patched tree.
+    \item \texttt{openeclass} at commit \texttt{e8b3329} is a read-only inspection reference. The participant clones this repository into the workspace so the assistant can inspect the legacy server's source during the task; no changes are made to it, and it is not part of any submission. The Docker replica (next item) carries the same openeclass codebase as this pin.
+    \item The mock openeclass replica is a Docker image built from the upstream \texttt{Release\_4.3.3} tag, whose codebase matches \texttt{e8b3329}, seeded with deterministic fixture data for courses, announcements, and users, and paired with a mock CAS service that replicates the Apereo CAS and SAML~1.1 surface openeclass's single sign-on integration expects. The replica is the integration target the participant's MCP server runs against during development and is the same replica the grader replays when scoring the submission.
 \end{itemize}
 
-The grading infrastructure applies participant patches against these exact versions. A submission with no patch applied receives the baseline score of 12/100, representing only the existing Python functionality. Environment setup, Docker configuration, and test data seeding are documented in \texttt{grader/SETUP.md}.
+A submission with no patch applied receives a baseline score of 9/100. Nine of the ten Python baseline tests (\texttt{P.1.1} through \texttt{P.1.9}) pass against the upstream reference; the tenth verifies the patch's tool registrations and requires the participant's diff to pass.
 
-\subsection{Grader Environment Replication}
-\label{sec:grader-env}
+\subsection{Submission Workflow}
+\label{sec:submission-workflow}
 
-Grading runs against a Docker-based replica of the openeclass platform rather than against the live University of Athens instance that participants develop against. The replica pins openeclass to the baseline commit \texttt{e8b3329}, seeds deterministic fixture data for courses, announcements, and users, and handles authentication through an SSO mock standing in for the live SAML provider. Together these make every grading run reproducible: the same patch produces the same score independent of live-instance availability or content drift.
+Each participant completes the task twice, each session time-boxed to three hours. For each session, the participant works against a clean clone of \texttt{eclass-mcp-server} pinned to the patch baseline commit (\texttt{dbd2d16}) as a detached \texttt{HEAD}, implements the task using the assigned framework, then generates the solution patch as the diff between the baseline and the participant's staged changes.
 
-The replica and the live instance are not bit-identical. Divergence modes that can in principle affect grading outcomes (timezone handling of announcement dates, locale-sensitive parsing of Greek date strings, session-cookie lifecycle and scoping, and cross-origin behavior between the MCP server and the SSO mock) are discussed as a threat to construct validity in the Discussion. Replica-construction details live in the grader \texttt{SETUP.md} and \texttt{PIPELINE.md} documents.
-
-\subsection{Grading Pipeline}
-\label{sec:pipeline}
-
-The grading pipeline has six stages with manifest-based checkpointing:
-
-\begin{enumerate}
-    \item Validation: verifies zip structure and naming format.
-    \item Grading: runs the black-box test suite against Python and C implementations.
-    \item Parsing: extracts interaction metrics from chat exports and applies the encryption described in Section~\ref{sec:privacy}.
-    \item Combination: merges grading results with interaction metrics into unified result files.
-    \item Dataset Aggregation: appends processed data to platform-level CSV datasets.
-    \item Integrity Validation: verifies dataset consistency against manifest checksums.
-\end{enumerate}
-
-Manifests are stored per-platform, recording checksums and timestamps at each stage. Pipeline documentation is in \texttt{grader/PIPELINE.md}.
-
-\subsection{Submission Workflow and Format}
-
-Each participant completes the task twice in isolated sessions, each session time-boxed to three hours. For each session, the participant creates a dedicated Git branch from the clean \texttt{main} baseline (for example, \texttt{s1\_apm}), works on the task using the assigned framework, then generates a solution patch as the diff between \texttt{main} and the session branch. After exporting chat logs and saving the patch, the session branch is deleted before the second session begins.
+Between the two sessions the participant resets the working trees of both clones to their pins, clears untracked state, rebuilds the Python virtual environment, and wipes the local Claude Code project directory so the second session starts without any carried-over conversation state. Full step-by-step instructions for the setup, in-session, and reset procedures are provided in the participant guide that ships with the task repository.
 
 \subsubsection{Submission Format}
 \label{sec:submission-format}
 
-Submissions follow a fixed naming convention for automated processing:
+Each submission is a single zip whose filename follows the pattern \texttt{\{PID\}\_\{S1$\vert$S2\}\_\{apm$\vert$speckit\}.zip}, where \texttt{PID} matches \texttt{P\textbackslash d\{3\}} (for example, \texttt{P001}), the session field is \texttt{S1} or \texttt{S2}, and the framework field is \texttt{apm} or \texttt{speckit}. The zip places \texttt{solution.patch} and a \texttt{transcripts/} directory at its root with no wrapping directory.
 
-\begin{center}
-\texttt{\{PID\}\_\{S1|S2\}\_\{platform\}\_\{tool\}\_submission.zip}
-\end{center}
+Inside \texttt{transcripts/}, each main session transcript is a JSONL file accompanied by a sibling directory carrying the auxiliary records Claude Code persists for dispatched subagents and offloaded tool results; the parser consumes both.
 
-The fields are: participant ID (for example, \texttt{P001}), session number, platform identifier (\texttt{copilot}), and framework identifier (\texttt{apm} or \texttt{spec-kit}). Each zip contains two items:
+A post-session questionnaire is filled per session alongside the zip upload through a single combined web form.
 
-\begin{enumerate}
-    \item A patch file (\texttt{\_solution.patch}) generated via \texttt{git diff main <branch>}.
-    \item A logs folder (\texttt{\_logs/chats/}) containing exported Copilot conversations in JSON format.
-\end{enumerate}
+\subsection{Post-Session Questionnaire Instrument}
+\label{sec:questionnaire-instrument}
 
-The per-session submission is uploaded alongside the post-session questionnaire response through a single web form. Full instructions for environment setup, chat export, and submission packaging are provided in the participant guide (\texttt{participant-guide-copilot.tex}).
+The post-session questionnaire is administered per session through the combined web form described in the Submission Format subsection above. All scored items use a five-point Likert scale.
 
-\subsection{Data Privacy and Sanitization}
+The instrument captures the following items in both sessions:
+\begin{itemize}
+    \item Prior familiarity with the framework before the session.
+    \item Confidence in the correctness of the submitted solution.
+    \item Perception of the framework's effectiveness on the task.
+    \item Five workload items adapted from the NASA Task Load Index\footnote{Instrument documentation available at: \url{https://humansystems.arc.nasa.gov/groups/tlx/}}: mental demand, effort, frustration, verification burden, and prompt-engineering burden.
+\end{itemize}
+
+The second session additionally elicits a perceived-difficulty comparison item: whether completing the task with the second framework felt easier, harder, or the same compared to the first.
+
+\subsection{Data Privacy and Sanitisation}
 \label{sec:privacy}
 
-All chat exports are anonymized and encrypted during the parsing stage of the grading pipeline.
+Each submission's transcripts are sanitised before they are appended to the dataset: a keyed symmetric encryption scheme is applied to the JSONL transcripts at rest, while the participant's \texttt{solution.patch} is preserved in plaintext alongside them. A small set of plaintext metadata (session identifier, canonical model identifier, record count, sanitisation timestamp, Claude Code version, and original payload size in bytes) is preserved alongside the encrypted payload, enabling dataset organisation and integrity validation without decryption. The exact cipher construction and metadata schema are documented in the parser repository's sanitisation module.
 
-Each conversation is assigned a unique chat ID computed as the first 16 hexadecimal characters of a SHA256 hash over concatenated user messages. This ID is computed before encryption and preserved in plaintext alongside the following metadata: distinct model IDs, total request count, sanitization timestamp, and original payload size. The metadata enables dataset organization and integrity validation without requiring decryption.
+\subsection{Per-Token Rate Card}
+\label{sec:rates}
 
-Conversation content is encrypted using an HMAC-SHA256 XOR cipher. A random salt seeds keystream expansion; the serialized chat payload is XOR-encrypted against this keystream and stored in the format \texttt{ENC:<salt>:<ciphertext>}, both Base64-encoded. Decryption with the shared secret produces output bitwise-identical to the original.
+The economic dimension of the evaluation values each session in dollars, computed by pricing every call recorded in the session's transcripts against Anthropic's per-token rate card. This subsection documents the rate-card snapshot the parser uses and the per-call attribution rules. The snapshot is dated \textbf{2026-04-25} and carries five rate categories per model: input tokens, output tokens, cache-read tokens, five-minute cache-write tokens, and one-hour cache-write tokens. The three models the cohort's sessions run on (Claude Opus 4.7, Claude Sonnet 4.6, and Claude Haiku 4.5) each carry the full five-category rate. The exact per-token prices, the rate-card sources, and the snapshot date are pinned in a YAML file the parser reads at every run, ensuring deterministic re-pricing of any historical session.
+
+Cost is attributed per call. For each assistant call recorded in a transcript, the parser deduplicates by request identifier, reads the call's token usage across the five categories, and prices the call at the rate of the canonical model recorded on the call's record.
+
+For calls made by subagents dispatched through the \texttt{Task} tool, the parser's primary resolution path opens the sibling \texttt{agent-<id>.jsonl} file the platform persists for the dispatch and prices every call in that file at the canonical model recorded inside it. The sibling files are what make per-call cost attribution deterministic for delegated dispatches; the dispatch-to-model index is built once per submission before pricing begins, so every dispatch whose sibling file is present resolves to a single model.
+
+A fallback applies only when a sibling file is missing from the submission. The fallback resolves the model through three deterministic conventions in turn (an explicit declared model on the dispatch, a platform built-in default for the subagent type, or inheritance from the parent conversation); when none of the three applies, the dispatch's cost is reported as a closed interval bracketed by the cheapest and most expensive models on the platform, and the session cost is reported as lower and upper bounds rather than a point estimate.
+
+\subsection{APM Role Detection}
+\label{sec:role-detection}
+
+APM operates as three agent roles (Planner, Manager, Worker), each in its own conversation; the case study reports per-role decompositions of the transcript-derived metrics so that an APM session's totals can be attributed to the role responsible for the work. This subsection documents how each conversation in an APM submission is assigned to a role.
+
+Role assignment is derived from the first slash command issued in the conversation:
+
+\begin{itemize}
+    \item \texttt{/apm-1-initiate-planner} marks the conversation as Planner.
+    \item \texttt{/apm-2-initiate-manager} marks the conversation as Manager.
+    \item \texttt{/apm-3-initiate-worker} marks the conversation as Worker.
+\end{itemize}
+
+Conversations whose first slash command is not one of these three role initiators are marked unassigned; they contribute to session totals but do not appear in the per-role decomposition.
+
+Multiple conversations may carry the same role within a single submission: a Manager that handed off contributes successor Manager conversations, and parallel Workers each contribute their own conversation. Same-role conversations are numbered sequentially by their earliest timestamp (Manager-1, Manager-2; Worker-1, Worker-2), so the per-role view preserves the ordering observed in the session.
 
 \subsection{Framework Phase Detection}
 \label{sec:phase-detection}
 
-The secondary economic metric and the Analysis Plan both rely on a planning-versus-implementation phase split for each framework session. Because the two frameworks express phases differently, detection uses framework-specific rules applied at parse time.
+Each session of the case study is split into a planning portion and an implementation portion, and every transcript-derived metric is reported separately at each. This subsection documents how the planning-versus-implementation boundary is located in each framework's session. Because the two frameworks express phases differently, detection uses framework-specific rules applied at parse time.
 
-For \textbf{APM}, the phase boundary coincides with conversation identity: the Planner conversation counts as planning phase, and the Manager and Worker conversations count as implementation phase. Conversation identities are preserved in the chat-export filenames and in the exported metadata, so detection is a lookup rather than a heuristic.
+For \textbf{APM}, the phase boundary follows from the role assignment described in the APM Role Detection subsection above: the Planner conversation is wholly assigned to the planning phase, and Manager and Worker conversations are wholly assigned to the implementation phase. Unassigned conversations contribute to the session totals but are excluded from the per-phase decomposition.
 
-For \textbf{Spec-kit}, the phase boundary is the \texttt{/speckit.implement} slash-command invocation. All requests from the first user message up to and including the last pre-implement command count as planning phase; the pre-implement command set is \texttt{/speckit.constitution}, \texttt{/speckit.specify}, \texttt{/speckit.plan}, \texttt{/speckit.tasks}, \texttt{/speckit.clarify}, \texttt{/speckit.analyze}, and \texttt{/speckit.checklist}. All requests from \texttt{/speckit.implement} onward count as implementation phase.
+For \textbf{Spec-kit}, the phase assignment is per-prompt and follows a forward-only ratchet over an ordered triple of phases:
 
-Detection is applied independently per participant submission, and the phase-broken counts are aggregated at the cohort level in the results analysis.
+\begin{enumerate}
+    \item \texttt{other}: the initial phase before any phase-bearing command has been issued.
+    \item \texttt{planning}: entered when a planning-phase command is issued. The planning-phase commands are \texttt{/speckit-constitution}, \texttt{/speckit-specify}, \texttt{/speckit-plan}, \texttt{/speckit-tasks}, \texttt{/speckit-clarify}, \texttt{/speckit-analyze}, and \texttt{/speckit-checklist}.
+    \item \texttt{implementation}: entered when \texttt{/speckit-implement} is issued, the sole implementation-phase command.
+\end{enumerate}
+
+A prompt carrying a command takes that command's phase; a prompt that does not carry a known command inherits the ratchet's current position.
+
+Detection is applied independently per participant submission, and the per-phase metric values are aggregated at the cohort level in the results analysis.
 
 \subsection{Test Suite Composition}
 \label{sec:test-suite}
 
-The test suite has three categories totaling 100 points:
+The test suite awards 100 points across two implementations, organised into hierarchical IDs of the form \texttt{P.x.y} (Python) and \texttt{C.x.y} (C replica).
+
+The Python implementation carries 41 points across 24 tests in three sections:
 
 \begin{itemize}
-    \item Python Baseline (12 points): 11 test cases covering build, protocol compliance, login, logout, courses, and authentication status.
-    \item Python Features (36 points): 12 test cases split evenly between the two announcement tools (18 points each), covering error handling, date filtering, output format, and source aggregation.
-    \item C Replica (52 points): 24 test cases covering compilation, Valgrind memory safety, protocol compliance, and all six tools (login, logout, courses, authstatus, and both announcement tools).
+    \item Baseline (10 points): 10 tests, P.1.1 through P.1.10, each worth one point, exercising protocol compliance and authentication against the upstream Python reference.
+    \item Course-announcements feature (17 points): 8 tests, P.2.1 through P.2.8, covering input validation, output formatting, and aggregation behaviour.
+    \item General-announcements feature (14 points): 6 tests, P.3.1 through P.3.6, covering input validation, output formatting, and per-entry source attribution.
 \end{itemize}
 
-Point allocations and test definitions are in \texttt{grader/src/scorer.py}; the scoring rubric is in \texttt{task/SCORING.md}.
+The C replica carries 59 points across 30 tests in five sections:
+
+\begin{itemize}
+    \item Build and technical stack (5 points): 2 tests, C.1.1 and C.1.2, verifying compilation against the required toolchain and the absence of forbidden dependencies.
+    \item Baseline (10 points): 10 tests, C.2.1 through C.2.10, mirroring the Python baseline against the C replica.
+    \item Course-announcements feature (17 points): 8 tests, C.3.1 through C.3.8, mirroring the Python course-announcements feature against the C replica.
+    \item General-announcements feature (14 points): 6 tests, C.4.1 through C.4.6, mirroring the Python general-announcements feature against the C replica.
+    \item Memory safety (13 points): 4 tests, C.5.1 through C.5.4, exercising the C replica under Valgrind.
+\end{itemize}
+
+Each test produces a pass-or-fail verdict against one of three assertion shapes. A strict assertion applies to response paths that return a single fixed string and checks the whole response text for exact equality with that constant. An implementation assertion applies to response paths that return a populated list of in-scope rows and checks that the response carries the seed-derived count preamble and the verbatim body of every in-scope row. An anchor assertion extends an implementation assertion along a feature-specific axis: for the general-announcements feature, it additionally requires the per-source attribution distribution across in-scope rows to match the expected distribution, and for the C replica's memory-safety section, it exercises the broadest multi-scenario Valgrind probe.
+
+Within the course-announcements feature the row labelled as an anchor runs the same operational check as the implementation rows in that feature; the label captures the higher point weight of the row rather than an additional structural check.
+
+Per-test point allocations, per-test definitions, and the source-level assertion logic are documented inside the grading-infrastructure repository.
 
 \end{document}
