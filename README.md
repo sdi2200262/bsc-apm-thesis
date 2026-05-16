@@ -8,21 +8,22 @@ BSc thesis evaluating Agentic Project Management (APM v1) against GitHub Spec-ki
 
 This thesis investigates whether multi-agent coordination structures provide tangible benefits over single-agent workflows when applied to complex software development tasks. The case study compares two spec-driven frameworks on a shared AI coding platform:
 
-- **APM v1** - Multi-agent, spec-driven (Planner, Manager, Workers; file-based Message Bus)
-- **GitHub Spec-kit** - Single-agent, spec-driven (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`)
+- **APM v1**: Multi-agent, spec-driven (Planner, Manager, Workers; file-based Message Bus)
+- **GitHub Spec-kit**: Single-agent, spec-driven (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`)
 
 Both frameworks are open-source and run on the same AI coding CLI, so the evaluation isolates the effect of multi-agent coordination overhead from platform or tooling differences.
 
 The research evaluates three dimensions:
 
-- **Economic Efficiency** - Dollar cost of a session, computed against the platform's per-token rate card
-- **Process Efficiency** - Human coordination and verification burden across a session
-- **Functional Efficacy** - Ability to complete non-trivial tasks that stress single-context-window workflows
+- **Economic Efficiency**: Dollar cost of a session, computed against the platform's per-token rate card
+- **Process Efficiency**: Human coordination and verification burden across a session
+- **Functional Efficacy**: Ability to complete non-trivial tasks that stress single-context-window workflows
 
 ## Repository Structure
 
 ```
 bsc-apm-thesis/
+├── Makefile                 # Build automation (wraps latexmk)
 ├── README.md                # This file
 ├── LICENSE                  # GPL-3.0-or-later (thesis content)
 ├── thesis.tex               # Master: class, metadata, chapter assembly
@@ -62,32 +63,48 @@ Full methodology, including the testbed, the 100-point grading rubric, and infra
 
 ## Building
 
-The build uses XeLaTeX. Output (PDF and auxiliary files) goes to `build/`.
-**Always run latexmk from the repository root** so `latexmkrc` is picked up and
-the class's relative font path resolves.
+The build uses XeLaTeX and is automated via the `Makefile`. Output (PDF and
+auxiliary files) goes to `build/`. **Always run from the repository root** so
+`latexmkrc` and the `Makefile` are picked up and the class's relative font path
+resolves.
 
 ```bash
 cd /path/to/bsc-apm-thesis
 
 # Build the full thesis (default: vendored Arimo, fully reproducible)
-latexmk thesis.tex
+make pdf
 
 # Build with a system-installed Arial instead (requires Arial on the host)
+make arial
+
+# Continuous rebuild on source changes
+make watch
+
+# Clean auxiliary and output files
+make clean
+```
+
+The finished PDF is `thesis.pdf` at the repository root (auxiliary files
+stay in `build/`). If you prefer running `latexmk` manually:
+
+```bash
+# Build the full thesis
+latexmk thesis.tex
+
+# Build with a system-installed Arial
 THESIS_ARIAL=1 latexmk thesis.tex
 
 # Clean auxiliary files
 latexmk -c
 ```
 
-The finished PDF is `thesis.pdf` at the repository root (auxiliary files
-stay in `build/`). Running from a subdirectory will miss `latexmkrc` and
-fail to resolve the font path.
+Running from a subdirectory will miss `latexmkrc` and fail to resolve the font path.
 
 ## Related Repositories
 
-- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task) - Participant package and containerised testing environment
-- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra) - Grading suite, transcript parser, and submission processing pipeline (private)
-- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data) - Participant submissions (restricted access)
+- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): Participant package and containerised testing environment
+- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): Grading suite, transcript parser, and submission processing pipeline (private)
+- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): Participant submissions (restricted access)
 
 ## License
 
@@ -95,4 +112,4 @@ GPL-3.0-or-later. See [LICENSE](LICENSE).
 
 ---
 
-*BSc thesis - Department of Informatics and Telecommunications, University of Athens*
+*BSc thesis, Department of Informatics and Telecommunications, University of Athens*
