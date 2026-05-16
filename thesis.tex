@@ -1,0 +1,133 @@
+% Master document for the BSc APM thesis.
+%
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Copyright (c) BSc APM Case Study 2025-2026
+%
+% Single source of truth: this file sets the class, metadata, and shared
+% preamble, then assembles the thesis from one body file per chapter under
+% chapters/. Build from the repository root with `latexmk thesis.tex`
+% (see latexmkrc). The Greek front-matter metadata is author-supplied and
+% currently carries Forthcoming placeholders.
+
+\documentclass[ack]{apmthesis}
+
+% =============================================================================
+% Shared preamble
+% =============================================================================
+%
+% Packages every chapter body may rely on. The class already provides
+% graphicx, tabularx, longtable, and caption; the rest live here so chapter
+% bodies stay preamble-free and are driven entirely by this master.
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[bottom,flushmargin]{footmisc}
+\usepackage{hyperref}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={Agentic Project Management: A Spec-Driven Multi-Agent Framework for AI-Assisted Software Engineering}
+}
+
+% Code-listing style for any verbatim blocks in the body or appendix.
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  tabsize=2
+}
+
+% Visible marker for content that is intentionally not yet written. Each
+% expands to a red, bracketed, italic note so unfinished regions are obvious
+% in the rendered PDF.
+\newcommand{\placeholder}[1]{\textcolor{red}{\textit{[#1]}}}
+
+% =============================================================================
+% Metadata
+% =============================================================================
+%
+% The English title is final. The Greek title, author identity, supervisor,
+% examination date, abstracts, acknowledgements, subject area, and keywords
+% are author-supplied and carry Forthcoming placeholders until provided.
+
+\titleEn{Agentic Project Management: A Spec-Driven Multi-Agent Framework for AI-Assisted Software Engineering}
+\titleGr{Agentic Project Management: Ένα Spec-Driven Multi-Agent Πλαίσιο για AI-Assisted Ανάπτυξη Λογισμικού}
+
+\authorFirstEn{Konstantinos}
+\authorFirstAbrEn{K.}
+\authorMiddleEn{}
+\authorLastEn{Chaidemenos}
+\authorFirstGr{Κωνσταντίνος}
+\authorFirstAbrGr{Κ.}
+\authorMiddleGr{}
+\authorLastGr{Χαϊδεμένος}
+\authorSn{1115202200262}
+
+\dateEn{FORTHCOMING}
+\dateGr{FORTHCOMING}
+
+\supervisorEn{Thanassis Avgerinos}{Assistant Professor}
+\supervisorGr{Θανάσης Αυγερινός}{Επίκουρος Καθηγητής}
+
+\abstractEn{Forthcoming.}
+\abstractGr{Forthcoming.}
+\acksEn{Forthcoming.}
+
+\subjectAreaEn{Forthcoming}
+\subjectAreaGr{Forthcoming}
+\keywordsEn{Forthcoming}
+\keywordsGr{Forthcoming}
+
+% =============================================================================
+% Document
+% =============================================================================
+
+\begin{document}
+
+\frontmatter
+
+\mainmatter
+
+\chapter{INTRODUCTION}
+\input{chapters/introduction/introduction}
+
+\chapter{BACKGROUND}
+\input{chapters/background/background}
+
+\chapter{FRAMEWORK DESIGN}
+\input{chapters/framework-design/framework-design}
+
+\chapter{EVALUATION}
+\input{chapters/evaluation/evaluation}
+
+\chapter{CONCLUSION}
+\input{chapters/conclusion/conclusion}
+
+\backmatter
+
+\abbreviations
+\placeholder{Forthcoming. Abbreviations and acronyms table.}
+
+\begin{appendix}
+\appendixstartedtrue
+\phantomsection
+\addcontentsline{toc}{chapter}{APPENDICES}
+
+\chapter{EVALUATION APPENDIX}
+\input{chapters/evaluation/evaluation-appendix}
+\end{appendix}
+
+% The bibliography (unsrt numeric) and in-text citations are added in the
+% deferred whole-thesis grounding pass; no sources are cited yet.
+
+\end{document}

@@ -1,67 +1,12 @@
-\documentclass[11pt, a4paper]{article}
+% Evaluation appendix body. Included by thesis.tex under
+% \chapter{EVALUATION APPENDIX} inside the \appendix block.
 
-% ============================================================================
-% PACKAGES
-% ============================================================================
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{hyperref}
-\usepackage{xcolor}
-\usepackage{titlesec}
-\usepackage{enumitem}
-\usepackage{caption}
-\usepackage{listings}
-\usepackage{url}
-\usepackage[bottom,flushmargin]{footmisc}  % Pin footnotes to page bottom, flush left
-
-% ============================================================================
-% CONFIGURATION
-% ============================================================================
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    citecolor=blue,
-    urlcolor=blue
-}
-
-% Line spacing
-\renewcommand{\baselinestretch}{1.15}
-
-% Paragraph formatting: no indent, vertical separation between paragraphs
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5\baselineskip}
-
-% Code listing style
-\lstset{
-    basicstyle=\ttfamily\small,
-    breaklines=true,
-    frame=single,
-    numbers=left,
-    numberstyle=\tiny,
-    stepnumber=1,
-    tabsize=2
-}
-
-\begin{document}
-
-% ============================================================================
-% EVALUATION APPENDIX
-% ============================================================================
-
-\section{Evaluation Appendix}
-\label{sec:evaluation-appendix}
 
 This appendix is a lookup-shaped reference for the evaluation chapter. The chapter references individual subsections by name as it needs them; each subsection below is self-contained and may be read in isolation.
 
 The case study's source code, specifications, and grading infrastructure are split across three repositories. The task repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} carries the task specification, the participant package, and the containerised testing environment that participants download and run during their sessions. The grading-infrastructure repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}} carries the automated grading suite, the transcript parser, and the submission-processing pipeline; it runs on the researcher's machine against each submission. The dataset repository\footnote{Repository available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-data}} carries every submitted participant artefact in sanitised form: code patches, transcripts, and session metadata.
 
-\subsection{Reference Environments}
+\section{Reference Environments}
 \label{sec:baseline}
 
 The task is anchored on two open source codebases fixed to specific upstream commits and one containerised replica. Each commit and the replica serves a distinct role in the participant's session.
@@ -74,14 +19,14 @@ The task is anchored on two open source codebases fixed to specific upstream com
 
 A submission with no patch applied receives a baseline score of 9/100. Nine of the ten Python baseline tests (\texttt{P.1.1} through \texttt{P.1.9}) pass against the upstream reference; the tenth verifies the patch's tool registrations and requires the participant's diff to pass.
 
-\subsection{Submission Workflow}
+\section{Submission Workflow}
 \label{sec:submission-workflow}
 
 Each participant completes the task twice, each session time-boxed to three hours. For each session, the participant works against a clean clone of \texttt{eclass-mcp-server} pinned to the patch baseline commit (\texttt{dbd2d16}) as a detached \texttt{HEAD}, implements the task using the assigned framework, then generates the solution patch as the diff between the baseline and the participant's staged changes.
 
 Between the two sessions the participant resets the working trees of both clones to their pins, clears untracked state, rebuilds the Python virtual environment, and wipes the local Claude Code project directory so the second session starts without any carried-over conversation state. Full step-by-step instructions for the setup, in-session, and reset procedures are provided in the participant guide that ships with the task repository.
 
-\subsubsection{Submission Format}
+\subsection{Submission Format}
 \label{sec:submission-format}
 
 Each submission is a single zip whose filename follows the pattern \texttt{\{PID\}\_\{S1$\vert$S2\}\_\{apm$\vert$speckit\}.zip}, where \texttt{PID} matches \texttt{P\textbackslash d\{3\}} (for example, \texttt{P001}), the session field is \texttt{S1} or \texttt{S2}, and the framework field is \texttt{apm} or \texttt{speckit}. The zip places \texttt{solution.patch} and a \texttt{transcripts/} directory at its root with no wrapping directory.
@@ -90,7 +35,7 @@ Inside \texttt{transcripts/}, each main session transcript is a JSONL file accom
 
 A post-session questionnaire is filled per session alongside the zip upload through a single combined web form.
 
-\subsection{Post-Session Questionnaire Instrument}
+\section{Post-Session Questionnaire Instrument}
 \label{sec:questionnaire-instrument}
 
 The post-session questionnaire is administered per session through the combined web form described in the Submission Format subsection above. All scored items use a five-point Likert scale.
@@ -105,12 +50,12 @@ The instrument captures the following items in both sessions:
 
 The second session additionally elicits a perceived-difficulty comparison item: whether completing the task with the second framework felt easier, harder, or the same compared to the first.
 
-\subsection{Data Privacy and Sanitisation}
+\section{Data Privacy and Sanitisation}
 \label{sec:privacy}
 
 Each submission's transcripts are sanitised before they are appended to the dataset: a keyed symmetric encryption scheme is applied to the JSONL transcripts at rest, while the participant's \texttt{solution.patch} is preserved in plaintext alongside them. A small set of plaintext metadata (session identifier, canonical model identifier, record count, sanitisation timestamp, Claude Code version, and original payload size in bytes) is preserved alongside the encrypted payload, enabling dataset organisation and integrity validation without decryption. The exact cipher construction and metadata schema are documented in the parser repository's sanitisation module.
 
-\subsection{Per-Token Rate Card}
+\section{Per-Token Rate Card}
 \label{sec:rates}
 
 The economic dimension of the evaluation values each session in dollars, computed by pricing every call recorded in the session's transcripts against Anthropic's per-token rate card. This subsection documents the rate-card snapshot the parser uses and the per-call attribution rules. The snapshot is dated \textbf{2026-04-25} and carries five rate categories per model: input tokens, output tokens, cache-read tokens, five-minute cache-write tokens, and one-hour cache-write tokens. The three models the cohort's sessions run on (Claude Opus 4.7, Claude Sonnet 4.6, and Claude Haiku 4.5) each carry the full five-category rate. The exact per-token prices, the rate-card sources, and the snapshot date are pinned in a YAML file the parser reads at every run, ensuring deterministic re-pricing of any historical session.
@@ -121,7 +66,7 @@ For calls made by subagents dispatched through the \texttt{Task} tool, the parse
 
 A fallback applies only when a sibling file is missing from the submission. The fallback resolves the model through three deterministic conventions in turn (an explicit declared model on the dispatch, a platform built-in default for the subagent type, or inheritance from the parent conversation); when none of the three applies, the dispatch's cost is reported as a closed interval bracketed by the cheapest and most expensive models on the platform, and the session cost is reported as lower and upper bounds rather than a point estimate.
 
-\subsection{APM Role Detection}
+\section{APM Role Detection}
 \label{sec:role-detection}
 
 APM operates as three agent roles (Planner, Manager, Worker), each in its own conversation; the case study reports per-role decompositions of the transcript-derived metrics so that an APM session's totals can be attributed to the role responsible for the work. This subsection documents how each conversation in an APM submission is assigned to a role.
@@ -138,7 +83,7 @@ Conversations whose first slash command is not one of these three role initiator
 
 Multiple conversations may carry the same role within a single submission: a Manager that handed off contributes successor Manager conversations, and parallel Workers each contribute their own conversation. Same-role conversations are numbered sequentially by their earliest timestamp (Manager-1, Manager-2; Worker-1, Worker-2), so the per-role view preserves the ordering observed in the session.
 
-\subsection{Framework Phase Detection}
+\section{Framework Phase Detection}
 \label{sec:phase-detection}
 
 Each session of the case study is split into a planning portion and an implementation portion, and every transcript-derived metric is reported separately at each. This subsection documents how the planning-versus-implementation boundary is located in each framework's session. Because the two frameworks express phases differently, detection uses framework-specific rules applied at parse time.
@@ -157,7 +102,7 @@ A prompt carrying a command takes that command's phase; a prompt that does not c
 
 Detection is applied independently per participant submission, and the per-phase metric values are aggregated at the cohort level in the results analysis.
 
-\subsection{Test Suite Composition}
+\section{Test Suite Composition}
 \label{sec:test-suite}
 
 The test suite awards 100 points across two implementations, organised into hierarchical IDs of the form \texttt{P.x.y} (Python) and \texttt{C.x.y} (C replica).
@@ -186,4 +131,3 @@ Within the course-announcements feature the row labelled as an anchor runs the s
 
 Per-test point allocations, per-test definitions, and the source-level assertion logic are documented inside the grading-infrastructure repository.
 
-\end{document}

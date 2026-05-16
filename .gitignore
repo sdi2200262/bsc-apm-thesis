@@ -24,5 +24,6 @@ build/*
 # Editor files
 .vscode/
 
-# Keep PDFs (they are intentionally committed)
-# !*.pdf
+# Generated thesis PDF copied to the repository root by the build.
+# (Source PDFs such as emblems/ and assets/ figures stay tracked.)
+/thesis.pdf

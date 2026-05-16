@@ -1,52 +1,5 @@
-\documentclass[11pt, a4paper]{article}
-
-% ============================================================================
-% PACKAGES
-% ============================================================================
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{booktabs}   % For professional looking tables
-\usepackage{tabularx}   % For flexible table widths
-\usepackage{hyperref}   % For links
-\usepackage{xcolor}     % For placeholder text
-\usepackage{titlesec}
-\usepackage{enumitem}
-\usepackage{caption}
-\usepackage[bottom,flushmargin]{footmisc}  % Pin footnotes to page bottom, flush left
-
-% ============================================================================
-% CONFIGURATION
-% ============================================================================
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    citecolor=blue,
-    urlcolor=blue
-}
-
-% Placeholder command for easy visual identification
-\newcommand{\placeholder}[1]{\textcolor{red}{\textit{[#1]}}}
-
-% Line spacing
-\renewcommand{\baselinestretch}{1.15}
-
-% Paragraph formatting: no indent, vertical separation between paragraphs
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5\baselineskip}
-
-% Allow a small amount of extra inter-word stretch as a last resort when
-% breaking paragraphs, to avoid minor overfull boxes in dense prose.
-\setlength{\emergencystretch}{3em}
-
-\begin{document}
-
-% ============================================================================
-% EVALUATION SECTION
-% ============================================================================
+% Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
+% Standalone-article preamble removed; this is an \input fragment.
 
 \section{Evaluation Methodology}
 \label{sec:evaluation}
@@ -102,7 +55,7 @@ Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spe
     \item \texttt{/speckit-tasks}: derives an executable task list (\texttt{tasks.md}) from the plan, with parallelism annotations and sequencing constraints.
 \end{enumerate}
 
-Execution is triggered by a fourth command, \texttt{/speckit-implement}, which parses the task list and carries out each task in sequence. Additional commands support iterative refinement (\texttt{/speckit-clarify}), cross-artifact consistency checking (\texttt{/speckit-analyze}), and custom quality checklists (\texttt{/speckit-checklist}). A constitution mechanism, maintained via the \texttt{/speckit-constitution} command, allows users to establish architectural rules that the agent enforces throughout the workflow.
+Execution is triggered by a fourth command, \texttt{/speckit-implement}, which parses the task list and carries out each task in sequence. Additional commands support iterative refinement, cross-artifact consistency checking and custom quality checklists. A constitution mechanism, maintained via the \texttt{/speckit-constitution} command, allows users to establish architectural rules that the agent enforces throughout the workflow.
 
 All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
 
@@ -326,5 +279,3 @@ This subsection enumerates the internal, external, and construct validity threat
 \textbf{Instrument coverage limits.} The 100-point rubric, defined in the Test Suite Composition subsection of the Evaluation Appendix, captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in the Data Source subsection in Section~\ref{sec:evaluation}: any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
 
 \textbf{Replica versus live openeclass.} The shared Docker-based replica of the openeclass platform described in the Task Environment subsection in Section~\ref{sec:evaluation} pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of openeclass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study. Replica construction and seeding details are documented in the Baseline Pins and Reference Environments subsection of the Evaluation Appendix.
-
-\end{document}

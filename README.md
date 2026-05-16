@@ -24,17 +24,33 @@ The research evaluates three dimensions:
 ```
 bsc-apm-thesis/
 ├── README.md                # This file
-├── LICENSE                  # GPL-3.0-or-later
-├── latexmkrc                # LaTeX build configuration
+├── LICENSE                  # GPL-3.0-or-later (thesis content)
+├── thesis.tex               # Master: class, metadata, chapter assembly
+├── apmthesis.cls            # Thesis document class (DIT BSc, Pergamos layout)
+├── latexmkrc                # XeLaTeX build configuration
+├── references.bib           # Bibliography database (filled in the grounding pass)
+├── fonts/arimo/             # Vendored Arimo font (OFL) + its license
+├── emblems/                 # NKUA Athena emblem (title page)
 ├── chapters/
-│   └── evaluation/
-│       ├── evaluation.tex         # Evaluation methodology section
-│       ├── evaluation.pdf         # Compiled PDF
-│       ├── evaluation-appendix.tex # Infrastructure and implementation details
-│       └── evaluation-appendix.pdf # Compiled appendix PDF
+│   ├── introduction/introduction.tex
+│   ├── background/background.tex
+│   ├── framework-design/framework-design.tex
+│   ├── evaluation/evaluation.tex            # Evaluation chapter body
+│   ├── evaluation/evaluation-appendix.tex   # Evaluation appendix body
+│   └── conclusion/conclusion.tex
 ├── assets/                  # Images and figures
-└── build/                   # LaTeX auxiliary files
+└── build/                   # XeLaTeX auxiliary files, git-ignored
+                             # (thesis.pdf is written to the repo root)
 ```
+
+The thesis is one source of truth: `thesis.tex` sets the class and metadata and
+assembles one body file per chapter under `chapters/`. The `apmthesis` class
+implements the mandatory DIT BSc submission layout (A4, Arial-metric font,
+bilingual front matter) accepted by the Pergamos repository; it is an LPPL
+Derived Work of the community `dithesis` class (provenance and change notice in
+the class header). The body font defaults to the vendored, freely
+redistributable Arimo (metric-identical to Arial) so the build is reproducible
+with no system font installed.
 
 ## Evaluation Methodology
 
@@ -46,21 +62,26 @@ Full methodology, including the testbed, the 100-point grading rubric, and infra
 
 ## Building
 
-Auxiliary files are output to `build/` to keep the root directory clean. **Always run latexmk from the repository root** to ensure the `latexmkrc` configuration is found.
+The build uses XeLaTeX. Output (PDF and auxiliary files) goes to `build/`.
+**Always run latexmk from the repository root** so `latexmkrc` is picked up and
+the class's relative font path resolves.
 
 ```bash
-# Build a specific chapter (run from repo root)
 cd /path/to/bsc-apm-thesis
-latexmk -pdf chapters/evaluation/evaluation.tex
 
-# Build the evaluation appendix (run from repo root)
-latexmk -pdf chapters/evaluation/evaluation-appendix.tex
+# Build the full thesis (default: vendored Arimo, fully reproducible)
+latexmk thesis.tex
 
-# Clean auxiliary files (run from repo root)
+# Build with a system-installed Arial instead (requires Arial on the host)
+THESIS_ARIAL=1 latexmk thesis.tex
+
+# Clean auxiliary files
 latexmk -c
 ```
 
-**Note:** If you run latexmk from a subdirectory, it may not find the `latexmkrc` configuration file and auxiliary files will be placed in the subdirectory instead of `build/`.
+The finished PDF is `thesis.pdf` at the repository root (auxiliary files
+stay in `build/`). Running from a subdirectory will miss `latexmkrc` and
+fail to resolve the font path.
 
 ## Related Repositories
 
