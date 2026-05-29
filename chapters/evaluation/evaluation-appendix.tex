@@ -17,7 +17,7 @@ The task is anchored on two open source codebases fixed to specific upstream com
     \item The mock openeclass replica is a Docker image built from the upstream \texttt{Release\_4.3.3} tag, whose codebase matches \texttt{e8b3329}, seeded with deterministic fixture data for courses, announcements, and users, and paired with a mock CAS service that replicates the Apereo CAS and SAML~1.1 surface openeclass's single sign-on integration expects. The replica is the integration target the participant's MCP server runs against during development and is the same replica the grader replays when scoring the submission.
 \end{itemize}
 
-A submission with no patch applied receives a baseline score of 9/100. Nine of the ten Python baseline tests (\texttt{P.1.1} through \texttt{P.1.9}) pass against the upstream reference; the tenth verifies the patch's tool registrations and requires the participant's diff to pass.
+A submission with no patch applied receives a baseline score of 10/100. Ten of the eleven Python baseline tests (\texttt{P.1.2} through \texttt{P.1.11}) pass against the upstream reference; the remaining test (\texttt{P.1.1}) verifies the patch's tool registrations and requires the participant's diff to pass.
 
 \section{Submission Workflow}
 \label{sec:submission-workflow}
@@ -107,22 +107,22 @@ Detection is applied independently per participant submission, and the per-phase
 
 The test suite awards 100 points across two implementations, organised into hierarchical IDs of the form \texttt{P.x.y} (Python) and \texttt{C.x.y} (C replica).
 
-The Python implementation carries 41 points across 24 tests in three sections:
+The Python implementation carries 30 points across 27 tests in three sections:
 
 \begin{itemize}
-    \item Baseline (10 points): 10 tests, P.1.1 through P.1.10, each worth one point, exercising protocol compliance and authentication against the upstream Python reference.
-    \item Course-announcements feature (17 points): 8 tests, P.2.1 through P.2.8, covering input validation, output formatting, and aggregation behaviour.
-    \item General-announcements feature (14 points): 6 tests, P.3.1 through P.3.6, covering input validation, output formatting, and per-entry source attribution.
+    \item Baseline (11 points): 11 tests, P.1.1 through P.1.11, each worth one point, exercising protocol compliance and authentication against the upstream Python reference.
+    \item Course-announcements feature (11 points): 9 tests, P.2.1 through P.2.9, covering input validation, output formatting, and relative-date filtering; two rows are promoted to two points.
+    \item General-announcements feature (8 points): 7 tests, P.3.1 through P.3.7, covering input validation, output formatting, and per-entry source attribution; one row is promoted to two points.
 \end{itemize}
 
-The C replica carries 59 points across 32 tests in five sections:
+The C replica carries 70 points across 63 tests in five sections:
 
 \begin{itemize}
-    \item Build, technical stack, and configuration surfaces (10 points): 4 tests, C.1.1 through C.1.4, verifying compilation against the required toolchain, the absence of forbidden dependencies, and that the replica configures itself correctly from each of the two documented configuration surfaces (the process environment and a documented \texttt{.env} file) scored independently.
-    \item Baseline (10 points): 10 tests, C.2.1 through C.2.10, mirroring the Python baseline against the C replica; the missing-credentials row C.2.4 is billed per configuration surface the replica implements, so a surface already penalised in the build section is not charged again.
-    \item Course-announcements feature (15 points): 8 tests, C.3.1 through C.3.8, mirroring the Python course-announcements feature against the C replica.
-    \item General-announcements feature (12 points): 6 tests, C.4.1 through C.4.6, mirroring the Python general-announcements feature against the C replica.
-    \item Memory safety (12 points): 4 tests, C.5.1 through C.5.4, exercising the C replica under Valgrind.
+    \item Build, technical stack, and configuration surfaces (6 points): 6 tests, C.1.1 through C.1.6, verifying compilation against the required toolchain, the absence of forbidden dependencies, and that the replica configures itself correctly from each of the two documented configuration surfaces (the process environment and a documented \texttt{.env} file) scored independently.
+    \item Baseline (13 points): 12 tests, C.2.1 through C.2.12, mirroring the Python baseline against the C replica; the initial protocol handshake is promoted to two points.
+    \item Course-announcements feature (11 points): 9 tests, C.3.1 through C.3.9, mirroring the Python course-announcements feature against the C replica; two rows are promoted to two points.
+    \item General-announcements feature (8 points): 7 tests, C.4.1 through C.4.7, mirroring the Python general-announcements feature against the C replica; one row is promoted to two points.
+    \item Memory safety (32 points): 29 tests, C.5.1 through C.5.3 (multi-step scenarios worth two points each) and 26 per-scenario sub-assertions (C.2.3.mem through C.4.7.mem, worth one point each) exercising the C replica under Valgrind.
 \end{itemize}
 
 Each protocol and announcement test produces a pass-or-fail verdict against one of three assertion shapes. A strict assertion applies to response paths that return a single fixed string and checks the whole response text for exact equality with that constant. An implementation assertion applies to response paths that return a populated list of in-scope rows and checks that the response carries the seed-derived count preamble and the verbatim body of every in-scope row. An anchor assertion extends an implementation assertion along a feature-specific axis: for the general-announcements feature, it additionally requires the per-source attribution distribution across in-scope rows to match the expected distribution, and for the C replica's memory-safety section, it exercises the broadest multi-scenario Valgrind probe. The build section's configuration-surface and missing-credential rows instead use a surface-isolation probe: the C replica is spawned with exactly one configuration surface populated, and the row asserts that it authenticates, or returns the missing-credentials error, reading only that surface.

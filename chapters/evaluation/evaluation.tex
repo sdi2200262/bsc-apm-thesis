@@ -139,7 +139,7 @@ The process metrics capture the burden each framework imposes on the user across
 
 User-message activity is partitioned along two dimensions. The first is the kind of message the user typed:
 \begin{itemize}
-    \item \textbf{turn prompts} are prompts submitted while the agent was idle, opening a new turn.Each turn is the wall-clock interval from a user prompt to the assistant's idle return.
+    \item \textbf{turn prompts} are prompts submitted while the agent was idle, opening a new turn. Each turn is the wall-clock interval from a user prompt to the assistant's idle return.
     \item \textbf{steers} are interjections enqueued while the agent was still working, which the platform either delivers to the agent during the turn or abandons if the user retracts them before delivery. Steer activity is additionally reported as three counts: \textbf{steer attempted}, \textbf{steer delivered}, and \textbf{steer abandoned}.
 
 \end{itemize}
@@ -168,7 +168,7 @@ Session duration, turn time with its solo and concurrent decomposition, and inte
 
 The functional dimension scores each submission against the task's scoring rubric introduced earlier. The rubric is a fixed set of tests; each test checks one expected behaviour, produces a pass-or-fail verdict, and contributes a calibrated point weight to a 100-point total, so a submission that delivers only part of the task earns proportionally for what works.
 
-The 100 points are split across the task's two implementations. The Python implementation carries 41 points: a baseline section that confirms the four pre-existing tools still work, and two feature sections covering the new course-announcement and general-announcement tools. The C replica carries 59 points: a build, technical-stack, and configuration-surface section, a baseline section that re-implements the same four tools from scratch, the two announcement features mirrored against the C binary, and a memory-safety section exercised under Valgrind. The per-section point allocations, the per-test definitions, and the assertion logic each test uses are documented in the Test Suite Composition subsection of the Evaluation Appendix.
+The 100 points are split across the task's two implementations. The Python implementation carries 30 points: a baseline section that confirms the four pre-existing tools still work, and two feature sections covering the new course-announcement and general-announcement tools. The C replica carries 70 points: a build, technical-stack, and configuration-surface section, a baseline section that re-implements the four tools from scratch, the two announcement features mirrored against the C binary, and a memory-safety section exercised under Valgrind. The per-section point allocations, the per-test definitions, and the assertion logic each test uses are documented in the Test Suite Composition subsection of the Evaluation Appendix.
 
 The primary functional outcomes are the total rubric score and the per-section scores: the first summarises the framework comparison in a single number, the second locates where each framework's work lands within the rubric.
 
