@@ -1,4 +1,51 @@
 % Bibliography database for the BSc APM thesis (unsrt numeric style).
 %
-% Empty until the deferred whole-thesis grounding pass populates it and wires
-% \bibliography{references} into thesis.tex. No sources are cited yet.
+% Populated section by section as the chapters are written. Each entry is
+% verified against the cited source before it is added. Convention: the venue
+% lives in the type-appropriate field (journal / publisher / howpublished) and
+% the link is always note = {\url{...}}; no hand-keyed identifiers.
+
+@book{russell2021aima,
+  author    = {Russell, Stuart J. and Norvig, Peter},
+  title     = {Artificial Intelligence: A Modern Approach},
+  edition   = {4th},
+  publisher = {Pearson},
+  year      = {2021},
+  note      = {\url{https://aima.cs.berkeley.edu/}}
+}
+
+@article{liu2024llmagents,
+  author  = {Liu, Junwei and Wang, Kaixin and Chen, Yixuan and Peng, Xin and
+             Chen, Zhenpeng and Zhang, Lingming and Lou, Yiling},
+  title   = {Large Language Model-Based Agents for Software Engineering: A Survey},
+  journal = {ACM Transactions on Software Engineering and Methodology},
+  year    = {2024},
+  note    = {\url{https://arxiv.org/abs/2409.02977}}
+}
+
+@misc{anthropic2024agents,
+  author       = {Schluntz, Erik and Zhang, Barry},
+  title        = {Building Effective Agents},
+  howpublished = {Anthropic},
+  year         = {2024},
+  note         = {\url{https://www.anthropic.com/research/building-effective-agents}}
+}
+
+@article{cui2026genai,
+  author  = {Cui, Kevin Zheyuan and Demirer, Mert and Jaffe, Sonia and
+             Musolff, Leon and Peng, Sida and Salz, Tobias},
+  title   = {The Effects of Generative {AI} on High-Skilled Work: Evidence
+             from Three Field Experiments with Software Developers},
+  journal = {Management Science},
+  year    = {2026},
+  note    = {\url{https://doi.org/10.1287/mnsc.2025.00535}}
+}
+
+@misc{becker2025metr,
+  author       = {Becker, Joel and Rush, Nate and Barnes, Elizabeth and Rein, David},
+  title        = {Measuring the Impact of Early-2025 {AI} on Experienced
+                  Open-Source Developer Productivity},
+  howpublished = {arXiv},
+  year         = {2025},
+  note         = {\url{https://arxiv.org/abs/2507.09089}}
+}

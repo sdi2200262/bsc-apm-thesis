@@ -26,6 +26,9 @@
 \usepackage{xcolor}
 \usepackage[bottom,flushmargin]{footmisc}
 \usepackage{hyperref}
+% Allow long URLs (e.g. in footnotes) to break across lines so they never
+% overflow the text block.
+\usepackage{xurl}
 
 \hypersetup{
   unicode=true,
@@ -127,7 +130,9 @@
 \input{chapters/evaluation/evaluation-appendix}
 \end{appendix}
 
-% The bibliography (unsrt numeric) and in-text citations are added in the
-% deferred whole-thesis grounding pass; no sources are cited yet.
+% References (unsrt numeric: entries ordered by first citation). Populated
+% section by section as the chapters are written; see references.bib.
+\bibliographystyle{unsrt}
+\bibliography{references}
 
 \end{document}
