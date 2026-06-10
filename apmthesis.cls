@@ -103,7 +103,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 % trim. Add showframe=true to the geometry options when debugging the frame.
 \RequirePackage[a4paper,
   top=2cm,bottom=2cm,bindingoffset=0.5cm,left=2cm,right=2cm,
-  headsep=0.5cm,footskip=0.75cm]{geometry}
+  headheight=15pt,headsep=0.8cm,footskip=0.75cm]{geometry}
 \RequirePackage{fancyhdr}
 \RequirePackage[final]{graphicx}
 \RequirePackage{sectsty}              % chapter / section heading fonts
@@ -567,7 +567,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 % plain page style (set automatically by \chapter) is redefined to match so
 % chapter-opening pages carry the same header and footer.
 \fancyhf{}
-\fancyhead[LEO]{{\scriptsize \@titleEn{}}}
+\fancyhead[LEO]{{\footnotesize \@titleEn{}}}
 \ifdualpage
   \fancyfoot[C]{{\fontsize{10pt}{10pt}\selectfont \thepage}}
 \else
@@ -577,7 +577,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 
 \fancypagestyle{plain}{%
   \fancyhf{}
-  \fancyhead[LO]{{\scriptsize \@titleEn{}}}
+  \fancyhead[LO]{{\footnotesize \@titleEn{}}}
   \ifdualpage
     \fancyfoot[C]{{\fontsize{10pt}{10pt}\selectfont \thepage}}
   \else
