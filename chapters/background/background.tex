@@ -18,7 +18,7 @@ A model does not even use the context it has evenly. Controlled experiments on l
 
 For an agentic coding session the consequence is direct. As the session runs, every file read, tool called, and command executed consumes context. As that context fills, the agent is more likely to forget earlier decisions, lose track of completed work, or drift from the original goal \cite{liu2024llmagents}. Summarising earlier context or retrieving it on demand buys room, but only by discarding detail, trading fidelity for space.
 
-This accumulation also carries a direct monetary cost. Each step is produced by running the model over the entire session so far, supplied to it as input, and a call is priced by the number of tokens it processes. Every step therefore costs more than the one before it, and the cumulative cost of a long task grows faster than the number of steps it takes \cite{gao2025turncontrol}.
+This accumulation also carries a direct monetary cost. Each step runs the model over the entire session so far as input, and a call is priced by the number of tokens it processes, both the input it reads and the output it produces. Caching the repeated tokens from earlier in the session does lower their price, but caches are short-lived and expire, so it is an unreliable way to contain the growing cost. Every step therefore tends to cost more than the one before it, and the cumulative cost of a long task grows faster than the number of steps it takes \cite{gao2025turncontrol}.
 
 \placeholder{Forthcoming. Spec-driven development and its single-agent
 reference implementation; single- versus multi-agent coordination; and a
