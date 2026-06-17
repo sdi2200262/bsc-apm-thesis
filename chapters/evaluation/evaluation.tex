@@ -1,20 +1,10 @@
 % Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
 % Standalone-article preamble removed; this is an \input fragment.
 
-\section{Evaluation Methodology}
+\section{Methodology and Research Questions}
 \label{sec:evaluation}
 
 This chapter details the methodology used to evaluate the Agentic Project Management (APM) framework. To assess the framework in a realistic setting, we conducted a comparative case study involving human participants. The study compares APM, a multi-agent framework that distributes work across specialised agents, against GitHub Spec-kit, a single-agent toolkit that guides one AI agent through a structured specification-driven workflow. Both frameworks are described in Section~\ref{sec:frameworks}. The study was conducted in May 2026 on the Claude Code command-line interface; pricing, model, and command-set statements in this chapter refer to that snapshot.
-
-The evaluation measures three distinct dimensions:
-
-\begin{itemize}
-    \item Economic Efficiency (dollar cost of a session, computed against the platform's per-token rate card)
-    \item Process Efficiency (human cognitive load and interaction burden across a session)
-    \item Functional Efficacy (ability to complete non-trivial tasks)
-\end{itemize}
-
-\subsection{Research Objectives}
 
 The primary objective of this research is to determine whether the structural overhead introduced by APM, in the form of multi-agent orchestration and the explicit Planning and Implementation phases, produces measurable improvements over a single-agent workflow. This evaluation contributes a cost perspective alongside the process and functional dimensions.
 
@@ -40,12 +30,39 @@ We define the following Research Questions (RQs):
     \end{itemize}
 \end{itemize}
 
-\subsection{Frameworks Under Evaluation}
+\section{Case-Study Design}
+\label{sec:study-design}
+
+The study compares the two frameworks across a homogeneous cohort of participants drawn from University students and working professionals. The design is within-subjects: every participant contributes data points for both frameworks, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
+
+\subsection{Counterbalancing}
+\label{sec:counterbalancing}
+
+Each participant completes the case study task twice, once with APM and once with Spec-kit, each session time-boxed to a maximum of three hours. Two factors are counterbalanced across the cohort: the framework order and the model assignment.
+
+The framework-order factor varies which framework a participant encounters first. Counterbalancing the order lets any observed first-to-second-session improvement be attributed to task familiarity rather than to the framework itself; the resulting first-to-second-session learning is analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor varies which Claude model drives both of a participant's sessions, held fixed within the participant. Each participant is assigned one of Claude Opus 4.7 and Claude Sonnet 4.6. The two models differ in capabilities and context-window capacity, one million tokens for Opus 4.7 against two hundred thousand for Sonnet 4.6.
+
+The cohort is split across four assignment cells: APM first with Opus, Spec-kit first with Opus, APM first with Sonnet, and Spec-kit first with Sonnet. Holding the model fixed within participant lets the within-participant framework comparison absorb the model factor into the participant's own variance; the cohort-level analysis additionally compares the framework effect across the two models.
+
+The two sessions are isolated from one another so that no code, workspace state, or assistant context from the first session can influence the second. The full session-isolation procedure is documented in the Submission Workflow subsection of the Evaluation Appendix.
+
+\subsection{Data Source}
+\label{sec:data-source}
+
+Each session produces a participant submission composed of three artefacts: a solution patch the participant writes against the patch baseline, the set of Claude Code JSONL transcripts the CLI persists for every conversation opened during the session, and a post-session questionnaire response.
+
+The solution patch is the participant's functional contribution and the input to scoring. The transcripts are the source of every cost, time, message-activity, and reliability measurement: each transcript provides a structured record of every conversation, so the measurements are extracted programmatically rather than by manual annotation. Auxiliary records that Claude Code persists for any subagents the conversation dispatched and for any tool results it offloaded from the main file travel with the transcripts, so a complete record of the session is available for measurement.
+
+The post-session questionnaire complements the transcript-derived measurements with self-reported workload and perception items and is submitted alongside the patch and the transcripts through a single per-session combined web form. Its captured items and response scale are documented in the Post-Session Questionnaire Instrument subsection of the Evaluation Appendix.
+
+Participant data is anonymised and encrypted before storage; the sanitisation scheme is documented in the Data Privacy and Sanitisation subsection of the Evaluation Appendix.
+
+\section{Frameworks under Comparison}
 \label{sec:frameworks}
 
 The two frameworks are both open-source and spec-driven, running on the same AI coding CLI. Both structure work through explicit specification and planning artifacts before implementation begins. They differ in how execution is organised: Spec-kit operates within a single agent conversation, while APM distributes work across multiple specialised agents.
 
-\subsubsection{GitHub Spec-kit}
+\subsection{GitHub Spec-kit}
 
 Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spec-kit/}} is a specification-driven development toolkit developed by GitHub. It guides a single AI agent through a structured workflow using three sequential commands:
 
@@ -59,15 +76,15 @@ Execution is triggered by a fourth command, \texttt{/speckit-implement}, which p
 
 All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
 
-\subsubsection{APM in Comparison}
+\subsection{APM in Comparison}
 
 Where Spec-kit runs the entire workflow in a single conversation, APM separates planning, coordination, and execution across three agent roles, each operating in its own conversation with scoped context. Agents communicate through a file-based Message Bus; planning documents adapt to each project rather than conforming to a predetermined artifact layout; and the user acts as a message carrier between conversations. When an agent's context fills, a Handoff mechanism preserves working knowledge across conversations.
 
-\subsection{Testbed and Task Design}
+\section{Testbed and Task}
 
 To evaluate the frameworks under realistic constraints, we used an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
 
-\subsubsection{Task Description}
+\subsection{Task Description}
 
 The task requires participants to implement two new announcement tools in the Python MCP server and to create a complete native C replica of the entire server with some explicit strict constraints.\footnote{\raggedright Task specification, participant package, and containerised testing environment available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} The two tools are:
 
@@ -80,41 +97,14 @@ The C implementation adds significant complexity: participants must manage code 
 
 The task admits more than one viable implementation path; a scoring rubric\footnote{\raggedright Scoring rubric and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}} awards points to any path that meets its per-test specifications.
 
-\subsubsection{Task Environment}
+\subsection{Task Environment}
 \label{sec:task-env}
 
 Each session runs in a workspace prepared up-front. The working directory is a fresh clone of \texttt{eclass-mcp-server} checked out to a fixed patch-baseline commit against which the participant implements the task; the submission patch is the diff between this baseline and the participant's staged changes. A read-only reference clone of \texttt{openeclass} at a fixed inspection commit is also present, so any research the assistant performs into the legacy server's source reads from a fixed snapshot rather than a moving target. Alongside the workspace runs a containerised mock of the openeclass platform; the mock is built from that same inspection commit, only compiled, seeded with deterministic fixture data, and packaged in a Docker image, and paired with a deterministic mock single-sign-on service. The assistant therefore inspects the very source that the running mock executes.
 
 The mock is the participant's integration target during development and the same target the grader replays when scoring, so every cohort participant develops and is graded against the same fixed state of the platform. The exact pins, the upstream release tag the image is built from, the seeded fixtures, and the mock authentication surface are documented in the Reference Environments subsection of the Evaluation Appendix.
 
-\subsection{Study Design}
-\label{sec:study-design}
-
-The study compares the two frameworks across a homogeneous cohort of participants drawn from University students and working professionals. The design is within-subjects: every participant contributes data points for both frameworks, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
-
-\subsubsection{Counterbalancing}
-\label{sec:counterbalancing}
-
-Each participant completes the case study task twice, once with APM and once with Spec-kit, each session time-boxed to a maximum of three hours. Two factors are counterbalanced across the cohort: the framework order and the model assignment.
-
-The framework-order factor varies which framework a participant encounters first. Counterbalancing the order lets any observed first-to-second-session improvement be attributed to task familiarity rather than to the framework itself; the resulting first-to-second-session learning is analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor varies which Claude model drives both of a participant's sessions, held fixed within the participant. Each participant is assigned one of Claude Opus 4.7 and Claude Sonnet 4.6. The two models differ in capabilities and context-window capacity, one million tokens for Opus 4.7 against two hundred thousand for Sonnet 4.6.
-
-The cohort is split across four assignment cells: APM first with Opus, Spec-kit first with Opus, APM first with Sonnet, and Spec-kit first with Sonnet. Holding the model fixed within participant lets the within-participant framework comparison absorb the model factor into the participant's own variance; the cohort-level analysis additionally compares the framework effect across the two models.
-
-The two sessions are isolated from one another so that no code, workspace state, or assistant context from the first session can influence the second. The full session-isolation procedure is documented in the Submission Workflow subsection of the Evaluation Appendix.
-
-\subsubsection{Data Source}
-\label{sec:data-source}
-
-Each session produces a participant submission composed of three artefacts: a solution patch the participant writes against the patch baseline, the set of Claude Code JSONL transcripts the CLI persists for every conversation opened during the session, and a post-session questionnaire response.
-
-The solution patch is the participant's functional contribution and the input to scoring. The transcripts are the source of every cost, time, message-activity, and reliability measurement: each transcript provides a structured record of every conversation, so the measurements are extracted programmatically rather than by manual annotation. Auxiliary records that Claude Code persists for any subagents the conversation dispatched and for any tool results it offloaded from the main file travel with the transcripts, so a complete record of the session is available for measurement.
-
-The post-session questionnaire complements the transcript-derived measurements with self-reported workload and perception items and is submitted alongside the patch and the transcripts through a single per-session combined web form. Its captured items and response scale are documented in the Post-Session Questionnaire Instrument subsection of the Evaluation Appendix.
-
-Participant data is anonymised and encrypted before storage; the sanitisation scheme is documented in the Data Privacy and Sanitisation subsection of the Evaluation Appendix.
-
-\subsection{Metrics}
+\section{Measures}
 \label{sec:metrics}
 
 Every measurement defined in this section is extracted from the participant's submission by the same procedure across the cohort. The economic, process, and supplementary measurements are derived from the session's transcripts; the functional measurements are derived from the solution patch, scored against the rubric introduced earlier.
@@ -125,7 +115,7 @@ Per-session is the headline scope on which the two frameworks are compared, sinc
 
 Each measurement carries an anchor flag distinguishing Primary measures (those that drive a research question and enter hypothesis testing), Secondary measures (those that decompose or support a Primary), and Supplementary measures (descriptive only). The subsections below specify each measurement dimension one by one.
 
-\subsubsection{Economic}
+\subsection{Economic}
 
 The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card at the study's snapshot date, across the five token categories the rate card specifies. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch.
 
@@ -133,7 +123,7 @@ A session's cost is reported as a point estimate when every dispatch resolves to
 
 Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the per-session scope.
 
-\subsubsection{Process}
+\subsection{Process}
 
 The process metrics capture the burden each framework imposes on the user across a session and are separated into how the user interacted with the model and how they invested their time during the session.
 
@@ -164,7 +154,7 @@ The temporal shape of the session is captured by a family of turn-time metrics:
 
 Session duration, turn time with its solo and concurrent decomposition, and inter-turn time are reported at the per-session and per-phase scopes only; the wall-clock union and concurrency interpretations are not well-defined at role scope, where a role lives inside a single conversation file whose own turns cannot overlap.
 
-\subsubsection{Functional}
+\subsection{Functional}
 
 The functional dimension scores each submission against the task's scoring rubric introduced earlier. The rubric is a fixed set of tests; each test checks one expected behaviour, produces a pass-or-fail verdict, and contributes a calibrated point weight to a 100-point total, so a submission that delivers only part of the task earns proportionally for what works.
 
@@ -172,7 +162,7 @@ The 100 points are split across the task's two implementations. The Python imple
 
 The primary functional outcomes are the total rubric score and the per-section scores: the first summarises the framework comparison in a single number, the second locates where each framework's work lands within the rubric.
 
-\subsubsection{Supplementary}
+\subsection{Supplementary}
 
 A small set of supplementary descriptors is reported per framework alongside the primary and secondary measurements. They are descriptive only and do not enter the paired hypothesis testing.
 
@@ -182,7 +172,7 @@ The \textbf{subagent dispatch count} is the number of \texttt{Task}-tool dispatc
 
 The \textbf{model-invoked Skill count} is the number of platform-rendered Skill bodies the agent itself caused to be injected through the Skill tool, surfacing self-invocation behaviour that does not appear in the user-message activity.
 
-\subsubsection{Analysis Plan}
+\section{Analysis Plan}
 \label{sec:analysis-plan}
 
 Each measurement is reported at the cohort level as a descriptive summary first (mean, standard deviation, median, and inter-quartile range per framework and per model band) and then as a paired framework comparison. The descriptive summaries report what a typical APM session and a typical Spec-kit session cost, take, and produce, and locate the spread of the cohort around those typical values. The paired comparison establishes whether the per-participant difference between the two frameworks is systematic across the cohort and how large that difference is relative to the per-participant variance.
