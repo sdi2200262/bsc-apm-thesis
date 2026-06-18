@@ -4,7 +4,7 @@
 \section{Methodology and Research Questions}
 \label{sec:evaluation}
 
-We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted in May 2026 on the Claude Code command-line interface; pricing, model, and command-set statements in this chapter refer to that snapshot.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted in May 2026 on the Claude Code command-line interface, which both frameworks run on top of; pricing, model, and command-set statements in this chapter refer to that snapshot.
 
 Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is carried by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
@@ -14,33 +14,6 @@ Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-dri
     \item \textbf{RQ3 (Functional):} How do the two frameworks differ in functional outcome, in how much of the task each completes and in how they fail when they fall short?
     \item \textbf{RQ4 (Perception):} How does participants' self-reported experience of each framework relate to the behaviour measured from their sessions?
 \end{itemize}
-
-\section{Case-Study Design}
-\label{sec:study-design}
-
-The study compares the two frameworks across a homogeneous cohort of participants drawn from University students and working professionals. The design is within-subjects: every participant contributes data points for both frameworks, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
-
-\subsection{Counterbalancing}
-\label{sec:counterbalancing}
-
-Each participant completes the case study task twice, once with APM and once with Spec-kit, each session time-boxed to a maximum of three hours. Two factors are counterbalanced across the cohort: the framework order and the model assignment.
-
-The framework-order factor varies which framework a participant encounters first. Counterbalancing the order lets any observed first-to-second-session improvement be attributed to task familiarity rather than to the framework itself; the resulting first-to-second-session learning is analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor varies which Claude model drives both of a participant's sessions, held fixed within the participant. Each participant is assigned one of Claude Opus 4.7 and Claude Sonnet 4.6. The two models differ in capabilities and context-window capacity, one million tokens for Opus 4.7 against two hundred thousand for Sonnet 4.6.
-
-The cohort is split across four assignment cells: APM first with Opus, Spec-kit first with Opus, APM first with Sonnet, and Spec-kit first with Sonnet. Holding the model fixed within participant lets the within-participant framework comparison absorb the model factor into the participant's own variance; the cohort-level analysis additionally compares the framework effect across the two models.
-
-The two sessions are isolated from one another so that no code, workspace state, or assistant context from the first session can influence the second. The full session-isolation procedure is documented in the Submission Workflow subsection of the Evaluation Appendix.
-
-\subsection{Data Source}
-\label{sec:data-source}
-
-Each session produces a participant submission composed of three artefacts: a solution patch the participant writes against the patch baseline, the set of Claude Code JSONL transcripts the CLI persists for every conversation opened during the session, and a post-session questionnaire response.
-
-The solution patch is the participant's functional contribution and the input to scoring. The transcripts are the source of every cost, time, message-activity, and reliability measurement: each transcript provides a structured record of every conversation, so the measurements are extracted programmatically rather than by manual annotation. Auxiliary records that Claude Code persists for any subagents the conversation dispatched and for any tool results it offloaded from the main file travel with the transcripts, so a complete record of the session is available for measurement.
-
-The post-session questionnaire complements the transcript-derived measurements with self-reported workload and perception items and is submitted alongside the patch and the transcripts through a single per-session combined web form. Its captured items and response scale are documented in the Post-Session Questionnaire Instrument subsection of the Evaluation Appendix.
-
-Participant data is anonymised and encrypted before storage; the sanitisation scheme is documented in the Data Privacy and Sanitisation subsection of the Evaluation Appendix.
 
 \section{Frameworks under Comparison}
 \label{sec:frameworks}
@@ -65,38 +38,44 @@ All planning and implementation happens within one continuous conversation. The 
 
 Where Spec-kit runs the entire workflow in a single conversation, APM separates planning, coordination, and execution across three agent roles, each operating in its own conversation with scoped context. Agents communicate through a file-based Message Bus; planning documents adapt to each project rather than conforming to a predetermined artifact layout; and the user acts as a message carrier between conversations. When an agent's context fills, a Handoff mechanism preserves working knowledge across conversations.
 
-\section{Testbed and Task}
+\section{Case-Study Design}
+\label{sec:study-design}
 
-To evaluate the frameworks under realistic constraints, we used an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
+The study is a within-subjects comparative case study across a homogeneous cohort of twelve participants drawn from university students and working professionals. Every participant completes the same task twice, once with each framework, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it. The cohort therefore yields twenty-four sessions in total.
 
-\subsection{Task Description}
+\subsection{Task Specification}
 
-The task requires participants to implement two new announcement tools in the Python MCP server and to create a complete native C replica of the entire server with some explicit strict constraints.\footnote{\raggedright Task specification, participant package, and containerised testing environment available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} The two tools are:
+The task is delivered to each participant as a complete product requirements document (PRD), in the form a developer receives a real feature brief.\footnote{Task specification, participant package, and containerised testing environment available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} It builds on \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} an existing open-source Python Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server that connects to Open eClass,\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} the learning-management platform used across Greek universities. Participants extend the server with two new announcement-retrieval tools, then reimplement it in full, including those tools, as a standalone native C replica under strict constraints.
 
-\begin{itemize}
-    \item \texttt{get\_course\_announcements}: retrieves announcements for a specific course.
-    \item \texttt{get\_general\_announcements}: aggregates system-wide and per-course announcements.
-\end{itemize}
-
-The C implementation adds significant complexity: participants must manage code translation, memory safety, and protocol details across two different languages. The combination of feature implementation and full-language replication is designed to challenge the two frameworks and expose any differences between them, particularly when context window limits become a bottleneck.
-
-The task admits more than one viable implementation path; a scoring rubric\footnote{\raggedright Scoring rubric and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}} awards points to any path that meets its per-test specifications.
+The work is deliberately broad. Building the new tools requires investigating the unfamiliar legacy PHP codebase behind Open eClass, to learn how it exposes its data, and implementing them in Python. The C replica reproduces the entire server from scratch as a standalone, drop-in microservice, covering not just the tool logic but the protocol layer that the Python server gets from the MCP SDK. It must additionally meet strict constraints on manual data handling and memory safety. Spanning a legacy system and two implementation languages, the task sets both frameworks a demanding, end-to-end engineering workload.
 
 \subsection{Task Environment}
 \label{sec:task-env}
 
-Each session runs in a workspace prepared up-front. The working directory is a fresh clone of \texttt{eclass-mcp-server} checked out to a fixed patch-baseline commit against which the participant implements the task; the submission patch is the diff between this baseline and the participant's staged changes. A read-only reference clone of \texttt{openeclass} at a fixed inspection commit is also present, so any research the assistant performs into the legacy server's source reads from a fixed snapshot rather than a moving target. Alongside the workspace runs a containerised mock of the openeclass platform; the mock is built from that same inspection commit, only compiled, seeded with deterministic fixture data, and packaged in a Docker image, and paired with a deterministic mock single-sign-on service. The assistant therefore inspects the very source that the running mock executes.
+Each participant runs the study inside a fresh, dedicated Linux virtual machine, prepared in advance, so all their work happens in the same isolated environment. The machine provides the development toolchain the task needs and a workspace holding the PRD, a clone of \texttt{eclass-mcp-server} at a fixed baseline against which the participant works, and a clone of the Open eClass codebase the agent can investigate. A containerised Open eClass instance, built from that same fixed version of the platform and seeded with a fixed set of mock data, runs in the background throughout the session alongside a mock single-sign-on service, so the participant and the agent can validate their work against the running platform. Every participant therefore develops against the same fixed state.
 
-The mock is the participant's integration target during development and the same target the grader replays when scoring, so every cohort participant develops and is graded against the same fixed state of the platform. The exact pins, the upstream release tag the image is built from, the seeded fixtures, and the mock authentication surface are documented in the Reference Environments subsection of the Evaluation Appendix.
+\subsection{Procedure}
+\label{sec:procedure}
+
+Each participant completes two sessions, one per framework, each time-boxed to a maximum of three hours. Within a session the participant carries out the task with the assigned framework and then answers a short post-session questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first carries into the second.
+
+\subsection{Counterbalancing}
+\label{sec:counterbalancing}
+
+Two factors are counterbalanced across the cohort: the framework order and the model assignment. The framework-order factor varies which framework a participant encounters first; counterbalancing it lets any first-to-second-session improvement, a learning effect from growing task familiarity, be distinguished from the framework's own effect. These learning effects are analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor holds one Claude model fixed across both of a participant's sessions. Each participant is assigned either Claude Opus 4.7 or Claude Sonnet 4.6, the two models Claude Code offered during the study window, which differ in capability and in context-window capacity, one million tokens for Opus against two hundred thousand for Sonnet. Crossing the two factors gives four assignment cells of three participants each.
+
+\subsection{Collected Data}
+
+From each session we collect a participant submission of three parts: the solution patch the participant writes against the baseline, the session transcripts the command-line interface records for every conversation opened, and the participant's response to a post-session questionnaire.
 
 \section{Measures}
 \label{sec:metrics}
 
-Every measurement defined in this section is extracted from the participant's submission by the same procedure across the cohort. The economic, process, and supplementary measurements are derived from the session's transcripts; the functional measurements are derived from the solution patch, scored against the rubric introduced earlier.
+Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic, process, and supplementary measurements are derived from the transcripts, extracted programmatically; the functional measurements are derived from the solution patch, scored against the rubric introduced earlier. The questionnaire supplies the self-reported perception measurements.
 
 Every transcript-derived measurement is computed at two scopes per submission, per-session and per-phase, where the phases are the planning portion and the implementation portion of the session. A third per-role scope is emitted explicitly for APM submissions, splitting the session by Planner, Manager, and Worker.
 
-Per-session is the headline scope on which the two frameworks are compared, since it places APM's multi-conversation workflow and Spec-kit's single conversation on the same denominator. Per-phase and per-role views locate where within a session each framework spends its budget and effort. Phase boundaries and APM roles are detected automatically; the detection rules are documented in the APM Role Detection and  Framework Phase Detection subsections of the Evaluation Appendix. The functional dimension admits no phase or role decomposition and is reported per submission only.
+Per-session is the headline scope on which the two frameworks are compared, since it places APM's multi-conversation workflow and Spec-kit's single conversation on the same denominator. Per-phase views locate where within a session each framework spends its budget and effort. Per-role views apply for APM sessions only and probe the distributions between the agent roles of the framework. Phase boundaries and APM roles are detected automatically. The functional dimension admits no phase or role decomposition and is reported per submission only.
 
 Each measurement carries an anchor flag distinguishing Primary measures (those that drive a research question and enter hypothesis testing), Secondary measures (those that decompose or support a Primary), and Supplementary measures (descriptive only). The subsections below specify each measurement dimension one by one.
 
@@ -104,7 +83,7 @@ Each measurement carries an anchor flag distinguishing Primary measures (those t
 
 The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card at the study's snapshot date, across the five token categories the rate card specifies. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch.
 
-A session's cost is reported as a point estimate when every dispatch resolves to a single model and as lower and upper bounds when a dispatch's model cannot be determined deterministically. The full attribution rules, the fallback resolution path, and the bracketing scheme are documented in the Per-Token Rate Card subsection of the Evaluation Appendix.
+A session's cost is reported as a point estimate when every dispatch resolves to a single model and as lower and upper bounds when a dispatch's model cannot be determined deterministically.
 
 Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the per-session scope.
 
@@ -143,7 +122,7 @@ Session duration, turn time with its solo and concurrent decomposition, and inte
 
 The functional dimension scores each submission against the task's scoring rubric introduced earlier. The rubric is a fixed set of tests; each test checks one expected behaviour, produces a pass-or-fail verdict, and contributes a calibrated point weight to a 100-point total, so a submission that delivers only part of the task earns proportionally for what works.
 
-The 100 points are split across the task's two implementations. The Python implementation carries 30 points: a baseline section that confirms the four pre-existing tools still work, and two feature sections covering the new course-announcement and general-announcement tools. The C replica carries 70 points: a build, technical-stack, and configuration-surface section, a baseline section that re-implements the four tools from scratch, the two announcement features mirrored against the C binary, and a memory-safety section exercised under Valgrind. The per-section point allocations, the per-test definitions, and the assertion logic each test uses are documented in the Test Suite Composition subsection of the Evaluation Appendix.
+The 100 points are split across the task's two implementations. The Python implementation carries 30 points: a baseline section that confirms the four pre-existing tools still work, and two feature sections covering the new course-announcement and general-announcement tools. The C replica carries 70 points: a build, technical-stack, and configuration-surface section, a baseline section that re-implements the four tools from scratch, the two announcement features mirrored against the C binary, and a memory-safety section exercised under Valgrind.
 
 The primary functional outcomes are the total rubric score and the per-section scores: the first summarises the framework comparison in a single number, the second locates where each framework's work lands within the rubric.
 
@@ -245,12 +224,12 @@ This subsection enumerates the internal, external, and construct validity threat
 
 \textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Description subsection in Section~\ref{sec:evaluation}, in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
 
-\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:evaluation}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot pinned in the Per-Token Rate Card subsection of the Evaluation Appendix; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
+\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:evaluation}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
 
 \subsubsection{Construct Validity}
 
 \textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process metric in the Metrics and Data Collection subsection in Section~\ref{sec:evaluation} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
 
-\textbf{Instrument coverage limits.} The 100-point rubric, defined in the Test Suite Composition subsection of the Evaluation Appendix, captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in the Data Source subsection in Section~\ref{sec:evaluation}: any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
+\textbf{Instrument coverage limits.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in the Data Source subsection in Section~\ref{sec:evaluation}: any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
 
-\textbf{Replica versus live openeclass.} The shared Docker-based replica of the openeclass platform described in the Task Environment subsection in Section~\ref{sec:evaluation} pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of openeclass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study. Replica construction and seeding details are documented in the Baseline Pins and Reference Environments subsection of the Evaluation Appendix.
+\textbf{Replica versus live openeclass.} The shared Docker-based replica of the openeclass platform described in the Task Environment subsection in Section~\ref{sec:evaluation} pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of openeclass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study.
