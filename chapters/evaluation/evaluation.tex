@@ -4,30 +4,15 @@
 \section{Methodology and Research Questions}
 \label{sec:evaluation}
 
-This chapter details the methodology used to evaluate the Agentic Project Management (APM) framework. To assess the framework in a realistic setting, we conducted a comparative case study involving human participants. The study compares APM, a multi-agent framework that distributes work across specialised agents, against GitHub Spec-kit, a single-agent toolkit that guides one AI agent through a structured specification-driven workflow. Both frameworks are described in Section~\ref{sec:frameworks}. The study was conducted in May 2026 on the Claude Code command-line interface; pricing, model, and command-set statements in this chapter refer to that snapshot.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted in May 2026 on the Claude Code command-line interface; pricing, model, and command-set statements in this chapter refer to that snapshot.
 
-The primary objective of this research is to determine whether the structural overhead introduced by APM, in the form of multi-agent orchestration and the explicit Planning and Implementation phases, produces measurable improvements over a single-agent workflow. This evaluation contributes a cost perspective alongside the process and functional dimensions.
-
-We define the following Research Questions (RQs):
+Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is carried by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic Efficiency):}
-    \begin{itemize}
-        \item Does APM's multi-agent coordination produce a measurably different dollar cost per session than Spec-kit's single-agent workflow?
-        \item Where in each framework's workflow does session cost concentrate between the planning phase and the implementation phase, and does that concentration pattern differ between frameworks?
-        \item Does cumulative session cost comparison between the two frameworks shift, when using models with different context-window capacities and capabilities?
-    \end{itemize}
-    \item \textbf{RQ2 (Process Efficiency):}
-    \begin{itemize}
-        \item Does APM's structure reduce the amount of manual effort the user must invest during execution, particularly interventions, corrections, and clarifications?
-        \item If a difference in user effort is observed, is it significant enough to justify the structural overhead APM introduces?
-        \item Given that the user remains in the loop as a message carrier, can the agents coordinate effectively enough that the user's role can be limited to shuttling messages rather than correcting or redirecting agent behaviour?
-    \end{itemize}
-    \item \textbf{RQ3 (Functional Efficacy):}
-    \begin{itemize}
-        \item Can APM successfully deliver complex, non-trivial features in scenarios where single-agent workflows are prone to failure due to context window exhaustion, loss of coherence across long sessions, or inability to coordinate work across multiple concerns?
-        \item How does the performance of APM compare to the performance of a single-agent workflow?
-    \end{itemize}
+    \item \textbf{RQ1 (Economic):} How does APM's multi-agent structure affect the dollar cost of completing a task relative to Spec-kit's single-agent workflow, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ2 (Process):} How does APM's multi-agent structure change the time a task takes and the effort it demands of the user, relative to Spec-kit's single-agent workflow?
+    \item \textbf{RQ3 (Functional):} How do the two frameworks differ in functional outcome, in how much of the task each completes and in how they fail when they fall short?
+    \item \textbf{RQ4 (Perception):} How does participants' self-reported experience of each framework relate to the behaviour measured from their sessions?
 \end{itemize}
 
 \section{Case-Study Design}
