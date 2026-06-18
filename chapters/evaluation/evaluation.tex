@@ -18,25 +18,19 @@ Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-dri
 \section{Frameworks under Comparison}
 \label{sec:frameworks}
 
-The two frameworks are both open-source and spec-driven, running on the same AI coding CLI. Both structure work through explicit specification and planning artifacts before implementation begins. They differ in how execution is organised: Spec-kit operates within a single agent conversation, while APM distributes work across multiple specialised agents.
+The comparison sets APM against GitHub Spec-kit, two open-source frameworks that apply the spec-driven discipline of Section~\ref{sec:spec-driven} on top of an existing coding agent. APM's design is described in full in Chapter~\ref{chap:framework-design}; Spec-kit, the single-agent counterpart, is introduced here so the two can be read on the same terms.
 
-\subsection{GitHub Spec-kit}
+Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} is GitHub's open-source spec-driven development toolkit. A single agent applies the discipline from end to end, producing the specification and the plan and then implementing them, all within one continuous conversation.
 
-Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spec-kit/}} is a specification-driven development toolkit developed by GitHub. It guides a single AI agent through a structured workflow using three sequential commands:
+The work is driven by a set of slash commands that the developer triggers, or the agent autonomously invokes, each a bundle of instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The specification is then built through three sequential commands:
 
 \begin{enumerate}
-    \item \texttt{/speckit-specify}: transforms a feature description into a structured specification containing requirements, user stories, and acceptance criteria.
-    \item \texttt{/speckit-plan}: converts the specification into a technical implementation plan with architecture decisions, data models, API contracts, and supporting documents.
-    \item \texttt{/speckit-tasks}: derives an executable task list (\texttt{tasks.md}) from the plan, with parallelism annotations and sequencing constraints.
+    \item \texttt{/speckit-specify}: directs the agent to produce a structured specification of requirements, user stories, and acceptance criteria from a feature description.
+    \item \texttt{/speckit-plan}: has it turn that specification into a technical implementation plan with architecture decisions, data models, and API contracts.
+    \item \texttt{/speckit-tasks}: prompts it to derive an executable task list from the plan, annotated with dependencies and sequencing constraints.
 \end{enumerate}
 
-Execution is triggered by a fourth command, \texttt{/speckit-implement}, which parses the task list and carries out each task in sequence. Additional commands support iterative refinement, cross-artifact consistency checking and custom quality checklists. A constitution mechanism, maintained via the \texttt{/speckit-constitution} command, allows users to establish architectural rules that the agent enforces throughout the workflow.
-
-All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
-
-\subsection{APM in Comparison}
-
-Where Spec-kit runs the entire workflow in a single conversation, APM separates planning, coordination, and execution across three agent roles, each operating in its own conversation with scoped context. Agents communicate through a file-based Message Bus; planning documents adapt to each project rather than conforming to a predetermined artifact layout; and the user acts as a message carrier between conversations. When an agent's context fills, a Handoff mechanism preserves working knowledge across conversations.
+Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artifact consistency checking, and custom quality checklists along the way.
 
 \section{Case-Study Design}
 \label{sec:study-design}
