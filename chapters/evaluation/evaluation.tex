@@ -38,6 +38,7 @@ Finally, \texttt{/speckit-implement} has the agent work through the task list in
 The study is a within-subjects comparative case study across a homogeneous cohort of twelve participants drawn from university students and working professionals. Every participant completes the same task twice, once with each framework, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it. The cohort therefore yields twenty-four sessions in total.
 
 \subsection{Task Specification}
+\label{sec:task-spec}
 
 The task is delivered to each participant as a complete product requirements document (PRD), in the form a developer receives a real feature brief.\footnote{Task specification, participant package, and containerised testing environment available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} It builds on \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} an existing open-source Python Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server that connects to Open eClass,\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} the learning-management platform used across Greek universities. Participants extend the server with two new announcement-retrieval tools, then reimplement it in full, including those tools, as a standalone native C replica under strict constraints.
 
@@ -160,24 +161,28 @@ The confined number of sessions in the case study allows each participant's pair
 
 \subsection{Economic}
 
-\placeholder{Forthcoming. Quantitative results for the per-session cost and the phase-broken decomposition. Tables: cohort-level descriptive summaries (mean, standard deviation, median, IQR) per framework and per model band; paired APM-versus-Spec-kit cost distributions stratified by model band and pooled across the cohort, with paired $t$-test statistics, $p$-values, and Cohen's $d_z$; planning-versus-implementation cost shares per framework; per-role cost shares across Planner, Manager, and Worker for the APM cohort; cost composition by token category and by main-versus-delegated population; Pearson correlations against rubric score within and across frameworks.}
+\placeholder{Forthcoming. The per-session cost compared between frameworks by the paired method of the Analysis Plan, with the planning and implementation phase split, the per-role decomposition across Planner, Manager, and Worker for the APM cohort, the cost composition by token category and by main versus delegated population, and the cost-versus-model view across the Opus and Sonnet bands.}
 
 \subsection{Process}
 
-\placeholder{Forthcoming. Quantitative results for the user-burden metrics. Tables: bucket-share distribution and magnitude per bucket across turn prompts and delivered steers, paired across frameworks with $t$-statistics and Cohen's $d$; steer attempted, delivered, and abandoned counts per framework; turn-time decompositions (solo, concurrent, inter-turn) and the per-turn duration distribution; session-duration distributions against the three-hour cap; Pearson correlations against rubric score. Self-reported workload items from the post-session questionnaire are reported alongside the instrumented coordination metrics.}
+\placeholder{Forthcoming. The process measures compared between frameworks by the paired method of the Analysis Plan: the interaction measures (turn-prompt and steer counts, the bucket-share distribution and per-bucket magnitude across prompts and delivered steers) and the timing measures (session duration against the three-hour cap, turn count, and the turn-time and inter-turn decompositions), at the session and phase scopes. The self-reported workload items from the questionnaire are reported alongside.}
 
 \subsection{Functional}
 
-\placeholder{Forthcoming. Quantitative results for the 100-point rubric. Tables: total-score distribution per framework, per-section score distributions across the Python and C implementations, per-test pass rates, baseline-regression rates, and paired framework comparisons with $t$-statistics and Cohen's $d$. Perceived framework effectiveness from the post-session questionnaire is reported alongside the rubric outcomes.}
+\placeholder{Forthcoming. The total rubric score compared between frameworks by the paired method of the Analysis Plan, the per-section scores decomposing it across the Python and C implementations, and the per-framework score distribution with every session shown. The perceived-effectiveness rating from the questionnaire is reported alongside.}
+
+\subsection{Perception}
+
+\placeholder{Forthcoming. The eight ordinal rating items compared between frameworks item by item, each by its sign count and median paired difference read with the item's polarity, with the per-framework median profile across the items; the second-session comparative item reported by the framework taken second. Each rating is read against the behaviour it should reflect, descriptively, as the pattern of agreement and divergence.}
 
 \subsection{Supplementary}
 
-\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary metrics: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count. Reported as cohort-level descriptives per framework and per model band without paired hypothesis testing.}
+\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary measures: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count, per framework and per model band, descriptive only and without a paired comparison.}
 
 \subsection{Learning Effects}
 \label{sec:learning-effects}
 
-\placeholder{Forthcoming. Quantitative results for the learning-effect analysis: first-to-second-session improvement matrix across framework orderings for functional, economic, and process metrics; order-effect comparison between APM-first and Spec-kit-first directions; and the aggregate baseline task-learning estimate across orderings.}
+\placeholder{Forthcoming. The per-participant examination of each pair of sessions for learning carried from the first into the second, following the Analysis Plan: each cross-session change attributed to the participant's own inputs or to autonomous agent action, with the per-participant verdicts rolled up into a cohort read.}
 
 % ============================================================================
 % DISCUSSION
@@ -186,18 +191,7 @@ The confined number of sessions in the case study allows each participant's pair
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Economic Efficiency}
-\label{sec:discussion-economic}
-
-\placeholder{Forthcoming. Discussion of the per-session cost comparison, the phase-level decomposition, and the per-role decomposition for the APM cohort, read against the workflow structures of the two frameworks described in the Frameworks Under Evaluation subsection in Section~\ref{sec:evaluation}. The discussion treats two cost-shaping mechanics that the per-session metric integrates over. The first is the choice of context-reset strategy within a session: platform autocompaction substitutes a summarised prior context for a price below a full handoff but discards fidelity in the process, while a manual handoff preserves continuity at a higher per-event cost. The second is the context-window capacity of the model driving the session: the cost dynamics of a single concentrated window against several lower-filled distributed windows are not symmetric across the one-million-token and two-hundred-thousand-token regimes. The cumulative cost split observed in the Results is read against these mechanics, separately within each capacity band, and the framework comparison is interpreted as the net of the strategy and capacity contributions; the per-role decomposition further locates which APM role carries the structural overhead within that comparison.}
-
-\subsection{Process Efficiency}
-
-\placeholder{Forthcoming. Discussion of the user-burden comparison across turn-prompt and steer activity, the reliability of agent output, and the temporal shape of each session, paired with the self-reported workload items from the post-session questionnaire.}
-
-\subsection{Functional Efficacy}
-
-\placeholder{Forthcoming. Discussion of the rubric-score comparison and the per-section pass-rate decomposition, framed against the design motivation for multi-agent coordination.}
+\placeholder{Forthcoming. Interpretation of the results, reading the framework comparison across the economic, process, functional, and perception dimensions against the structure and design of the two frameworks.}
 
 \subsection{Threats to Validity}
 
@@ -205,20 +199,20 @@ This subsection enumerates the internal, external, and construct validity threat
 
 \subsubsection{Internal Validity}
 
-\textbf{Learning effects from the within-subjects design.} The within-subjects design declared in the Study Design subsection in Section~\ref{sec:evaluation} has each participant complete the same task twice, so task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants, as described in the Counterbalancing subsection in Section~\ref{sec:evaluation}, mitigates the framework-effect confound but does not eliminate the underlying learning curve. The Learning Effects analysis described in the Analysis Plan subsection in Section~\ref{sec:evaluation} quantifies the mean improvement between sessions across both orderings and is the primary defence against this threat.
+\textbf{Learning effects from the within-subjects design.} The within-subjects design declared in the Case-Study Design (Section~\ref{sec:study-design}) has each participant complete the same task twice, so task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants, as described in Sessions and Data (Section~\ref{sec:sessions-data}), mitigates the framework-effect confound but does not eliminate the underlying learning curve. The learning-effects examination described in the Analysis Plan (Section~\ref{sec:analysis-plan}) reads each participant's two sessions for evidence of carried-over learning and is the primary defence against this threat.
 
-\textbf{Self-reported versus observed measures.} The post-session questionnaire described in the Post-Session Questionnaire subsection in Section~\ref{sec:evaluation} pairs the instrumented, transcript-derived metrics with self-reported workload, confidence, and perceived framework effectiveness; observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
+\textbf{Self-reported versus observed measures.} The perception measures described in Section~\ref{sec:metrics} pair the instrumented, transcript-derived measures with self-reported workload, confidence, and perceived framework effectiveness; observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
 
 \subsubsection{External Validity}
 
-\textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Description subsection in Section~\ref{sec:evaluation}, in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
+\textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Specification (Section~\ref{sec:task-spec}), in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
 
 \textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:evaluation}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
 
 \subsubsection{Construct Validity}
 
-\textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process metric in the Metrics and Data Collection subsection in Section~\ref{sec:evaluation} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
+\textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process measures in Section~\ref{sec:metrics} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
 
-\textbf{Instrument coverage limits.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in the Data Source subsection in Section~\ref{sec:evaluation}: any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
+\textbf{Instrument coverage limits.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in Sessions and Data (Section~\ref{sec:sessions-data}): any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
 
-\textbf{Replica versus live openeclass.} The shared Docker-based replica of the openeclass platform described in the Task Environment subsection in Section~\ref{sec:evaluation} pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of openeclass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study.
+\textbf{Replica versus live Open eClass.} The shared Docker-based replica of the Open eClass platform described in the Task Environment (Section~\ref{sec:task-env}) pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of Open eClass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study.
