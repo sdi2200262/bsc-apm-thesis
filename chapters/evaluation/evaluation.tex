@@ -54,17 +54,12 @@ The work is deliberately broad. Building the new tools requires investigating th
 
 Each participant runs the study inside a fresh, dedicated Linux virtual machine, prepared in advance, so all their work happens in the same isolated environment. The machine provides the development toolchain the task needs and a workspace holding the PRD, a clone of \texttt{eclass-mcp-server} at a fixed baseline against which the participant works, and a clone of the Open eClass codebase the agent can investigate. A containerised Open eClass instance, built from that same fixed version of the platform and seeded with a fixed set of mock data, runs in the background throughout the session alongside a mock single-sign-on service, so the participant and the agent can validate their work against the running platform. Every participant therefore develops against the same fixed state.
 
-\subsection{Procedure}
-\label{sec:procedure}
+\subsection{Sessions and Data}
+\label{sec:sessions-data}
 
-Each participant completes two sessions, one per framework, each time-boxed to a maximum of three hours. Within a session the participant carries out the task with the assigned framework and then answers a short post-session questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first carries into the second.
-
-\subsection{Counterbalancing}
-\label{sec:counterbalancing}
+Each of a participant's two sessions is time-boxed to a maximum of three hours, within which the participant carries out the task with the assigned framework and then answers a short post-session questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first session carries into the second.
 
 Two factors are counterbalanced across the cohort: the framework order and the model assignment. The framework-order factor varies which framework a participant encounters first; counterbalancing it lets any first-to-second-session improvement, a learning effect from growing task familiarity, be distinguished from the framework's own effect. These learning effects are analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor holds one Claude model fixed across both of a participant's sessions. Each participant is assigned either Claude Opus 4.7 or Claude Sonnet 4.6, the two models Claude Code offered during the study window, which differ in capability and in context-window capacity, one million tokens for Opus against two hundred thousand for Sonnet. Crossing the two factors gives four assignment cells of three participants each.
-
-\subsection{Collected Data}
 
 From each session we collect a participant submission of three parts: the solution patch the participant writes against the baseline, the session transcripts the command-line interface records for every conversation opened, and the participant's response to a post-session questionnaire.
 
