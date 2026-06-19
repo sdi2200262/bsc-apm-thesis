@@ -97,7 +97,7 @@ The temporal shape of the session is captured by two primary measures, the sessi
 \begin{itemize}
     \item \textbf{session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
     \item \textbf{turn count} is the number of turns recorded across the session's conversations.
-    \item \textbf{turn time} is the wall-clock union of every turn's interval, reported in total and split into the share spent in a single conversation at a time (\textbf{solo}) and the share where two or more conversations were active at once (\textbf{concurrent}); for APM this surfaces whether the participant ran agents in parallel or serially.
+    \item \textbf{turn time} is the time an agent was actively working, the wall-clock union of every turn's interval, reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}); for APM this surfaces whether the participant ran agents in parallel or serially.
     \item \textbf{inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
 \end{itemize}
 
