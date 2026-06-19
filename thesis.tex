@@ -6,28 +6,22 @@
 % Single source of truth: this file sets the class, metadata, and shared
 % preamble, then assembles the thesis from one body file per chapter under
 % chapters/. Build from the repository root with `latexmk thesis.tex`
-% (see latexmkrc). The Greek front-matter metadata is author-supplied and
-% currently carries Forthcoming placeholders.
+% See latexmkrc
 
 \documentclass[ack]{apmthesis}
 
-% =============================================================================
-% Shared preamble
-% =============================================================================
-%
 % Packages every chapter body may rely on. The class already provides
 % graphicx, tabularx, longtable, and caption; the rest live here so chapter
 % bodies stay preamble-free and are driven entirely by this master.
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{booktabs}
+\usepackage{float}
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage[bottom,flushmargin]{footmisc}
 \usepackage{hyperref}
-% Allow long URLs (e.g. in footnotes) to break across lines so they never
-% overflow the text block.
 \usepackage{xurl}
 
 \hypersetup{
@@ -39,7 +33,7 @@
   pdftitle={Agentic Project Management: A Spec-Driven Multi-Agent Framework for AI-Assisted Software Engineering}
 }
 
-% Code-listing style for any verbatim blocks in the body or appendix.
+% Code-listing style for any verbatim blocks
 \lstset{
   basicstyle=\ttfamily\small,
   breaklines=true,
@@ -50,18 +44,7 @@
   tabsize=2
 }
 
-% Visible marker for content that is intentionally not yet written. Each
-% expands to a red, bracketed, italic note so unfinished regions are obvious
-% in the rendered PDF.
 \newcommand{\placeholder}[1]{\textcolor{red}{\textit{[#1]}}}
-
-% =============================================================================
-% Metadata
-% =============================================================================
-%
-% The English title is final. The Greek title, author identity, supervisor,
-% examination date, abstracts, acknowledgements, subject area, and keywords
-% are author-supplied and carry Forthcoming placeholders until provided.
 
 \titleEn{Agentic Project Management: A Spec-Driven Multi-Agent Framework for AI-Assisted Software Engineering}
 \titleGr{Agentic Project Management: Ένα Spec-Driven Multi-Agent Πλαίσιο για AI-Assisted Ανάπτυξη Λογισμικού}
@@ -90,10 +73,6 @@
 \subjectAreaGr{Forthcoming}
 \keywordsEn{Forthcoming}
 \keywordsGr{Forthcoming}
-
-% =============================================================================
-% Document
-% =============================================================================
 
 \begin{document}
 
@@ -128,12 +107,15 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{APPENDICES}
 
+% Number appendix tables T1, T2, ... so they do not collide with the
+% lettered appendix section numbers (A.1, A.2, ...).
+\renewcommand{\thetable}{T\arabic{table}}
+\setcounter{table}{0}
+
 \chapter{EVALUATION APPENDIX}
 \input{chapters/evaluation/evaluation-appendix}
 \end{appendix}
 
-% References (unsrt numeric: entries ordered by first citation). Populated
-% section by section as the chapters are written; see references.bib.
 \bibliographystyle{unsrt}
 \bibliography{references}
 

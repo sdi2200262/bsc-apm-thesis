@@ -5,7 +5,7 @@
 \label{app:availability}
 
 The study's software and data are openly available in the following repositories:
-\begin{itemize}
+\begin{itemize}[nosep]
     \item the participant package, holding the task brief, the participant guide, and the materials to set up the testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
     \item the evaluation infrastructure, holding the transcript parser, the grader and its scoring rubric, and the grading environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-infra};
     \item the dataset of participant submissions, from which our measurements are computed, at \url{https://github.com/sdi2200262/bsc-apm-case-study-data}.
@@ -16,7 +16,7 @@ The study's software and data are openly available in the following repositories
 
 The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention tiers.
 
-\begin{table}[ht]
+\begin{table}[H]
   \centering
   \caption{Per-token rates for the study window, in US dollars per million tokens.}
   \label{tab:rate-card}
@@ -32,3 +32,49 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
 \end{table}
 
 Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku, so some sessions carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
+
+\section{Questionnaire Instrument}
+\label{app:questionnaire}
+
+The second-session question, ``Compared to the framework you used in your first session, completing the task with this framework felt\ldots'', offers five levels:
+\begin{itemize}[nosep]
+    \item much harder
+    \item harder
+    \item about the same
+    \item easier
+    \item much easier
+\end{itemize}
+The completion-state question, ``Completion state'', offers four options:
+\begin{itemize}[nosep]
+    \item completed the task comfortably within the three-hour cap
+    \item completed the task near the three-hour cap
+    \item hit the three-hour cap without completing
+    \item stopped early without completing
+\end{itemize}
+The two free-text prompts are:
+\begin{itemize}[nosep]
+    \item ``What stood out about working with this framework on this task?''
+    \item ``Anything else you want to add about this session?''
+\end{itemize}
+
+The eight rating items and the wording at each end of their scale are given in Table~\ref{tab:questionnaire}.
+
+\begin{table}[H]
+  \centering
+  \caption{The post-session questionnaire's eight rating items, with the wording at each end of the one-to-five scale.}
+  \label{tab:questionnaire}
+  \begin{tabular}{@{}p{0.58\textwidth}ll@{}}
+    \toprule
+    Question & 1 & 5 \\
+    \midrule
+    How familiar were you with this framework before this study? & Never used it & Use it regularly \\
+    How confident are you in your submitted solution? & Very low & Very high \\
+    How effective was the framework in helping you complete the task? & Not effective & Very effective \\
+    How mentally demanding was the session? & Very low & Very high \\
+    How frustrated did you feel during the session? & Not at all & Extremely \\
+    How much effort did you have to invest? & Very low & Very high \\
+    How much effort went into checking what the AI in this framework produced? & Very low & Very high \\
+    How much effort went into instructing and steering the AI in this framework? & Very low & Very high \\
+    \bottomrule
+  \end{tabular}
+\end{table}
