@@ -1,4 +1,24 @@
 % Evaluation appendix body. Included by thesis.tex under
 % \chapter{EVALUATION APPENDIX} inside the \appendix block.
 
-\placeholder{Forthcoming. The evaluation appendix is written from scratch alongside the main chapter: each subsection is added as the chapter section that references it is finalised.}
+\section{Rate Card}
+\label{app:rate-card}
+
+The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention tiers.
+
+\begin{table}[ht]
+  \centering
+  \caption{Per-token rates for the study window, in US dollars per million tokens.}
+  \label{tab:rate-card}
+  \begin{tabular}{lrrrrr}
+    \toprule
+    Model & Input & Output & Cache read & Cache write (5\,min) & Cache write (1\,h) \\
+    \midrule
+    Opus 4.7 & 5.00 & 25.00 & 0.50 & 6.25 & 10.00 \\
+    Sonnet 4.6 & 3.00 & 15.00 & 0.30 & 3.75 & 6.00 \\
+    Haiku 4.5 & 1.00 & 5.00 & 0.10 & 1.25 & 2.00 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku, so some sessions carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure.\footnote{Available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}}

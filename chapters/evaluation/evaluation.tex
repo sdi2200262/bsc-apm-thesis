@@ -4,7 +4,7 @@
 \section{Methodology and Research Questions}
 \label{sec:methodology}
 
-We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted in May 2026 on the Claude Code command-line interface, which both frameworks run on top of; pricing, model, and command-set statements in this chapter refer to that snapshot.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted on the Claude Code command-line interface, which both frameworks run on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
 
 Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is carried by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
@@ -72,7 +72,7 @@ Each measurement is classed as Primary, Secondary, or Supplementary. Primary mea
 \subsection{Economic}
 \label{sec:measures-economic}
 
-The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card at the study's snapshot date. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, across the planning and implementation phases, by token category, and for APM across its agent roles.
+The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, reproduced in Appendix~\ref{app:rate-card}. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, across the planning and implementation phases, by token category, and for APM across its agent roles.
 
 \subsection{Process}
 \label{sec:measures-process}
