@@ -1,281 +1,223 @@
 % Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
-% Standalone-article preamble removed; this is an \input fragment.
+% This is an \input fragment, not a standalone document.
 
-\section{Evaluation Methodology}
-\label{sec:evaluation}
+\section{Methodology and Research Questions}
+\label{sec:methodology}
 
-This chapter details the methodology used to evaluate the Agentic Project Management (APM) framework. To assess the framework in a realistic setting, we conducted a comparative case study involving human participants. The study compares APM, a multi-agent framework that distributes work across specialised agents, against GitHub Spec-kit, a single-agent toolkit that guides one AI agent through a structured specification-driven workflow. Both frameworks are described in Section~\ref{sec:frameworks}. The study was conducted in May 2026 on the Claude Code command-line interface; pricing, model, and command-set statements in this chapter refer to that snapshot.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, the single-agent framework introduced in Chapter~\ref{chap:background}. The study was conducted on the Claude Code command-line interface, which both frameworks run on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
 
-The evaluation measures three distinct dimensions:
-
-\begin{itemize}
-    \item Economic Efficiency (dollar cost of a session, computed against the platform's per-token rate card)
-    \item Process Efficiency (human cognitive load and interaction burden across a session)
-    \item Functional Efficacy (ability to complete non-trivial tasks)
-\end{itemize}
-
-\subsection{Research Objectives}
-
-The primary objective of this research is to determine whether the structural overhead introduced by APM, in the form of multi-agent orchestration and the explicit Planning and Implementation phases, produces measurable improvements over a single-agent workflow. This evaluation contributes a cost perspective alongside the process and functional dimensions.
-
-We define the following Research Questions (RQs):
+Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is carried by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic Efficiency):}
-    \begin{itemize}
-        \item Does APM's multi-agent coordination produce a measurably different dollar cost per session than Spec-kit's single-agent workflow?
-        \item Where in each framework's workflow does session cost concentrate between the planning phase and the implementation phase, and does that concentration pattern differ between frameworks?
-        \item Does cumulative session cost comparison between the two frameworks shift, when using models with different context-window capacities and capabilities?
-    \end{itemize}
-    \item \textbf{RQ2 (Process Efficiency):}
-    \begin{itemize}
-        \item Does APM's structure reduce the amount of manual effort the user must invest during execution, particularly interventions, corrections, and clarifications?
-        \item If a difference in user effort is observed, is it significant enough to justify the structural overhead APM introduces?
-        \item Given that the user remains in the loop as a message carrier, can the agents coordinate effectively enough that the user's role can be limited to shuttling messages rather than correcting or redirecting agent behaviour?
-    \end{itemize}
-    \item \textbf{RQ3 (Functional Efficacy):}
-    \begin{itemize}
-        \item Can APM successfully deliver complex, non-trivial features in scenarios where single-agent workflows are prone to failure due to context window exhaustion, loss of coherence across long sessions, or inability to coordinate work across multiple concerns?
-        \item How does the performance of APM compare to the performance of a single-agent workflow?
-    \end{itemize}
+    \item \textbf{RQ1 (Economic):} How does APM's multi-agent structure affect the dollar cost of completing a task relative to Spec-kit's single-agent workflow, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ2 (Process):} How does APM's multi-agent structure change the time a task takes and the effort it demands of the user, relative to Spec-kit's single-agent workflow?
+    \item \textbf{RQ3 (Functional):} How do the two frameworks differ in functional outcome, in how much of the task each completes and in how they fail when they fall short?
+    \item \textbf{RQ4 (Perception):} How does participants' self-reported experience of each framework relate to the behaviour measured from their sessions?
 \end{itemize}
 
-\subsection{Frameworks Under Evaluation}
+\section{Frameworks under Comparison}
 \label{sec:frameworks}
 
-The two frameworks are both open-source and spec-driven, running on the same AI coding CLI. Both structure work through explicit specification and planning artifacts before implementation begins. They differ in how execution is organised: Spec-kit operates within a single agent conversation, while APM distributes work across multiple specialised agents.
+The comparison sets APM against GitHub Spec-kit, two open-source frameworks that apply the spec-driven discipline of Section~\ref{sec:spec-driven-development} on top of an existing coding agent. APM's design is described in full in Chapter~\ref{chap:framework-design}; Spec-kit, the single-agent counterpart, is introduced here so the two can be read on the same terms.
 
-\subsubsection{GitHub Spec-kit}
+Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} is GitHub's open-source spec-driven development toolkit. A single agent applies the discipline from end to end, producing the specification and the plan and then implementing them, all within one continuous conversation.
 
-Spec-kit\footnote{Documentation available at: \url{https://github.github.com/spec-kit/}} is a specification-driven development toolkit developed by GitHub. It guides a single AI agent through a structured workflow using three sequential commands:
+The work is driven by a set of slash commands that the developer triggers, or the agent autonomously invokes, each a bundle of instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The specification is then built through three sequential commands:
 
 \begin{enumerate}
-    \item \texttt{/speckit-specify}: transforms a feature description into a structured specification containing requirements, user stories, and acceptance criteria.
-    \item \texttt{/speckit-plan}: converts the specification into a technical implementation plan with architecture decisions, data models, API contracts, and supporting documents.
-    \item \texttt{/speckit-tasks}: derives an executable task list (\texttt{tasks.md}) from the plan, with parallelism annotations and sequencing constraints.
+    \item \texttt{/speckit-specify}: directs the agent to produce a structured specification of requirements, user stories, and acceptance criteria from a feature description.
+    \item \texttt{/speckit-plan}: has it turn that specification into a technical implementation plan with architecture decisions, data models, and API contracts.
+    \item \texttt{/speckit-tasks}: prompts it to derive an executable task list from the plan, annotated with dependencies and sequencing constraints.
 \end{enumerate}
 
-Execution is triggered by a fourth command, \texttt{/speckit-implement}, which parses the task list and carries out each task in sequence. Additional commands support iterative refinement, cross-artifact consistency checking and custom quality checklists. A constitution mechanism, maintained via the \texttt{/speckit-constitution} command, allows users to establish architectural rules that the agent enforces throughout the workflow.
+Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artifact consistency checking, and custom quality checklists along the way.
 
-All planning and implementation happens within one continuous conversation. The agent acts as both planner and executor, and the full specification, plan, and task context accumulates in a single context window. Spec-kit produces a fixed set of artifact types (specification, plan, data model, contracts, research, tasks) regardless of project type; the templates are predefined and every project receives the same artifact layout.
+\section{Case-Study Design}
+\label{sec:case-study-design}
 
-\subsubsection{APM in Comparison}
+The study is a within-subjects comparative case study across a homogeneous cohort of twelve participants drawn from university students and working professionals. Every participant completes the same task twice, once with each framework, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it. The cohort therefore yields twenty-four sessions in total.
 
-Where Spec-kit runs the entire workflow in a single conversation, APM separates planning, coordination, and execution across three agent roles, each operating in its own conversation with scoped context. Agents communicate through a file-based Message Bus; planning documents adapt to each project rather than conforming to a predetermined artifact layout; and the user acts as a message carrier between conversations. When an agent's context fills, a Handoff mechanism preserves working knowledge across conversations.
+Each participant receives a package containing the task brief, the materials to set up a testing environment, and a guide that walks them through that setup and the session. The brief and the environment are detailed in the two subsections that follow, and the package, with the rest of the study's software and data, is listed in Appendix~\ref{app:availability}.
 
-\subsection{Testbed and Task Design}
+\subsection{Task Specification}
+\label{sec:task-spec}
 
-To evaluate the frameworks under realistic constraints, we used an existing open-source project, the \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} a Python-based Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server designed to interface with the \texttt{openeclass} platform.\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} Openeclass is an online platform for Greek universities that allows students to manage their courses and assignments.
+The task is delivered to each participant as a complete product requirements document (PRD), in the form a developer receives a real feature brief. It builds on \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} an existing open-source Python Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server that connects to Open eClass,\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} the learning-management platform used across Greek universities. Participants extend the server with two new announcement-retrieval tools, then reimplement it in full, including those tools, as a standalone native C replica under strict constraints.
 
-\subsubsection{Task Description}
+The work is deliberately broad. Building the new tools requires investigating the unfamiliar legacy PHP codebase behind Open eClass, to learn how it exposes its data, and implementing them in Python. The C replica reproduces the entire server from scratch as a standalone, drop-in microservice, covering not just the tool logic but the protocol layer that the Python server gets from the MCP SDK. The task additionally constrains how the replica is built, requiring that protocol layer to be implemented by hand, without a JSON-parsing library, and the binary to satisfy a verifiable memory-safety standard. Spanning a legacy system and two implementation languages, the task sets both frameworks a demanding, end-to-end engineering workload.
 
-The task requires participants to implement two new announcement tools in the Python MCP server and to create a complete native C replica of the entire server with some explicit strict constraints.\footnote{\raggedright Task specification, participant package, and containerised testing environment available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-task}} The two tools are:
-
-\begin{itemize}
-    \item \texttt{get\_course\_announcements}: retrieves announcements for a specific course.
-    \item \texttt{get\_general\_announcements}: aggregates system-wide and per-course announcements.
-\end{itemize}
-
-The C implementation adds significant complexity: participants must manage code translation, memory safety, and protocol details across two different languages. The combination of feature implementation and full-language replication is designed to challenge the two frameworks and expose any differences between them, particularly when context window limits become a bottleneck.
-
-The task admits more than one viable implementation path; a scoring rubric\footnote{\raggedright Scoring rubric and grading infrastructure available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}} awards points to any path that meets its per-test specifications.
-
-\subsubsection{Task Environment}
+\subsection{Task Environment}
 \label{sec:task-env}
 
-Each session runs in a workspace prepared up-front. The working directory is a fresh clone of \texttt{eclass-mcp-server} checked out to a fixed patch-baseline commit against which the participant implements the task; the submission patch is the diff between this baseline and the participant's staged changes. A read-only reference clone of \texttt{openeclass} at a fixed inspection commit is also present, so any research the assistant performs into the legacy server's source reads from a fixed snapshot rather than a moving target. Alongside the workspace runs a containerised mock of the openeclass platform; the mock is built from that same inspection commit, only compiled, seeded with deterministic fixture data, and packaged in a Docker image, and paired with a deterministic mock single-sign-on service. The assistant therefore inspects the very source that the running mock executes.
+Following the guide, each participant sets up a fresh, dedicated Linux virtual machine, so all their work happens in the same isolated environment. The machine provides the development toolchain the task needs and a workspace holding the PRD, a clone of \texttt{eclass-mcp-server} at a fixed baseline against which the participant works, and a clone of the Open eClass codebase the agent can investigate. A containerised Open eClass instance, built from that same fixed version of the platform and seeded with a fixed set of mock data, runs in the background throughout the session alongside a mock single-sign-on service, so the participant and the agent can validate their work against the running platform. Every participant therefore develops against the same fixed state, and the submitted solution is later assessed against an equivalent environment.
 
-The mock is the participant's integration target during development and the same target the grader replays when scoring, so every cohort participant develops and is graded against the same fixed state of the platform. The exact pins, the upstream release tag the image is built from, the seeded fixtures, and the mock authentication surface are documented in the Reference Environments subsection of the Evaluation Appendix.
+\subsection{Sessions and Data}
+\label{sec:sessions-data}
 
-\subsection{Study Design}
-\label{sec:study-design}
+Each of a participant's two sessions is time-boxed to a maximum of three hours, within which the participant carries out the task with the assigned framework and then answers a short post-session questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first session carries into the second.
 
-The study compares the two frameworks across a homogeneous cohort of participants drawn from University students and working professionals. The design is within-subjects: every participant contributes data points for both frameworks, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it.
+Two factors are counterbalanced across the cohort: the framework order and the model assignment. The framework-order factor varies which framework a participant encounters first; counterbalancing it lets any first-to-second-session improvement, a learning effect from growing task familiarity, be distinguished from the framework's own effect. The model factor holds one Claude model fixed across both of a participant's sessions. Each participant is assigned either Claude Opus 4.7 or Claude Sonnet 4.6, the two models Claude Code offered during the study window, which differ in capability. Crossing the two factors gives four assignment cells of three participants each.
 
-\subsubsection{Counterbalancing}
-\label{sec:counterbalancing}
+From each session we collect a participant submission of three parts: the solution patch the participant writes against the baseline, the session transcripts the command-line interface records for every conversation opened, and the participant's response to the questionnaire.
 
-Each participant completes the case study task twice, once with APM and once with Spec-kit, each session time-boxed to a maximum of three hours. Two factors are counterbalanced across the cohort: the framework order and the model assignment.
+\section{Measures}
+\label{sec:measures}
 
-The framework-order factor varies which framework a participant encounters first. Counterbalancing the order lets any observed first-to-second-session improvement be attributed to task familiarity rather than to the framework itself; the resulting first-to-second-session learning is analysed in the Learning Effects subsection in Section~\ref{sec:results}. The model factor varies which Claude model drives both of a participant's sessions, held fixed within the participant. Each participant is assigned one of Claude Opus 4.7 and Claude Sonnet 4.6. The two models differ in capabilities and context-window capacity, one million tokens for Opus 4.7 against two hundred thousand for Sonnet 4.6.
+Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic, process, and supplementary measurements are computed from the session transcripts by a parser; the functional measurements are computed from the solution patch by an automated grader, against a fixed scoring rubric; and the self-reported perception measurements come from the post-session questionnaire. The parser and grader are part of the evaluation infrastructure listed in Appendix~\ref{app:availability}.
 
-The cohort is split across four assignment cells: APM first with Opus, Spec-kit first with Opus, APM first with Sonnet, and Spec-kit first with Sonnet. Holding the model fixed within participant lets the within-participant framework comparison absorb the model factor into the participant's own variance; the cohort-level analysis additionally compares the framework effect across the two models.
+Each transcript-derived measurement is computed at more than one scope, a scope being the portion of a session it is aggregated over. The session scope is the whole session, the headline on which the two frameworks are compared, since it puts APM's multi-conversation workflow and Spec-kit's single conversation on the same denominator. The phase scope splits the session into its planning and implementation portions and shows how each measurement divides between them. The role scope applies to APM alone, since Spec-kit has no agent roles to separate, and is a descriptive, deeper look at how each measurement is spread across its agents. Both the phase split and, for APM, the role attribution follow the frameworks' own workflow as recorded in the transcript, rather than an arbitrary division of the session. The functional dimension admits no such split and is reported at the session scope alone.
 
-The two sessions are isolated from one another so that no code, workspace state, or assistant context from the first session can influence the second. The full session-isolation procedure is documented in the Submission Workflow subsection of the Evaluation Appendix.
+Each measurement is classed as Primary, Secondary, or Supplementary. Primary measures are the ones compared between the two frameworks to answer a research question; Secondary measures break down or support a Primary; Supplementary measures are descriptive only. The subsections below specify each measurement dimension in turn.
 
-\subsubsection{Data Source}
-\label{sec:data-source}
+\subsection{Economic}
+\label{sec:measures-economic}
 
-Each session produces a participant submission composed of three artefacts: a solution patch the participant writes against the patch baseline, the set of Claude Code JSONL transcripts the CLI persists for every conversation opened during the session, and a post-session questionnaire response.
+The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, reproduced in Appendix~\ref{app:rate-card}. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, across the planning and implementation phases, by token category, and for APM across its agent roles.
 
-The solution patch is the participant's functional contribution and the input to scoring. The transcripts are the source of every cost, time, message-activity, and reliability measurement: each transcript provides a structured record of every conversation, so the measurements are extracted programmatically rather than by manual annotation. Auxiliary records that Claude Code persists for any subagents the conversation dispatched and for any tool results it offloaded from the main file travel with the transcripts, so a complete record of the session is available for measurement.
+\subsection{Process}
+\label{sec:measures-process}
 
-The post-session questionnaire complements the transcript-derived measurements with self-reported workload and perception items and is submitted alongside the patch and the transcripts through a single per-session combined web form. Its captured items and response scale are documented in the Post-Session Questionnaire Instrument subsection of the Evaluation Appendix.
+The process measures capture two things, the effort each framework demands of the user, seen in how the user interacted with the agent, and the time the task takes, seen in the session's timing.
 
-Participant data is anonymised and encrypted before storage; the sanitisation scheme is documented in the Data Privacy and Sanitisation subsection of the Evaluation Appendix.
-
-\subsection{Metrics}
-\label{sec:metrics}
-
-Every measurement defined in this section is extracted from the participant's submission by the same procedure across the cohort. The economic, process, and supplementary measurements are derived from the session's transcripts; the functional measurements are derived from the solution patch, scored against the rubric introduced earlier.
-
-Every transcript-derived measurement is computed at two scopes per submission, per-session and per-phase, where the phases are the planning portion and the implementation portion of the session. A third per-role scope is emitted explicitly for APM submissions, splitting the session by Planner, Manager, and Worker.
-
-Per-session is the headline scope on which the two frameworks are compared, since it places APM's multi-conversation workflow and Spec-kit's single conversation on the same denominator. Per-phase and per-role views locate where within a session each framework spends its budget and effort. Phase boundaries and APM roles are detected automatically; the detection rules are documented in the APM Role Detection and  Framework Phase Detection subsections of the Evaluation Appendix. The functional dimension admits no phase or role decomposition and is reported per submission only.
-
-Each measurement carries an anchor flag distinguishing Primary measures (those that drive a research question and enter hypothesis testing), Secondary measures (those that decompose or support a Primary), and Supplementary measures (descriptive only). The subsections below specify each measurement dimension one by one.
-
-\subsubsection{Economic}
-
-The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card at the study's snapshot date, across the five token categories the rate card specifies. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch.
-
-A session's cost is reported as a point estimate when every dispatch resolves to a single model and as lower and upper bounds when a dispatch's model cannot be determined deterministically. The full attribution rules, the fallback resolution path, and the bracketing scheme are documented in the Per-Token Rate Card subsection of the Evaluation Appendix.
-
-Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the per-session scope.
-
-\subsubsection{Process}
-
-The process metrics capture the burden each framework imposes on the user across a session and are separated into how the user interacted with the model and how they invested their time during the session.
-
-User-message activity is partitioned along two dimensions. The first is the kind of message the user typed:
+User messages are characterised along two dimensions. The first is the kind of message:
 \begin{itemize}
-    \item \textbf{turn prompts} are prompts submitted while the agent was idle, opening a new turn. Each turn is the wall-clock interval from a user prompt to the assistant's idle return.
-    \item \textbf{steers} are interjections enqueued while the agent was still working, which the platform either delivers to the agent during the turn or abandons if the user retracts them before delivery. Steer activity is additionally reported as three counts: \textbf{steer attempted}, \textbf{steer delivered}, and \textbf{steer abandoned}.
-
+    \item a \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn, the wall-clock interval from the prompt to the agent's idle return.
+    \item a \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers to the agent during the turn or abandons if the user retracts it before delivery.
+\end{itemize}
+The second is the content bucket, which sorts each prompt and delivered steer by whether it invokes a framework command and, otherwise, by its length:
+\begin{itemize}
+    \item \textbf{protocol} for an APM or Spec-kit framework command.
+    \item \textbf{short} for a brief, non-command message below a length threshold, like a quick acknowledgment or a choice of options.
+    \item \textbf{standard} for a longer, substantive message at or above it, such as a course correction, a decision, or guidance.
 \end{itemize}
 
-Each prompt and each delivered steer is assigned to one of three buckets along the second dimension:
-\begin{itemize}
-    \item \textbf{short} for brief acknowledgments or routing messages.
-    \item \textbf{protocol} for framework-protocol messages such as APM or Spec-kit slash-command invocations.
-    \item \textbf{standard} for substantive task-related prompts.
-\end{itemize}
+The primary interaction measures are the counts of turn prompts and of delivered and attempted steers, together with two bucket views. The \textbf{bucket-share distribution} reports the share of each bucket in the session's user-message count, separately for prompts and for delivered steers and jointly across both, and the \textbf{magnitude per bucket} reports the mean character count of messages in each bucket. Together these expose whether the user's effort goes into mechanical message-shuttling (high protocol share, low magnitude) or into substantive corrections and guidance (high standard share, high magnitude).
 
-The \textbf{bucket-share distribution} reports the share of each bucket in the session's total user-message count, separately for prompts and for delivered steers and jointly across both; \textbf{magnitude per bucket} reports the mean character count of messages in each bucket. Together these views expose whether a framework's user burden is concentrated in mechanical message-shuttling (high protocol share, low magnitude) or in substantive corrections and guidance (high standard share, high magnitude).
-
-The temporal shape of the session is captured by a family of turn-time metrics:
+The temporal shape of the session is captured by two primary measures, the session duration and the turn count, and two secondary ones that decompose the time within it, the turn time and the inter-turn time:
 \begin{itemize}
-    \item \textbf{session duration} is the wall-clock time from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
+    \item \textbf{session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
     \item \textbf{turn count} is the number of turns recorded across the session's conversations.
-    \item \textbf{mean turn duration} is the average turn-time, complemented by the \textbf{median}, the \textbf{ninety-fifth percentile}, and the \textbf{standard deviation} of the per-turn duration distribution.
-    \item \textbf{turn time} is the wall-clock union of every turn's interval, reported in total and decomposed into the share spent in a single conversation at a time (\textbf{turn time solo}) and the share where two or more conversations were active simultaneously (\textbf{turn time concurrent}); for APM's multi-conversation design the decomposition surfaces whether the participant ran agents in parallel or serially.
-    \item \textbf{inter-turn time} is the residual of the session duration once turn time has been subtracted: the wall-clock gap between consecutive turns, summed across the session. It is the assistant's idle time as recorded in the transcripts and is not interpreted as a measure of participant activity, since the participant may be reading, thinking, switching context, or away from the workstation during any gap.
+    \item \textbf{turn time} is the time an agent was actively working, the wall-clock union of every turn's interval, reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}); for APM this surfaces whether the participant ran agents in parallel or serially.
+    \item \textbf{inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
 \end{itemize}
 
-Session duration, turn time with its solo and concurrent decomposition, and inter-turn time are reported at the per-session and per-phase scopes only; the wall-clock union and concurrency interpretations are not well-defined at role scope, where a role lives inside a single conversation file whose own turns cannot overlap.
+These timing measures are reported at session and phase scope only; at role scope the wall-clock union and concurrency interpretations are not well-defined, since a role lives inside a single conversation whose turns cannot overlap.
 
-\subsubsection{Functional}
+\subsection{Functional}
+\label{sec:measures-functional}
 
-The functional dimension scores each submission against the task's scoring rubric introduced earlier. The rubric is a fixed set of tests; each test checks one expected behaviour, produces a pass-or-fail verdict, and contributes a calibrated point weight to a 100-point total, so a submission that delivers only part of the task earns proportionally for what works.
+The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a 100-point total.
 
-The 100 points are split across the task's two implementations. The Python implementation carries 30 points: a baseline section that confirms the four pre-existing tools still work, and two feature sections covering the new course-announcement and general-announcement tools. The C replica carries 70 points: a build, technical-stack, and configuration-surface section, a baseline section that re-implements the four tools from scratch, the two announcement features mirrored against the C binary, and a memory-safety section exercised under Valgrind. The per-section point allocations, the per-test definitions, and the assertion logic each test uses are documented in the Test Suite Composition subsection of the Evaluation Appendix.
+Each check returns one of three verdicts. A \textbf{passed} check matches an accepted form and earns its full points; a \textbf{partial} check matches none but lands near one, earning its points scaled by its similarity to the nearest form and flagged for review; a \textbf{failed} check earns zero. A submission therefore earns proportionally for what works, and its score separates a strict part, the full points of the passed checks, from a partial part, the fractional credit of the near-misses.
 
-The primary functional outcomes are the total rubric score and the per-section scores: the first summarises the framework comparison in a single number, the second locates where each framework's work lands within the rubric.
+The 100 points split across the task's two implementations, 30 on the Python extension and 70 on the heavier C replica, and within each across sections covering the pre-existing tools, the new features, and, for the C replica, its build and memory safety.
 
-\subsubsection{Supplementary}
+The primary functional outcome is the \textbf{total score}, which summarises the comparison in a single number. The \textbf{per-section scores} decompose it across the rubric's sections, locating where each framework's work lands.
 
-A small set of supplementary descriptors is reported per framework alongside the primary and secondary measurements. They are descriptive only and do not enter the paired hypothesis testing.
+\subsection{Perception}
+\label{sec:measures-perception}
 
-The \textbf{tool success rate} is the proportion of every tool invocation result recorded on the session's main transcripts that does not carry an error flag, spanning every tool the assistant may invoke (file edits, shell, search, web fetches, MCP calls) without weighting by tool kind. Tool calls made inside subagent dispatches are not included. The rate is dominated by the underlying model's tool-use capability rather than by framework choice.
+The perception measures come from a short questionnaire answered at the end of each session, the self-reported counterpart to the measured behaviour. Its core is \textbf{eight rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework: the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the AI. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
 
-The \textbf{subagent dispatch count} is the number of \texttt{Task}-tool dispatches the main agent issued in scope, and the \textbf{delegated tool-use count} is the total number of tool invocations those dispatched subagents performed inside their own conversations. Together they characterise how much work each framework offloads to delegated subagents.
+Beyond the rating items, the questionnaire asks one second-session question on a five-point scale, whether the task felt easier or harder than with the first framework; records the participant's own completion state against the three-hour cap; and closes with two free-text prompts, read only as illustration, on what stood out and any closing remarks. The full instrument is reproduced in Appendix~\ref{app:questionnaire}.
 
-The \textbf{model-invoked Skill count} is the number of platform-rendered Skill bodies the agent itself caused to be injected through the Skill tool, surfacing self-invocation behaviour that does not appear in the user-message activity.
+\subsection{Supplementary}
+\label{sec:measures-supplementary}
 
-\subsubsection{Analysis Plan}
+A small set of supplementary descriptors is reported per framework alongside the primary and secondary measures. They are descriptive only and are not part of the framework comparison, kept to characterise each session.
+
+The \textbf{tool success rate} is the proportion of the session's main-transcript tool-invocation results that carry no error flag, across every tool the assistant may invoke and without weighting by tool kind; calls made inside subagent dispatches are excluded. It is a descriptive check on the reliability of the session's tool use.
+
+The next three descriptors are proxies for the agent acting on its own initiative, behaviour the platform permits under either framework. The \textbf{subagent dispatch count} is the number of subagent dispatches the main agent issued in scope, and the \textbf{delegated tool-use count} is the number of tool invocations those subagents performed in their own conversations; together they measure how much work is offloaded to delegated subagents. The \textbf{model-invoked Skill count} is the number of Skill bodies the agent itself caused to be injected, without a user typing the command, capturing self-invocation that does not appear in the user-message activity.
+
+\section{Analysis Plan}
 \label{sec:analysis-plan}
 
-Each measurement is reported at the cohort level as a descriptive summary first (mean, standard deviation, median, and inter-quartile range per framework and per model band) and then as a paired framework comparison. The descriptive summaries report what a typical APM session and a typical Spec-kit session cost, take, and produce, and locate the spread of the cohort around those typical values. The paired comparison establishes whether the per-participant difference between the two frameworks is systematic across the cohort and how large that difference is relative to the per-participant variance.
+The cohort is small: in total, data from twelve participants, thinned to six against six when split by session order or by model. The analysis therefore leads with the measured values and with summaries of the per-participant difference between a participant's two sessions. Three such summaries are common to every measure and are set out here before being applied to each in turn: the direction of the framework effect, its typical size, and the uncertainty around that size.
 
-The paired comparison uses a paired $t$-test on the per-participant difference. Given the two paired values $x_i^{\text{APM}}$ and $x_i^{\text{SK}}$ for participant~$i$, the difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$ has mean $\bar{d}$ and standard deviation $s_d$ across the cohort of $n$ participants; the test statistic is
+Every comparison is made within participant. For a given measure, participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, the value from their APM session minus the value from their Spec-kit session. The analysis works from these $n$ paired differences, with $n = 12$ for the full cohort.
+
+The direction is the sign count, the tally of participants whose difference favours APM against the number favouring Spec-kit. Where the tally is one-sided we test it with the sign test~\cite{hollander2014nonparametric}. Its statistic $B$ is the number of positive differences,
 \[
-    t = \frac{\bar{d}}{s_d / \sqrt{n}},
+    B = \sum_{i \,:\, d_i \neq 0} \mathbf{1}\!\left( d_i > 0 \right).
 \]
-and the reported $p$-value comes from the two-sided $t$ distribution on $n - 1$ degrees of freedom.
+Tied pairs, where a participant's two sessions come out equal, give no direction and are set aside, reducing $n$ to the count of non-zero differences. If neither framework were systematically higher, $B$ would behave like the number of heads in $n$ fair coin tosses, and the test reports how improbable the observed tally, or a more one-sided one, would be under that even-odds model.
 
-The effect size is Cohen's $d_z$, the standardised mean difference in pooled within-pair-variance units,
+The typical size of the difference is estimated two ways. The first is the median of the differences, the middle value once they are ordered. The second is the Hodges-Lehmann estimate~\cite{hodges1963location}, the median of the averages of every pair of differences,
 \[
-    d_z = \frac{\bar{d}}{s_d},
+    \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
-which expresses the framework gap in standard deviations rather than in the metric's native units and so makes effect sizes comparable across metrics of different scale.
+It summarises the differences through all their pairwise averages rather than the single middle value, so it shifts in finer, steadier steps while keeping the same resistance to extreme values where they occur. The mean is reported beside both, where a divergence from the median marks an asymmetric spread of the differences.
 
-Every primary measurement is analysed this way: total rubric score, per-section scores, per-session cost, phase-broken cost shares, bucket-share distribution and magnitude per bucket across turn prompts and delivered steers, the turn-time decompositions, and session duration. The model factor is handled by stratification: paired comparisons are reported within each model band and then jointly across the cohort, exposing any framework effect that holds in one band but not the other.
-
-Correlations between economic, process, and functional metrics are reported as Pearson coefficients within each framework and across the combined cohort. Pearson's $r$ is the standardised linear-association statistic on the pair $(x_i, y_i)$:
+The uncertainty around that typical difference is a 95\% confidence interval for it. The interval is built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location}, which, unlike the sign count, uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
 \[
-    r = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_i (x_i - \bar{x})^2 \, \sum_i (y_i - \bar{y})^2}},
+    W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
-taking values in $[-1, 1]$. Correlation magnitudes are interpreted alongside the within-framework spread; they surface whether framework-induced variation in cost or process burden translates into functional outcomes.
 
-Learning effects are analysed separately across the counterbalanced orderings. A learning-effect matrix reports mean first-to-second-session improvement across both framework orderings for each metric; an order-effect comparison between APM-first and Spec-kit-first directions tests whether the order of exposure affects the improvement; and the aggregate first-to-second-session improvement across orderings gives the baseline task-learning estimate.
+The economic and process measures are continuous and take these summaries in full. The functional score is compared within participant the same way, on the canonical grade. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support. The perception ratings are ordinal, so each item is summarised by order-based statistics: its sign count and the median of its paired differences, read with the item's polarity, with the per-framework median ratings giving a profile across the items. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
 
-% ============================================================================
-% RESULTS
-% ============================================================================
+The confined number of sessions in the case study allows each participant's pair to be examined individually for learning carried from the first session into the second. The workspace and the agent are reset between sessions, so the participant is the only carrier of that memory, and the evidence is sought in their own inputs: a second-session instruction that pre-empts an error the first session made, an explicit reference to an earlier decision, or a detail handled correctly from recall rather than rediscovered. A stronger second-session result alone does not count, since the agent may have produced it unaided. These signs are read case by case, as indications of learning rather than a conclusive measure of it.
+
 
 \section{Results}
 \label{sec:results}
 
 \subsection{Economic}
+\label{sec:results-economic}
 
-\placeholder{Forthcoming. Quantitative results for the per-session cost and the phase-broken decomposition. Tables: cohort-level descriptive summaries (mean, standard deviation, median, IQR) per framework and per model band; paired APM-versus-Spec-kit cost distributions stratified by model band and pooled across the cohort, with paired $t$-test statistics, $p$-values, and Cohen's $d_z$; planning-versus-implementation cost shares per framework; per-role cost shares across Planner, Manager, and Worker for the APM cohort; cost composition by token category and by main-versus-delegated population; Pearson correlations against rubric score within and across frameworks.}
+\placeholder{Forthcoming. The per-session cost compared between frameworks by the paired method of the Analysis Plan, with the planning and implementation phase split, the per-role decomposition across Planner, Manager, and Worker for the APM cohort, the cost composition by token category and by main versus delegated population, and the cost-versus-model view across the Opus and Sonnet bands.}
 
 \subsection{Process}
+\label{sec:results-process}
 
-\placeholder{Forthcoming. Quantitative results for the user-burden metrics. Tables: bucket-share distribution and magnitude per bucket across turn prompts and delivered steers, paired across frameworks with $t$-statistics and Cohen's $d$; steer attempted, delivered, and abandoned counts per framework; turn-time decompositions (solo, concurrent, inter-turn) and the per-turn duration distribution; session-duration distributions against the three-hour cap; Pearson correlations against rubric score. Self-reported workload items from the post-session questionnaire are reported alongside the instrumented coordination metrics.}
+\placeholder{Forthcoming. The process measures compared between frameworks by the paired method of the Analysis Plan: the interaction measures (turn-prompt and steer counts, the bucket-share distribution and per-bucket magnitude across prompts and delivered steers) and the timing measures (session duration against the three-hour cap, turn count, and the turn-time and inter-turn decompositions), at the session and phase scopes. The self-reported workload items from the questionnaire are reported alongside.}
 
 \subsection{Functional}
+\label{sec:results-functional}
 
-\placeholder{Forthcoming. Quantitative results for the 100-point rubric. Tables: total-score distribution per framework, per-section score distributions across the Python and C implementations, per-test pass rates, baseline-regression rates, and paired framework comparisons with $t$-statistics and Cohen's $d$. Perceived framework effectiveness from the post-session questionnaire is reported alongside the rubric outcomes.}
+\placeholder{Forthcoming. The total rubric score compared between frameworks by the paired method of the Analysis Plan, the per-section scores decomposing it across the Python and C implementations, and the per-framework score distribution with every session shown. The perceived-effectiveness rating from the questionnaire is reported alongside.}
+
+\subsection{Perception}
+\label{sec:results-perception}
+
+\placeholder{Forthcoming. The eight ordinal rating items compared between frameworks item by item, each by its sign count and median paired difference read with the item's polarity, with the per-framework median profile across the items; the second-session comparative item reported by the framework taken second. Each rating is read against the behaviour it should reflect, descriptively, as the pattern of agreement and divergence.}
 
 \subsection{Supplementary}
+\label{sec:results-supplementary}
 
-\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary metrics: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count. Reported as cohort-level descriptives per framework and per model band without paired hypothesis testing.}
+\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary measures: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count, per framework and per model band, descriptive only and without a paired comparison.}
 
 \subsection{Learning Effects}
+\label{sec:results-learning-effects}
 
-\placeholder{Forthcoming. Quantitative results for the learning-effect analysis: first-to-second-session improvement matrix across framework orderings for functional, economic, and process metrics; order-effect comparison between APM-first and Spec-kit-first directions; and the aggregate baseline task-learning estimate across orderings.}
-
-% ============================================================================
-% DISCUSSION
-% ============================================================================
+\placeholder{Forthcoming. The per-participant examination of each pair of sessions for learning carried from the first into the second, following the Analysis Plan: each cross-session change attributed to the participant's own inputs or to autonomous agent action, with the per-participant verdicts rolled up into a cohort read.}
 
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Economic Efficiency}
-\label{sec:discussion-economic}
+\placeholder{Forthcoming. Interpretation of the results, reading the framework comparison across the economic, process, functional, and perception dimensions against the structure and design of the two frameworks.}
 
-\placeholder{Forthcoming. Discussion of the per-session cost comparison, the phase-level decomposition, and the per-role decomposition for the APM cohort, read against the workflow structures of the two frameworks described in the Frameworks Under Evaluation subsection in Section~\ref{sec:evaluation}. The discussion treats two cost-shaping mechanics that the per-session metric integrates over. The first is the choice of context-reset strategy within a session: platform autocompaction substitutes a summarised prior context for a price below a full handoff but discards fidelity in the process, while a manual handoff preserves continuity at a higher per-event cost. The second is the context-window capacity of the model driving the session: the cost dynamics of a single concentrated window against several lower-filled distributed windows are not symmetric across the one-million-token and two-hundred-thousand-token regimes. The cumulative cost split observed in the Results is read against these mechanics, separately within each capacity band, and the framework comparison is interpreted as the net of the strategy and capacity contributions; the per-role decomposition further locates which APM role carries the structural overhead within that comparison.}
+\section{Threats to Validity}
+\label{sec:threats}
 
-\subsection{Process Efficiency}
+This section enumerates the internal, external, and construct validity threats and the mitigations applied. Each threat points back to the specific section that motivates it.
 
-\placeholder{Forthcoming. Discussion of the user-burden comparison across turn-prompt and steer activity, the reliability of agent output, and the temporal shape of each session, paired with the self-reported workload items from the post-session questionnaire.}
+\subsection{Internal Validity}
 
-\subsection{Functional Efficacy}
+\textbf{Learning effects from the within-subjects design.} The within-subjects design declared in the Case-Study Design (Section~\ref{sec:case-study-design}) has each participant complete the same task twice, so task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants, as described in Sessions and Data (Section~\ref{sec:sessions-data}), mitigates the framework-effect confound but does not eliminate the underlying learning curve. The learning-effects examination described in the Analysis Plan (Section~\ref{sec:analysis-plan}) reads each participant's two sessions for evidence of carried-over learning and is the primary defence against this threat.
 
-\placeholder{Forthcoming. Discussion of the rubric-score comparison and the per-section pass-rate decomposition, framed against the design motivation for multi-agent coordination.}
+\textbf{Self-reported versus observed measures.} The perception measures described in Section~\ref{sec:measures} pair the instrumented, transcript-derived measures with self-reported workload, confidence, and perceived framework effectiveness; observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
 
-\subsection{Threats to Validity}
+\subsection{External Validity}
 
-This subsection enumerates the internal, external, and construct validity threats and the mitigations applied. Each threat points back to the specific subsection that motivates it.
+\textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Specification (Section~\ref{sec:task-spec}), in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
 
-\subsubsection{Internal Validity}
+\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:methodology}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
 
-\textbf{Learning effects from the within-subjects design.} The within-subjects design declared in the Study Design subsection in Section~\ref{sec:evaluation} has each participant complete the same task twice, so task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants, as described in the Counterbalancing subsection in Section~\ref{sec:evaluation}, mitigates the framework-effect confound but does not eliminate the underlying learning curve. The Learning Effects analysis described in the Analysis Plan subsection in Section~\ref{sec:evaluation} quantifies the mean improvement between sessions across both orderings and is the primary defence against this threat.
+\subsection{Construct Validity}
 
-\textbf{Self-reported versus observed measures.} The post-session questionnaire described in the Post-Session Questionnaire subsection in Section~\ref{sec:evaluation} pairs the instrumented, transcript-derived metrics with self-reported workload, confidence, and perceived framework effectiveness; observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
+\textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process measures in Section~\ref{sec:measures} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
 
-\subsubsection{External Validity}
+\textbf{Instrument coverage limits.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in Sessions and Data (Section~\ref{sec:sessions-data}): any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
 
-\textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Description subsection in Section~\ref{sec:evaluation}, in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
-
-\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:evaluation}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot pinned in the Per-Token Rate Card subsection of the Evaluation Appendix; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
-
-\subsubsection{Construct Validity}
-
-\textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process metric in the Metrics and Data Collection subsection in Section~\ref{sec:evaluation} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
-
-\textbf{Instrument coverage limits.} The 100-point rubric, defined in the Test Suite Composition subsection of the Evaluation Appendix, captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in the Data Source subsection in Section~\ref{sec:evaluation}: any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
-
-\textbf{Replica versus live openeclass.} The shared Docker-based replica of the openeclass platform described in the Task Environment subsection in Section~\ref{sec:evaluation} pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of openeclass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study. Replica construction and seeding details are documented in the Baseline Pins and Reference Environments subsection of the Evaluation Appendix.
+\textbf{Replica versus live Open eClass.} The shared Docker-based replica of the Open eClass platform described in the Task Environment (Section~\ref{sec:task-env}) pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of Open eClass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study.
