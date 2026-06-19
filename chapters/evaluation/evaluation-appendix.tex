@@ -1,6 +1,16 @@
 % Evaluation appendix body. Included by thesis.tex under
 % \chapter{EVALUATION APPENDIX} inside the \appendix block.
 
+\section{Software and Data Availability}
+\label{app:availability}
+
+The study's software and data are openly available in the following repositories:
+\begin{itemize}
+    \item the participant package, holding the task brief, the participant guide, and the materials to set up the testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
+    \item the evaluation infrastructure, holding the transcript parser, the grader and its scoring rubric, and the grading environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-infra};
+    \item the dataset of participant submissions, from which our measurements are computed, at \url{https://github.com/sdi2200262/bsc-apm-case-study-data}.
+\end{itemize}
+
 \section{Rate Card}
 \label{app:rate-card}
 
@@ -21,4 +31,4 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \end{tabular}
 \end{table}
 
-Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku, so some sessions carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure.\footnote{Available at: \url{https://github.com/sdi2200262/bsc-apm-case-study-infra}}
+Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku, so some sessions carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
