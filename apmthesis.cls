@@ -3,7 +3,7 @@
 % A LaTeX2e document class for a BSc thesis submitted to the Department of
 % Informatics and Telecommunications (DIT) of the National and Kapodistrian
 % University of Athens (NKUA), formatted to the department's mandatory
-% submission template and accepted by the Pergamos digital repository.
+% submission template.
 %
 % -----------------------------------------------------------------------------
 % Provenance and licensing (LaTeX Project Public License)
@@ -27,10 +27,9 @@
 %   - Renamed from `dithesis' to `apmthesis' so it identifies itself as a
 %     modified version and is not a drop-in replacement for the original
 %     (LPPL 1.3c clause 6.a).
-%   - Reorganized into banner-delimited regions with intent-level comments to
-%     match the maintaining project's source conventions. The formatting
-%     behavior, page builders, and the department layout it produces are
-%     preserved.
+%   - Reorganized into banner-delimited regions with intent-level comments.
+%     The formatting behavior, page builders, and the department layout it
+%     produces are preserved.
 %   - The body font stack is parameterized. By default the class loads a
 %     vendored, freely redistributable, metric-compatible Arial substitute
 %     (Arimo) by path, so the build is reproducible on any host with no
