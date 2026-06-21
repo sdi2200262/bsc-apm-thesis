@@ -1,0 +1,137 @@
+% Results chapter body. Included by thesis.tex under \chapter{RESULTS}.
+% This is an \input fragment, not a standalone document.
+
+\section{Economic}
+\label{sec:results-economic}
+
+For nine of the twelve participants the APM session cost more in US-dollar-equivalent than the Spec-kit session, as Table~\ref{tab:cost-cohort} reports. The paired cost difference is the APM session cost minus the Spec-kit session cost, and all three summaries of its typical size are positive. The median and the Hodges-Lehmann estimate fall close together near six dollars, and the mean of the differences is somewhat higher, near seven. The Wilcoxon interval does not include zero, so the cohort-level direction holds. Its width, however, leaves the size of the difference imprecise.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired cost difference across the cohort, APM minus Spec-kit, in US dollars, at 95.8\% coverage.}
+  \label{tab:cost-cohort}
+  \begin{tabular}{rrrrrr}
+    \toprule
+    $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    12 & 9 / 3 & $+6.10$ & $+6.10$ & $+7.14$ & $[+0.42, +14.14]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The mean being higher than the median shows that a few large differences pull the typical size up, rather than the differences being spread evenly, as Figure~\ref{fig:cost-overall} shows. These large values concentrate in one model group, so the cost difference is read next within each model.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/economic/cost_overall.pdf}
+  \caption{Per-participant cost difference, APM minus Spec-kit, in US dollars. A point in the shaded region marks a participant for whom APM cost more.}
+  \label{fig:cost-overall}
+\end{figure}
+
+The cost difference behaved very differently between the two model groups, set out in Table~\ref{tab:cost-model} and shown in Figure~\ref{fig:cost-by-model}. Among the participants who worked with Opus the difference was consistently positive, and five of the six APM sessions cost more. Its typical size was large on all three summaries. The median and the Hodges-Lehmann estimate are near twelve dollars and the mean is a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, pointing to the two frameworks costing about the same for that group.
+
+The Opus group also varied widely, from one session where APM cost about four dollars less to one where it cost about thirty-two dollars more. At six participants the confidence interval spans that whole range, from the smallest difference to the largest, and includes zero; the Sonnet interval does the same. Opus is the more expensive of the two models, so its differences fall on a larger dollar scale. Those large Opus values pulled the full-cohort summaries up, so the cohort-level cost difference comes mostly from the Opus group.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired cost differences within each model group, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
+  \label{tab:cost-model}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Model & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & 6 & 5 / 1 & $+11.75$ & $+11.89$ & $+12.60$ & $[-3.73, +32.01]$ \\
+    Sonnet & 6 & 4 / 2 & $+0.42$ & $+1.25$ & $+1.68$ & $[-2.72, +7.22]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\textwidth]{figures/economic/cost_opus.pdf}\hfill
+  \includegraphics[width=0.49\textwidth]{figures/economic/cost_sonnet.pdf}
+  \caption{Per-participant cost difference within each model, APM minus Spec-kit, in US dollars, on a shared scale.}
+  \label{fig:cost-by-model}
+\end{figure}
+
+The two frameworks divided their spending differently across the task's two phases. As Table~\ref{tab:cost-phase} reports, APM's planning phase cost less than Spec-kit's and its implementation phase cost more.\footnote{A small residual the parser records as an ''other'' phase, session activity outside either framework's workflow phases, carries under one percent of cost and a difference indistinguishable from zero, and is omitted.} Both phase differences exclude zero. The implementation excess was the larger of the two and set the direction of the overall difference. The pattern held in both models, stronger for the Opus group and slighter for the Sonnet group. The per-model split is given in Table~\ref{tab:cost-phase-model} in Appendix~\ref{app:cost-breakdowns}.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired cost differences by phase, APM minus Spec-kit, in US dollars, at 95.8\% coverage.}
+  \label{tab:cost-phase}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Planning & 12 & 2 / 10 & $-3.77$ & $-4.89$ & $-5.17$ & $[-8.84, -1.44]$ \\
+    Implementation & 12 & 10 / 2 & $+9.41$ & $+10.01$ & $+12.21$ & $[+4.10, +22.94]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-role} reports. The Worker agents together cost by far the most, several times the Manager's coordination role. Every role cost more under Opus than under Sonnet, matching the model's higher rate, while the order and rough proportions stayed the same.
+
+\begin{table}[H]
+  \centering
+  \caption{Cost by agent role within the APM sessions, by model, in US dollars.}
+  \label{tab:cost-role}
+  \begin{tabular}{llrrr}
+    \toprule
+    Model & Role & Median & HL & Mean \\
+    \midrule
+    Opus & Planner & 5.50 & 5.85 & 6.53 \\
+    Opus & Manager & 7.35 & 7.31 & 6.97 \\
+    Opus & Worker & 21.76 & 21.80 & 22.91 \\
+    Sonnet & Planner & 2.67 & 2.67 & 2.66 \\
+    Sonnet & Manager & 2.68 & 2.68 & 2.62 \\
+    Sonnet & Worker & 9.54 & 9.25 & 9.21 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The cost difference also divides by token category, the kind of token each dollar paid for, as Table~\ref{tab:cost-token} reports. As Section~\ref{sec:context-windows-and-context-decay} described, each call reprocesses the whole session so far, and caching lowers the price of the tokens that repeat. Under both frameworks Claude Code caches almost all of that prompt, so uncached input was negligible, a few cents either way, and the framework's effect falls on the cache and output categories rather than on fresh input.
+
+The two cache-write rows separate the main instances the user works in from the subagents those instances dispatch. Claude Code writes the one-hour cache for a main instance and the five-minute cache for a subagent, so the one-hour writes carry the framework comparison most directly, since the framework sets how many main instances the user runs. Two categories carried the difference, output and one-hour writes. APM produced more output than Spec-kit in all but one session. It wrote more to the one-hour cache than Spec-kit in every session. For both categories the cohort confidence interval does not include zero. Both differences were larger under Opus than under Sonnet. The cache-read difference was mixed across the cohort. Its confidence interval includes zero. APM read more from the cache than Spec-kit under Opus. Under Sonnet, it read less. The five-minute writes, the subagent cache, were a small positive difference. The per-model split of all five categories is given in Table~\ref{tab:cost-token-model} in Appendix~\ref{app:cost-breakdowns}.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired cost differences by token category, APM minus Spec-kit, in US dollars, at 95.8\% coverage.}
+  \label{tab:cost-token}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Input & 12 & 7 / 5 & $+0.00$ & $+0.00$ & $+0.01$ & $[-0.00, +0.01]$ \\
+    Output & 12 & 11 / 1 & $+2.24$ & $+2.20$ & $+2.32$ & $[+1.15, +3.40]$ \\
+    Cache read & 12 & 7 / 5 & $+1.16$ & $+1.20$ & $+1.82$ & $[-2.33, +6.03]$ \\
+    Cache write (5-minute) & 12 & 10 / 2 & $+0.07$ & $+0.07$ & $+0.05$ & $[-0.00, +0.13]$ \\
+    Cache write (1-hour) & 12 & 12 / 0 & $+2.67$ & $+2.50$ & $+2.92$ & $[+1.28, +4.65]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Lastly, session order did not reverse the cost difference. APM cost more than Spec-kit whether participants met it first or second, in four of the six who used it first and five of the six who used it second. Table~\ref{tab:cost-order} in Appendix~\ref{app:cost-breakdowns} gives the difference within each order. The cost difference therefore tracks the framework rather than the order of the sessions.
+
+Two sections in Chapter~\ref{chap:discussions} read these differences further. Section~\ref{sec:disc-sdd} traces the planning-phase difference to how the two frameworks carry out spec-driven planning, and Section~\ref{sec:disc-cost-mechanics} takes up the implementation cost, how distributing the work across several agents shapes where the cost falls and why the two model groups diverge.
+
+\section{Process}
+\label{sec:results-process}
+
+\placeholder{Forthcoming. The process measures compared between frameworks by the paired method of the Analysis Plan: the interaction measures (turn-prompt and steer counts, the bucket-share distribution and per-bucket magnitude across prompts and delivered steers) and the timing measures (session duration against the three-hour cap, turn count, and the turn-time and inter-turn decompositions), at the session and phase scopes. The self-reported workload items from the questionnaire are reported alongside.}
+
+\section{Functional}
+\label{sec:results-functional}
+
+\placeholder{Forthcoming. The total rubric score compared between frameworks by the paired method of the Analysis Plan, the per-section scores decomposing it across the Python and C implementations, and the per-framework score distribution with every session shown. The perceived-effectiveness rating from the questionnaire is reported alongside.}
+
+\section{Perception}
+\label{sec:results-perception}
+
+\placeholder{Forthcoming. The eight ordinal rating items compared between frameworks item by item, each by its sign count and median paired difference read with the item's polarity, with the per-framework median profile across the items; the second-session comparative item reported by the framework taken second. Each rating is read against the behaviour it should reflect, descriptively, as the pattern of agreement and divergence.}
+
+\section{Supplementary}
+\label{sec:results-supplementary}
+
+\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary measures: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count, per framework and per model, descriptive only and without a paired comparison.}
+

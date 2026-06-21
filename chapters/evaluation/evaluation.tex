@@ -15,8 +15,8 @@ Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-dri
     \item \textbf{RQ4 (Perception):} How does participants' self-reported experience of each framework relate to the behaviour measured from their sessions?
 \end{itemize}
 
-\section{Frameworks under Comparison}
-\label{sec:frameworks}
+\section{Spec-kit, the Comparison Framework}
+\label{sec:frameworks-under-comparison}
 
 The comparison sets APM against GitHub Spec-kit, two open-source frameworks that apply the spec-driven discipline of Section~\ref{sec:spec-driven-development} on top of an existing coding agent. APM's design is described in full in Chapter~\ref{chap:framework-design}; Spec-kit, the single-agent counterpart, is introduced here so the two can be read on the same terms.
 
@@ -31,6 +31,8 @@ The work is driven by a set of slash commands that the developer triggers, or th
 \end{enumerate}
 
 Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artifact consistency checking, and custom quality checklists along the way.
+
+Across these steps the workflow is command-driven, and within each step the agent works largely on its own. It fills gaps in the brief with documented assumptions and puts a question to the developer only where an ambiguity would change the scope of the work.
 
 \section{Case-Study Design}
 \label{sec:case-study-design}
@@ -72,7 +74,7 @@ Each measurement is classed as Primary, Secondary, or Supplementary. Primary mea
 \subsection{Economic}
 \label{sec:measures-economic}
 
-The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, reproduced in Appendix~\ref{app:rate-card}. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, across the planning and implementation phases, by token category, and for APM across its agent roles.
+The primary economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, reproduced in Appendix~\ref{app:rate-card}. Calls made by the conversation's primary agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, by token category, across the planning and implementation phases, and for APM across its agent roles.
 
 \subsection{Process}
 \label{sec:measures-process}
@@ -149,75 +151,11 @@ The typical size of the difference is estimated two ways. The first is the media
 \]
 It summarises the differences through all their pairwise averages rather than the single middle value, so it shifts in finer, steadier steps while keeping the same resistance to extreme values where they occur. The mean is reported beside both, where a divergence from the median marks an asymmetric spread of the differences.
 
-The uncertainty around that typical difference is a 95\% confidence interval for it. The interval is built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location}, which, unlike the sign count, uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
+The uncertainty around that typical difference is a confidence interval for it, built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location}, which, unlike the sign count, uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
+The interval's coverage depends on the number of pairs, and is 95.8\% across the full cohort of twelve and 96.9\% across the six-participant model splits.
 
-The economic and process measures are continuous and take these summaries in full. The functional score is compared within participant the same way, on the canonical grade. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support. The perception ratings are ordinal, so each item is summarised by order-based statistics: its sign count and the median of its paired differences, read with the item's polarity, with the per-framework median ratings giving a profile across the items. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
+The economic and process measures are continuous and take these summaries in full. Where a breakdown has no Spec-kit counterpart to pair against, as with APM's per-role attribution, no paired difference is formed; it is reported descriptively by its central values, the median, Hodges-Lehmann estimate, and mean across the APM sessions, without the sign test or the confidence interval. The functional score is compared within participant the same way, on the canonical grade. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support. The perception ratings are ordinal, so each item is summarised by order-based statistics: its sign count and the median of its paired differences, read with the item's polarity, with the per-framework median ratings giving a profile across the items. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
 
-The confined number of sessions in the case study allows each participant's pair to be examined individually for learning carried from the first session into the second. The workspace and the agent are reset between sessions, so the participant is the only carrier of that memory, and the evidence is sought in their own inputs: a second-session instruction that pre-empts an error the first session made, an explicit reference to an earlier decision, or a detail handled correctly from recall rather than rediscovered. A stronger second-session result alone does not count, since the agent may have produced it unaided. These signs are read case by case, as indications of learning rather than a conclusive measure of it.
-
-
-\section{Results}
-\label{sec:results}
-
-\subsection{Economic}
-\label{sec:results-economic}
-
-\placeholder{Forthcoming. The per-session cost compared between frameworks by the paired method of the Analysis Plan, with the planning and implementation phase split, the per-role decomposition across Planner, Manager, and Worker for the APM cohort, the cost composition by token category and by main versus delegated population, and the cost-versus-model view across the Opus and Sonnet bands.}
-
-\subsection{Process}
-\label{sec:results-process}
-
-\placeholder{Forthcoming. The process measures compared between frameworks by the paired method of the Analysis Plan: the interaction measures (turn-prompt and steer counts, the bucket-share distribution and per-bucket magnitude across prompts and delivered steers) and the timing measures (session duration against the three-hour cap, turn count, and the turn-time and inter-turn decompositions), at the session and phase scopes. The self-reported workload items from the questionnaire are reported alongside.}
-
-\subsection{Functional}
-\label{sec:results-functional}
-
-\placeholder{Forthcoming. The total rubric score compared between frameworks by the paired method of the Analysis Plan, the per-section scores decomposing it across the Python and C implementations, and the per-framework score distribution with every session shown. The perceived-effectiveness rating from the questionnaire is reported alongside.}
-
-\subsection{Perception}
-\label{sec:results-perception}
-
-\placeholder{Forthcoming. The eight ordinal rating items compared between frameworks item by item, each by its sign count and median paired difference read with the item's polarity, with the per-framework median profile across the items; the second-session comparative item reported by the framework taken second. Each rating is read against the behaviour it should reflect, descriptively, as the pattern of agreement and divergence.}
-
-\subsection{Supplementary}
-\label{sec:results-supplementary}
-
-\placeholder{Forthcoming. Descriptive per-framework summaries for the supplementary measures: tool success rate, subagent dispatch count, delegated tool-use count, and model-invoked Skill count, per framework and per model band, descriptive only and without a paired comparison.}
-
-\subsection{Learning Effects}
-\label{sec:results-learning-effects}
-
-\placeholder{Forthcoming. The per-participant examination of each pair of sessions for learning carried from the first into the second, following the Analysis Plan: each cross-session change attributed to the participant's own inputs or to autonomous agent action, with the per-participant verdicts rolled up into a cohort read.}
-
-\section{Discussion}
-\label{sec:discussion}
-
-\placeholder{Forthcoming. Interpretation of the results, reading the framework comparison across the economic, process, functional, and perception dimensions against the structure and design of the two frameworks.}
-
-\section{Threats to Validity}
-\label{sec:threats}
-
-This section enumerates the internal, external, and construct validity threats and the mitigations applied. Each threat points back to the specific section that motivates it.
-
-\subsection{Internal Validity}
-
-\textbf{Learning effects from the within-subjects design.} The within-subjects design declared in the Case-Study Design (Section~\ref{sec:case-study-design}) has each participant complete the same task twice, so task familiarity from the first session can influence performance in the second. Counterbalancing the framework order across participants, as described in Sessions and Data (Section~\ref{sec:sessions-data}), mitigates the framework-effect confound but does not eliminate the underlying learning curve. The learning-effects examination described in the Analysis Plan (Section~\ref{sec:analysis-plan}) reads each participant's two sessions for evidence of carried-over learning and is the primary defence against this threat.
-
-\textbf{Self-reported versus observed measures.} The perception measures described in Section~\ref{sec:measures} pair the instrumented, transcript-derived measures with self-reported workload, confidence, and perceived framework effectiveness; observed divergences between self-report and instrument are reported as findings rather than absorbed as an unstated limitation. Residual risk remains: self-reports are subject to recall bias and social-desirability pressures that the instrument-side measurements cannot independently correct.
-
-\subsection{External Validity}
-
-\textbf{Generalisation scope.} The case study is run on a single AI coding CLI, against a complex software engineering task requiring two-language implementation and legacy-codebase research, described in the Task Specification (Section~\ref{sec:task-spec}), in a setting positioned between laboratory and field conditions. Findings generalise within this scope and do not generalise to multi-platform settings, dynamic cross-model routing, simpler or less knowledge-intensive tasks, or pure laboratory or natural-setting conditions.
-
-\textbf{Temporal decay of findings.} The AI coding assistant field is evolving rapidly. Effect sizes and descriptive claims throughout this chapter (rate-card prices, command sets, framework releases, and model availability) are tied to the May 2026 snapshot stated in Section~\ref{sec:methodology}. The dollar-equivalent cost values reported under Section~\ref{sec:results} rest on the rate-card snapshot; results that rest on those specific rates are defensible against the snapshot but may require re-estimation under a materially different rate card.
-
-\subsection{Construct Validity}
-
-\textbf{Behavioural input buckets as process-efficiency proxy.} The short, protocol, and standard input buckets defined under the Process measures in Section~\ref{sec:measures} are extracted from the transcript content for this study. They are not validated against an external coordination-burden instrument. Their validity as proxies for human coordination effort rests on face validity alone: the relative ordering of frameworks along these metrics is robust, but the absolute magnitude of differences is interpretive rather than calibrated.
-
-\textbf{Instrument coverage limits.} The 100-point rubric captures correctness and robustness but not code quality, maintainability, security posture, or long-term technical debt. Metric extraction is further limited to the Claude Code JSONL transcripts and their sibling subagent files that accompany each participant submission, as declared in Sessions and Data (Section~\ref{sec:sessions-data}): any interaction with the AI that took place outside the CLI's transcript surface is invisible to the metric set.
-
-\textbf{Replica versus live Open eClass.} The shared Docker-based replica of the Open eClass platform described in the Task Environment (Section~\ref{sec:task-env}) pins the platform to a fixed upstream baseline and seeds deterministic fixture data. The shared replica makes the cohort comparable and the grading reproducible, and removes any parity gap between what participants build against and what the evaluation runs against. The trade-off is that the task is performed against a replica rather than against any live university instance of Open eClass: any property of a live instance that the replica does not reproduce, such as timezone handling of locale-formatted dates, session-cookie behaviour under load, cross-origin interactions with the mock CAS service, or upstream behaviours that have shifted since the baseline commit, is not exercised by the case study.
