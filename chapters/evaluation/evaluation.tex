@@ -86,11 +86,13 @@ The temporal shape of the session is captured by the session duration and the tw
     \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
-The interaction shape is captured by the count of turn prompts, the number of turns the user opened across the session, the counts of delivered and attempted steers, and two bucket views. A user message is one of two kinds:
+The interaction shape is captured by the count of turn prompts, the number of turns the user opened across the session, the counts of delivered and attempted steers, and two views of how those messages divide by content. A user message is one of two kinds:
 \begin{itemize}
     \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
     \item A \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers during the turn or abandons if the user retracts it first.
 \end{itemize}
+The two steer counts separate intent from effect. Every steer the participant began to send is an attempted steer; a delivered steer is one the platform actually passed to the working agent. A steer abandoned before delivery carries no content the agent acted on, so it is counted but not bucketed below, and the gap between the two counts records the interjections a participant started and then withdrew.
+
 Each turn prompt and delivered steer also falls into a content bucket, by whether it invokes a framework command and, otherwise, by its length:
 \begin{itemize}
     \item \textbf{Protocol} for an APM or Spec-kit framework command.
@@ -98,6 +100,8 @@ Each turn prompt and delivered steer also falls into a content bucket, by whethe
     \item \textbf{Standard} for a longer, substantive message at or above it, such as a correction, a decision, or guidance.
 \end{itemize}
 The two bucket views summarise how the messages fall across the buckets. The \textbf{bucket-share distribution} is each bucket's share of the messages, counted for prompts and delivered steers separately and together. The \textbf{magnitude per bucket} is their mean character count. Together these distinguish effort spent shuttling mechanical messages, where the protocol share is high and the magnitude low, from effort spent on substantive correction and guidance, where the standard share and magnitude are high.
+
+Unlike the temporal measures, the interaction counts and both bucket views are also reported at role scope for APM, attributing each turn prompt and delivered steer to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
 
 \subsection{Functional}
 \label{sec:measures-functional}
