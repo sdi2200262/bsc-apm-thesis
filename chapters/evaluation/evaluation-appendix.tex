@@ -6,15 +6,15 @@
 
 The study's software and data are openly available in the following repositories:
 \begin{itemize}[nosep]
-    \item the participant package, holding the task brief, the participant guide, and the materials to set up the testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
-    \item the evaluation infrastructure, holding the transcript parser, the grader and its scoring rubric, and the grading environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-infra};
-    \item the dataset of participant submissions, from which our measurements are computed, at \url{https://github.com/sdi2200262/bsc-apm-case-study-data}.
+    \item The participant package, holding the task brief, the participant guide, and the materials to set up the testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
+    \item The evaluation infrastructure, holding the transcript parser, the grader with its scoring rubric, and the grading environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-infra};
+    \item The dataset of participant submissions, from which our measurements are computed, at \url{https://github.com/sdi2200262/bsc-apm-case-study-data}.
 \end{itemize}
 
 \section{Rate Card}
 \label{app:rate-card}
 
-The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention tiers.
+The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention periods.
 
 \begin{table}[H]
   \centering
@@ -31,7 +31,7 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \end{tabular}
 \end{table}
 
-Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku, so some sessions carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
+Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku. Some sessions therefore carry a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
 
 \section{Questionnaire Instrument}
 \label{app:questionnaire}
@@ -46,10 +46,10 @@ The second-session question, ``Compared to the framework you used in your first 
 \end{itemize}
 The completion-state question, ``Completion state'', offers four options:
 \begin{itemize}[nosep]
-    \item completed the task comfortably within the three-hour cap
-    \item completed the task near the three-hour cap
-    \item hit the three-hour cap without completing
-    \item stopped early without completing
+    \item Completed the task comfortably within the three-hour cap
+    \item Completed the task near the three-hour cap
+    \item Hit the three-hour cap without completing
+    \item Stopped early without completing
 \end{itemize}
 The two free-text prompts are:
 \begin{itemize}[nosep]
