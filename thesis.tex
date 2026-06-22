@@ -94,6 +94,14 @@
 \chapter{EVALUATION}
 \input{chapters/evaluation/evaluation}
 
+\chapter{RESULTS}
+\label{chap:results}
+\input{chapters/results/results}
+
+\chapter{DISCUSSIONS}
+\label{chap:discussions}
+\input{chapters/discussions/discussions}
+
 \chapter{CONCLUSION}
 \input{chapters/conclusion/conclusion}
 
@@ -107,13 +115,21 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{APPENDICES}
 
-% Number appendix tables T1, T2, ... so they do not collide with the
-% lettered appendix section numbers (A.1, A.2, ...).
+% Number appendix tables T1, T2, ... and figures F1, F2, ... so they do not
+% collide with the lettered appendix section numbers (A.1, A.2, ...).
 \renewcommand{\thetable}{T\arabic{table}}
+\renewcommand{\thefigure}{F\arabic{figure}}
 \setcounter{table}{0}
+\setcounter{figure}{0}
 
 \chapter{EVALUATION APPENDIX}
 \input{chapters/evaluation/evaluation-appendix}
+
+\chapter{RESULTS APPENDIX}
+\input{chapters/results/results-appendix}
+
+\chapter{DISCUSSIONS APPENDIX}
+\input{chapters/discussions/discussions-appendix}
 \end{appendix}
 
 \bibliographystyle{unsrt}
