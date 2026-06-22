@@ -4,9 +4,9 @@
 \section{Methodology and Research Questions}
 \label{sec:methodology}
 
-We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, a single-agent framework applying the spec-driven discipline of Chapter~\ref{chap:background}. The study was conducted on the Claude Code command-line interface, which both frameworks run on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, a single-agent framework applying the spec-driven discipline of Chapter~\ref{chap:background}. The study was conducted on the Claude Code command-line interface, which both frameworks operate on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
 
-Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is carried by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
+Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is handled by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
 \begin{itemize}
     \item \textbf{RQ1 (Economic):} How does APM's multi-agent structure affect the dollar cost of completing a task relative to Spec-kit's single-agent workflow, and is that difference consistent across models of differing capability?
@@ -81,7 +81,7 @@ The process measures capture two things, the effort each framework demands of th
 
 User messages are characterised along two dimensions. The first is the kind of message:
 \begin{itemize}
-    \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs from the prompt to the agent's idle return.
+    \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that extends from the prompt to the agent's idle return.
     \item A \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers to the agent during the turn or abandons if the user retracts it before delivery.
 \end{itemize}
 The second is the content bucket, which sorts each prompt and delivered steer by whether it invokes a framework command and, otherwise, by its length:
@@ -97,7 +97,7 @@ The temporal shape of the session is captured by two measures, the session durat
 \begin{itemize}
     \item \textbf{Session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
     \item \textbf{Turn count} is the number of turns recorded across the session's conversations.
-    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant ran agents in parallel or serially.
+    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant's agents worked in parallel or serially.
     \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
 \end{itemize}
 
@@ -126,7 +126,7 @@ Beyond the rating items, the questionnaire asks one second-session question on a
 
 A small set of supplementary descriptors is reported per framework alongside the measures above. They are descriptive only and are not part of the framework comparison, kept to characterise each session.
 
-The \textbf{tool success rate} is the proportion of the session's main-transcript tool-invocation results that carry no error flag, across every tool the assistant may invoke and without weighting by tool kind; calls made inside subagent dispatches are excluded. It is a descriptive check on the reliability of the session's tool use.
+The \textbf{tool success rate} is the proportion of the session's main-transcript tool-invocation results that show no error flag, across every tool the assistant may invoke and without weighting by tool kind; calls made inside subagent dispatches are excluded. It is a descriptive check on the reliability of the session's tool use.
 
 The next three descriptors are proxies for the agent acting on its own initiative, behaviour the platform permits under either framework. The \textbf{subagent dispatch count} is the number of subagent dispatches the main agent issued in scope, and the \textbf{delegated tool-use count} is the number of tool invocations those subagents performed in their own conversations. Together they measure how much work is offloaded to delegated subagents. The \textbf{model-invoked Skill count} is the number of Skill bodies the agent itself caused to be injected, without a user typing the command, capturing self-invocation that does not appear in the user-message activity.
 
