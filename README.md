@@ -1,72 +1,42 @@
 # BSc APM Thesis
 
-BSc thesis evaluating Agentic Project Management (APM v1) against GitHub Spec-kit on the Claude Code CLI platform.
-
-**Status:** Work in Progress
+BSc thesis evaluating [Agentic Project Management (APM)](https://github.com/sdi2200262/agentic-project-management) against [GitHub Spec-kit](https://github.github.io/spec-kit/) on the Claude Code CLI, for AI-assisted software development.
 
 ## Overview
 
-This thesis investigates whether multi-agent coordination structures provide tangible benefits over single-agent workflows when applied to complex software development tasks. The case study compares two spec-driven frameworks on a shared AI coding platform:
+This thesis investigates whether coordinating several agents provides tangible benefits over a single-agent workflow on complex software development tasks. The case study compares two open-source spec-driven frameworks running on the same coding agent, so the comparison isolates the effect of distributing the work across several agents from platform or tooling differences:
 
-- **APM v1**: Multi-agent, spec-driven (Planner, Manager, Workers; file-based Message Bus)
-- **GitHub Spec-kit**: Single-agent, spec-driven (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`)
+- **APM** (v1.0): multi-agent and spec-driven, a Planner, a Manager, and Workers coordinated through the user over file-based protocols.
+- **GitHub Spec-kit**: single-agent and spec-driven, driven by slash commands (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`).
 
-Both frameworks are open-source and run on the same AI coding CLI, so the evaluation isolates the effect of multi-agent coordination overhead from platform or tooling differences.
+The evaluation compares the two along four dimensions, defined as research questions in the Evaluation chapter:
 
-The research evaluates three dimensions:
-
-- **Economic Efficiency**: Dollar cost of a session, computed against the platform's per-token rate card
-- **Process Efficiency**: Human coordination and verification burden across a session
-- **Functional Efficacy**: Ability to complete non-trivial tasks that stress single-context-window workflows
-
-## Repository Structure
-
-```
-bsc-apm-thesis/
-├── Makefile                 # Build automation (wraps latexmk)
-├── README.md                # This file
-├── LICENSE                  # GPL-3.0-or-later (thesis content)
-├── thesis.tex               # Master: class, metadata, chapter assembly
-├── apmthesis.cls            # Thesis document class (DIT BSc, Pergamos layout)
-├── latexmkrc                # XeLaTeX build configuration
-├── references.bib           # Bibliography database (filled in the grounding pass)
-├── fonts/arimo/             # Vendored Arimo font (OFL) + its license
-├── emblems/                 # NKUA Athena emblem (title page)
-├── chapters/
-│   ├── introduction/introduction.tex
-│   ├── background/background.tex
-│   ├── framework-design/framework-design.tex
-│   ├── evaluation/evaluation.tex            # Evaluation chapter body
-│   ├── evaluation/evaluation-appendix.tex   # Evaluation appendix body
-│   └── conclusion/conclusion.tex
-├── assets/                  # Images and figures
-└── build/                   # XeLaTeX auxiliary files, git-ignored
-                             # (thesis.pdf is written to the repo root)
-```
-
-The thesis is one source of truth: `thesis.tex` sets the class and metadata and
-assembles one body file per chapter under `chapters/`. The `apmthesis` class
-implements the mandatory DIT BSc submission layout (A4, Arial-metric font,
-bilingual front matter) accepted by the Pergamos repository; it is an LPPL
-Derived Work of the community `dithesis` class (provenance and change notice in
-the class header). The body font defaults to the vendored, freely
-redistributable Arimo (metric-identical to Arial) so the build is reproducible
-with no system font installed.
+- **Economic**: the dollar cost of completing a task, priced against the platform's per-token rate card.
+- **Process**: the time a task takes and the effort it demands of the user.
+- **Functional**: how much of the task each framework completes, and how it fails when it falls short.
+- **Perception**: participants' self-reported experience, read against the behaviour measured from their sessions.
 
 ## Evaluation Methodology
 
-The study is a within-subjects experiment on Claude Code. Each participant completes the case study task twice, once with APM v1 and once with Spec-kit, with the order counterbalanced across the cohort to control for task-familiarity effects. Sessions are time-boxed to three hours.
+The study is a within-subjects experiment on Claude Code. Each participant completes the case-study task twice, once with APM and once with Spec-kit, with the framework order counterbalanced across the cohort to control for task-familiarity effects. One Claude model, Opus 4.7 or Sonnet 4.6, is held fixed across a participant's two sessions. Sessions are time-boxed to three hours.
 
-Metrics are extracted programmatically from the per-session Claude Code JSONL transcripts and organised into three measurement dimensions (economic, process, functional) plus a consolidated analysis plan. Each session's submission bundles the patch, the transcripts, and a post-session questionnaire response, packaged as a single zip and submitted alongside the questionnaire through one per-session web form. Transcripts are anonymised and encrypted with an HMAC-SHA256 XOR cipher before storage, protecting participant privacy while preserving reproducibility.
+Transcript-derived metrics are extracted programmatically from the per-session Claude Code JSONL transcripts; the functional outcome is scored by an automated grader against a fixed 100-point rubric, and a post-session questionnaire captures self-report. The measures are organised by the four research questions (economic, process, functional, perception), alongside a small set of supplementary descriptors. Each session's submission bundles the solution patch, the transcripts, and the questionnaire response, anonymised and encrypted before storage.
 
-Full methodology, including the testbed, the 100-point grading rubric, and infrastructure details, lives in [`chapters/evaluation/`](chapters/evaluation/).
+The methodology is set out in [`chapters/evaluation/`](chapters/evaluation/); the findings are reported in [`chapters/results/`](chapters/results/) and interpreted in [`chapters/discussions/`](chapters/discussions/). The grader, parser, and grading environment live in the infrastructure repository linked below.
 
 ## Building
 
-The build uses XeLaTeX and is automated via the `Makefile`. Output (PDF and
-auxiliary files) goes to `build/`. **Always run from the repository root** so
-`latexmkrc` and the `Makefile` are picked up and the class's relative font path
-resolves.
+The thesis is one source of truth: `thesis.tex` sets the class and metadata and
+assembles one body file per chapter under `chapters/`, with the three appendix
+bodies gathered at the end. The `apmthesis` class implements the mandatory DIT
+BSc submission layout; it is an LPPL Derived Work of the community `dithesis`
+class. The body font defaults to the vendored, freely redistributable Arimo so
+the build is reproducible with no system font installed.
+
+The build uses XeLaTeX and is automated via the `Makefile`. The finished
+`thesis.pdf` is written to the repository root; auxiliary files stay in
+`build/`. **Always run from the repository root** so `latexmkrc` and the
+`Makefile` are picked up and the class's relative font path resolves.
 
 ```bash
 cd /path/to/bsc-apm-thesis
@@ -84,8 +54,7 @@ make watch
 make clean
 ```
 
-The finished PDF is `thesis.pdf` at the repository root (auxiliary files
-stay in `build/`). If you prefer running `latexmk` manually:
+If you prefer running `latexmk` manually:
 
 ```bash
 # Build the full thesis
@@ -100,11 +69,12 @@ latexmk -c
 
 Running from a subdirectory will miss `latexmkrc` and fail to resolve the font path.
 
-## Related Repositories
+## Related
 
-- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): Participant package and containerised testing environment
-- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): Grading suite, transcript parser, and submission processing pipeline (private)
-- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): Participant submissions (restricted access)
+- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task specification, participant package, and testing environment.
+- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): grader, transcript parser, and grading environment.
+- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): participant submissions (restricted access).
+- [eclass-mcp-server](https://github.com/sdi2200262/eclass-mcp-server): reference MCP client for the openeclass platform.
 
 ## License
 
@@ -112,4 +82,4 @@ GPL-3.0-or-later. See [LICENSE](LICENSE).
 
 ---
 
-*BSc thesis, Department of Informatics and Telecommunications, University of Athens*
+*BSc thesis, Department of Informatics and Telecommunications, University of Athens.*
