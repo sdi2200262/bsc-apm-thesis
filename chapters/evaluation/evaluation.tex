@@ -72,36 +72,32 @@ Each transcript-derived measurement is computed at more than one scope, a scope 
 \subsection{Economic}
 \label{sec:measures-economic}
 
-The economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:rate-card}. Calls made by the conversation's main agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. Each participant contributes one APM cost and one Spec-kit cost for the same task, compared pairwise across the cohort at the session scope. This cost is broken down further to locate where the spending accrues, by token category, across the planning and implementation phases, and for APM across its agent roles.
+The economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing every call recorded in the session's transcripts against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:rate-card}. Calls made by the conversation's main agent are priced at that conversation's declared model; calls made by subagents are priced against the model recorded in the platform's sibling subagent transcript for that dispatch. The cost is measured at the session scope and broken down further to locate where the spending accrues, by token category, across the planning and implementation phases, and for APM across its agent roles.
 
 \subsection{Process}
 \label{sec:measures-process}
 
-The process measures capture two things, the time the task takes, seen in the session's timing, and the effort each framework demands of the user, seen in how the user interacted with the agent.
+The process measures capture two aspects of a session, its temporal shape and its interaction shape. The first is how the session's time was spent; the second is how the user engaged with the agent, which reflects the effort each framework demands.
 
-The temporal shape of the session is captured by two measures, the session duration and the turn count, and two that decompose the time within it, the turn time and the inter-turn time:
+The temporal shape of the session is captured by the session duration and the two measures that decompose the time within it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
     \item \textbf{Session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
-    \item \textbf{Turn count} is the number of turns recorded across the session's conversations.
-    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant's agents worked in parallel or serially.
-    \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
+    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant's agents worked in parallel or serially. The union and its split are not defined at role scope, where a role's turns lie in one conversation and cannot overlap.
+    \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
-These timing measures are reported at session and phase scope only; at role scope the wall-clock union and concurrency interpretations are not well-defined, since a role lives inside a single conversation whose turns cannot overlap.
-
-User messages are characterised along two dimensions. The first is the kind of message:
+The interaction shape is captured by the count of turn prompts, the number of turns the user opened across the session, the counts of delivered and attempted steers, and two bucket views. A user message is one of two kinds:
 \begin{itemize}
-    \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that extends from the prompt to the agent's idle return.
-    \item A \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers to the agent during the turn or abandons if the user retracts it before delivery.
+    \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
+    \item A \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers during the turn or abandons if the user retracts it first.
 \end{itemize}
-The second is the content bucket, which sorts each prompt and delivered steer by whether it invokes a framework command and, otherwise, by its length:
+Each turn prompt and delivered steer also falls into a content bucket, by whether it invokes a framework command and, otherwise, by its length:
 \begin{itemize}
     \item \textbf{Protocol} for an APM or Spec-kit framework command.
-    \item \textbf{Short} for a brief, non-command message below a length threshold, like a quick acknowledgement or a choice of options.
-    \item \textbf{Standard} for a longer, substantive message at or above that length, such as a course correction, a decision, or guidance.
+    \item \textbf{Short} for a brief non-command message below a length threshold.
+    \item \textbf{Standard} for a longer, substantive message at or above it, such as a correction, a decision, or guidance.
 \end{itemize}
-
-The interaction measures are the counts of turn prompts and of delivered and attempted steers, together with two bucket views. The \textbf{bucket-share distribution} reports the share of each bucket in the session's user-message count, separately for prompts and for delivered steers and jointly across both. The \textbf{magnitude per bucket} reports the mean character count of messages in each bucket. Together these expose whether the user's effort goes into mechanical message-shuttling (high protocol share, low magnitude) or into substantive corrections and guidance (high standard share, high magnitude).
+The two bucket views summarise how the messages fall across the buckets. The \textbf{bucket-share distribution} is each bucket's share of the messages, counted for prompts and delivered steers separately and together. The \textbf{magnitude per bucket} is their mean character count. Together these distinguish effort spent shuttling mechanical messages, where the protocol share is high and the magnitude low, from effort spent on substantive correction and guidance, where the standard share and magnitude are high.
 
 \subsection{Functional}
 \label{sec:measures-functional}
