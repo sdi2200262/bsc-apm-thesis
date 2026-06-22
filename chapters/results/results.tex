@@ -4,7 +4,7 @@
 \section{Economic}
 \label{sec:results-economic}
 
-For nine of the twelve participants the APM session cost more in US-dollar-equivalent than the Spec-kit session, as Table~\ref{tab:cost-cohort} reports. The paired cost difference is the APM session cost minus the Spec-kit session cost, and all three summaries of its typical size are positive. The median and the Hodges-Lehmann estimate fall close together near six dollars, and the mean of the differences is somewhat higher, near seven. The Wilcoxon interval does not include zero, so the cohort-level direction holds. Its width, however, leaves the size of the difference imprecise.
+For nine of the twelve participants the APM session cost more in US-dollar-equivalent than the Spec-kit session, as Table~\ref{tab:cost-cohort} reports. The paired cost difference is the APM session cost minus the Spec-kit session cost, and all three summaries of its typical size are positive. The median and the Hodges-Lehmann estimate fall close together, and the mean of the differences is somewhat higher. The Wilcoxon interval does not include zero, so the cohort-level direction holds. Its width, however, leaves the size of the difference imprecise.
 
 \begin{table}[H]
   \centering
@@ -28,7 +28,7 @@ The mean being higher than the median shows that a few large differences pull th
   \label{fig:cost-overall}
 \end{figure}
 
-The cost difference behaved very differently between the two model groups, set out in Table~\ref{tab:cost-model} and shown in Figure~\ref{fig:cost-by-model}. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate are near twelve dollars and the mean is a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, pointing to the two frameworks costing about the same for that group.
+The cost difference behaved very differently between the two model groups, set out in Table~\ref{tab:cost-model} and shown in Figure~\ref{fig:cost-by-model}. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate sit close together, with the mean a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, pointing to the two frameworks costing about the same for that group.
 
 The Opus group also varied widely, from one session where APM cost about four dollars less to one where it cost about thirty-two dollars more. At six participants the confidence interval is wide and includes zero, its bounds coinciding with those two extremes because at that sample size the interval reaches the smallest and largest differences rather than bounding the estimate more tightly. The Sonnet interval is similarly wide. Opus is the more expensive of the two models, so its differences fall on a larger dollar scale. Those large Opus values pulled the full-cohort summaries up, so the cohort-level cost difference comes mostly from the Opus group.
 
@@ -92,7 +92,7 @@ Within an APM session the cost divided across the three agent roles in the same 
 
 The cost difference also divides by token category, the kind of token each dollar paid for, as Table~\ref{tab:cost-token} reports. As Section~\ref{sec:context-windows-and-context-decay} described, each call reprocesses the whole session so far, and caching lowers the price of the tokens that repeat. Under both frameworks Claude Code caches almost all of that prompt, so uncached input was negligible, a few cents either way, and the framework's effect falls on the cache and output categories rather than on fresh input.
 
-The two cache-write rows separate the main conversations the user works in from the subagents those conversations dispatch. Claude Code writes the one-hour cache for a main conversation and the five-minute cache for a subagent. The one-hour writes therefore reflect the framework comparison most directly, since the framework sets how many main conversations the user opens.
+The two cache-write rows separate the main agents the user works in from the subagents those agents dispatch. Claude Code writes the one-hour cache for a main agent and the five-minute cache for a subagent. The one-hour writes therefore reflect the framework comparison most directly, since the framework sets how many main agents the user opens.
 
 Two categories drove the difference: output and one-hour writes. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session, and for both categories the cohort confidence interval does not include zero. Both differences were larger under Opus than under Sonnet. The cache-read difference was mixed across the cohort, and its confidence interval includes zero. APM read more from the cache than Spec-kit under Opus, and less under Sonnet. The five-minute writes, the subagent cache, were a small positive difference. The per-model split of all five categories is given in Table~\ref{tab:cost-token-model} in Appendix~\ref{app:cost-breakdowns}.
 
