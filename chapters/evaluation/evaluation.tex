@@ -77,7 +77,17 @@ The economic measurement is the \textbf{dollar-equivalent cost}, computed by pri
 \subsection{Process}
 \label{sec:measures-process}
 
-The process measures capture two things, the effort each framework demands of the user, seen in how the user interacted with the agent, and the time the task takes, seen in the session's timing.
+The process measures capture two things, the time the task takes, seen in the session's timing, and the effort each framework demands of the user, seen in how the user interacted with the agent.
+
+The temporal shape of the session is captured by two measures, the session duration and the turn count, and two that decompose the time within it, the turn time and the inter-turn time:
+\begin{itemize}
+    \item \textbf{Session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
+    \item \textbf{Turn count} is the number of turns recorded across the session's conversations.
+    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant's agents worked in parallel or serially.
+    \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
+\end{itemize}
+
+These timing measures are reported at session and phase scope only; at role scope the wall-clock union and concurrency interpretations are not well-defined, since a role lives inside a single conversation whose turns cannot overlap.
 
 User messages are characterised along two dimensions. The first is the kind of message:
 \begin{itemize}
@@ -92,16 +102,6 @@ The second is the content bucket, which sorts each prompt and delivered steer by
 \end{itemize}
 
 The interaction measures are the counts of turn prompts and of delivered and attempted steers, together with two bucket views. The \textbf{bucket-share distribution} reports the share of each bucket in the session's user-message count, separately for prompts and for delivered steers and jointly across both. The \textbf{magnitude per bucket} reports the mean character count of messages in each bucket. Together these expose whether the user's effort goes into mechanical message-shuttling (high protocol share, low magnitude) or into substantive corrections and guidance (high standard share, high magnitude).
-
-The temporal shape of the session is captured by two measures, the session duration and the turn count, and two that decompose the time within it, the turn time and the inter-turn time:
-\begin{itemize}
-    \item \textbf{Session duration} is the wall-clock span from the first user message of the session to the last assistant message, bounded above by the three-hour cap.
-    \item \textbf{Turn count} is the number of turns recorded across the session's conversations.
-    \item \textbf{Turn time} is the time an agent was actively working, the wall-clock union of every turn's interval. It is reported in total and split into the time only one agent was working (\textbf{solo}) and the time two or more were working at once (\textbf{concurrent}). For APM this surfaces whether the participant's agents worked in parallel or serially.
-    \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted, the wall-clock gap between consecutive turns summed across the session. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, switching context, or away from the task entirely.
-\end{itemize}
-
-These timing measures are reported at session and phase scope only; at role scope the wall-clock union and concurrency interpretations are not well-defined, since a role lives inside a single conversation whose turns cannot overlap.
 
 \subsection{Functional}
 \label{sec:measures-functional}
