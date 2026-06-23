@@ -65,3 +65,106 @@ Table~\ref{tab:cost-order} splits the cost difference by the order in which the 
     \bottomrule
   \end{tabular}
 \end{table}
+
+\newpage
+\section{Process Breakdowns}
+\label{app:process-breakdowns}
+
+These tables give the per-model and per-order breakdowns, and the per-session active-time composition, behind claims in the Process results (Section~\ref{sec:results-process}).
+
+Table~\ref{tab:proc-time-model} gives the session-time differences within each model group, the per-model split of Table~\ref{tab:proc-time}. APM was higher on the session duration in all six pairs under each model, with the gap the wider under Opus, and its active and idle components were higher under APM in each group as well.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Paired session-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. The measures are those of Table~\ref{tab:proc-time}.}
+  \label{tab:proc-time-model}
+  \begin{tabular}{llrrrrrr}
+    \toprule
+    Model & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & Session duration & 6 & 6 / 0 & $+2436.4$ & $+2436.4$ & $+2603.4$ & $[+664.1, +5596.1]$ \\
+     & Turn time & 6 & 6 / 0 & $+2206.9$ & $+2139.4$ & $+2076.9$ & $[+519.7, +3415.5]$ \\
+     & Inter-turn idle & 6 & 5 / 1 & $+674.4$ & $+667.1$ & $+526.5$ & $[-1475.3, +2180.6]$ \\
+    \midrule
+    Sonnet & Session duration & 6 & 6 / 0 & $+1878.6$ & $+2302.2$ & $+2310.7$ & $[+701.8, +4635.4]$ \\
+     & Turn time & 6 & 5 / 1 & $+1199.3$ & $+1384.4$ & $+1643.8$ & $[-1034.8, +3833.9]$ \\
+     & Inter-turn idle & 6 & 6 / 0 & $+679.3$ & $+679.3$ & $+666.9$ & $[+5.8, +1736.6]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase}. The implementation phase was longer under APM in all six pairs of each model, with the difference somewhat larger under Sonnet, while the planning difference remained mixed in sign under both.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \caption{Paired phase-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. Each phase's duration divides into the active turn time and the inter-turn idle.}
+  \label{tab:proc-phase-model}
+  \begin{tabular}{lllrrrrrr}
+    \toprule
+    Model & Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & Planning & Duration & 6 & 3 / 3 & $-411.0$ & $-600.3$ & $-549.2$ & $[-1963.8, +763.3]$ \\
+     & & Turn time & 6 & 3 / 3 & $-331.3$ & $-532.3$ & $-502.9$ & $[-1429.8, +139.3]$ \\
+     & & Inter-turn idle & 6 & 3 / 3 & $+112.2$ & $+39.6$ & $-46.3$ & $[-1223.4, +642.0]$ \\
+     & Implementation & Duration & 6 & 6 / 0 & $+2339.0$ & $+2339.0$ & $+3039.1$ & $[+1778.6, +7287.3]$ \\
+     & & Turn time & 6 & 6 / 0 & $+2337.8$ & $+2337.8$ & $+2557.4$ & $[+1452.2, +4845.3]$ \\
+     & & Inter-turn idle & 6 & 4 / 2 & $+247.9$ & $+247.9$ & $+481.6$ & $[-252.0, +2442.0]$ \\
+    \midrule
+    Sonnet & Planning & Duration & 6 & 2 / 4 & $-539.2$ & $-649.6$ & $-660.1$ & $[-2404.0, +821.2]$ \\
+     & & Turn time & 6 & 1 / 5 & $-637.8$ & $-765.5$ & $-756.8$ & $[-2043.1, +308.5]$ \\
+     & & Inter-turn idle & 6 & 4 / 2 & $+98.6$ & $+98.6$ & $+96.8$ & $[-360.8, +512.7]$ \\
+     & Implementation & Duration & 6 & 6 / 0 & $+2878.6$ & $+2878.6$ & $+2931.5$ & $[+589.7, +6046.7]$ \\
+     & & Turn time & 6 & 5 / 1 & $+2363.8$ & $+2363.8$ & $+2371.4$ & $[-858.7, +5188.8]$ \\
+     & & Inter-turn idle & 6 & 5 / 1 & $+514.8$ & $+514.8$ & $+560.1$ & $[-47.1, +1448.4]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:proc-order} gives the session-duration difference within each session order. Neither order reverses it, with the central difference somewhat larger when APM came first.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired session-duration differences by session order, APM minus Spec-kit, in seconds, at 96.9\% coverage.}
+  \label{tab:proc-order}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    APM first & 6 & 6 / 0 & $+2400.0$ & $+2751.4$ & $+2850.1$ & $[+867.4, +5596.1]$ \\
+    APM second & 6 & 6 / 0 & $+1915.0$ & $+1993.8$ & $+2064.0$ & $[+664.1, +3902.6]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:proc-concurrency} sets out the active-time composition of each APM session, the solo and concurrent spans behind the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent span was negligible in five of the twelve sessions and under a sixth of the active time in all but one.
+
+\begin{table}[H]
+  \centering
+  \caption{Active-time composition of the APM sessions, in seconds, with the concurrent span as a share of the active time. Descriptive and APM only, since Spec-kit's single conversation has no concurrent span.}
+  \label{tab:proc-concurrency}
+  \begin{tabular}{lrrr}
+    \toprule
+    Participant & Solo & Concurrent & Concurrent share \\
+    \midrule
+    P001 & 4834 & 0 & 0.0\% \\
+    P002 & 5993 & 16 & 0.3\% \\
+    P003 & 4458 & 661 & 12.9\% \\
+    P004 & 5300 & 58 & 1.1\% \\
+    P005 & 5686 & 0 & 0.0\% \\
+    P006 & 6203 & 9 & 0.1\% \\
+    P007 & 4765 & 812 & 14.6\% \\
+    P008 & 3934 & 580 & 12.8\% \\
+    P009 & 4476 & 1541 & 25.6\% \\
+    P010 & 6556 & 1259 & 16.1\% \\
+    P011 & 4218 & 577 & 12.0\% \\
+    P012 & 4037 & 429 & 9.6\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Interaction Shape appendix entries: cleared for rewrite.
+
