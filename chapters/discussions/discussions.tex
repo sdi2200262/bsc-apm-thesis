@@ -32,15 +32,15 @@ Those turns also differed in kind. Spec-kit's were almost all framework commands
 
 \placeholder{Forthcoming. The perception reading of this realisation, how the two planning approaches relate to what participants reported.}
 
-\section{Distributing the Implementation across Agents}
+\section{Coordinating the Implementation}
 \label{sec:disc-implementation}
 
-Both frameworks build against their planning documents and revise them as findings require, but Spec-kit stays within the single agent that also planned, while APM distributes the work across several agents, a Manager and its Workers. That distribution shapes both what the implementation costs and what it demands of the user, read in the two subsections below.
+Both frameworks build against their planning documents and revise them as findings require, but Spec-kit carries the implementation out in the single main agent that also planned, while APM carries it out across several main agents, a Manager and its Workers, that coordinate through the user. The several agents shape what the implementation costs, and that coordination shapes what it demands, read in the two subsections below.
 
-\subsection{The Cost of Multiple Agents}
+\subsection{The Cost of Several Agents}
 \label{sec:disc-cost-mechanics}
 
-Under per-token pricing, that distribution falls first on cost. Each of APM's added conversations built its own cache, produced its own output, and accumulated its own context, so APM's spending exceeded Spec-kit's in the output and cache-write categories, as Table~\ref{tab:cost-token} details. Those are the most expensive of the five token categories, as the rate card in Appendix~\ref{app:rate-card} sets out, so APM's excess fell on the costliest tokens. This implementation cost is the larger part of the overall difference, and it outweighs the planning saving of Section~\ref{sec:disc-sdd}, as the two phase rows of Table~\ref{tab:cost-phase} set out, so APM cost more overall. That cost is a by-product of APM's workload distribution, not an aim of it.
+Under per-token pricing, that structure falls first on cost. Each of APM's added conversations built its own cache, produced its own output, and accumulated its own context, so APM's spending exceeded Spec-kit's in the output and cache-write categories, as Table~\ref{tab:cost-token} details. Those are the most expensive of the five token categories, as the rate card in Appendix~\ref{app:rate-card} sets out, so APM's excess fell on the costliest tokens. This implementation cost is the larger part of the overall difference, and it outweighs the planning saving of Section~\ref{sec:disc-sdd}, as the two phase rows of Table~\ref{tab:cost-phase} set out, so APM cost more overall. That cost is a by-product of working across several agents, not an aim of it.
 
 The two model groups did not bear this cost in the same way, and the difference lies in the size of each model's context window and how the platform handles a conversation that reaches its limit. As Section~\ref{sec:context-windows-and-context-decay} describes, each call costs more than the last as the context grows, and a compaction resets it to a low starting point. In Claude Code, compactions happen automatically as a conversation nears its limit, and the user may also trigger one manually. APM has its own form of this reset, the Handoff described in Chapter~\ref{chap:framework-design}, which in cost terms works the same way as a compaction. As Table~\ref{tab:compaction} reports, such resets happened in only one of the two model groups.
 
@@ -100,7 +100,7 @@ The issue bears little on the cost reading described above. The added accumulati
 \subsection{The Demands on the User}
 \label{sec:disc-demands}
 
-\placeholder{Forthcoming. The process reading of the multi-agent implementation: how distributing the work across several agents shapes the user's time and interaction, the added turns that are mostly protocol relay, the substantive contact centring on the Manager, and the light supervision the participants gave.}
+\placeholder{Forthcoming. The process reading: how coordinating the implementation through the user, across several main agents, shapes the user's time and interaction, the added turns that are mostly protocol relay, the substantive contact centring on the Manager, and the light supervision the participants gave.}
 
 \section{Learning Effects}
 \label{sec:disc-learning-effects}
