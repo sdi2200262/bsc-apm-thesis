@@ -4,7 +4,34 @@
 \section{Economic}
 \label{sec:results-economic}
 
-For nine of the twelve participants the APM session cost more in US-dollar-equivalent than the Spec-kit session, as Table~\ref{tab:cost-cohort} reports. The paired cost difference is the APM session cost minus the Spec-kit session cost, and all three summaries are positive. The median and the Hodges-Lehmann estimate, its two estimates of typical size, fall close together, and the mean of the differences is somewhat higher. The Wilcoxon interval does not include zero, so the cohort-level direction holds. Its width, however, leaves the size of the difference imprecise.
+An APM session cost a median of about thirty-five US dollars under Opus and fifteen under Sonnet, against Spec-kit's twenty-four and fourteen, as Table~\ref{tab:cost-levels} reports. APM was the more expensive of the two under both models, by a wide margin under Opus and only slightly under Sonnet. Within a model each framework's median, Hodges-Lehmann estimate, and mean lay close together, so its own cost spread was tight and near-symmetric. The Opus sessions cost roughly twice the Sonnet ones, as the model's higher rate set the dollar scale, so the two models are read apart throughout. Within each session the two frameworks placed the cost differently across the task's two phases. APM's fell mostly in implementation, at a median of about twenty-seven dollars under Opus and twelve under Sonnet, while its planning cost was the smaller of the two and, unlike implementation, stayed below Spec-kit's.
+
+\begin{table}[H]
+  \centering
+  \caption{Per-framework session and phase cost, in US dollars, across each framework's six sessions in each model.}
+  \label{tab:cost-levels}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrr}
+    \toprule
+    Model & Scope & Framework & Median & HL & Mean \\
+    \midrule
+    Opus & Session & APM & $35.20$ & $35.57$ & $36.67$ \\
+     & & Spec-kit & $23.94$ & $23.94$ & $24.08$ \\
+     & Planning & APM & $5.19$ & $5.62$ & $6.22$ \\
+     & & Spec-kit & $5.98$ & $6.62$ & $6.76$ \\
+     & Implementation & APM & $27.47$ & $27.47$ & $29.65$ \\
+     & & Spec-kit & $17.73$ & $16.69$ & $16.98$ \\
+    \midrule
+    Sonnet & Session & APM & $14.58$ & $14.58$ & $14.54$ \\
+     & & Spec-kit & $13.54$ & $13.54$ & $12.86$ \\
+     & Planning & APM & $2.39$ & $2.39$ & $2.38$ \\
+     & & Spec-kit & $3.71$ & $3.73$ & $4.18$ \\
+     & Implementation & APM & $12.22$ & $11.68$ & $11.82$ \\
+     & & Spec-kit & $9.76$ & $9.69$ & $8.46$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Paired within each participant, the APM session cost more in US-dollar-equivalent than the Spec-kit session for nine of the twelve, as Table~\ref{tab:cost-cohort} reports, and all three summaries of the difference are positive. The median and the Hodges-Lehmann estimate fall close together, with the mean of the differences somewhat higher. The Wilcoxon interval does not include zero, so the cohort-level direction holds, though its width leaves the size of the difference imprecise.
 
 \begin{table}[H]
   \centering
@@ -28,9 +55,9 @@ The mean being higher than the median shows that a few large differences pull th
   \label{fig:cost-overall}
 \end{figure}
 
-The cost difference behaved very differently between the two model groups, set out in Table~\ref{tab:cost-model} and shown in Figure~\ref{fig:cost-by-model}. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate sit close together, with the mean a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, pointing to the two frameworks costing about the same for that group.
+Split by model, the paired cost difference behaved very differently, as Table~\ref{tab:cost-model} sets out and Figure~\ref{fig:cost-by-model} shows. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate sit close together, with the mean a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, so the two frameworks cost about the same for that group.
 
-The Opus group also varied widely, from one session where APM cost about four dollars less to one where it cost about thirty-two dollars more. At six participants the confidence interval is wide and includes zero, with its bounds coinciding with those two extremes because at that sample size the interval reaches the smallest and largest differences rather than bounding the estimate more tightly. The Sonnet interval is similarly wide. Opus is the more expensive of the two models, so its differences fall on a larger dollar scale. Those large Opus values pulled the full-cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
+The Opus group also varied widely, from one participant for whom APM cost about four dollars less to one for whom it cost about thirty-two dollars more. At six participants the confidence interval is wide and includes zero, reaching from the smallest of those differences to the largest. The Sonnet interval is similarly wide. Those large Opus values pulled the full-cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
 
 \begin{table}[H]
   \centering
@@ -54,7 +81,7 @@ The Opus group also varied widely, from one session where APM cost about four do
   \label{fig:cost-by-model}
 \end{figure}
 
-The two frameworks divided their spending differently across the task's two phases. As Table~\ref{tab:cost-phase} sets out, APM's planning phase cost less than Spec-kit's and its implementation phase cost more.\footnote{A small residual the parser records as an ``other'' phase, session activity outside either framework's workflow phases, accounts for under one percent of cost and a difference indistinguishable from zero, and is omitted.} Both phase differences exclude zero. The implementation excess was the larger of the two and set the direction of the overall difference. The pattern held in both models, stronger for the Opus group and slighter for the Sonnet group. The per-model split is given in Table~\ref{tab:cost-phase-model} in Appendix~\ref{app:cost-breakdowns}.
+The phase split holds as a paired difference, with both phases excluding zero, as Table~\ref{tab:cost-phase} sets out.\footnote{A small residual the parser records as an ``other'' phase, session activity outside either framework's workflow phases, accounts for under one percent of cost and a difference indistinguishable from zero, and is omitted.} APM's planning cost was the lower in ten of the twelve pairs and its implementation cost the higher in ten. The implementation excess was the larger of the two, so it set the direction of the overall difference. The pattern held in both models, stronger for the Opus group and slighter for the Sonnet group, with the per-model split given in Table~\ref{tab:cost-phase-model} in Appendix~\ref{app:cost-breakdowns}.
 
 \begin{table}[H]
   \centering
@@ -70,7 +97,7 @@ The two frameworks divided their spending differently across the task's two phas
   \end{tabular*}
 \end{table}
 
-Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the agents actually doing the implementation part of the implementation phase. Every role cost more under Opus than under Sonnet, matching the model's higher rate, while the order and rough proportions stayed the same.
+Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is actually done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
 
 \begin{table}[H]
   \centering
@@ -90,11 +117,36 @@ Within an APM session the cost divided across the three agent roles in the same 
   \end{tabular*}
 \end{table}
 
-The cost difference also divides by token category, the kind of token each dollar paid for, as Table~\ref{tab:cost-token} reports. As Section~\ref{sec:context-windows-and-context-decay} described, each call reprocesses the whole session so far, and caching lowers the price of the tokens that repeat. Under both frameworks Claude Code caches almost all of that prompt, so uncached input was negligible, a few cents either way, and the framework's effect falls on the cache and output categories rather than on fresh input.
+The cost also divides by token category, the kind of token each dollar paid for. As Section~\ref{sec:context-windows-and-context-decay} described, each call reprocesses the whole session so far, and caching lowers the price of the tokens that repeat. Under both frameworks Claude Code cached almost all of the prompt, so uncached input was negligible, a few cents either way. Claude Code writes the one-hour cache for the main agents the user works in and the five-minute cache for the subagents they dispatch. The five-minute writes were negligible too, which leaves the framework's effect on three categories. The one-hour writes reflect the framework comparison most directly, since the framework sets how many main agents the user opens.
 
-The two cache-write rows separate the main agents the user works in from the subagents those agents dispatch. Claude Code writes the one-hour cache for a main agent and the five-minute cache for a subagent. The one-hour writes therefore reflect the framework comparison most directly, since the framework sets how many main agents the user opens.
+On its own each framework's cost fell mostly on cache-read, the largest category under both models, since the repeated prompt is read from cache on every call. Output and the one-hour writes came next, each a few dollars, as Table~\ref{tab:cost-token-levels} reports. APM's output and one-hour-write costs were above Spec-kit's under both models, while cache-read was the one category to differ in direction between the models, higher for APM under Opus and slightly lower under Sonnet.
 
-Two categories drove the difference: output and one-hour writes. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session, and for both categories the cohort confidence interval does not include zero. Both differences were larger under Opus than under Sonnet. The cache-read difference was mixed across the cohort, and its confidence interval includes zero. APM read more from the cache than Spec-kit under Opus, and less under Sonnet. The five-minute writes, the subagent cache, were a small positive difference. The per-model split of all five categories is given in Table~\ref{tab:cost-token-model} in Appendix~\ref{app:cost-breakdowns}.
+\begin{table}[H]
+  \centering
+  \caption{Per-framework cost by token category, in US dollars, across each framework's six sessions in each model. The negligible uncached-input and five-minute cache-write categories are omitted.}
+  \label{tab:cost-token-levels}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrr}
+    \toprule
+    Model & Framework & Category & Median & HL & Mean \\
+    \midrule
+    Opus & APM & Output & $7.95$ & $7.95$ & $8.24$ \\
+     & & Cache read & $19.54$ & $19.54$ & $19.43$ \\
+     & & Cache write (1-hour) & $7.84$ & $8.07$ & $8.42$ \\
+     & Spec-kit & Output & $4.75$ & $4.99$ & $5.19$ \\
+     & & Cache read & $14.81$ & $14.81$ & $14.86$ \\
+     & & Cache write (1-hour) & $3.90$ & $3.71$ & $3.75$ \\
+    \midrule
+    Sonnet & APM & Output & $4.28$ & $4.28$ & $4.25$ \\
+     & & Cache read & $6.59$ & $6.59$ & $6.55$ \\
+     & & Cache write (1-hour) & $3.55$ & $3.44$ & $3.45$ \\
+     & Spec-kit & Output & $2.82$ & $2.67$ & $2.66$ \\
+     & & Cache read & $7.39$ & $7.39$ & $7.70$ \\
+     & & Cache write (1-hour) & $2.54$ & $2.34$ & $2.28$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Two of the three categories drove the difference: output and the one-hour writes, as Table~\ref{tab:cost-token} sets out across all five. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session, with each difference excluding zero across the cohort and each larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero and APM reading more under Opus and less under Sonnet, and the five-minute subagent writes were a small positive difference. The per-model split of all five categories is given in Table~\ref{tab:cost-token-model} in Appendix~\ref{app:cost-breakdowns}.
 
 \begin{table}[H]
   \centering
