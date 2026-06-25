@@ -301,7 +301,7 @@ The same pattern appeared under both models, the implementation difference setti
 
 The bucket shares and the magnitude per bucket differed by phase and framework, as Table~\ref{tab:proc-buckets} reports.
 
-In planning, APM's messages fell mostly in the short and standard buckets, with the protocol bucket small. The short messages were brief checkpoint approvals, with a magnitude near 20 characters. The standard messages were longer, with a magnitude near 156 characters, and were the substantive exchange in which the Planner put questions to the user. Spec-kit's planning was mostly framework commands, with little substantive text from the user.
+In planning, APM's messages fell mostly in the short and standard buckets, with the protocol bucket small. The short messages were brief checkpoint approvals, with a magnitude near 20 characters. The standard messages were longer, with a magnitude near 156 characters, and were the exchange in which the Planner put questions to the user. Spec-kit's planning was mostly framework commands, with few standard messages from the user.
 
 In implementation the composition reversed for APM, whose messages were mostly the protocol commands that drive its workflow. Spec-kit's implementation had very few messages of any kind, so its bucket shares there rest on one to a few messages per session and are too sparse to read as a typical mix.
 

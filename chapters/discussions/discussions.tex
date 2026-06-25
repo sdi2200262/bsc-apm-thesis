@@ -26,7 +26,7 @@ The difference points the same way in both model groups, as the per-model split 
 
 In planning the duration leaned toward Spec-kit being the longer of the two, but its interval spans zero, so the phase has no firm difference in total time. The firm contrast is in the active time, where Spec-kit's agent worked longer, as the planning turn-time row of Table~\ref{tab:proc-phase} reports, within about the same number of turns as APM, shown in Table~\ref{tab:proc-turns-fw}. That extra working time is the heavier request count and output behind the cost difference, set out in Table~\ref{tab:planning-behaviour} above. It is the same autonomous exploration, now seen as time rather than as model calls. Spec-kit's time therefore went mostly into the agent's own work, while APM's fell relatively more into the idle between turns, reported in the inter-turn idle row of Table~\ref{tab:proc-phase}. That idle difference is small, and the larger active-time difference is what sets the phase's slight lean toward Spec-kit.
 
-Those turns also differed in kind, as the planning buckets of Table~\ref{tab:proc-buckets} show. Within them Spec-kit planned mostly on its own, turning to the user to confirm recommended choices and approve rather than to answer open questions, while APM brought the user's decisions into the planning. APM's longer substantive messages take more time to read and write, consistent with its slightly higher idle between turns, though that idle is not itself a measure of deliberation.
+Those turns also differed in kind, as the planning buckets of Table~\ref{tab:proc-buckets} show. Within them Spec-kit planned mostly on its own, turning to the user to confirm recommended choices and approve rather than to answer open questions, while APM brought the user's decisions into the planning. APM's longer standard messages take more time to read and write, consistent with its slightly higher idle between turns, though that idle is not itself a measure of deliberation.
 
 \placeholder{Forthcoming. The functional reading of this realisation: the failures connected to how each framework planned, read by their size and type.}
 
@@ -100,7 +100,28 @@ The issue bears little on the cost reading described above. The added accumulati
 \subsection{The Demands on the User}
 \label{sec:disc-demands}
 
-\placeholder{Forthcoming. The process reading: how coordinating the implementation through the user, across several main agents, shapes the user's time and interaction, the added turns that are mostly protocol relay, the substantive contact centring on the Manager, and the light supervision the participants gave.}
+APM keeps the user in control of the build, just as it does of the plan. Its design routes implementation through the user, and the authority over the work stays with them rather than the agent. Spec-kit extends its planning autonomy into implementation, where its agent works through the task list largely on its own. The greater demand APM places on the user is therefore by design, the same authority it provides during planning, while Spec-kit continues with minimal interaction.
+
+That difference appears in the user's input. APM has far more turn prompts than Spec-kit, as Table~\ref{tab:proc-turns-fw} reports, and most are protocol, as Table~\ref{tab:proc-buckets} reports. They are the per-cycle relay APM's design places in the user's hands, each being a dispatch out or a report back rather than an instruction. Standard messages are few under both frameworks, and what little APM has reaches the Manager rather than the Workers, as Table~\ref{tab:proc-roles-buckets} of Appendix~\ref{app:process-breakdowns} sets out. APM's added demand is therefore coordination, not deliberation.
+
+Spec-kit asks much less. Its few turns are the protocol command that launches the implementation and an occasional short or standard follow-up, too few to read as a settled composition. The agent proceeds largely on its own, and the user has little to do until the build is done.
+
+Because APM has several agents carry out its implementation where Spec-kit has one, it has a naturally larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, as Table~\ref{tab:impl-behaviour} reports, reversing the planning observation where Spec-kit issued more. Each agent additionally produces its own output, so APM produced more output overall, again reversing planning, as the cost reading of Section~\ref{sec:disc-cost-mechanics} sets out.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired implementation-phase request differences, APM minus Spec-kit, at 95.8\% coverage.}
+  \label{tab:impl-behaviour}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Requests & 12 & 12 / 0 & $+130.0$ & $+150.5$ & $+152.6$ & $[+84.0, +221.5]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Working across several agents is what makes APM cost more under per-token pricing. Coordinating those agents through the user is what makes it ask more of the user's time and engagement. The cost is a by-product of the design, while the demand is its aim, keeping the user in control of the build where Spec-kit leaves it mostly to the agent.
 
 \section{Learning Effects}
 \label{sec:disc-learning-effects}
