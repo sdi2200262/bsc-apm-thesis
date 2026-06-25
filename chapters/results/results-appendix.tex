@@ -402,3 +402,138 @@ Table~\ref{tab:proc-turns-order} gives the session turn-prompt difference by ses
   \end{tabular*}
 \end{table}
 
+\newpage
+\section{Functional Breakdowns}
+\label{app:func-breakdowns}
+
+These tables give the per-session scores, the per-section difference, and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
+
+Table~\ref{tab:func-session} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
+
+\begin{table}[H]
+  \centering
+  \caption{Per-session scores, in points. The total is the strict part plus the partial part, and the Python and C section totals sum to it.}
+  \label{tab:func-session}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
+    \toprule
+    Participant & Framework & Strict & Partial & Total & Python & C \\
+    \midrule
+    P001 & APM & $91.0$ & $3.4$ & $94.4$ & $28.7$ & $65.7$ \\
+     & Spec-kit & $71.0$ & $0.0$ & $71.0$ & $20.0$ & $51.0$ \\
+    P002 & APM & $93.0$ & $0.0$ & $93.0$ & $28.0$ & $65.0$ \\
+     & Spec-kit & $40.0$ & $0.0$ & $40.0$ & $10.0$ & $30.0$ \\
+    P003 & APM & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
+     & Spec-kit & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
+    P004 & APM & $95.0$ & $0.0$ & $95.0$ & $28.0$ & $67.0$ \\
+     & Spec-kit & $97.0$ & $0.0$ & $97.0$ & $30.0$ & $67.0$ \\
+    P005 & APM & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
+     & Spec-kit & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
+    P006 & APM & $88.0$ & $3.0$ & $91.0$ & $27.5$ & $63.5$ \\
+     & Spec-kit & $97.0$ & $0.0$ & $97.0$ & $29.0$ & $68.0$ \\
+    P007 & APM & $98.0$ & $0.0$ & $98.0$ & $29.0$ & $69.0$ \\
+     & Spec-kit & $96.0$ & $0.0$ & $96.0$ & $29.0$ & $67.0$ \\
+    P008 & APM & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
+     & Spec-kit & $98.0$ & $0.0$ & $98.0$ & $30.0$ & $68.0$ \\
+    P009 & APM & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
+     & Spec-kit & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
+    P010 & APM & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
+     & Spec-kit & $28.0$ & $1.6$ & $29.6$ & $16.0$ & $13.6$ \\
+    P011 & APM & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
+     & Spec-kit & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
+    P012 & APM & $96.0$ & $0.5$ & $96.5$ & $30.0$ & $66.5$ \\
+     & Spec-kit & $78.0$ & $6.2$ & $84.2$ & $26.1$ & $58.1$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:func-section} reports the paired score difference within each implementation. The framework difference is small on both, with most pairs tied.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired per-section score difference across the cohort, APM minus Spec-kit, in points, at 95.8\% coverage.}
+  \label{tab:func-section}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    Python & 12 & 4 / 2 / 6 & $0.0$ & $+2.0$ & $+3.4$ & $[-0.7, +8.7]$ \\
+    C & 12 & 5 / 2 / 5 & $0.0$ & $+1.0$ & $+3.9$ & $[-2.2, +11.6]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:func-order} splits the total-score difference by session order. Neither order reverses the on-par result.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired total-score difference by session order, APM minus Spec-kit, in points, at 96.9\% coverage.}
+  \label{tab:func-order}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    APM first & 6 & 2 / 1 / 3 & $0.0$ & $0.0$ & $+3.2$ & $[-6.0, +23.4]$ \\
+    APM second & 6 & 4 / 1 / 1 & $+2.7$ & $+5.2$ & $+11.4$ & $[-2.0, +53.0]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\newpage
+\section{Perception Breakdowns}
+\label{app:perception-breakdowns}
+
+These tables give the per-framework rating distributions and the second-session comparative item behind the Perception results (Section~\ref{sec:results-perception}).
+
+Table~\ref{tab:perc-dist} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
+
+\begin{table}[H]
+  \centering
+  \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
+  \label{tab:perc-dist}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
+    \toprule
+    Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
+    \midrule
+    Effectiveness & APM & 0 & 0 & 0 & 4 & 8 \\
+     & Spec-kit & 0 & 5 & 2 & 5 & 0 \\
+    \midrule
+    Confidence & APM & 0 & 0 & 2 & 7 & 3 \\
+     & Spec-kit & 1 & 5 & 4 & 1 & 1 \\
+    \midrule
+    Frustration & APM & 7 & 3 & 1 & 1 & 0 \\
+     & Spec-kit & 1 & 3 & 4 & 3 & 1 \\
+    \midrule
+    Effort & APM & 1 & 4 & 6 & 1 & 0 \\
+     & Spec-kit & 6 & 2 & 2 & 1 & 1 \\
+    \midrule
+    Mental demand & APM & 2 & 4 & 4 & 2 & 0 \\
+     & Spec-kit & 2 & 4 & 5 & 1 & 0 \\
+    \midrule
+    Verification effort & APM & 2 & 5 & 4 & 0 & 1 \\
+     & Spec-kit & 2 & 6 & 2 & 1 & 1 \\
+    \midrule
+    Steering effort & APM & 1 & 5 & 4 & 2 & 0 \\
+     & Spec-kit & 1 & 6 & 3 & 2 & 0 \\
+    \midrule
+    Familiarity & APM & 7 & 1 & 2 & 2 & 0 \\
+     & Spec-kit & 8 & 2 & 2 & 0 & 0 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:perc-comparative} gives the second-session comparative item, grouped by the framework that session used.
+
+\begin{table}[H]
+  \centering
+  \caption{The second-session comparative item, by the framework used in that session. Each row is the six participants whose second framework was the named one, and the counts are how that session felt against their first.}
+  \label{tab:perc-comparative}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
+    \toprule
+    Second framework & Much harder & Harder & About the same & Easier & Much easier \\
+    \midrule
+    APM & 0 & 2 & 2 & 1 & 1 \\
+    Spec-kit & 2 & 2 & 1 & 0 & 1 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+

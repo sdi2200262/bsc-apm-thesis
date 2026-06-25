@@ -22,15 +22,13 @@ The planning phase is therefore where the frameworks diverge in realising spec-d
   \end{tabular}
 \end{table}
 
-The difference points the same way in both model groups, as the per-model split in Table~\ref{tab:planning-behaviour-model} of Appendix~\ref{app:sdd-breakdowns} sets out. Spec-kit's heavier request count holds in every pair under both, and its larger output is present in both as well. The output gap widens clearly under Opus, the request gap less so. With six participants in each group the per-model intervals are wide, so the pooled comparison bears the statistical weight.
-
 In planning the duration leaned toward Spec-kit being the longer of the two, but its interval spans zero, so the phase has no firm difference in total time. The firm contrast is in the active time, where Spec-kit's agent worked longer, as the planning turn-time row of Table~\ref{tab:proc-phase} reports, within about the same number of turns as APM, shown in Table~\ref{tab:proc-turns-fw}. That extra working time is the heavier request count and output behind the cost difference, set out in Table~\ref{tab:planning-behaviour} above. It is the same autonomous exploration, now seen as time rather than as model calls. Spec-kit's time therefore went mostly into the agent's own work, while APM's fell relatively more into the idle between turns, reported in the inter-turn idle row of Table~\ref{tab:proc-phase}. That idle difference is small, and the larger active-time difference is what sets the phase's slight lean toward Spec-kit.
 
 Those turns also differed in kind, as the planning buckets of Table~\ref{tab:proc-buckets} show. Within them Spec-kit planned mostly on its own, turning to the user to confirm recommended choices and approve rather than to answer open questions, while APM brought the user's decisions into the planning. APM's longer standard messages take more time to read and write, consistent with its slightly higher idle between turns, though that idle is not itself a measure of deliberation.
 
-\placeholder{Forthcoming. The functional reading of this realisation: the failures connected to how each framework planned, read by their size and type.}
+The difference reaches the functional outcomes as the size of the sessions that fell short. The large point-losses were Spec-kit's, with four of its sessions scoring well below the rest of the cohort in the distribution of Section~\ref{sec:results-functional}. A planning step that settles an open question without the user can settle it wrongly, and the build then rests on that decision, while APM's question rounds give the user a chance to correct it first. However, the reading is only consistent with the difference in planning authority rather than proof of it.
 
-\placeholder{Forthcoming. The perception reading of this realisation, how the two planning approaches relate to what participants reported.}
+Both frameworks had sessions that scored low. APM's two came from a shared format fault, and the second grading view of Section~\ref{sec:disc-grading-blackbox}, which lifts that fault under either framework, leaves every APM session high. Spec-kit's low scores are read there too, where its real failures are told apart from the rest.
 
 \section{Coordinating the Implementation}
 \label{sec:disc-implementation}
@@ -123,12 +121,58 @@ Because APM has several agents carry out its implementation where Spec-kit has o
 
 Working across several agents is what makes APM cost more under per-token pricing. Coordinating those agents through the user is what makes it ask more of the user's time and engagement. The cost is a by-product of the design, while the demand is its aim, keeping the user in control of the build where Spec-kit leaves it mostly to the agent.
 
+\section{Behind the Functional Score}
+\label{sec:disc-blackbox}
+
+The functional results take the grader's scores at face value. This section looks behind them, first at what a black-box grader can miss and then at what the scores cost.
+
+\subsection{Grading with a Black Box}
+\label{sec:disc-grading-blackbox}
+
+The grader judges a submission only by the behaviour of the running program, never its source, as Section~\ref{sec:measures-functional} sets out. A single fault that blocks the program's responses therefore reads as near-total failure, even where the rest of the implementation may be sound.
+
+Three Sonnet sessions show this. Each scored exactly 34 on the total, with the Python half complete and almost the whole C half lost. The cause in all three was the same narrow flaw in their C protocol parser. The grader sends the request in the standard spaced form, which a parser must accept. The compact form without those spaces is equally valid, since the whitespace between fields is insignificant in the JSON the protocol uses.\footnote{RFC 8259, Section 2 (\url{https://www.rfc-editor.org/rfc/rfc8259}).}
+
+A conformant parser should accept both forms. Theirs accepted only the compact one. Because that parser handles the first message of the exchange, the failure stopped the protocol before it began, and every later C check failed behind it. The implementations were otherwise very good. Re-graded with the grader's input being in compact form, the three rise to between 94 and 100, as Figure~\ref{fig:func-compact} shows.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/discussions/functional_compact.pdf}
+  \caption{Total score of the twelve Sonnet sessions on the grader's standard JSON input, filled, and on a compact JSON input, open, joined where they differ. The Opus sessions do not differ and are omitted.}
+  \label{fig:func-compact}
+\end{figure}
+
+Five sessions across the cohort scored below fifty. The re-grade recovers three of them, both of APM's and one of Spec-kit's. After it, APM's sessions are all high, and the two that stay below fifty are Spec-kit's. What those two are, this re-grade cannot say. It reaches one kind of grader strictness, and the two it leaves may be sound work it does not reach, just as the three it recovered were, or they may be genuine shortfalls. Recovering two APM sessions also moves the cohort comparison toward APM, but that is one participant rather than a framework effect. The flaw appears under both frameworks, and the participant who shipped it in both sessions barely moves with the re-grade.
+
+This re-grade is therefore a diagnostic, not a fairer grade. It reaches one fault class, while the total score stays the grade of record. The grader can hide sound work in other forms this one re-grade does not show, so it bounds, rather than measures, what the scores leave out.
+
+\subsection{Cost versus Score}
+\label{sec:disc-cost-score}
+
+The two frameworks scored level across the cohort, as Section~\ref{sec:results-functional} reports, while APM cost more, as Section~\ref{sec:results-economic} reports. Figure~\ref{fig:cost-score} sets the two differences against each other. Most participants sit at a slightly positive to no score difference with a positive cost difference. For them APM cost more and the functional outcome was the same. The cost gap is wide under Opus and slight under Sonnet.
+
+The three participants whose APM session scored clearly above their Spec-kit one are the exception. Their APM session cost about the same or a little less, not more. At three sessions this is an observation rather than a result.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/discussions/cost_score.pdf}
+  \caption{Per-participant paired cost difference and total-score difference, APM minus Spec-kit, marked by model. The reference lines mark no difference on each axis.}
+  \label{fig:cost-score}
+\end{figure}
+
+What the added cost bought was APM's structure and the user's control over the build, which on this task did not register in the functional score. The task was bounded and self-contained. A single agent could carry it largely on its own, so APM's heavier structure had little functional gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value would lie in what the study cannot measure here, in the control it keeps in the user's hands, and in work larger or longer than the one tested.
+
 \section{Learning Effects}
 \label{sec:disc-learning-effects}
 
 The confined number of sessions in the case study allows each participant's pair to be examined individually for learning carried from the first session into the second. The workspace and the agent are reset between sessions, so the participant is the only carrier of that memory. The evidence is sought in their own inputs: a second-session instruction that pre-empts an error the first session made, an explicit reference to an earlier decision, or a detail handled correctly from recall rather than rediscovered. A stronger second-session result alone does not count, since the agent may have produced it unaided. These signs are read case by case, as indications of learning rather than a conclusive measure of it.
 
 \placeholder{Forthcoming. The per-participant verdicts on carried-over learning and the cohort read drawn from them.}
+
+\section{Perceived Versus Measured Behaviour}
+\label{sec:disc-perception}
+
+\placeholder{Forthcoming. The self-reported experience read against the measured behaviour: the preference for APM in effectiveness, confidence, and frustration set against the on-par scores, and the felt-workload items the telemetry does not capture.}
 
 \section{Threats to Validity}
 \label{sec:threats}
