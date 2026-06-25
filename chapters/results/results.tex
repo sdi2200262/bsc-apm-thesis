@@ -365,7 +365,81 @@ Chapter~\ref{chap:discussions} reads the added time and effort against the frame
 \section{Functional}
 \label{sec:results-functional}
 
-\placeholder{Forthcoming. The total rubric score compared between frameworks by the paired method of the Analysis Plan, the per-section scores decomposing it across the Python and C implementations, and the per-framework score distribution with every session shown. The perceived-effectiveness rating from the questionnaire is reported alongside.}
+Most sessions scored near the rubric's hundred-point ceiling. APM's twelve sessions had a median total of 95.7 points against Spec-kit's 96.5, as Table~\ref{tab:func-levels} reports, so each framework's typical score sat close to the other's and close to full marks. APM's mean of 86.2 and Spec-kit's of 78.8 both fell below their medians, pulled down by a few low sessions rather than by a broad spread. Ten of APM's twelve sessions scored at or above 88 against seven of Spec-kit's, and APM's two below that mark both scored 34. APM's mean and Hodges-Lehmann estimate sat at or above Spec-kit's across the cohort and both model groups. The only exception was the Opus group's Hodges-Lehmann estimate, where the two were within a point. The medians stayed close throughout, so the gap between the frameworks lay in the low tail rather than in the typical score. Spec-kit's Sonnet sessions divided most sharply, with three scoring below 41 and three above 84. That split left all three of the cell's summaries low. Figure~\ref{fig:func-dumbbell-pooled} plots each participant's two scores.
+
+\begin{table}[H]
+  \centering
+  \caption{Per-framework total score, in points, across each framework's twelve sessions, for the cohort and within each model group.}
+  \label{tab:func-levels}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr}
+    \toprule
+    Scope & Framework & Median & HL & Mean \\
+    \midrule
+    Cohort & APM & $95.7$ & $95.5$ & $86.2$ \\
+     & Spec-kit & $96.5$ & $84.3$ & $78.8$ \\
+    \midrule
+    Opus & APM & $99.0$ & $97.5$ & $97.9$ \\
+     & Spec-kit & $98.5$ & $98.5$ & $94.2$ \\
+    \midrule
+    Sonnet & APM & $92.0$ & $66.0$ & $74.4$ \\
+     & Spec-kit & $62.1$ & $63.3$ & $63.5$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/functional/functional_dumbbell_pooled.pdf}
+  \caption{Per-participant total score. Each participant has an APM circle and a Spec-kit diamond joined by a line, so the marker heights give the two scores and the line gives the gap between them.}
+  \label{fig:func-dumbbell-pooled}
+\end{figure}
+
+Some of the low scores come from submissions the grader penalises in full for a single fault rather than for broadly unfinished work. The grader judges only the running program's observable behaviour, so one blocking fault can sink an otherwise complete implementation. Section~\ref{sec:disc-blackbox} reads these sessions under a second grading view that isolates such cases.
+
+Paired within each participant, the two frameworks' scores were close, as Table~\ref{tab:func-paired} reports. APM scored higher than Spec-kit for six of the twelve participants and lower for two, with four pairs tied at identical totals. The median paired difference was half a point and the interval spans zero, so the cohort shows no score advantage either way. The mean difference of 7.3 points sits well above the median, raised by two participants for whom APM scored far higher. The score divided across the task's two parts was much the same, with the framework difference being small on both the Python extension and the C replica; Table~\ref{tab:func-section} of Appendix~\ref{app:func-breakdowns} gives the per-section difference.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired total-score difference across the cohort, APM minus Spec-kit, in points, at 95.8\% coverage.}
+  \label{tab:func-paired}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rrrrrr}
+    \toprule
+    $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    12 & 6 / 2 / 4 & $+0.5$ & $+2.2$ & $+7.3$ & $[-0.8, +17.9]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Split by model, the two groups behaved differently, as Table~\ref{tab:func-paired-model} sets out and Figure~\ref{fig:func-dumbbell-model} plots. Under Opus the scores converged. Five of the six pairs fell within a couple of points, and the sixth was the one participant whose APM session, taken first, scored above their later Spec-kit session. Under Sonnet APM scored higher in four of the six pairs, by a wider and more variable margin, though the larger differences fell in the participants who met Spec-kit first. Section~\ref{sec:disc-learning-effects} details that order pattern.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired total-score difference within each model group, APM minus Spec-kit, in points, at 96.9\% coverage.}
+  \label{tab:func-paired-model}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Model & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & 6 & 2 / 1 / 3 & $0.0$ & $0.0$ & $+3.7$ & $[-2.0, +23.4]$ \\
+    Sonnet & 6 & 4 / 1 / 1 & $+3.2$ & $+4.4$ & $+10.9$ & $[-6.0, +53.0]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_opus.pdf}\hfill
+  \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_sonnet.pdf}
+  \caption{Per-participant total score within each model, Opus on the left and Sonnet on the right. Each participant has an APM circle and a Spec-kit diamond joined by a line.}
+  \label{fig:func-dumbbell-model}
+\end{figure}
+
+The total folds in partial credit, the fractional points the grader awards a near-miss. It was small, and neither framework earned more of it. The paired difference was zero for eight of the twelve participants and no more than about six points either way for the rest, so its median was zero and the score comparison is unchanged by it. Table~\ref{tab:func-session} of Appendix~\ref{app:func-breakdowns} gives the partial part of every session.
+
+Session order did not reverse the result. Neither order showed a clear score difference, as Table~\ref{tab:func-order} of Appendix~\ref{app:func-breakdowns} reports.
+
+Section~\ref{sec:disc-sdd} reads these outcomes against how each framework planned, by the size and the kind of the sessions that fell short.
 
 \section{Perception}
 \label{sec:results-perception}
