@@ -1,14 +1,12 @@
 % Discussions chapter body. Included by thesis.tex under \chapter{DISCUSSIONS}.
 % This is an \input fragment, not a standalone document.
 
-\placeholder{Forthcoming. Interpretation of the results, reading the framework comparison across the economic, process, functional, and perception dimensions against the structure and design of the two frameworks. The subsections below are themed to the deeper questions each results section raises.}
-
-\section{Two Realisations of Spec-Driven Development}
+\section{Two Realisations of Spec-Driven Planning}
 \label{sec:disc-sdd}
 
-Spec-kit's planning phase cost more than APM's in ten of the twelve pairs, the one part of the task where APM was the cheaper of the two, as the planning row of Table~\ref{tab:cost-phase} reports. The difference follows from how each framework carries out the planning of spec-driven development. Spec-kit plans more autonomously, having the agent explore the codebase and, on ambiguities, decide on best practices, drawing on the model's capabilities and training data. It fills a fixed set of template documents from what it finds, putting few or no questions to the user. APM explores the codebase as well, but it leans more on the user's input with required rounds of questions and builds review checkpoints into its planning. The gathered context from the user helps the Planner agent be more targeted and therefore more efficient. Additionally, APM creates three shorter planning documents that generalise across project types, minimizing output. The two approaches are set out where each framework is introduced, Spec-kit in Section~\ref{sec:comparison-framework} and APM in Chapter~\ref{chap:framework-design}.
+Both frameworks plan and create specifications before they build, and both explore the codebase and dispatch subagents for the heavier research. They differ in who makes the planning decisions. Spec-kit has the agent resolve the open questions itself, making informed guesses based on best practice and the model's training. It fills a fixed set of template documents from what it finds and knows, and it turns to the user only through an optional step that offers recommended choices to confirm. Its planning is therefore sensitive to the model's capability, and how the autonomous exploration will play out. APM keeps the user as the authority. Its Planner goes through a series of question rounds with the user and brings back what it understood for approval before any document is written. It is directed to ask rather than assume, and it produces a few short planning documents that generalise across project types. The task brief the participants worked from was already detailed, yet under it APM still asked many targeted questions grounded in its research, while Spec-kit, with the same brief, asked little. Both gate their planning and ask the user for approval. APM's gates are points where the user approves each planning document, while Spec-kit's are the agent's own validation checks and a hollistic presentation to the user at the end.
 
-The cost gap has two drivers visible in the planning phase, both pointing the same way, set out in Table~\ref{tab:planning-behaviour}. Spec-kit issued more requests to the model in every one of the twelve pairs, and in a few the gap was much wider, lifting the Hodges-Lehmann estimate of the difference well above the median. These are the extra steps of an agent that explores and drafts without waiting on the user. Spec-kit also produced more output in nine of the twelve pairs, the text that fills its larger set of documents. APM was lighter on both.
+The planning phase is therefore where the frameworks diverge in realising spec-driven development. The divergence is reflected in the results that follow, taken in turn, and reflected first in cost. Spec-kit's planning phase cost more than APM's, the one part of the task where APM was the cheaper of the two, as the planning row of Table~\ref{tab:cost-phase} reports. The cost gap has two drivers visible in the planning phase, both pointing the same way, set out in Table~\ref{tab:planning-behaviour}. Spec-kit issued more requests to the model in every one of the twelve pairs, and in a few the gap was much wider, pulling the Hodges-Lehmann estimate of the difference further from zero than the median. These are the extra steps of an agent that explores and drafts without waiting on the user. Spec-kit also produced more output in nine of the twelve pairs, the text that fills its larger set of documents. APM was lighter on both.
 
 \begin{table}[H]
   \centering
@@ -26,18 +24,23 @@ The cost gap has two drivers visible in the planning phase, both pointing the sa
 
 The difference points the same way in both model groups, as the per-model split in Table~\ref{tab:planning-behaviour-model} of Appendix~\ref{app:sdd-breakdowns} sets out. Spec-kit's heavier request count holds in every pair under both, and its larger output is present in both as well. The output gap widens clearly under Opus, the request gap less so. With six participants in each group the per-model intervals are wide, so the pooled comparison bears the statistical weight.
 
-In implementation, both frameworks build against their planning documents as the source of truth and revise them as findings require, differing in the detail but not the essence. They part on cost. It is there that APM costs more, and that excess is the larger part of the overall difference, coming from how APM splits the work across several agents rather than from how it plans. Section~\ref{sec:disc-cost-mechanics} takes that up.
+In planning the duration leaned toward Spec-kit being the longer of the two, but its interval spans zero, so the phase has no firm difference in total time. The firm contrast is in the active time, where Spec-kit's agent worked longer, as the planning turn-time row of Table~\ref{tab:proc-phase} reports, within about the same number of turns as APM, shown in Table~\ref{tab:proc-turns-fw}. That extra working time is the heavier request count and output behind the cost difference, set out in Table~\ref{tab:planning-behaviour} above. It is the same autonomous exploration, now seen as time rather than as model calls. Spec-kit's time therefore went mostly into the agent's own work, while APM's fell relatively more into the idle between turns, reported in the inter-turn idle row of Table~\ref{tab:proc-phase}. That idle difference is small, and the larger active-time difference is what sets the phase's slight lean toward Spec-kit.
 
-\placeholder{Forthcoming. The process reading of this realisation: how Spec-kit's autonomous planning shows in the planning phase's turn count and turn time, the more self-driven turns taken over a longer span, set against the lighter user-involved planning of APM.}
+Those turns also differed in kind, as the planning buckets of Table~\ref{tab:proc-buckets} show. Within them Spec-kit planned mostly on its own, turning to the user to confirm recommended choices and approve rather than to answer open questions, while APM brought the user's decisions into the planning. APM's longer standard messages take more time to read and write, consistent with its slightly higher idle between turns, though that idle is not itself a measure of deliberation.
 
 \placeholder{Forthcoming. The functional reading of this realisation: the failures connected to how each framework planned, read by their size and type.}
 
 \placeholder{Forthcoming. The perception reading of this realisation, how the two planning approaches relate to what participants reported.}
 
-\section{Cost Mechanics of APM and Spec-kit}
+\section{Coordinating the Implementation}
+\label{sec:disc-implementation}
+
+Both frameworks build against their planning documents and revise them as findings require, but Spec-kit carries the implementation out in the single main agent that also planned, while APM carries it out across several main agents, a Manager and its Workers, that coordinate through the user. The several agents shape what the implementation costs, and that coordination shapes what it demands, read in the two subsections below.
+
+\subsection{The Cost of Several Agents}
 \label{sec:disc-cost-mechanics}
 
-APM's higher cost was set in implementation. Its planning cost less than Spec-kit's, as established in Section~\ref{sec:disc-sdd}, but its execution of the plan was more expensive, by a margin wide enough to outweigh that saving. Table~\ref{tab:cost-phase} sets out both phase cost differences. The cause is structural; Spec-kit works within a single main agent conversation, the one that also planned, whereas an APM implementation phase works with at least three additional conversations: a Manager and two Workers. Each conversation built its own cache, produced its own output, and accumulated its own context, so APM's spending exceeded Spec-kit's in the output and cache-write categories, as Table~\ref{tab:cost-token} details. Those are the most expensive of the five token categories, as the rate card in Appendix~\ref{app:rate-card} sets out, so APM's excess fell on the costliest tokens. That cost is therefore a by-product of APM's workload distribution.
+Under per-token pricing, each of APM's added conversations built its own cache, produced its own output, and accumulated its own context, so APM's spending exceeded Spec-kit's in the output and cache-write categories, as Table~\ref{tab:cost-token} details. Those are the most expensive of the five token categories, as the rate card in Appendix~\ref{app:rate-card} sets out, so APM's excess fell on the costliest tokens. This implementation cost is the larger part of the overall difference, and it outweighs the planning saving of Section~\ref{sec:disc-sdd}, as the two phase rows of Table~\ref{tab:cost-phase} set out, so APM cost more overall. That cost is a by-product of working across several agents, not an aim of it.
 
 The two model groups did not bear this cost in the same way, and the difference lies in the size of each model's context window and how the platform handles a conversation that reaches its limit. As Section~\ref{sec:context-windows-and-context-decay} describes, each call costs more than the last as the context grows, and a compaction resets it to a low starting point. In Claude Code, compactions happen automatically as a conversation nears its limit, and the user may also trigger one manually. APM has its own form of this reset, the Handoff described in Chapter~\ref{chap:framework-design}, which in cost terms works the same way as a compaction. As Table~\ref{tab:compaction} reports, such resets happened in only one of the two model groups.
 
@@ -93,6 +96,32 @@ In cost terms a Spec-kit conversation that compacted behaved as a succession of 
 A platform issue we observed during the study complicates the Sonnet reading. A model cannot serve a request past its context window, and Claude Code auto-compacts near the limit to prevent reaching it. In four Spec-kit sessions, with every indicator reporting that same model, the conversation passed the auto-compaction ceiling without resetting and went on serving requests past the window. This shows in the highest points of Figure~\ref{fig:occupancy-sonnet}. These sessions appear to have been served by a larger variant the platform never surfaced. The issue followed the session's Claude Code version, not its framework, but its mark on accumulation shows only in Spec-kit, since no APM session passed the window. That added accumulation plausibly lifted Spec-kit's Sonnet cache reads.
 
 The issue bears little on the cost reading described above. The added accumulation resulted in more cache reading, the cheapest of the token categories. Impacted conversations went only modestly past the auto-compaction ceiling in all but one session, which went about a hundred thousand tokens over. Including this one, three of the four then compacted manually and continued in a new context window; the same behaviour as the Spec-kit and APM sessions that did not meet the issue. The fourth never reset, and accumulated to about fifty thousand tokens over the auto-compaction ceiling. We cannot know how it would have continued had its context been compacted instead. Section~\ref{sec:threats} treats this as a threat to validity.
+
+\subsection{The Demands on the User}
+\label{sec:disc-demands}
+
+APM keeps the user in control of the build, just as it does of the plan. Its design routes implementation through the user, and the authority over the work stays with them rather than the agent. Spec-kit extends its planning autonomy into implementation, where its agent works through the task list largely on its own. The greater demand APM places on the user is therefore by design, the same authority it provides during planning, while Spec-kit continues with minimal interaction.
+
+That difference appears in the user's input. APM has far more turn prompts than Spec-kit, as Table~\ref{tab:proc-turns-fw} reports, and most are protocol, as Table~\ref{tab:proc-buckets} reports. They are the per-cycle relay APM's design places in the user's hands, each being a dispatch out or a report back rather than an instruction. Standard messages are few under both frameworks, and what little APM has reaches the Manager rather than the Workers, as Table~\ref{tab:proc-roles-buckets} of Appendix~\ref{app:process-breakdowns} sets out. APM's added demand is therefore coordination, not deliberation.
+
+Spec-kit asks much less. Its few turns are the protocol command that launches the implementation and an occasional short or standard follow-up, too few to read as a settled composition. The agent proceeds largely on its own, and the user has little to do until the build is done.
+
+Because APM has several agents carry out its implementation where Spec-kit has one, it has a naturally larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, as Table~\ref{tab:impl-behaviour} reports, reversing the planning observation where Spec-kit issued more. Each agent additionally produces its own output, so APM produced more output overall, again reversing planning, as the cost reading of Section~\ref{sec:disc-cost-mechanics} sets out.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired implementation-phase request differences, APM minus Spec-kit, at 95.8\% coverage.}
+  \label{tab:impl-behaviour}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Requests & 12 & 12 / 0 & $+130.0$ & $+150.5$ & $+152.6$ & $[+84.0, +221.5]$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Working across several agents is what makes APM cost more under per-token pricing. Coordinating those agents through the user is what makes it ask more of the user's time and engagement. The cost is a by-product of the design, while the demand is its aim, keeping the user in control of the build where Spec-kit leaves it mostly to the agent.
 
 \section{Learning Effects}
 \label{sec:disc-learning-effects}

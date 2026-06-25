@@ -12,7 +12,7 @@ Table~\ref{tab:cost-phase-model} splits the phase cost difference by model. The 
   \centering
   \caption{Paired cost differences by phase within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
   \label{tab:cost-phase-model}
-  \begin{tabular}{llrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
@@ -21,7 +21,7 @@ Table~\ref{tab:cost-phase-model} splits the phase cost difference by model. The 
     Sonnet & Planning & 6 & 1 / 5 & $-1.64$ & $-2.89$ & $-3.41$ & $[-11.29, +0.28]$ \\
     Sonnet & Implementation & 6 & 4 / 2 & $+4.48$ & $+4.48$ & $+5.03$ & $[-0.38, +13.26]$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 Table~\ref{tab:cost-token-model} splits the token-category cost difference by model. The output and one-hour cache-write differences are larger under Opus, and the cache-read difference reverses sign between the models.
@@ -31,7 +31,7 @@ Table~\ref{tab:cost-token-model} splits the token-category cost difference by mo
   \small
   \caption{Paired cost differences by token category within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
   \label{tab:cost-token-model}
-  \begin{tabular}{llrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
@@ -47,7 +47,7 @@ Table~\ref{tab:cost-token-model} splits the token-category cost difference by mo
     Sonnet & Cache write (5-minute) & 6 & 4 / 2 & $+0.07$ & $+0.05$ & $+0.02$ & $[-0.29, +0.14]$ \\
     Sonnet & Cache write (1-hour) & 6 & 6 / 0 & $+1.12$ & $+1.12$ & $+1.18$ & $[+0.20, +2.41]$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 Table~\ref{tab:cost-order} splits the cost difference by the order in which the participant met the two frameworks. The central difference was larger when APM came second, but with six participants in each order the intervals are wide and the two orders are not distinguishable.
@@ -56,12 +56,349 @@ Table~\ref{tab:cost-order} splits the cost difference by the order in which the 
   \centering
   \caption{Paired cost differences by session order, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
   \label{tab:cost-order}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
     APM first & 6 & 4 / 2 & $+3.89$ & $+3.89$ & $+6.76$ & $[-3.73, +32.01]$ \\
     APM second & 6 & 5 / 1 & $+8.01$ & $+8.01$ & $+7.51$ & $[-0.51, +16.81]$ \\
     \bottomrule
+  \end{tabular*}
+\end{table}
+
+\newpage
+\section{Process Breakdowns}
+\label{app:process-breakdowns}
+
+These tables give the per-model and per-order breakdowns, and the per-session active-time composition, behind claims in the Process results (Section~\ref{sec:results-process}).
+
+Table~\ref{tab:proc-time-model} gives the session-time differences within each model group, the per-model split of Table~\ref{tab:proc-time}. APM was higher on the session duration in all six pairs under each model, with the gap the wider under Opus, and its active and idle components were higher under APM in each group as well.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Paired session-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. The measures are those of Table~\ref{tab:proc-time}.}
+  \label{tab:proc-time-model}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
+    \toprule
+    Model & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & Session duration & 6 & 6 / 0 & $+2436.4$ & $+2436.4$ & $+2603.4$ & $[+664.1, +5596.1]$ \\
+     & Turn time & 6 & 6 / 0 & $+2206.9$ & $+2139.4$ & $+2076.9$ & $[+519.7, +3415.5]$ \\
+     & Inter-turn idle & 6 & 5 / 1 & $+674.4$ & $+667.1$ & $+526.5$ & $[-1475.3, +2180.6]$ \\
+    \midrule
+    Sonnet & Session duration & 6 & 6 / 0 & $+1878.6$ & $+2302.2$ & $+2310.7$ & $[+701.8, +4635.4]$ \\
+     & Turn time & 6 & 5 / 1 & $+1199.3$ & $+1384.4$ & $+1643.8$ & $[-1034.8, +3833.9]$ \\
+     & Inter-turn idle & 6 & 6 / 0 & $+679.3$ & $+679.3$ & $+666.9$ & $[+5.8, +1736.6]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase}. The implementation phase was longer under APM in all six pairs of each model, with the difference somewhat larger under Sonnet, while the planning difference remained mixed in sign under both.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \caption{Paired phase-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. Each phase's duration divides into the active turn time and the inter-turn idle.}
+  \label{tab:proc-phase-model}
+  \begin{tabular}{lllrrrrrr}
+    \toprule
+    Model & Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & Planning & Duration & 6 & 3 / 3 & $-411.0$ & $-600.3$ & $-549.2$ & $[-1963.8, +763.3]$ \\
+     & & Turn time & 6 & 3 / 3 & $-331.3$ & $-532.3$ & $-502.9$ & $[-1429.8, +139.3]$ \\
+     & & Inter-turn idle & 6 & 3 / 3 & $+112.2$ & $+39.6$ & $-46.3$ & $[-1223.4, +642.0]$ \\
+     & Implementation & Duration & 6 & 6 / 0 & $+2339.0$ & $+2339.0$ & $+3039.1$ & $[+1778.6, +7287.3]$ \\
+     & & Turn time & 6 & 6 / 0 & $+2337.8$ & $+2337.8$ & $+2557.4$ & $[+1452.2, +4845.3]$ \\
+     & & Inter-turn idle & 6 & 4 / 2 & $+247.9$ & $+247.9$ & $+481.6$ & $[-252.0, +2442.0]$ \\
+    \midrule
+    Sonnet & Planning & Duration & 6 & 2 / 4 & $-539.2$ & $-649.6$ & $-660.1$ & $[-2404.0, +821.2]$ \\
+     & & Turn time & 6 & 1 / 5 & $-637.8$ & $-765.5$ & $-756.8$ & $[-2043.1, +308.5]$ \\
+     & & Inter-turn idle & 6 & 4 / 2 & $+98.6$ & $+98.6$ & $+96.8$ & $[-360.8, +512.7]$ \\
+     & Implementation & Duration & 6 & 6 / 0 & $+2878.6$ & $+2878.6$ & $+2931.5$ & $[+589.7, +6046.7]$ \\
+     & & Turn time & 6 & 5 / 1 & $+2363.8$ & $+2363.8$ & $+2371.4$ & $[-858.7, +5188.8]$ \\
+     & & Inter-turn idle & 6 & 5 / 1 & $+514.8$ & $+514.8$ & $+560.1$ & $[-47.1, +1448.4]$ \\
+    \bottomrule
   \end{tabular}
 \end{table}
+
+Table~\ref{tab:proc-order} gives the session-duration difference within each session order. Neither order reverses it, with the central difference somewhat larger when APM came first.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired session-duration differences by session order, APM minus Spec-kit, in seconds, at 96.9\% coverage.}
+  \label{tab:proc-order}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    APM first & 6 & 6 / 0 & $+2400.0$ & $+2751.4$ & $+2850.1$ & $[+867.4, +5596.1]$ \\
+    APM second & 6 & 6 / 0 & $+1915.0$ & $+1993.8$ & $+2064.0$ & $[+664.1, +3902.6]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-concurrency} sets out the active-time composition of each APM session, the solo and concurrent spans behind the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent span was negligible in five of the twelve sessions and under a sixth of the active time in all but one.
+
+\begin{table}[H]
+  \centering
+  \caption{Active-time composition of the APM sessions, in seconds, with the concurrent span as a share of the active time. Descriptive and APM only, since Spec-kit's single conversation has no concurrent span.}
+  \label{tab:proc-concurrency}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr}
+    \toprule
+    Participant & Solo & Concurrent & Concurrent share \\
+    \midrule
+    P001 & 4834 & 0 & 0.0\% \\
+    P002 & 5993 & 16 & 0.3\% \\
+    P003 & 4458 & 661 & 12.9\% \\
+    P004 & 5300 & 58 & 1.1\% \\
+    P005 & 5686 & 0 & 0.0\% \\
+    P006 & 6203 & 9 & 0.1\% \\
+    P007 & 4765 & 812 & 14.6\% \\
+    P008 & 3934 & 580 & 12.8\% \\
+    P009 & 4476 & 1541 & 25.6\% \\
+    P010 & 6556 & 1259 & 16.1\% \\
+    P011 & 4218 & 577 & 12.0\% \\
+    P012 & 4037 & 429 & 9.6\% \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-turns-model} gives the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Paired turn-prompt count differences by scope within each model group, APM minus Spec-kit, at 96.9\% coverage.}
+  \label{tab:proc-turns-model}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
+    \toprule
+    Model & Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    Opus & Session & 6 & 5 / 0 / 1 & $+6.5$ & $+7.0$ & $+8.0$ & $[+0.0, +21.0]$ \\
+     & Planning & 6 & 3 / 3 / 0 & $0.0$ & $0.0$ & $0.0$ & $[-10.0, +13.0]$ \\
+     & Implementation & 6 & 5 / 0 / 1 & $+7.0$ & $+7.0$ & $+7.7$ & $[+0.0, +22.0]$ \\
+    \midrule
+    Sonnet & Session & 6 & 6 / 0 / 0 & $+8.0$ & $+8.5$ & $+9.8$ & $[+7.0, +19.0]$ \\
+     & Planning & 6 & 2 / 2 / 2 & $0.0$ & $0.0$ & $-0.3$ & $[-3.0, +2.0]$ \\
+     & Implementation & 6 & 6 / 0 / 0 & $+9.5$ & $+9.5$ & $+10.0$ & $[+5.0, +17.0]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give the per-participant bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-buckets-mag-plan} and~\ref{tab:proc-buckets-mag-impl} give the magnitude per bucket for the same sessions.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Per-participant planning input-bucket shares, with the turn-prompt count $n$ behind each session.}
+  \label{tab:proc-buckets-pp-plan}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
+    \toprule
+    & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
+    \cmidrule(lr){2-5} \cmidrule(lr){6-9}
+    Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
+    \midrule
+    P001 & 0.12 & 0.50 & 0.38 & 8 & 0.61 & 0.22 & 0.17 & 18 \\
+    P002 & 0.11 & 0.44 & 0.44 & 9 & 0.57 & 0.14 & 0.29 & 7 \\
+    P003 & 0.10 & 0.50 & 0.40 & 10 & 0.90 & 0.00 & 0.10 & 10 \\
+    P004 & 0.35 & 0.55 & 0.10 & 20 & 0.14 & 0.86 & 0.00 & 7 \\
+    P005 & 0.14 & 0.57 & 0.29 & 7 & 0.83 & 0.17 & 0.00 & 12 \\
+    P006 & 0.12 & 0.50 & 0.38 & 8 & 0.55 & 0.45 & 0.00 & 11 \\
+    P007 & 0.10 & 0.60 & 0.30 & 10 & 0.50 & 0.33 & 0.17 & 12 \\
+    P008 & 0.10 & 0.50 & 0.40 & 10 & 0.56 & 0.00 & 0.44 & 9 \\
+    P009 & 0.67 & 0.00 & 0.33 & 3 & 0.25 & 0.75 & 0.00 & 4 \\
+    P010 & 0.09 & 0.45 & 0.45 & 11 & 0.70 & 0.30 & 0.00 & 10 \\
+    P011 & 0.09 & 0.64 & 0.27 & 9 & 0.14 & 0.71 & 0.14 & 7 \\
+    P012 & 0.09 & 0.36 & 0.55 & 11 & 0.73 & 0.18 & 0.09 & 11 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Per-participant implementation input-bucket shares, with the turn-prompt count $n$ behind each session. A session with no implementation message has no shares.}
+  \label{tab:proc-buckets-pp-impl}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
+    \toprule
+    & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
+    \cmidrule(lr){2-5} \cmidrule(lr){6-9}
+    Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
+    \midrule
+    P001 & 0.38 & 0.23 & 0.38 & 13 & 0.40 & 0.00 & 0.60 & 5 \\
+    P002 & 0.33 & 0.14 & 0.52 & 21 & 0.25 & 0.00 & 0.75 & 4 \\
+    P003 & 0.89 & 0.11 & 0.00 & 9 & 1.00 & 0.00 & 0.00 & 2 \\
+    P004 & 1.00 & 0.00 & 0.00 & 6 & 0.00 & 1.00 & 0.00 & 6 \\
+    P005 & 0.69 & 0.08 & 0.23 & 13 & 0.71 & 0.14 & 0.14 & 7 \\
+    P006 & 0.55 & 0.36 & 0.09 & 10 & --- & --- & --- & 0 \\
+    P007 & 0.77 & 0.15 & 0.08 & 13 & 0.00 & 1.00 & 0.00 & 1 \\
+    P008 & 1.00 & 0.00 & 0.00 & 10 & 0.50 & 0.50 & 0.00 & 2 \\
+    P009 & 0.74 & 0.26 & 0.00 & 23 & 0.00 & 0.00 & 1.00 & 1 \\
+    P010 & 0.67 & 0.11 & 0.22 & 9 & 0.50 & 0.25 & 0.25 & 4 \\
+    P011 & 0.75 & 0.12 & 0.12 & 8 & 0.00 & 0.67 & 0.33 & 6 \\
+    P012 & 0.73 & 0.18 & 0.09 & 11 & 0.50 & 0.50 & 0.00 & 2 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Per-participant magnitude per bucket in the planning phase, in characters. A zero marks a bucket with no messages in that session.}
+  \label{tab:proc-buckets-mag-plan}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
+    \toprule
+    & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+    Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
+    \midrule
+    P001 & 149 & 20 & 299 & 147 & 7 & 81 \\
+    P002 & 148 & 27 & 158 & 146 & 48 & 106 \\
+    P003 & 150 & 26 & 180 & 113 & 0 & 141 \\
+    P004 & 138 & 17 & 81 & 102 & 3 & 0 \\
+    P005 & 150 & 23 & 88 & 102 & 20 & 0 \\
+    P006 & 150 & 9 & 55 & 98 & 8 & 0 \\
+    P007 & 150 & 23 & 177 & 112 & 25 & 57 \\
+    P008 & 150 & 18 & 214 & 96 & 0 & 77 \\
+    P009 & 130 & 0 & 65 & 106 & 21 & 0 \\
+    P010 & 150 & 16 & 208 & 132 & 6 & 0 \\
+    P011 & 150 & 28 & 70 & 106 & 23 & 86 \\
+    P012 & 150 & 4 & 155 & 104 & 38 & 50 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Per-participant magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no messages in that session.}
+  \label{tab:proc-buckets-mag-impl}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
+    \toprule
+    & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+    Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
+    \midrule
+    P001 & 138 & 19 & 144 & 100 & 0 & 73 \\
+    P002 & 140 & 31 & 798 & 273 & 0 & 160 \\
+    P003 & 128 & 14 & 0 & 101 & 0 & 0 \\
+    P004 & 116 & 0 & 0 & 0 & 20 & 0 \\
+    P005 & 117 & 9 & 88 & 101 & 29 & 81 \\
+    P006 & 118 & 25 & 50 & 0 & 0 & 0 \\
+    P007 & 119 & 16 & 69 & 0 & 32 & 0 \\
+    P008 & 130 & 0 & 0 & 100 & 39 & 0 \\
+    P009 & 117 & 32 & 0 & 0 & 0 & 76 \\
+    P010 & 133 & 8 & 216 & 100 & 42 & 73 \\
+    P011 & 112 & 32 & 52 & 0 & 28 & 54 \\
+    P012 & 132 & 12 & 52 & 100 & 38 & 0 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-buckets-model} gives the input-bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Input-bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
+  \label{tab:proc-buckets-model}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
+    \toprule
+    Model & Phase & Framework & Bucket & Median & HL & Mean \\
+    \midrule
+    Opus & Planning & APM & Protocol & $0.13$ & $0.22$ & $0.25$ \\
+     & & & Short & $0.53$ & $0.53$ & $0.46$ \\
+     & & & Standard & $0.31$ & $0.31$ & $0.29$ \\
+     & & Spec-kit & Protocol & $0.40$ & $0.40$ & $0.42$ \\
+     & & & Short & $0.47$ & $0.46$ & $0.45$ \\
+     & & & Standard & $0.07$ & $0.08$ & $0.13$ \\
+    \cmidrule(lr){2-7}
+     & Implementation & APM & Protocol & $0.74$ & $0.74$ & $0.76$ \\
+     & & & Short & $0.10$ & $0.12$ & $0.12$ \\
+     & & & Standard & $0.06$ & $0.12$ & $0.12$ \\
+     & & Spec-kit & Protocol & $0.20$ & $0.25$ & $0.27$ \\
+     & & & Short & $0.32$ & $0.33$ & $0.38$ \\
+     & & & Standard & $0.24$ & $0.30$ & $0.35$ \\
+    \midrule
+    Sonnet & Planning & APM & Protocol & $0.10$ & $0.10$ & $0.10$ \\
+     & & & Short & $0.48$ & $0.48$ & $0.48$ \\
+     & & & Standard & $0.42$ & $0.42$ & $0.42$ \\
+     & & Spec-kit & Protocol & $0.64$ & $0.64$ & $0.66$ \\
+     & & & Short & $0.24$ & $0.24$ & $0.24$ \\
+     & & & Standard & $0.10$ & $0.10$ & $0.11$ \\
+     \cmidrule(lr){2-7}
+     & Implementation & APM & Protocol & $0.70$ & $0.67$ & $0.66$ \\
+     & & & Short & $0.15$ & $0.15$ & $0.18$ \\
+     & & & Standard & $0.09$ & $0.11$ & $0.17$ \\
+     & & Spec-kit & Protocol & $0.50$ & $0.50$ & $0.45$ \\
+     & & & Short & $0.25$ & $0.25$ & $0.35$ \\
+     & & & Standard & $0.00$ & $0.12$ & $0.20$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-roles-buckets} gives the bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Per-role bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
+  \label{tab:proc-roles-buckets}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr}
+    \toprule
+    & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} \\
+    \cmidrule(lr){3-5} \cmidrule(lr){6-8}
+    Role & Bucket & Median & HL & Mean & Median & HL & Mean \\
+    \midrule
+    Planner & Protocol & $0.11$ & $0.11$ & $0.17$ & $150$ & $150$ & $147$ \\
+     & Short & $0.50$ & $0.50$ & $0.47$ & $20$ & $20$ & $19$ \\
+     & Standard & $0.38$ & $0.37$ & $0.36$ & $156$ & $139$ & $146$ \\
+    \midrule
+    Manager & Protocol & $0.60$ & $0.60$ & $0.61$ & $130$ & $127$ & $125$ \\
+     & Short & $0.20$ & $0.19$ & $0.19$ & $21$ & $21$ & $22$ \\
+     & Standard & $0.17$ & $0.19$ & $0.20$ & $79$ & $88$ & $99$ \\
+    \midrule
+    Worker & Protocol & $0.82$ & $0.83$ & $0.79$ & $129$ & $129$ & $128$ \\
+     & Short & $0.04$ & $0.11$ & $0.12$ & $21$ & $20$ & $19$ \\
+     & Standard & $0.00$ & $0.00$ & $0.08$ & $96$ & $326$ & $403$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-steer} gives the steer counts by framework and phase.
+
+\begin{table}[H]
+  \centering
+  \caption{Steer counts summed across the cohort, by framework and phase. An attempted steer is one the participant began to send; a delivered steer is one the platform passed to the working agent.}
+  \label{tab:proc-steer}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr}
+    \toprule
+    Framework & Phase & Attempted & Delivered \\
+    \midrule
+    APM & Planning & 8 & 2 \\
+     & Implementation & 5 & 1 \\
+    \midrule
+    Spec-kit & Planning & 3 & 0 \\
+     & Implementation & 3 & 0 \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:proc-turns-order} gives the session turn-prompt difference by session order.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired turn-prompt count differences by session order, APM minus Spec-kit, at 96.9\% coverage.}
+  \label{tab:proc-turns-order}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    APM first & 6 & 5 / 0 / 1 & $+7.0$ & $+7.0$ & $+7.7$ & $[+0.0, +21.0]$ \\
+    APM second & 6 & 6 / 0 / 0 & $+9.0$ & $+9.0$ & $+10.2$ & $[+4.0, +19.0]$ \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
