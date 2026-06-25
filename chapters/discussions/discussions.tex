@@ -30,8 +30,6 @@ The difference reaches the functional outcomes as the size of the sessions that 
 
 Both frameworks had sessions that scored low. APM's two came from a shared format fault, and the second grading view of Section~\ref{sec:disc-grading-blackbox}, which lifts that fault under either framework, leaves every APM session high. Spec-kit's low scores are read there too, where its real failures are told apart from the rest.
 
-\placeholder{Forthcoming. The perception reading of this realisation, how the two planning approaches relate to what participants reported.}
-
 \section{Coordinating the Implementation}
 \label{sec:disc-implementation}
 
@@ -126,17 +124,43 @@ Working across several agents is what makes APM cost more under per-token pricin
 \section{Behind the Functional Score}
 \label{sec:disc-blackbox}
 
-\placeholder{Forthcoming. The Functional results read against the grader's nature.}
+The functional results take the grader's scores at face value. This section looks behind them, first at what a black-box grader can miss and then at what the scores cost.
 
 \subsection{Grading with a Black Box}
 \label{sec:disc-grading-blackbox}
 
-\placeholder{Forthcoming. The grader's strict assertions as a limitation given its black-box nature, the partial-credit near-miss handling, the second grading view, the sessions it moves as worked examples, and the shift it makes to the overall measures.}
+The grader judges a submission only by the behaviour of the running program, never its source, as Section~\ref{sec:measures-functional} sets out. A single fault that blocks the program's responses therefore reads as near-total failure, even where the rest of the implementation may be sound.
+
+Three Sonnet sessions show this. Each scored exactly 34 on the total, with the Python half complete and almost the whole C half lost. The cause in all three was the same narrow flaw in their C protocol parser. The grader sends the request in the standard spaced form, which a parser must accept. The compact form without those spaces is equally valid, since the whitespace between fields is insignificant in the JSON the protocol uses.\footnote{RFC 8259, Section 2 (\url{https://www.rfc-editor.org/rfc/rfc8259}).}
+
+A conformant parser should accept both forms. Theirs accepted only the compact one. Because that parser handles the first message of the exchange, the failure stopped the protocol before it began, and every later C check failed behind it. The implementations were otherwise very good. Re-graded with the grader's input being in compact form, the three rise to between 94 and 100, as Figure~\ref{fig:func-compact} shows.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/discussions/functional_compact.pdf}
+  \caption{Total score of the twelve Sonnet sessions on the grader's standard JSON input, filled, and on a compact JSON input, open, joined where they differ. The Opus sessions do not differ and are omitted.}
+  \label{fig:func-compact}
+\end{figure}
+
+Five sessions across the cohort scored below fifty. The re-grade recovers three of them, both of APM's and one of Spec-kit's. After it, APM's sessions are all high, and the two that stay below fifty are Spec-kit's. What those two are, this re-grade cannot say. It reaches one kind of grader strictness, and the two it leaves may be sound work it does not reach, just as the three it recovered were, or they may be genuine shortfalls. Recovering two APM sessions also moves the cohort comparison toward APM, but that is one participant rather than a framework effect. The flaw appears under both frameworks, and the participant who shipped it in both sessions barely moves with the re-grade.
+
+This re-grade is therefore a diagnostic, not a fairer grade. It reaches one fault class, while the total score stays the grade of record. The grader can hide sound work in other forms this one re-grade does not show, so it bounds, rather than measures, what the scores leave out.
 
 \subsection{Cost versus Score}
 \label{sec:disc-cost-score}
 
-\placeholder{Forthcoming. The functional outcome set against its cost: the scores tie while APM costs more, so Spec-kit's advantage is cost and time rather than quality.}
+The two frameworks scored level across the cohort, as Section~\ref{sec:results-functional} reports, while APM cost more, as Section~\ref{sec:results-economic} reports. Figure~\ref{fig:cost-score} sets the two differences against each other. Most participants sit at a slightly positive to no score difference with a positive cost difference. For them APM cost more and the functional outcome was the same. The cost gap is wide under Opus and slight under Sonnet.
+
+The three participants whose APM session scored clearly above their Spec-kit one are the exception. Their APM session cost about the same or a little less, not more. At three sessions this is an observation rather than a result.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/discussions/cost_score.pdf}
+  \caption{Per-participant paired cost difference and total-score difference, APM minus Spec-kit, marked by model. The reference lines mark no difference on each axis.}
+  \label{fig:cost-score}
+\end{figure}
+
+What the added cost bought was APM's structure and the user's control over the build, which on this task did not register in the functional score. The task was bounded and self-contained. A single agent could carry it largely on its own, so APM's heavier structure had little functional gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value would lie in what the study cannot measure here, in the control it keeps in the user's hands, and in work larger or longer than the one tested.
 
 \section{Learning Effects}
 \label{sec:disc-learning-effects}
