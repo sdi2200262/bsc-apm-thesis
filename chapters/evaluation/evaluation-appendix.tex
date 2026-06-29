@@ -20,7 +20,7 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \centering
   \caption{Per-token rates for the study window, in US dollars per million tokens.}
   \label{tab:rate-card}
-  \begin{tabular}{lrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
     Model & Input & Output & Cache read & Cache write (5\,min) & Cache write (1\,h) \\
     \midrule
@@ -28,7 +28,7 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
     Sonnet 4.6 & 3.00 & 15.00 & 0.30 & 3.75 & 6.00 \\
     Haiku 4.5 & 1.00 & 5.00 & 0.10 & 1.25 & 2.00 \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
@@ -63,7 +63,7 @@ The eight rating items and the wording at each end of their scale are given in T
   \centering
   \caption{The post-session questionnaire's rating items, with the wording at each end of the one-to-five scale.}
   \label{tab:questionnaire}
-  \begin{tabular}{@{}p{0.58\textwidth}ll@{}}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.58\textwidth}ll}
     \toprule
     Question & 1 & 5 \\
     \midrule
@@ -76,5 +76,5 @@ The eight rating items and the wording at each end of their scale are given in T
     How much effort went into checking what the AI in this framework produced? & Very low & Very high \\
     How much effort went into instructing and steering the AI in this framework? & Very low & Very high \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}

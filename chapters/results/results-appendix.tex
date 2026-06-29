@@ -102,7 +102,7 @@ Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the
   \setlength{\tabcolsep}{3pt}
   \caption{Paired phase-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. Each phase's duration divides into the active turn time and the inter-turn idle.}
   \label{tab:proc-phase-model}
-  \begin{tabular}{lllrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrrrrr}
     \toprule
     Model & Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
@@ -120,7 +120,7 @@ Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the
      & & Turn time & 6 & 5 / 1 & $+2363.8$ & $+2363.8$ & $+2371.4$ & $[-858.7, +5188.8]$ \\
      & & Inter-turn idle & 6 & 5 / 1 & $+514.8$ & $+514.8$ & $+560.1$ & $[-47.1, +1448.4]$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 Table~\ref{tab:proc-order} gives the session-duration difference within each session order. Neither order reverses it, with the central difference somewhat larger when APM came first.
