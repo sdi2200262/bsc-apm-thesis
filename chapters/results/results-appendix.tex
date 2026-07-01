@@ -130,12 +130,12 @@ Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-order} gives the session-duration difference within each realized session order. Neither order reverses it; the central differences are comparable across the two groups.
+Table~\ref{tab:proc-duration-order} gives the session-duration difference within each realized session order. Neither order reverses it; the central differences are comparable across the two groups.
 
 \begin{table}[H]
   \centering
   \caption{Paired session-duration differences by realized session order, APM minus Spec-kit, in seconds, at 96.9\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:proc-order}
+  \label{tab:proc-duration-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -431,12 +431,12 @@ Table~\ref{tab:proc-turns-order} gives the session turn-prompt difference by ses
 
 These tables give the per-session scores, the per-section difference, and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
 
-Table~\ref{tab:func-session} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
+Table~\ref{tab:func-per-session} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
 
 \begin{table}[H]
   \centering
   \caption{Per-session scores, in points. The total is the strict part plus the partial part, and the Python and C section totals sum to it.}
-  \label{tab:func-session}
+  \label{tab:func-per-session}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
     \toprule
     Participant & Framework & Strict & Partial & Total & Python & C \\
