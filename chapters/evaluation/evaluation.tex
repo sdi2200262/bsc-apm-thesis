@@ -4,13 +4,13 @@
 \section{Methodology and Research Questions}
 \label{sec:methodology}
 
-We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the multi-agent framework presented in Chapter~\ref{chap:framework-design}, against GitHub Spec-kit, a single-agent framework applying the spec-driven discipline of Chapter~\ref{chap:background}. The study was conducted on the Claude Code command-line interface, which both frameworks operate on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
+We evaluate the Agentic Project Management (APM) framework in a realistic setting through a comparative case study with human participants. The study compares APM, the framework presented in Chapter~\ref{chap:framework-design} that coordinates several agents through the user, against GitHub Spec-kit, a framework applying the spec-driven discipline of Chapter~\ref{chap:background} through one agent. The study was conducted on the Claude Code command-line interface, which both frameworks operate on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
 
-Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether that work is handled by a single agent or distributed across several. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
+Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-driven-development}, approaching the task through explicit specification and planning, and each realises it in its own way. The most salient difference, and the one this comparison turns on, is whether one agent carries the workflow or several agents who coordinated through the user. The evaluation probes that difference along four dimensions, defining the following Research Questions (RQs):
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic):} How does APM's multi-agent structure affect the dollar cost of completing a task relative to Spec-kit's single-agent workflow, and is that difference consistent across models of differing capability?
-    \item \textbf{RQ2 (Process):} How does APM's multi-agent structure change the time a task takes and the effort it demands of the user, relative to Spec-kit's single-agent workflow?
+    \item \textbf{RQ1 (Economic):} How does APM's user-mediated coordination between several agents affect the dollar cost of completing a task relative to Spec-kit's workflow carried by one agent, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ2 (Process):} How does APM's user-mediated coordination between several agents change the time a task takes and the effort it demands of the user, relative to Spec-kit's workflow carried by one agent?
     \item \textbf{RQ3 (Functional):} How do the two frameworks differ in functional outcome, in how much of the task each completes and in how they fail when they fall short?
     \item \textbf{RQ4 (Perception):} How does participants' self-reported experience of each framework relate to the behaviour measured from their sessions?
 \end{itemize}
@@ -18,9 +18,9 @@ Both frameworks build on the spec-driven discipline of Section~\ref{sec:spec-dri
 \section{Spec-kit, the Comparison Framework}
 \label{sec:comparison-framework}
 
-The comparison sets APM against GitHub Spec-kit, two open-source frameworks that apply the spec-driven discipline of Section~\ref{sec:spec-driven-development} on top of an existing coding agent. APM's design is described in full in Chapter~\ref{chap:framework-design}; Spec-kit, the single-agent counterpart, is introduced here so the two can be read on the same terms.
+The comparison sets APM against GitHub Spec-kit, two open-source frameworks that apply the spec-driven discipline of Section~\ref{sec:spec-driven-development} on top of an existing coding agent. APM's design is described in full in Chapter~\ref{chap:framework-design}; Spec-kit, the comparison framework, is introduced here so the two can be read on the same terms.
 
-Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} is GitHub's open-source spec-driven development toolkit. A single agent applies the discipline from end to end, producing the specification and the plan and then implementing them, all within one continuous conversation.
+Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing the specification and the plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
 The work is driven by a set of slash commands that the developer triggers, or the agent autonomously invokes, each a bundle of instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The specification is then built through three sequential commands:
 
