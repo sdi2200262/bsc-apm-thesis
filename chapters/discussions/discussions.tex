@@ -12,14 +12,14 @@ The planning phase is therefore where the frameworks diverge in realising spec-d
   \centering
   \caption{Paired planning-phase request and output differences, APM minus Spec-kit, at 95.8\% coverage.}
   \label{tab:planning-behaviour}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
     Requests & 12 & 0 / 12 & $-38.5$ & $-56.5$ & $-60.7$ & $[-95.0, -29.0]$ \\
     Output (thousand tokens) & 12 & 3 / 9 & $-34.5$ & $-35.7$ & $-39.7$ & $[-70.5, -9.9]$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 In planning the duration leaned toward Spec-kit being the longer of the two, but its interval spans zero, so the phase has no firm difference in total time. The firm contrast is in the active time, where Spec-kit's agent worked longer, as the planning turn-time row of Table~\ref{tab:proc-phase} reports, within about the same number of turns as APM, shown in Table~\ref{tab:proc-turns-fw}. That extra working time is the heavier request count and output behind the cost difference, set out in Table~\ref{tab:planning-behaviour} above. It is the same autonomous exploration, now seen as time rather than as model calls. Spec-kit's time therefore went mostly into the agent's own work, while APM's fell relatively more into the idle between turns, reported in the inter-turn idle row of Table~\ref{tab:proc-phase}. That idle difference is small, and the larger active-time difference is what sets the phase's slight lean toward Spec-kit.
@@ -46,7 +46,7 @@ The two model groups did not bear this cost in the same way, and the difference 
   \centering
   \caption{Compaction incidence by model and framework, the number of sessions that compacted at least once and the number that compacted more than once.}
   \label{tab:compaction}
-  \begin{tabular}{llrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr}
     \toprule
     Model & Framework & Sessions & Compacted & More than once \\
     \midrule
@@ -55,7 +55,7 @@ The two model groups did not bear this cost in the same way, and the difference 
     Sonnet & APM & 6 & 4 & 0 \\
     Sonnet & Spec-kit & 6 & 5 & 3 \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 The Sonnet 4.6 model used in our study had a two-hundred-thousand-token context window. Conversations often grew near its ceiling and reset, either auto-compacted by the platform or compacted manually by the participant. A Sonnet conversation that compacted therefore used more than one context window, clearing its cache and building its context anew. Opus 4.7, by contrast, had a one-million-token context window, large enough to hold the entire task from start to finish.
@@ -110,13 +110,13 @@ Because APM has several agents carry out its implementation where Spec-kit has o
   \centering
   \caption{Paired implementation-phase request differences, APM minus Spec-kit, at 95.8\% coverage.}
   \label{tab:impl-behaviour}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
     Requests & 12 & 12 / 0 & $+130.0$ & $+150.5$ & $+152.6$ & $[+84.0, +221.5]$ \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
 \end{table}
 
 Working across several agents is what makes APM cost more under per-token pricing. Coordinating those agents through the user is what makes it ask more of the user's time and engagement. The cost is a by-product of the design, while the demand is its aim, keeping the user in control of the build where Spec-kit leaves it mostly to the agent.
