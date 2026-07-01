@@ -60,14 +60,14 @@ The mean being higher than the median shows that a few large differences pull th
   \label{fig:cost-overall}
 \end{figure}
 
-Split by model, the paired cost difference behaved very differently, as Table~\ref{tab:cost-model} sets out and Figure~\ref{fig:cost-by-model} shows. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate sit close together, with the mean a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, so the two frameworks cost about the same for that group.
+Split by model, the paired cost difference behaved very differently, as Table~\ref{tab:cost-paired-model} sets out and Figure~\ref{fig:cost-model} shows. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries. The median and the Hodges-Lehmann estimate sit close together, with the mean a little above. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, so the two frameworks cost about the same for that group.
 
 The Opus group also varied widely, from one participant for whom APM cost about four dollars less to one for whom it cost about thirty-two dollars more. At six participants the confidence interval is wide and includes zero, reaching from the smallest of those differences to the largest. The Sonnet interval is similarly wide. Those large Opus values pulled the full-cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
 
 \begin{table}[H]
   \centering
   \caption{Paired cost differences within each model group, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-model}
+  \label{tab:cost-paired-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Model & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -83,7 +83,7 @@ The Opus group also varied widely, from one participant for whom APM cost about 
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_opus.pdf}\hfill
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_sonnet.pdf}
   \caption{Per-participant cost difference within each model, APM minus Spec-kit, in US dollars, on a shared scale.}
-  \label{fig:cost-by-model}
+  \label{fig:cost-model}
 \end{figure}
 
 The phase split holds as a paired difference, with both phases excluding zero, as Table~\ref{tab:cost-phase} sets out.\footnote{A small residual the parser records as an ``other'' phase, session activity outside either framework's workflow phases, accounts for under one percent of cost and a difference indistinguishable from zero, and is omitted.} APM's planning cost was the lower in ten of the twelve pairs and its implementation cost the higher in ten. The implementation excess was the larger of the two, so it set the direction of the overall difference. The pattern held in both models, stronger for the Opus group and slighter for the Sonnet group, with the per-model split given in Table~\ref{tab:cost-phase-model} in Appendix~\ref{app:cost-breakdowns}.
