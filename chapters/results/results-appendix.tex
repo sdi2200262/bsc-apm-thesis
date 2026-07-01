@@ -10,18 +10,25 @@ Table~\ref{tab:cost-phase-model} splits the phase cost difference by model. The 
 
 \begin{table}[H]
   \centering
+  \begin{threeparttable}
   \caption{Paired cost differences by phase within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
   \label{tab:cost-phase-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Planning & 6 & 1 / 5 & $-5.38$ & $-6.64$ & $-6.92$ & $[-14.25, +0.55]$ \\
-    Opus & Implementation & 6 & 6 / 0 & $+15.71$ & $+18.30$ & $+19.39$ & $[+2.08, +46.26]$ \\
+    Opus & Planning\tnote{a} & 6 & 1 / 5 & $-5.38$ & $-6.64$ & $-6.92$ & $[-14.25, +0.55]$ \\
+    Opus & Implementation\tnote{c} & 6 & 6 / 0 & $+15.71$ & $+18.30$ & $+19.39$ & $[+2.08, +46.26]$ \\
     Sonnet & Planning & 6 & 1 / 5 & $-1.64$ & $-2.89$ & $-3.41$ & $[-11.29, +0.28]$ \\
-    Sonnet & Implementation & 6 & 4 / 2 & $+4.48$ & $+4.48$ & $+5.03$ & $[-0.38, +13.26]$ \\
+    Sonnet & Implementation\tnote{b} & 6 & 4 / 2 & $+4.48$ & $+4.48$ & $+5.03$ & $[-0.38, +13.26]$ \\
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P004 affects the Opus planning row; see note~[a] of Table~\ref{tab:cost-phase}.
+    \item[b] P006 affects the Sonnet implementation row; see note~[b] of Table~\ref{tab:cost-phase}.
+    \item[c] P009 also affects the Opus implementation row; see note~[c] of Table~\ref{tab:cost-phase}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
 Table~\ref{tab:cost-token-model} splits the token-category cost difference by model. The output and one-hour cache-write differences are larger under Opus, and the cache-read difference reverses sign between the models.
@@ -219,6 +226,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
 \begin{table}[H]
   \centering
   \small
+  \begin{threeparttable}
   \caption{Per-participant implementation input-bucket shares, with the turn-prompt count $n$ behind each session. A session with no implementation message has no shares.}
   \label{tab:proc-buckets-pp-impl}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
@@ -232,7 +240,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     P003 & 0.89 & 0.11 & 0.00 & 9 & 1.00 & 0.00 & 0.00 & 2 \\
     P004 & 1.00 & 0.00 & 0.00 & 6 & 0.00 & 1.00 & 0.00 & 6 \\
     P005 & 0.69 & 0.08 & 0.23 & 13 & 0.71 & 0.14 & 0.14 & 7 \\
-    P006 & 0.55 & 0.36 & 0.09 & 10 & --- & --- & --- & 0 \\
+    P006\tnote{a} & 0.55 & 0.36 & 0.09 & 10 & --- & --- & --- & 0 \\
     P007 & 0.77 & 0.15 & 0.08 & 13 & 0.00 & 1.00 & 0.00 & 1 \\
     P008 & 1.00 & 0.00 & 0.00 & 10 & 0.50 & 0.50 & 0.00 & 2 \\
     P009 & 0.74 & 0.26 & 0.00 & 23 & 0.00 & 0.00 & 1.00 & 1 \\
@@ -241,6 +249,10 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     P012 & 0.73 & 0.18 & 0.09 & 11 & 0.50 & 0.50 & 0.00 & 2 \\
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-fw}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
 \begin{table}[H]
@@ -273,6 +285,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
 \begin{table}[H]
   \centering
   \small
+  \begin{threeparttable}
   \caption{Per-participant magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no messages in that session.}
   \label{tab:proc-buckets-mag-impl}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
@@ -282,11 +295,11 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
     \midrule
     P001 & 138 & 19 & 144 & 100 & 0 & 73 \\
-    P002 & 140 & 31 & 798 & 273 & 0 & 160 \\
+    P002\tnote{a} & 140 & 31 & 798 & 273 & 0 & 160 \\
     P003 & 128 & 14 & 0 & 101 & 0 & 0 \\
     P004 & 116 & 0 & 0 & 0 & 20 & 0 \\
     P005 & 117 & 9 & 88 & 101 & 29 & 81 \\
-    P006 & 118 & 25 & 50 & 0 & 0 & 0 \\
+    P006\tnote{b} & 118 & 25 & 50 & 0 & 0 & 0 \\
     P007 & 119 & 16 & 69 & 0 & 32 & 0 \\
     P008 & 130 & 0 & 0 & 100 & 39 & 0 \\
     P009 & 117 & 32 & 0 & 0 & 0 & 76 \\
@@ -295,6 +308,11 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     P012 & 132 & 12 & 52 & 100 & 38 & 0 \\
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets}.
+    \item[b] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-fw}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
 Table~\ref{tab:proc-buckets-model} gives the input-bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
@@ -344,6 +362,7 @@ Table~\ref{tab:proc-roles-buckets} gives the bucket shares and magnitude per buc
 \begin{table}[H]
   \centering
   \small
+  \begin{threeparttable}
   \caption{Per-role bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
   \label{tab:proc-roles-buckets}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr}
@@ -362,9 +381,13 @@ Table~\ref{tab:proc-roles-buckets} gives the bucket shares and magnitude per buc
     \midrule
     Worker & Protocol & $0.82$ & $0.83$ & $0.79$ & $129$ & $129$ & $128$ \\
      & Short & $0.04$ & $0.11$ & $0.12$ & $21$ & $20$ & $19$ \\
-     & Standard & $0.00$ & $0.00$ & $0.08$ & $96$ & $326$ & $403$ \\
+     & Standard\tnote{a} & $0.00$ & $0.00$ & $0.08$ & $96$ & $326$ & $403$ \\
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
 Table~\ref{tab:proc-steer} gives the steer counts by framework and phase.
@@ -536,4 +559,3 @@ Table~\ref{tab:perc-comparative} gives the second-session comparative item, grou
     \bottomrule
   \end{tabular*}
 \end{table}
-
