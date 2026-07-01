@@ -4,10 +4,10 @@ BSc thesis evaluating [Agentic Project Management (APM)](https://github.com/sdi2
 
 ## Overview
 
-This thesis investigates whether coordinating several agents provides tangible benefits over a single-agent workflow on complex software development tasks. The case study compares two open-source spec-driven frameworks running on the same coding agent, so the comparison isolates the effect of distributing the work across several agents from platform or tooling differences:
+This thesis investigates whether user-mediated coordination between several agents provides tangible benefits over a workflow carried by one agent on complex software development tasks. The case study compares two open-source spec-driven frameworks running on the same coding agent, so the comparison isolates APM's coordination design from platform or tooling differences:
 
-- **APM** (v1.0): multi-agent and spec-driven, a Planner, a Manager, and Workers coordinated through the user over file-based protocols.
-- **GitHub Spec-kit**: single-agent and spec-driven, driven by slash commands (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`).
+- **APM** (v1.0): spec-driven, with a Planner, a Manager, and Workers coordinated through the user over file-based protocols.
+- **GitHub Spec-kit**: spec-driven, with one agent driven by slash commands (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`).
 
 The evaluation compares the two along four dimensions, defined as research questions in the Evaluation chapter:
 

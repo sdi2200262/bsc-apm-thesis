@@ -33,7 +33,7 @@ Both frameworks had sessions that scored low. APM's two came from a shared forma
 \section{Coordinating the Implementation}
 \label{sec:disc-implementation}
 
-Both frameworks build against their planning documents and revise them as findings require, but Spec-kit carries the implementation out in the single main agent that also planned, while APM carries it out across several main agents, a Manager and its Workers, that coordinate through the user. The several agents shape what the implementation costs, and that coordination shapes what it demands, read in the two subsections below.
+Both frameworks build against their planning documents and revise them as findings require. Spec-kit carries the implementation out in the same agent that also planned. In APM, a Manager and its Workers carry it out across several agents and coordinate through the user. The several agents shape what the implementation costs, and that coordination shapes what it demands, read in the two subsections below.
 
 \subsection{The Cost of Several Agents}
 \label{sec:disc-cost-mechanics}
@@ -82,7 +82,7 @@ Under Opus no conversation reset, so each used only one context window, growing 
 
 Under Sonnet, both frameworks faced the tighter window's pressure. Spec-kit's conversation reached the limit and compacted in five of its six sessions, more than once in three. Every APM session had one reset as well; all six facing the context window limits with the Worker assigned to C part of the task, its heaviest work. Four auto-compacted, as Table~\ref{tab:compaction} reports, and the other two reset through a Worker Handoff instead, which the table's compaction tally does not capture.
 
-In cost terms a Spec-kit conversation that compacted behaved as a succession of agents, each starting afresh in a new context window, rebuilding cache and climbing again, which is why under Sonnet its cost came closer to APM's. This shows in the cache reading. Under Sonnet, Spec-kit read more from the cache than APM, the reverse of the Opus case, as the cache-read row of Table~\ref{tab:cost-token-model} reports. Figure~\ref{fig:occupancy-sonnet} shows why. Spec-kit drove one conversation up to the compaction ceiling and back, paid for a large context on each climb, while APM held most of its conversations well below the ceiling, where each call had to reread less.
+In cost terms a Spec-kit conversation that compacted behaved as a succession of agents, each starting fresh in a new context window, rebuilding cache and accumulating context again, which is why under Sonnet its cost came closer to APM's. This shows in the cache reading. Under Sonnet, Spec-kit read more from the cache than APM, the reverse of the Opus case, as the cache-read row of Table~\ref{tab:cost-token-model} reports. Figure~\ref{fig:occupancy-sonnet} shows why. Spec-kit drove one conversation up to the compaction ceiling and back, paid for a large context on each climb, while APM held most of its conversations well below the ceiling, where each call had to reread less.
 
 \begin{figure}[H]
   \centering
@@ -160,7 +160,7 @@ The three participants whose APM session scored clearly above their Spec-kit one
   \label{fig:cost-score}
 \end{figure}
 
-What the added cost bought was APM's structure and the user's control over the build, which on this task did not register in the functional score. The task was bounded and self-contained. A single agent could carry it largely on its own, so APM's heavier structure had little functional gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value would lie in what the study cannot measure here, in the control it keeps in the user's hands, and in work larger or longer than the one tested.
+What the added cost bought was APM's structure and the user's control over the build, which on this task did not register in the functional score. The task proved to be bounded and self-contained. One agent, with any subagents it dispatched, could carry it largely on its own, so APM's heavier structure had little functional gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value would lie in what the study cannot measure here: the control it keeps in the user's hands, the user's sovereignty of the software produced and in work larger or longer than the one tested.
 
 \section{Learning Effects}
 \label{sec:disc-learning-effects}
