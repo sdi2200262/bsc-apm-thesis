@@ -1,18 +1,19 @@
+% !TEX root = ../../thesis.tex
 % Results appendix body. Included by thesis.tex under
 % \chapter{RESULTS APPENDIX} inside the \appendix block.
 
 \section{Economic Cost Breakdowns}
-\label{app:cost-breakdowns}
+\label{app:results-cost-breakdowns}
 
 These tables give the per-model and per-order detail behind claims in the Economic results (Section~\ref{sec:results-economic}).
 
-Table~\ref{tab:cost-phase-model} splits the phase cost difference by model. The split is wider under Opus.
+Table~\ref{tab:cost-phase-paired-by-model} splits the phase cost difference by model. The split is wider under Opus.
 
 \begin{table}[H]
   \centering
   \begin{threeparttable}
   \caption{Paired cost differences by phase within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-phase-model}
+  \label{tab:cost-phase-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -24,20 +25,20 @@ Table~\ref{tab:cost-phase-model} splits the phase cost difference by model. The 
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004 affects the Opus planning row; see note~[a] of Table~\ref{tab:cost-phase}.
-    \item[b] P006 affects the Sonnet implementation row; see note~[b] of Table~\ref{tab:cost-phase}.
-    \item[c] P009 also affects the Opus implementation row; see note~[c] of Table~\ref{tab:cost-phase}.
+    \item[a] P004 affects the Opus planning row; see note~[a] of Table~\ref{tab:cost-phase-paired}.
+    \item[b] P006 affects the Sonnet implementation row; see note~[b] of Table~\ref{tab:cost-phase-paired}.
+    \item[c] P009 also affects the Opus implementation row; see note~[c] of Table~\ref{tab:cost-phase-paired}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:cost-token-model} splits the token-category cost difference by model. The output and one-hour cache-write differences are larger under Opus, and the cache-read difference reverses sign between the models.
+Table~\ref{tab:cost-token-paired-by-model} splits the token-category cost difference by model. The output and one-hour cache-write differences are larger under Opus, and the cache-read difference reverses sign between the models.
 
 \begin{table}[H]
   \centering
   \small
   \caption{Paired cost differences by token category within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-token-model}
+  \label{tab:cost-token-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -57,12 +58,12 @@ Table~\ref{tab:cost-token-model} splits the token-category cost difference by mo
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:cost-order} splits the cost difference by realized session order. The central difference is larger when APM came second, but at seven and five participants in each order the intervals are wide and the two orders are not distinguishable.
+Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by realized session order. The central difference is larger when APM came second, but at seven and five participants in each order the intervals are wide and the two orders are not distinguishable.
 
 \begin{table}[H]
   \centering
   \caption{Paired cost differences by realized session order, APM minus Spec-kit, in US dollars, at 96.9\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:cost-order}
+  \label{tab:cost-session-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -75,17 +76,17 @@ Table~\ref{tab:cost-order} splits the cost difference by realized session order.
 
 \newpage
 \section{Process Breakdowns}
-\label{app:process-breakdowns}
+\label{app:results-process-breakdowns}
 
 These tables give the per-model and per-order breakdowns, and the per-session active-time composition, behind claims in the Process results (Section~\ref{sec:results-process}).
 
-Table~\ref{tab:proc-time-model} gives the session-time differences within each model group, the per-model split of Table~\ref{tab:proc-time}. APM was higher on the session duration in all six pairs under each model, with the gap the wider under Opus, and its active and idle components were higher under APM in each group as well.
+Table~\ref{tab:proc-time-paired-by-model} gives the session-time differences within each model group, the per-model split of Table~\ref{tab:proc-time-paired}. APM was higher on the session duration in all six pairs under each model, with the gap the wider under Opus, and its active and idle components were higher under APM in each group as well.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Paired session-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. The measures are those of Table~\ref{tab:proc-time}.}
-  \label{tab:proc-time-model}
+  \caption{Paired session-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. The measures are those of Table~\ref{tab:proc-time-paired}.}
+  \label{tab:proc-time-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -101,14 +102,14 @@ Table~\ref{tab:proc-time-model} gives the session-time differences within each m
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase}. The implementation phase was longer under APM in all six pairs of each model, with the difference somewhat larger under Sonnet, while the planning difference remained mixed in sign under both.
+Table~\ref{tab:proc-phase-paired-by-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase-paired}. The implementation phase was longer under APM in all six pairs of each model, with the difference somewhat larger under Sonnet, while the planning difference remained mixed in sign under both.
 
 \begin{table}[H]
   \centering
   \small
   \setlength{\tabcolsep}{3pt}
   \caption{Paired phase-time differences within each model group, APM minus Spec-kit, in seconds, at 96.9\% coverage. Each phase's duration divides into the active turn time and the inter-turn idle.}
-  \label{tab:proc-phase-model}
+  \label{tab:proc-phase-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrrrrr}
     \toprule
     Model & Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -130,12 +131,12 @@ Table~\ref{tab:proc-phase-model} splits the phase-time differences by model, the
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-duration-order} gives the session-duration difference within each realized session order. Neither order reverses it; the central differences are comparable across the two groups.
+Table~\ref{tab:proc-duration-paired-by-order} gives the session-duration difference within each realized session order. Neither order reverses it; the central differences are comparable across the two groups.
 
 \begin{table}[H]
   \centering
   \caption{Paired session-duration differences by realized session order, APM minus Spec-kit, in seconds, at 96.9\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:proc-duration-order}
+  \label{tab:proc-duration-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
@@ -146,12 +147,12 @@ Table~\ref{tab:proc-duration-order} gives the session-duration difference within
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-concurrency} sets out the active-time composition of each APM session, the solo and concurrent spans behind the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent span was negligible in five of the twelve sessions and under a sixth of the active time in all but one.
+Table~\ref{tab:proc-concurrency-sessions} sets out the active-time composition of each APM session, the solo and concurrent spans behind the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent span was negligible in five of the twelve sessions and under a sixth of the active time in all but one.
 
 \begin{table}[H]
   \centering
   \caption{Active-time composition of the APM sessions, in seconds, with the concurrent span as a share of the active time. Descriptive and APM only, since Spec-kit's single conversation has no concurrent span.}
-  \label{tab:proc-concurrency}
+  \label{tab:proc-concurrency-sessions}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr}
     \toprule
     Participant & Solo & Concurrent & Concurrent share \\
@@ -172,13 +173,13 @@ Table~\ref{tab:proc-concurrency} sets out the active-time composition of each AP
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-turns-model} gives the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
+Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
 
 \begin{table}[H]
   \centering
   \small
   \caption{Paired turn-prompt count differences by scope within each model group, APM minus Spec-kit, at 96.9\% coverage.}
-  \label{tab:proc-turns-model}
+  \label{tab:proc-turns-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
     Model & Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
@@ -194,13 +195,13 @@ Table~\ref{tab:proc-turns-model} gives the turn-prompt difference by scope withi
   \end{tabular*}
 \end{table}
 
-Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give the per-participant bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-buckets-mag-plan} and~\ref{tab:proc-buckets-mag-impl} give the magnitude per bucket for the same sessions.
+Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} give the per-participant bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} give the magnitude per bucket for the same sessions.
 
 \begin{table}[H]
   \centering
   \small
   \caption{Per-participant planning input-bucket shares, with the turn-prompt count $n$ behind each session.}
-  \label{tab:proc-buckets-pp-plan}
+  \label{tab:proc-planning-buckets-composition-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
     \toprule
     & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
@@ -228,7 +229,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
   \small
   \begin{threeparttable}
   \caption{Per-participant implementation input-bucket shares, with the turn-prompt count $n$ behind each session. A session with no implementation message has no shares.}
-  \label{tab:proc-buckets-pp-impl}
+  \label{tab:proc-implementation-buckets-composition-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
     \toprule
     & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
@@ -250,7 +251,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-fw}.
+    \item[a] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -259,7 +260,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
   \centering
   \small
   \caption{Per-participant magnitude per bucket in the planning phase, in characters. A zero marks a bucket with no messages in that session.}
-  \label{tab:proc-buckets-mag-plan}
+  \label{tab:proc-planning-bucket-magnitude-sessions-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
     \toprule
     & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
@@ -287,7 +288,7 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
   \small
   \begin{threeparttable}
   \caption{Per-participant magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no messages in that session.}
-  \label{tab:proc-buckets-mag-impl}
+  \label{tab:proc-implementation-bucket-magnitude-sessions-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
     \toprule
     & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
@@ -309,19 +310,19 @@ Tables~\ref{tab:proc-buckets-pp-plan} and~\ref{tab:proc-buckets-pp-impl} give th
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets}.
-    \item[b] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-fw}.
+    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
+    \item[b] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-buckets-model} gives the input-bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
+Table~\ref{tab:proc-buckets-composition-by-model} gives the input-bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
 
 \begin{table}[H]
   \centering
   \small
   \caption{Input-bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
-  \label{tab:proc-buckets-model}
+  \label{tab:proc-buckets-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
     \toprule
     Model & Phase & Framework & Bucket & Median & HL & Mean \\
@@ -357,14 +358,14 @@ Table~\ref{tab:proc-buckets-model} gives the input-bucket shares within each mod
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-roles-buckets} gives the bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
+Table~\ref{tab:proc-buckets-composition-by-role} gives the bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
 
 \begin{table}[H]
   \centering
   \small
   \begin{threeparttable}
   \caption{Per-role bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
-  \label{tab:proc-roles-buckets}
+  \label{tab:proc-buckets-composition-by-role}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr}
     \toprule
     & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} \\
@@ -385,17 +386,17 @@ Table~\ref{tab:proc-roles-buckets} gives the bucket shares and magnitude per buc
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets}.
+    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-steer} gives the steer counts by framework and phase.
+Table~\ref{tab:proc-steers-incidence-by-phase} gives the steer counts by framework and phase.
 
 \begin{table}[H]
   \centering
   \caption{Steer counts summed across the cohort, by framework and phase. An attempted steer is one the participant began to send; a delivered steer is one the platform passed to the working agent.}
-  \label{tab:proc-steer}
+  \label{tab:proc-steers-incidence-by-phase}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr}
     \toprule
     Framework & Phase & Attempted & Delivered \\
@@ -409,12 +410,12 @@ Table~\ref{tab:proc-steer} gives the steer counts by framework and phase.
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-turns-order} gives the session turn-prompt difference by session order.
+Table~\ref{tab:proc-turns-paired-by-order} gives the session turn-prompt difference by session order.
 
 \begin{table}[H]
   \centering
   \caption{Paired turn-prompt count differences by realized session order, APM minus Spec-kit, at 96.9\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:proc-turns-order}
+  \label{tab:proc-turns-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
@@ -427,16 +428,16 @@ Table~\ref{tab:proc-turns-order} gives the session turn-prompt difference by ses
 
 \newpage
 \section{Functional Breakdowns}
-\label{app:func-breakdowns}
+\label{app:results-functional-breakdowns}
 
 These tables give the per-session scores, the per-section difference, and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
 
-Table~\ref{tab:func-per-session} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
+Table~\ref{tab:func-score-sessions} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
 
 \begin{table}[H]
   \centering
   \caption{Per-session scores, in points. The total is the strict part plus the partial part, and the Python and C section totals sum to it.}
-  \label{tab:func-per-session}
+  \label{tab:func-score-sessions}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
     \toprule
     Participant & Framework & Strict & Partial & Total & Python & C \\
@@ -469,12 +470,12 @@ Table~\ref{tab:func-per-session} gives every session's score: the strict and par
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-section} reports the paired score difference within each implementation. The framework difference is small on both, with most pairs tied.
+Table~\ref{tab:func-score-paired-by-section} reports the paired score difference within each implementation. The framework difference is small on both, with most pairs tied.
 
 \begin{table}[H]
   \centering
   \caption{Paired per-section score difference across the cohort, APM minus Spec-kit, in points, at 95.8\% coverage.}
-  \label{tab:func-section}
+  \label{tab:func-score-paired-by-section}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
@@ -485,12 +486,12 @@ Table~\ref{tab:func-section} reports the paired score difference within each imp
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-order} splits the total-score difference by session order. Neither order reverses the on-par result.
+Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by session order. Neither order reverses the on-par result.
 
 \begin{table}[H]
   \centering
   \caption{Paired total-score difference by session order, APM minus Spec-kit, in points, at 96.9\% coverage.}
-  \label{tab:func-order}
+  \label{tab:func-score-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
@@ -503,16 +504,16 @@ Table~\ref{tab:func-order} splits the total-score difference by session order. N
 
 \newpage
 \section{Perception Breakdowns}
-\label{app:perception-breakdowns}
+\label{app:results-perception-breakdowns}
 
 These tables give the per-framework rating distributions and the second-session comparative item behind the Perception results (Section~\ref{sec:results-perception}).
 
-Table~\ref{tab:perc-dist} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
+Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
 
 \begin{table}[H]
   \centering
   \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
-  \label{tab:perc-dist}
+  \label{tab:perc-ratings-distribution}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
     \toprule
     Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
@@ -544,12 +545,12 @@ Table~\ref{tab:perc-dist} sets out, for each rating, how each framework's twelve
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:perc-comparative} gives the second-session comparative item, grouped by the framework that session used.
+Table~\ref{tab:perc-comparative-distribution} gives the second-session comparative item, grouped by the framework that session used.
 
 \begin{table}[H]
   \centering
   \caption{The second-session comparative item, by the framework used in that session. Each row is the six participants whose second framework was the named one, and the counts are how that session felt against their first.}
-  \label{tab:perc-comparative}
+  \label{tab:perc-comparative-distribution}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
     Second framework & Much harder & Harder & About the same & Easier & Much easier \\
