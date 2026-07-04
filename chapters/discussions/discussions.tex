@@ -163,17 +163,27 @@ The three participants whose APM session scored clearly above their Spec-kit one
 
 What the added cost bought was APM's structure and the user's control over the build, which on this task did not register in the functional score. The task proved to be bounded and self-contained. One agent, with any subagents it dispatched, could carry it largely on its own, so APM's heavier structure had little functional gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value would lie in what the study cannot measure here: the control it keeps in the user's hands, the user's sovereignty of the software produced and in work larger or longer than the one tested.
 
+\section{Perceived Versus Measured Behaviour}
+\label{sec:discussions-perception}
+
+Section~\ref{sec:results-perception} reports each rating's sign and distribution on its own terms. This section reads them against the measured behaviour underneath, including the value Section~\ref{sec:discussions-cost-score} closed by hedging as beyond the study's harder instruments: the control the user keeps over the build. What follows reads whether self-report validates the measured outcome or diverges from it, and what that divergence exposes about what the instrument set cannot see.
+
+Effectiveness and confidence diverge from the total score outright. Both favour APM by a wide margin, with no participant rating Spec-kit higher on either, as Table~\ref{tab:perc-ratings-paired} reports. Against that, the total score sits on par between the frameworks, with a paired difference of half a point and a confidence interval spanning zero, as Section~\ref{sec:results-functional} reports. The preference is genuine, and it does not track delivered outcome.
+
+What aligns instead is the perception of the process the user took part in. One participant, who used APM in their second session, wrote that they were ``much more confident in APMs output'' despite ``not having manually checked either of the code output'', naming the reason as the framework being ``strict as to enforcing the PRD when speckit was more lenient''. Confidence here reads as trust in a specification the participant helped settle during planning, rather than a judgement of code they verified, echoing the reading Section~\ref{sec:discussions-sdd} already builds from the score point of view. The Spec-kit side of the same divergence names the absence directly. One other participant wrote that they ``felt lack of control when it came to the deliverables and how they were produced'', and another found it odd that the framework did not operate interactively, letting the agent take its own decisions with the user left out entirely.
+
+Effort is the one item where APM is behind. It was the more effortful framework for a slight majority of participants, as Table~\ref{tab:perc-ratings-paired} reports, but evidently that effort does not track where APM adds turns. Section~\ref{sec:discussions-demands} reads APM's extra implementation turns as the intended user-mediated coordination. Section~\ref{sec:discussions-sdd} reads planning turns the other way. Turn count there sits level between the frameworks, but APM's are the more substantive ones, since its Planner brings real open questions to the user while gathering context. One participant's account matches this directly, writing that ``the most demanding thing was the planning, because there were questions about the whole plan in advance to clarify almost everything about the implementation'', after which ``the whole task was executed by the workers easily without any assistance from me, other than authorizing terminal commands and checking stuff to see if it aligns with the task''.
+
+Steering confirms the same reading. Delivered steers stayed near zero under both frameworks, as Section~\ref{sec:results-process-interaction} reports. Frustration also points the same way. APM was still rated the less frustrating framework, as Table~\ref{tab:perc-ratings-paired} reports, despite the added time and turns, so the added burden did not compound into felt friction.
+
+Mental demand and the effort spent checking the AI's output have no measured counterpart at all. That is a deliberate finding. Some of the cognitive work that AI-assisted development demands leaves almost no trace in the instrument set, which is exactly the gap that self-reporting attempts to fill. One participant's account of a Spec-kit session is the clearest instance: ``I didn't have a way to validate the results of the session despite taking the agents word which run tests with the mock instance'' and ``I didn't do my due diligence in reviewing the code output''. That session's total score is the lowest in the cohort, so here the participant's own doubt and the measured outcome point the same way.
+
 \section{Learning Effects}
 \label{sec:discussions-learning-effects}
 
 The confined number of sessions in the case study allows each participant's pair to be examined individually for learning carried from the first session into the second. The workspace and the agent are reset between sessions, so the participant is the only carrier of that memory. The evidence is sought in their own inputs: a second-session instruction that pre-empts an error the first session made, an explicit reference to an earlier decision, or a detail handled correctly from recall rather than rediscovered. A stronger second-session result alone does not count, since the agent may have produced it unaided. These signs are read case by case, as indications of learning rather than a conclusive measure of it.
 
 \placeholder{Forthcoming. The per-participant verdicts on carried-over learning and the cohort read drawn from them.}
-
-\section{Perceived Versus Measured Behaviour}
-\label{sec:discussions-perception}
-
-\placeholder{Forthcoming. The self-reported experience read against the measured behaviour: the preference for APM in effectiveness, confidence, and frustration set against the on-par scores, and the felt-workload items the telemetry does not capture.}
 
 \section{Threats to Validity}
 \label{sec:discussions-threats}
