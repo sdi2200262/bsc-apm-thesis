@@ -1,8 +1,9 @@
+% !TEX root = ../../thesis.tex
 % Evaluation appendix body. Included by thesis.tex under
 % \chapter{EVALUATION APPENDIX} inside the \appendix block.
 
 \section{Software and Data Availability}
-\label{app:availability}
+\label{app:evaluation-availability}
 
 The study's software and data are openly available in the following repositories:
 \begin{itemize}[nosep]
@@ -12,14 +13,14 @@ The study's software and data are openly available in the following repositories
 \end{itemize}
 
 \section{Rate Card}
-\label{app:rate-card}
+\label{app:evaluation-rate-card}
 
-The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention periods.
+The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{tab:evaluation-rate-card}. The rates cover five token categories, fresh input and output, reads from the prompt cache, and writes to the cache at its five-minute and one-hour retention periods.
 
 \begin{table}[H]
   \centering
   \caption{Per-token rates for the study window, in US dollars per million tokens.}
-  \label{tab:rate-card}
+  \label{tab:evaluation-rate-card}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
     Model & Input & Output & Cache read & Cache write (5\,min) & Cache write (1\,h) \\
@@ -31,10 +32,10 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \end{tabular*}
 \end{table}
 
-Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:availability}).
+Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:evaluation-availability}).
 
 \section{Questionnaire Instrument}
-\label{app:questionnaire}
+\label{app:evaluation-questionnaire}
 
 The second-session question, ``Compared to the framework you used in your first session, completing the task with this framework felt\ldots'', offers five levels:
 \begin{itemize}[nosep]
@@ -57,12 +58,12 @@ The two free-text prompts are:
     \item ``Anything else you want to add about this session?''
 \end{itemize}
 
-The eight rating items and the wording at each end of their scale are given in Table~\ref{tab:questionnaire}.
+The eight rating items and the wording at each end of their scale are given in Table~\ref{tab:evaluation-questionnaire-items}.
 
 \begin{table}[H]
   \centering
   \caption{The post-session questionnaire's rating items, with the wording at each end of the one-to-five scale.}
-  \label{tab:questionnaire}
+  \label{tab:evaluation-questionnaire-items}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.58\textwidth}ll}
     \toprule
     Question & 1 & 5 \\
