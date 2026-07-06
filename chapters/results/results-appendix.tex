@@ -486,18 +486,18 @@ Table~\ref{tab:func-score-paired-by-section} reports the paired score difference
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by session order. Neither order reverses the on-par result.
+Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by realized session order. Neither order reverses the on-par result.
 
 \begin{table}[H]
   \centering
-  \caption{Paired total-score difference by session order, APM minus Spec-kit, in points, at 96.9\% coverage.}
+  \caption{Paired total-score difference by realized session order, APM minus Spec-kit, in points, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
   \label{tab:func-score-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    APM first & 6 & 2 / 1 / 3 & $0.0$ & $0.0$ & $+3.2$ & $[-6.0, +23.4]$ \\
-    APM second & 6 & 4 / 1 / 1 & $+2.7$ & $+5.2$ & $+11.4$ & $[-2.0, +53.0]$ \\
+    APM first & 7 & 3 / 1 / 3 & $0.0$ & $+1.5$ & $+4.5$ & $[-3.0, +12.7]$ \\
+    APM second & 5 & 3 / 1 / 1 & $+1.0$ & $+2.2$ & $+11.3$ & $[-2.0, +53.0]$ \\
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -549,14 +549,19 @@ Table~\ref{tab:perc-comparative-distribution} gives the second-session comparati
 
 \begin{table}[H]
   \centering
-  \caption{The second-session comparative item, by the framework used in that session. Each row is the six participants whose second framework was the named one, and the counts are how that session felt against their first.}
+  \begin{threeparttable}
+  \caption{The second-session comparative item, by the framework used in that session. Each row is the participants whose second framework was the named one, and the counts are how that session felt against their first.}
   \label{tab:perc-comparative-distribution}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
     Second framework & Much harder & Harder & About the same & Easier & Much easier \\
     \midrule
-    APM & 0 & 2 & 2 & 1 & 1 \\
+    APM\tnote{a} & 0 & 2 & 1 & 1 & 1 \\
     Spec-kit & 2 & 2 & 1 & 0 & 1 \\
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P012 is excluded from this row; their comparative response is tied to the session they labelled second, which does not match the session they actually completed second, so it cannot be assigned to either framework's realized-order group. Their other perception ratings, reported per session rather than by order, are unaffected.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
