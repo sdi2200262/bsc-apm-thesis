@@ -28,6 +28,7 @@ class InputRecord:
         parser_data: Path to ``parser_data.json``.
         parser_metrics: Path to ``parser_metrics.json``.
         grader_results: Path to ``grader_results.json``.
+        compact_grader_results: Optional compact-serialization grader results path.
         questionnaire_csv: Optional questionnaire CSV path for perception outputs.
     """
 
@@ -37,6 +38,7 @@ class InputRecord:
     parser_data: Path
     parser_metrics: Path
     grader_results: Path
+    compact_grader_results: Path | None = None
     questionnaire_csv: Path | None = None
 
 
@@ -90,6 +92,7 @@ def _record_from_payload(
         raise ConfigError(f"{config_path}: records[{index}].session must be S1 or S2")
     if framework not in FRAMEWORKS:
         raise ConfigError(f"{config_path}: records[{index}].framework must be apm or speckit")
+    compact_grader = item.get("compact_grader_results")
     questionnaire = item.get("questionnaire_csv")
     return InputRecord(
         pid=pid,
@@ -98,6 +101,11 @@ def _record_from_payload(
         parser_data=_resolve_existing(base, item, "parser_data", config_path, index),
         parser_metrics=_resolve_existing(base, item, "parser_metrics", config_path, index),
         grader_results=_resolve_existing(base, item, "grader_results", config_path, index),
+        compact_grader_results=(
+            _resolve_existing(base, item, "compact_grader_results", config_path, index)
+            if compact_grader is not None
+            else None
+        ),
         questionnaire_csv=(
             _resolve_existing(base, item, "questionnaire_csv", config_path, index)
             if questionnaire is not None

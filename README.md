@@ -73,11 +73,18 @@ Running from a subdirectory will miss `latexmkrc` and fail to resolve the font p
 
 The thesis keeps table and figure environments in the chapter files. Analysis
 scripts under `analysis/` generate only table rows and figure PDFs, run
-against a config that lists each session's identity, framework, model, and
-the paths to its parser and grader artefacts.
+against a config that lists each session's identity, framework, and the
+paths to its parser and grader artefacts. Figure scripts require
+matplotlib.
 
 ```bash
 python3 analysis/process_tables.py --config analysis/config/cohort.json --output-dir analysis/generated-local/tables
+python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir figures/economic
+python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir figures/process
+python3 analysis/functional_figures.py --config analysis/config/cohort.json --output-dir figures/functional
+python3 analysis/occupancy_figures.py --config analysis/config/cohort.json --output-dir figures/discussions
+python3 analysis/functional_compact_figure.py --config analysis/config/cohort.json --output-dir figures/discussions
+python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir figures/discussions
 ```
 
 ## Related

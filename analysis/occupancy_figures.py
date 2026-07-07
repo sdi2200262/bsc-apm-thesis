@@ -18,8 +18,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import matplotlib as mpl
-import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -37,69 +35,19 @@ from analysis.cohort import (
     pair_by_participant,
 )
 from analysis.config import ConfigError, load_records
+from analysis.style import (
+    APM_COLOR,
+    APM_LABEL,
+    APM_MARKER,
+    SPECKIT_COLOR,
+    SPECKIT_FACECOLOR,
+    SPECKIT_LABEL,
+    SPECKIT_MARKER,
+    new_figure,
+)
 
 SONNET_WINDOW = 200_000
 SONNET_CEILING = 167_000
-
-# ---------------------------------------------------------------------------
-# House style
-# ---------------------------------------------------------------------------
-
-_LM_REGULAR = Path(
-    "/usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf"
-)
-_LM_FAMILY = "Latin Modern Roman"
-
-APM_MARKER = "o"
-APM_COLOR = "#000000"
-APM_LABEL = "APM"
-SPECKIT_MARKER = "D"  # diamond: visually distinct from circle without using colour
-SPECKIT_COLOR = "#000000"
-SPECKIT_FACECOLOR = "#ffffff"
-SPECKIT_LABEL = "Spec-kit"
-
-
-def _register_lm_font() -> str:
-    """Register the TeX Latin Modern regular OTF face with matplotlib's font_manager.
-
-    Returns:
-        ``"Latin Modern Roman"`` when the TeX Live OTF face is found and registered;
-        the DejaVu Serif fallback family name otherwise.
-    """
-    if not _LM_REGULAR.is_file():
-        return "DejaVu Serif"
-    fm.fontManager.addfont(str(_LM_REGULAR))
-    return _LM_FAMILY
-
-
-_SERIF_FAMILY = _register_lm_font()
-
-mpl.rcParams.update(
-    {
-        "font.family": "serif",
-        "font.serif": [_SERIF_FAMILY, "DejaVu Serif"],
-        "font.size": 10,
-        "axes.labelsize": 9,
-        "xtick.labelsize": 8,
-        "ytick.labelsize": 8,
-        "axes.grid": True,
-        "grid.color": "#cccccc",
-        "grid.linewidth": 0.5,
-        "grid.linestyle": "-",
-        "axes.axisbelow": True,
-        "axes.spines.top": False,
-        "axes.spines.right": False,
-        "axes.edgecolor": "#333333",
-        "axes.labelcolor": "#000000",
-        "xtick.color": "#333333",
-        "ytick.color": "#333333",
-        "text.color": "#000000",
-        "pdf.fonttype": 42,
-        "ps.fonttype": 42,
-        "figure.dpi": 150,
-        "savefig.dpi": 300,
-    }
-)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -276,7 +224,7 @@ def _new_figure(width_in: float, height_in: float) -> tuple[Figure, Axes]:
     Returns:
         A (Figure, Axes) pair ready for data.
     """
-    return plt.subplots(figsize=(width_in, height_in))
+    return new_figure(width_in, height_in)
 
 
 def _segments(session: SessionArtefacts) -> list[int]:

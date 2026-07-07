@@ -20,6 +20,7 @@ class SessionArtefacts:
     parser_data: dict[str, Any]
     parser_metrics: dict[str, Any]
     grader_results: dict[str, Any]
+    compact_grader_results: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -39,6 +40,11 @@ def load_sessions(records: list[InputRecord]) -> list[SessionArtefacts]:
             parser_data=_read_json(record.parser_data),
             parser_metrics=_read_json(record.parser_metrics),
             grader_results=_read_json(record.grader_results),
+            compact_grader_results=(
+                _read_json(record.compact_grader_results)
+                if record.compact_grader_results is not None
+                else None
+            ),
         )
         for record in records
     ]
