@@ -181,9 +181,41 @@ Mental demand and the effort spent checking the AI's output have no measured cou
 \section{Learning Effects}
 \label{sec:discussions-learning-effects}
 
-The confined number of sessions in the case study allows each participant's pair to be examined individually for learning carried from the first session into the second. The workspace and the agent are reset between sessions, so the participant is the only carrier of that memory. The evidence is sought in their own inputs: a second-session instruction that pre-empts an error the first session made, an explicit reference to an earlier decision, or a detail handled correctly from recall rather than rediscovered. A stronger second-session result alone does not count, since the agent may have produced it unaided. These signs are read case by case, as indications of learning rather than a conclusive measure of it.
+The within-subjects design has each participant carry out the same task twice, with the environment reset between the two sessions so that no code, workspace state, or assistant context passes from the first into the second. Anything a participant took from their first attempt could then lift their second, and left unaccounted it would be indistinguishable from an effect of the framework used. This section reads the cohort for such a carried-over effect, holding to the same reproducible standard as the rest of the chapter and setting transcript reading aside.
 
-\placeholder{Forthcoming. The per-participant verdicts on carried-over learning and the cohort read drawn from them.}
+That standard fixes what evidence the question can draw on. The chapter measures each session along four dimensions, and the score is not the only one that could in principle bear on learning. How a participant interacted with the framework and its agents, the interaction measures of Section~\ref{sec:results-process-interaction}, might shift as the task grew familiar. The obstacle is that the comparison here is within participant, between two sessions that used different frameworks, and the two demand such different interaction that the difference between a participant's two sessions is already large from the change of framework alone. A learning-driven change would mesh into that framework difference rather than standing apart. The cost a session incurred and the time it took stand the same way, each shaped first by the framework. The score is different in kind, the task's graded outcome on one rubric rather than framework-shaped behaviour, so a within-participant difference is a common measure a practiced participant should raise. We therefore read the score alone to investigate learning effects.
+
+One limit still bounds what the score can show of a learning effect: the rubric's ceiling. Most sessions scored near the hundred-point maximum, as Table~\ref{tab:func-score-levels} reports, and nine of the twelve participants already scored above ninety in their first session, as Table~\ref{tab:func-score-sessions} details, so a practiced second session had almost no room to register a gain and only three participants entered their second with substantial ground to recover.
+
+Across the cohort the score shows no order effect. Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} splits the paired total-score difference by which framework each participant met first, and the two orders' summaries land close together with both confidence intervals crossing zero. A learning effect large enough to bias the framework comparison would separate the two orders, and the split shows none.
+
+Individually, four participants scored higher in their second session than their first, as Table~\ref{tab:disc-learning-by-participant} sets out, though only two by a wide margin. P002 rose 53 points on the total score, and P010 moved little on the initial grade but the widest in the cohort under the re-grade of Section~\ref{sec:discussions-grading-blackbox}, which raises their second session from 34 to 93.9. Both wide gains fell in an APM second session, so for these two the score cannot separate a practice effect from the framework or from how much a single unrepeated session varies on its own. The remaining two gains, of six points and one, are too small to read as signal. Two individual gains do not amount to a cohort effect, and the order split above agrees with this.
+
+\begin{table}[H]
+  \centering
+  \begin{threeparttable}
+  \caption{Total-score gain from first session to second, for the four participants whose second session outscored their first. The second framework is the one used in that winning session.}
+  \label{tab:disc-learning-by-participant}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllr}
+    \toprule
+    Participant & Model & Second framework & Score gain\tnote{a} \\
+    \midrule
+    P002 & Sonnet & APM & $+53.0$ \\
+    P006 & Sonnet & Spec-kit & $+6.0$ \\
+    P010 & Sonnet & APM & $+4.4$\tnote{b} \\
+    P008 & Opus & APM & $+1.0$ \\
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] The gain is the difference in total score between the two sessions, the measure Table~\ref{tab:func-score-paired} reports for the cohort.
+    \item[b] On that re-grade, P010's second session rises to $93.9$ and the gain to $+64.3$.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+Interestingly, two participants gained the other way, toward their first session. P001 and P012 scored 23.4 and 12.3 points higher in their APM session, and for both that session was the first, unpracticed one, so a benefit from practice cannot account for their advantage. This does not exclude the opposite effect, a second session weakened by fatigue or by lower engagement with a repeated task, which would leave the same trace as a framework effect. The order split gives no sign of this either, though it cannot be ruled out for any single pair.
+
+Any learning here therefore stayed with individual participants and left no measured trace in the one outcome that could reproducibly show it. The counterbalanced design keeps such an effect from biasing the framework comparison, spreading it symmetrically across the cohort whichever way it runs, but it cannot confirm or measure the effect on any one participant.
 
 \section{Threats to Validity}
 \label{sec:discussions-threats}
