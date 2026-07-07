@@ -27,3 +27,10 @@ build/*
 # Generated thesis PDF copied to the repository root by the build.
 # (Source PDFs such as emblems/ and assets/ figures stay tracked.)
 /thesis.pdf
+
+# Local analysis inputs
+/analysis/config/*.local.json
+/analysis/generated-local/
+
+# Python bytecode cache from analysis scripts
+/analysis/**/__pycache__/

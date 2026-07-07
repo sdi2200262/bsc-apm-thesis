@@ -69,6 +69,17 @@ latexmk -c
 
 Running from a subdirectory will miss `latexmkrc` and fail to resolve the font path.
 
+## Result Generation
+
+The thesis keeps table and figure environments in the chapter files. Analysis
+scripts under `analysis/` generate only table rows and figure PDFs, run
+against a config that lists each session's identity, framework, model, and
+the paths to its parser and grader artefacts.
+
+```bash
+python3 analysis/process_tables.py --config analysis/config/cohort.json --output-dir analysis/generated-local/tables
+```
+
 ## Related
 
 - [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task specification, participant package, and testing environment.
