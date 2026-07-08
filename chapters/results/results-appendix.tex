@@ -18,10 +18,7 @@ Table~\ref{tab:cost-phase-paired-by-model} splits the phase cost difference by m
     \toprule
     Model & Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Planning\tnote{a} & 6 & 1 / 5 & $-5.38$ & $-6.64$ & $-6.92$ & $[-14.25, +0.55]$ \\
-    Opus & Implementation\tnote{c} & 6 & 6 / 0 & $+15.71$ & $+18.30$ & $+19.39$ & $[+2.08, +46.26]$ \\
-    Sonnet & Planning & 6 & 1 / 5 & $-1.64$ & $-2.89$ & $-3.41$ & $[-11.29, +0.28]$ \\
-    Sonnet & Implementation\tnote{b} & 6 & 4 / 2 & $+4.48$ & $+4.48$ & $+5.03$ & $[-0.38, +13.26]$ \\
+    \InputTableRows{analysis/generated/tables/cost-phase-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -43,17 +40,7 @@ Table~\ref{tab:cost-token-paired-by-model} splits the token-category cost differ
     \toprule
     Model & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Input & 6 & 5 / 1 & $+0.00$ & $+0.00$ & $+0.01$ & $[-0.01, +0.06]$ \\
-    Opus & Output & 6 & 5 / 1 & $+3.28$ & $+3.20$ & $+3.10$ & $[-0.07, +6.12]$ \\
-    Opus & Cache read & 6 & 5 / 1 & $+3.51$ & $+4.91$ & $+4.73$ & $[-7.30, +17.12]$ \\
-    Opus & Cache write (5-minute) & 6 & 6 / 0 & $+0.07$ & $+0.08$ & $+0.09$ & $[+0.00, +0.24]$ \\
-    Opus & Cache write (1-hour) & 6 & 6 / 0 & $+3.72$ & $+4.51$ & $+4.67$ & $[+2.92, +8.53]$ \\
-    \midrule
-    Sonnet & Input & 6 & 2 / 4 & $-0.00$ & $+0.00$ & $+0.00$ & $[-0.00, +0.01]$ \\
-    Sonnet & Output & 6 & 6 / 0 & $+1.30$ & $+1.58$ & $+1.56$ & $[+0.66, +2.80]$ \\
-    Sonnet & Cache read & 6 & 2 / 4 & $-1.34$ & $-1.34$ & $-1.08$ & $[-5.74, +1.94]$ \\
-    Sonnet & Cache write (5-minute) & 6 & 4 / 2 & $+0.07$ & $+0.05$ & $+0.02$ & $[-0.29, +0.14]$ \\
-    Sonnet & Cache write (1-hour) & 6 & 6 / 0 & $+1.12$ & $+1.12$ & $+1.18$ & $[+0.20, +2.41]$ \\
+    \InputTableRows{analysis/generated/tables/cost-token-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -68,8 +55,7 @@ Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by reali
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    APM first & 7 & 4 / 3 & $+0.80$ & $+2.74$ & $+5.72$ & $[-3.22, +19.61]$ \\
-    APM second & 5 & 5 / 0 & $+10.79$ & $+8.97$ & $+9.12$ & $[+0.04, +16.81]$ \\
+    \InputTableRows{analysis/generated/tables/cost-session-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -91,13 +77,7 @@ Table~\ref{tab:proc-time-paired-by-model} gives the session-time differences wit
     \toprule
     Model & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Session duration & 6 & 6 / 0 & $+2436.4$ & $+2436.4$ & $+2603.4$ & $[+664.1, +5596.1]$ \\
-     & Turn time & 6 & 6 / 0 & $+2206.9$ & $+2139.4$ & $+2076.9$ & $[+519.7, +3415.5]$ \\
-     & Inter-turn idle & 6 & 5 / 1 & $+674.4$ & $+667.1$ & $+526.5$ & $[-1475.3, +2180.6]$ \\
-    \midrule
-    Sonnet & Session duration & 6 & 6 / 0 & $+1878.6$ & $+2302.2$ & $+2310.7$ & $[+701.8, +4635.4]$ \\
-     & Turn time & 6 & 5 / 1 & $+1199.3$ & $+1384.4$ & $+1643.8$ & $[-1034.8, +3833.9]$ \\
-     & Inter-turn idle & 6 & 6 / 0 & $+679.3$ & $+679.3$ & $+666.9$ & $[+5.8, +1736.6]$ \\
+    \InputTableRows{analysis/generated/tables/proc-time-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -114,19 +94,7 @@ Table~\ref{tab:proc-phase-paired-by-model} splits the phase-time differences by 
     \toprule
     Model & Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Planning & Duration & 6 & 3 / 3 & $-411.0$ & $-600.3$ & $-549.2$ & $[-1963.8, +763.3]$ \\
-     & & Turn time & 6 & 3 / 3 & $-331.3$ & $-532.3$ & $-502.9$ & $[-1429.8, +139.3]$ \\
-     & & Inter-turn idle & 6 & 3 / 3 & $+112.2$ & $+39.6$ & $-46.3$ & $[-1223.4, +642.0]$ \\
-     & Implementation & Duration & 6 & 6 / 0 & $+2339.0$ & $+2339.0$ & $+3039.1$ & $[+1778.6, +7287.3]$ \\
-     & & Turn time & 6 & 6 / 0 & $+2337.8$ & $+2337.8$ & $+2557.4$ & $[+1452.2, +4845.3]$ \\
-     & & Inter-turn idle & 6 & 4 / 2 & $+247.9$ & $+247.9$ & $+481.6$ & $[-252.0, +2442.0]$ \\
-    \midrule
-    Sonnet & Planning & Duration & 6 & 2 / 4 & $-539.2$ & $-649.6$ & $-660.1$ & $[-2404.0, +821.2]$ \\
-     & & Turn time & 6 & 1 / 5 & $-637.8$ & $-765.5$ & $-756.8$ & $[-2043.1, +308.5]$ \\
-     & & Inter-turn idle & 6 & 4 / 2 & $+98.6$ & $+98.6$ & $+96.8$ & $[-360.8, +512.7]$ \\
-     & Implementation & Duration & 6 & 6 / 0 & $+2878.6$ & $+2878.6$ & $+2931.5$ & $[+589.7, +6046.7]$ \\
-     & & Turn time & 6 & 5 / 1 & $+2363.8$ & $+2363.8$ & $+2371.4$ & $[-858.7, +5188.8]$ \\
-     & & Inter-turn idle & 6 & 5 / 1 & $+514.8$ & $+514.8$ & $+560.1$ & $[-47.1, +1448.4]$ \\
+    \InputTableRows{analysis/generated/tables/proc-phase-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -141,8 +109,7 @@ Table~\ref{tab:proc-duration-paired-by-order} gives the session-duration differe
     \toprule
     Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    APM first & 7 & 7 / 0 & $+2124.4$ & $+2537.8$ & $+2676.2$ & $[+1034.5, +5115.8]$ \\
-    APM second & 5 & 5 / 0 & $+2197.1$ & $+2197.1$ & $+2150.3$ & $[+664.1, +3902.6]$ \\
+    \InputTableRows{analysis/generated/tables/proc-duration-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -157,18 +124,7 @@ Table~\ref{tab:proc-concurrency-sessions} sets out the active-time composition o
     \toprule
     Participant & Solo & Concurrent & Concurrent share \\
     \midrule
-    P001 & 4834 & 0 & 0.0\% \\
-    P002 & 5993 & 16 & 0.3\% \\
-    P003 & 4458 & 661 & 12.9\% \\
-    P004 & 5300 & 58 & 1.1\% \\
-    P005 & 5686 & 0 & 0.0\% \\
-    P006 & 6203 & 9 & 0.1\% \\
-    P007 & 4765 & 812 & 14.6\% \\
-    P008 & 3934 & 580 & 12.8\% \\
-    P009 & 4476 & 1541 & 25.6\% \\
-    P010 & 6556 & 1259 & 16.1\% \\
-    P011 & 4218 & 577 & 12.0\% \\
-    P012 & 4037 & 429 & 9.6\% \\
+    \InputTableRows{analysis/generated/tables/proc-concurrency-sessions.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -184,13 +140,7 @@ Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by s
     \toprule
     Model & Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & Session & 6 & 5 / 0 / 1 & $+6.5$ & $+7.0$ & $+8.0$ & $[+0.0, +21.0]$ \\
-     & Planning & 6 & 3 / 3 / 0 & $0.0$ & $0.0$ & $0.0$ & $[-10.0, +13.0]$ \\
-     & Implementation & 6 & 5 / 0 / 1 & $+7.0$ & $+7.0$ & $+7.7$ & $[+0.0, +22.0]$ \\
-    \midrule
-    Sonnet & Session & 6 & 6 / 0 / 0 & $+8.0$ & $+8.5$ & $+9.8$ & $[+7.0, +19.0]$ \\
-     & Planning & 6 & 2 / 2 / 2 & $0.0$ & $0.0$ & $-0.3$ & $[-3.0, +2.0]$ \\
-     & Implementation & 6 & 6 / 0 / 0 & $+9.5$ & $+9.5$ & $+10.0$ & $[+5.0, +17.0]$ \\
+    \InputTableRows{analysis/generated/tables/proc-turns-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -208,18 +158,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \cmidrule(lr){2-5} \cmidrule(lr){6-9}
     Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
     \midrule
-    P001 & 0.12 & 0.50 & 0.38 & 8 & 0.61 & 0.22 & 0.17 & 18 \\
-    P002 & 0.11 & 0.44 & 0.44 & 9 & 0.57 & 0.14 & 0.29 & 7 \\
-    P003 & 0.10 & 0.50 & 0.40 & 10 & 0.90 & 0.00 & 0.10 & 10 \\
-    P004 & 0.35 & 0.55 & 0.10 & 20 & 0.14 & 0.86 & 0.00 & 7 \\
-    P005 & 0.14 & 0.57 & 0.29 & 7 & 0.83 & 0.17 & 0.00 & 12 \\
-    P006 & 0.12 & 0.50 & 0.38 & 8 & 0.55 & 0.45 & 0.00 & 11 \\
-    P007 & 0.10 & 0.60 & 0.30 & 10 & 0.50 & 0.33 & 0.17 & 12 \\
-    P008 & 0.10 & 0.50 & 0.40 & 10 & 0.56 & 0.00 & 0.44 & 9 \\
-    P009 & 0.67 & 0.00 & 0.33 & 3 & 0.25 & 0.75 & 0.00 & 4 \\
-    P010 & 0.09 & 0.45 & 0.45 & 11 & 0.70 & 0.30 & 0.00 & 10 \\
-    P011 & 0.09 & 0.64 & 0.27 & 9 & 0.14 & 0.71 & 0.14 & 7 \\
-    P012 & 0.09 & 0.36 & 0.55 & 11 & 0.73 & 0.18 & 0.09 & 11 \\
+    \InputTableRows{analysis/generated/tables/proc-planning-buckets-composition-by-participant.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -236,18 +175,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \cmidrule(lr){2-5} \cmidrule(lr){6-9}
     Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
     \midrule
-    P001 & 0.38 & 0.23 & 0.38 & 13 & 0.40 & 0.00 & 0.60 & 5 \\
-    P002 & 0.33 & 0.14 & 0.52 & 21 & 0.25 & 0.00 & 0.75 & 4 \\
-    P003 & 0.89 & 0.11 & 0.00 & 9 & 1.00 & 0.00 & 0.00 & 2 \\
-    P004 & 1.00 & 0.00 & 0.00 & 6 & 0.00 & 1.00 & 0.00 & 6 \\
-    P005 & 0.69 & 0.08 & 0.23 & 13 & 0.71 & 0.14 & 0.14 & 7 \\
-    P006\tnote{a} & 0.55 & 0.36 & 0.09 & 10 & --- & --- & --- & 0 \\
-    P007 & 0.77 & 0.15 & 0.08 & 13 & 0.00 & 1.00 & 0.00 & 1 \\
-    P008 & 1.00 & 0.00 & 0.00 & 10 & 0.50 & 0.50 & 0.00 & 2 \\
-    P009 & 0.74 & 0.26 & 0.00 & 23 & 0.00 & 0.00 & 1.00 & 1 \\
-    P010 & 0.67 & 0.11 & 0.22 & 9 & 0.50 & 0.25 & 0.25 & 4 \\
-    P011 & 0.75 & 0.12 & 0.12 & 8 & 0.00 & 0.67 & 0.33 & 6 \\
-    P012 & 0.73 & 0.18 & 0.09 & 11 & 0.50 & 0.50 & 0.00 & 2 \\
+    \InputTableRows{analysis/generated/tables/proc-implementation-buckets-composition-by-participant.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -267,18 +195,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \cmidrule(lr){2-4} \cmidrule(lr){5-7}
     Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
     \midrule
-    P001 & 149 & 20 & 299 & 147 & 7 & 81 \\
-    P002 & 148 & 27 & 158 & 146 & 48 & 106 \\
-    P003 & 150 & 26 & 180 & 113 & 0 & 141 \\
-    P004 & 138 & 17 & 81 & 102 & 3 & 0 \\
-    P005 & 150 & 23 & 88 & 102 & 20 & 0 \\
-    P006 & 150 & 9 & 55 & 98 & 8 & 0 \\
-    P007 & 150 & 23 & 177 & 112 & 25 & 57 \\
-    P008 & 150 & 18 & 214 & 96 & 0 & 77 \\
-    P009 & 130 & 0 & 65 & 106 & 21 & 0 \\
-    P010 & 150 & 16 & 208 & 132 & 6 & 0 \\
-    P011 & 150 & 28 & 70 & 106 & 23 & 86 \\
-    P012 & 150 & 4 & 155 & 104 & 38 & 50 \\
+    \InputTableRows{analysis/generated/tables/proc-planning-bucket-magnitude-sessions-by-participant.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -295,18 +212,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \cmidrule(lr){2-4} \cmidrule(lr){5-7}
     Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
     \midrule
-    P001 & 138 & 19 & 144 & 100 & 0 & 73 \\
-    P002\tnote{a} & 140 & 31 & 798 & 273 & 0 & 160 \\
-    P003 & 128 & 14 & 0 & 101 & 0 & 0 \\
-    P004 & 116 & 0 & 0 & 0 & 20 & 0 \\
-    P005 & 117 & 9 & 88 & 101 & 29 & 81 \\
-    P006\tnote{b} & 118 & 25 & 50 & 0 & 0 & 0 \\
-    P007 & 119 & 16 & 69 & 0 & 32 & 0 \\
-    P008 & 130 & 0 & 0 & 100 & 39 & 0 \\
-    P009 & 117 & 32 & 0 & 0 & 0 & 76 \\
-    P010 & 133 & 8 & 216 & 100 & 42 & 73 \\
-    P011 & 112 & 32 & 52 & 0 & 28 & 54 \\
-    P012 & 132 & 12 & 52 & 100 & 38 & 0 \\
+    \InputTableRows{analysis/generated/tables/proc-implementation-bucket-magnitude-sessions-by-participant.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -327,33 +233,7 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the input-bucket shares 
     \toprule
     Model & Phase & Framework & Bucket & Median & HL & Mean \\
     \midrule
-    Opus & Planning & APM & Protocol & $0.13$ & $0.22$ & $0.25$ \\
-     & & & Short & $0.53$ & $0.53$ & $0.46$ \\
-     & & & Standard & $0.31$ & $0.31$ & $0.29$ \\
-     & & Spec-kit & Protocol & $0.40$ & $0.40$ & $0.42$ \\
-     & & & Short & $0.47$ & $0.46$ & $0.45$ \\
-     & & & Standard & $0.07$ & $0.08$ & $0.13$ \\
-    \cmidrule(lr){2-7}
-     & Implementation & APM & Protocol & $0.74$ & $0.74$ & $0.76$ \\
-     & & & Short & $0.10$ & $0.12$ & $0.12$ \\
-     & & & Standard & $0.06$ & $0.12$ & $0.12$ \\
-     & & Spec-kit & Protocol & $0.20$ & $0.25$ & $0.27$ \\
-     & & & Short & $0.32$ & $0.33$ & $0.38$ \\
-     & & & Standard & $0.24$ & $0.30$ & $0.35$ \\
-    \midrule
-    Sonnet & Planning & APM & Protocol & $0.10$ & $0.10$ & $0.10$ \\
-     & & & Short & $0.48$ & $0.48$ & $0.48$ \\
-     & & & Standard & $0.42$ & $0.42$ & $0.42$ \\
-     & & Spec-kit & Protocol & $0.64$ & $0.64$ & $0.66$ \\
-     & & & Short & $0.24$ & $0.24$ & $0.24$ \\
-     & & & Standard & $0.10$ & $0.10$ & $0.11$ \\
-     \cmidrule(lr){2-7}
-     & Implementation & APM & Protocol & $0.70$ & $0.67$ & $0.66$ \\
-     & & & Short & $0.15$ & $0.15$ & $0.18$ \\
-     & & & Standard & $0.09$ & $0.11$ & $0.17$ \\
-     & & Spec-kit & Protocol & $0.50$ & $0.50$ & $0.45$ \\
-     & & & Short & $0.25$ & $0.25$ & $0.35$ \\
-     & & & Standard & $0.00$ & $0.12$ & $0.20$ \\
+    \InputTableRows{analysis/generated/tables/proc-buckets-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -372,17 +252,7 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the bucket shares and mag
     \cmidrule(lr){3-5} \cmidrule(lr){6-8}
     Role & Bucket & Median & HL & Mean & Median & HL & Mean \\
     \midrule
-    Planner & Protocol & $0.11$ & $0.11$ & $0.17$ & $150$ & $150$ & $147$ \\
-     & Short & $0.50$ & $0.50$ & $0.47$ & $20$ & $20$ & $19$ \\
-     & Standard & $0.38$ & $0.37$ & $0.36$ & $156$ & $139$ & $146$ \\
-    \midrule
-    Manager & Protocol & $0.60$ & $0.60$ & $0.61$ & $130$ & $127$ & $125$ \\
-     & Short & $0.20$ & $0.19$ & $0.19$ & $21$ & $21$ & $22$ \\
-     & Standard & $0.17$ & $0.19$ & $0.20$ & $79$ & $88$ & $99$ \\
-    \midrule
-    Worker & Protocol & $0.82$ & $0.83$ & $0.79$ & $129$ & $129$ & $128$ \\
-     & Short & $0.04$ & $0.11$ & $0.12$ & $21$ & $20$ & $19$ \\
-     & Standard\tnote{a} & $0.00$ & $0.00$ & $0.08$ & $96$ & $326$ & $403$ \\
+    \InputTableRows{analysis/generated/tables/proc-buckets-composition-by-role.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -401,16 +271,12 @@ Table~\ref{tab:proc-steers-incidence-by-phase} gives the steer counts by framewo
     \toprule
     Framework & Phase & Attempted & Delivered \\
     \midrule
-    APM & Planning & 8 & 2 \\
-     & Implementation & 5 & 1 \\
-    \midrule
-    Spec-kit & Planning & 3 & 0 \\
-     & Implementation & 3 & 0 \\
+    \InputTableRows{analysis/generated/tables/proc-steers-incidence-by-phase.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-turns-paired-by-order} gives the session turn-prompt difference by session order.
+Table~\ref{tab:proc-turns-paired-by-order} gives the session turn-prompt difference by realized session order.
 
 \begin{table}[H]
   \centering
@@ -420,8 +286,7 @@ Table~\ref{tab:proc-turns-paired-by-order} gives the session turn-prompt differe
     \toprule
     Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    APM first & 7 & 6 / 0 / 1 & $+7.0$ & $+7.5$ & $+7.9$ & $[+0.5, +15.5]$ \\
-    APM second & 5 & 5 / 0 / 0 & $+9.0$ & $+10.0$ & $+10.4$ & $[+4.0, +19.0]$ \\
+    \InputTableRows{analysis/generated/tables/proc-turns-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -442,30 +307,7 @@ Table~\ref{tab:func-score-sessions} gives every session's score: the strict and 
     \toprule
     Participant & Framework & Strict & Partial & Total & Python & C \\
     \midrule
-    P001 & APM & $91.0$ & $3.4$ & $94.4$ & $28.7$ & $65.7$ \\
-     & Spec-kit & $71.0$ & $0.0$ & $71.0$ & $20.0$ & $51.0$ \\
-    P002 & APM & $93.0$ & $0.0$ & $93.0$ & $28.0$ & $65.0$ \\
-     & Spec-kit & $40.0$ & $0.0$ & $40.0$ & $10.0$ & $30.0$ \\
-    P003 & APM & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
-     & Spec-kit & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
-    P004 & APM & $95.0$ & $0.0$ & $95.0$ & $28.0$ & $67.0$ \\
-     & Spec-kit & $97.0$ & $0.0$ & $97.0$ & $30.0$ & $67.0$ \\
-    P005 & APM & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
-     & Spec-kit & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
-    P006 & APM & $88.0$ & $3.0$ & $91.0$ & $27.5$ & $63.5$ \\
-     & Spec-kit & $97.0$ & $0.0$ & $97.0$ & $29.0$ & $68.0$ \\
-    P007 & APM & $98.0$ & $0.0$ & $98.0$ & $29.0$ & $69.0$ \\
-     & Spec-kit & $96.0$ & $0.0$ & $96.0$ & $29.0$ & $67.0$ \\
-    P008 & APM & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
-     & Spec-kit & $98.0$ & $0.0$ & $98.0$ & $30.0$ & $68.0$ \\
-    P009 & APM & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
-     & Spec-kit & $100.0$ & $0.0$ & $100.0$ & $30.0$ & $70.0$ \\
-    P010 & APM & $34.0$ & $0.0$ & $34.0$ & $30.0$ & $4.0$ \\
-     & Spec-kit & $28.0$ & $1.6$ & $29.6$ & $16.0$ & $13.6$ \\
-    P011 & APM & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
-     & Spec-kit & $99.0$ & $0.0$ & $99.0$ & $30.0$ & $69.0$ \\
-    P012 & APM & $96.0$ & $0.5$ & $96.5$ & $30.0$ & $66.5$ \\
-     & Spec-kit & $78.0$ & $6.2$ & $84.2$ & $26.1$ & $58.1$ \\
+    \InputTableRows{analysis/generated/tables/func-score-sessions.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -480,24 +322,22 @@ Table~\ref{tab:func-score-paired-by-section} reports the paired score difference
     \toprule
     Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    Python & 12 & 4 / 2 / 6 & $0.0$ & $+2.0$ & $+3.4$ & $[-0.7, +8.7]$ \\
-    C & 12 & 5 / 2 / 5 & $0.0$ & $+1.0$ & $+3.9$ & $[-2.2, +11.6]$ \\
+    \InputTableRows{analysis/generated/tables/func-score-paired-by-section.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by session order. Neither order reverses the on-par result.
+Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by realized session order. Neither order reverses the on-par result.
 
 \begin{table}[H]
   \centering
-  \caption{Paired total-score difference by session order, APM minus Spec-kit, in points, at 96.9\% coverage.}
+  \caption{Paired total-score difference by realized session order, APM minus Spec-kit, in points, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
   \label{tab:func-score-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
     Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    APM first & 6 & 2 / 1 / 3 & $0.0$ & $0.0$ & $+3.2$ & $[-6.0, +23.4]$ \\
-    APM second & 6 & 4 / 1 / 1 & $+2.7$ & $+5.2$ & $+11.4$ & $[-2.0, +53.0]$ \\
+    \InputTableRows{analysis/generated/tables/func-score-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -518,29 +358,7 @@ Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each fr
     \toprule
     Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
     \midrule
-    Effectiveness & APM & 0 & 0 & 0 & 4 & 8 \\
-     & Spec-kit & 0 & 5 & 2 & 5 & 0 \\
-    \midrule
-    Confidence & APM & 0 & 0 & 2 & 7 & 3 \\
-     & Spec-kit & 1 & 5 & 4 & 1 & 1 \\
-    \midrule
-    Frustration & APM & 7 & 3 & 1 & 1 & 0 \\
-     & Spec-kit & 1 & 3 & 4 & 3 & 1 \\
-    \midrule
-    Effort & APM & 1 & 4 & 6 & 1 & 0 \\
-     & Spec-kit & 6 & 2 & 2 & 1 & 1 \\
-    \midrule
-    Mental demand & APM & 2 & 4 & 4 & 2 & 0 \\
-     & Spec-kit & 2 & 4 & 5 & 1 & 0 \\
-    \midrule
-    Verification effort & APM & 2 & 5 & 4 & 0 & 1 \\
-     & Spec-kit & 2 & 6 & 2 & 1 & 1 \\
-    \midrule
-    Steering effort & APM & 1 & 5 & 4 & 2 & 0 \\
-     & Spec-kit & 1 & 6 & 3 & 2 & 0 \\
-    \midrule
-    Familiarity & APM & 7 & 1 & 2 & 2 & 0 \\
-     & Spec-kit & 8 & 2 & 2 & 0 & 0 \\
+    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -549,14 +367,18 @@ Table~\ref{tab:perc-comparative-distribution} gives the second-session comparati
 
 \begin{table}[H]
   \centering
-  \caption{The second-session comparative item, by the framework used in that session. Each row is the six participants whose second framework was the named one, and the counts are how that session felt against their first.}
+  \begin{threeparttable}
+  \caption{The second-session comparative item, by the framework used in that session. Each row is the participants whose second framework was the named one, and the counts are how that session felt against their first.}
   \label{tab:perc-comparative-distribution}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrr}
     \toprule
     Second framework & Much harder & Harder & About the same & Easier & Much easier \\
     \midrule
-    APM & 0 & 2 & 2 & 1 & 1 \\
-    Spec-kit & 2 & 2 & 1 & 0 & 1 \\
+    \InputTableRows{analysis/generated/tables/perc-comparative-distribution.tex}
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P012 is excluded from this row; their comparative response is tied to the session they labelled second, which does not match the session they actually completed second, so it cannot be assigned to either framework's realized-order group. Their other perception ratings, reported per session rather than by order, are unaffected.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}

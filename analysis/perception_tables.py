@@ -14,7 +14,7 @@ from pathlib import Path
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from analysis.config import ConfigError, load_records
+from analysis.config import ConfigError, InputRecord, load_records
 from analysis.latex import write_fragment
 
 ITEMS: tuple[tuple[str, str, str], ...] = (
@@ -39,6 +39,11 @@ ITEMS: tuple[tuple[str, str, str], ...] = (
     ),
     ("Familiarity", "context", "How familiar were you with this framework before this study?"),
 )
+COMPARATIVE_COLUMN = (
+    "Compared to the framework you used in your first session, completing the task with this "
+    "framework felt..."
+)
+COMPARATIVE_VALUES = ("Much harder", "Harder", "About the same", "Easier", "Much easier")
 
 
 @dataclass(frozen=True)
@@ -47,6 +52,8 @@ class QuestionnaireRow:
 
     pid: str
     framework: str
+    session_number: str
+    comparative: str
     values: dict[str, int]
 
 
@@ -66,6 +73,10 @@ def main(argv: list[str] | None = None) -> int:
         write_fragment(
             args.output_dir / "perc-ratings-distribution.tex", _rating_distribution_rows(rows)
         )
+        write_fragment(
+            args.output_dir / "perc-comparative-distribution.tex",
+            _comparative_distribution_rows(rows, records),
+        )
     except (ConfigError, OSError, ValueError, KeyError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
@@ -81,7 +92,13 @@ def _read_questionnaire(path: Path) -> list[QuestionnaireRow]:
             framework = _framework(raw["Framework used in this session"])
             values = {label: _rating(raw[column]) for label, _better, column in ITEMS}
             rows.append(
-                QuestionnaireRow(pid=raw["Participant ID"], framework=framework, values=values)
+                QuestionnaireRow(
+                    pid=raw["Participant ID"],
+                    framework=framework,
+                    session_number=raw["Session number"],
+                    comparative=raw[COMPARATIVE_COLUMN],
+                    values=values,
+                )
             )
     return rows
 
@@ -105,13 +122,16 @@ def _rating_distribution_rows(rows: list[QuestionnaireRow]) -> list[str]:
     """Return per-framework rating distribution rows."""
     out: list[str] = []
     for label, _better, _column in ITEMS:
+        if out:
+            out.append(r"\midrule")
         for framework in ("apm", "speckit"):
             counts = [0, 0, 0, 0, 0]
             for row in rows:
                 if row.framework == framework:
                     counts[row.values[label] - 1] += 1
+            label_cell = label if framework == "apm" else ""
             out.append(
-                f"{label} & {'APM' if framework == 'apm' else 'Spec-kit'} & "
+                f"{label_cell} & {'APM' if framework == 'apm' else 'Spec-kit'} & "
                 + " & ".join(str(count) for count in counts)
                 + r" \\"
             )
@@ -127,6 +147,33 @@ def _by_pid(rows: list[QuestionnaireRow]) -> dict[str, dict[str, QuestionnaireRo
         if set(pair) != {"apm", "speckit"}:
             raise ValueError(f"{pid}: expected one apm and one speckit questionnaire response")
     return grouped
+
+
+def _comparative_distribution_rows(
+    rows: list[QuestionnaireRow], records: list[InputRecord]
+) -> list[str]:
+    """Return second-session comparative item counts by realized second framework."""
+    record_sessions = {(record.pid, record.framework): record.session for record in records}
+    out: list[str] = []
+    for framework in ("apm", "speckit"):
+        counts = {value: 0 for value in COMPARATIVE_VALUES}
+        for row in rows:
+            if row.framework != framework:
+                continue
+            if record_sessions[(row.pid, row.framework)] != "S2":
+                continue
+            if row.session_number != "Second Session" or not row.comparative:
+                continue
+            if row.comparative not in counts:
+                raise ValueError(f"unknown comparative value {row.comparative!r}")
+            counts[row.comparative] += 1
+        label = r"APM\tnote{a}" if framework == "apm" else "Spec-kit"
+        out.append(
+            f"{label} & "
+            + " & ".join(str(counts[value]) for value in COMPARATIVE_VALUES)
+            + r" \\"
+        )
+    return out
 
 
 def _framework(value: str) -> str:

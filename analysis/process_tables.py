@@ -9,6 +9,7 @@ import argparse
 import sys
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -17,13 +18,15 @@ from analysis.cohort import (
     ParticipantPair,
     SessionArtefacts,
     load_sessions,
+    model_band,
+    order_label,
     pair_by_participant,
     phase_scope,
     role_scopes,
     session_scope,
 )
 from analysis.config import ConfigError, load_records
-from analysis.latex import level_row, paired_row, write_fragment
+from analysis.latex import level_row, number, paired_row, percent, write_fragment
 from analysis.stats import level_summary, paired_summary
 
 PHASES = {"planning": "Planning", "implementation": "Implementation"}
@@ -32,6 +35,7 @@ TIME_MEASURES = {
     "turn_time": "Turn time",
     "inter_turn_time": "Inter-turn idle",
 }
+BUCKETS = {"protocol": "Protocol", "short": "Short", "standard": "Standard"}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -65,10 +69,57 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     """
     write_fragment(output_dir / "proc-duration-levels.tex", _duration_levels(pairs))
     write_fragment(output_dir / "proc-time-paired.tex", _time_paired(pairs))
+    write_fragment(output_dir / "proc-time-paired-by-model.tex", _time_paired_by_model(pairs))
     write_fragment(output_dir / "proc-phase-paired.tex", _phase_time_paired(pairs))
+    write_fragment(
+        output_dir / "proc-phase-paired-by-model.tex", _phase_time_paired_by_model(pairs)
+    )
+    write_fragment(
+        output_dir / "proc-duration-paired-by-order.tex", _duration_paired_by_order(pairs)
+    )
+    write_fragment(output_dir / "proc-concurrency-sessions.tex", _concurrency_sessions(pairs))
     write_fragment(output_dir / "proc-turns-levels.tex", _turn_levels(pairs))
     write_fragment(output_dir / "proc-turns-paired.tex", _turn_paired(pairs))
+    write_fragment(output_dir / "proc-turns-paired-by-model.tex", _turn_paired_by_model(pairs))
+    write_fragment(output_dir / "proc-turns-paired-by-order.tex", _turn_paired_by_order(pairs))
+    write_fragment(output_dir / "proc-buckets-composition.tex", _bucket_composition(pairs))
+    write_fragment(
+        output_dir / "proc-planning-buckets-composition-by-participant.tex",
+        _bucket_share_sessions(pairs, "planning"),
+    )
+    write_fragment(
+        output_dir / "proc-implementation-buckets-composition-by-participant.tex",
+        _bucket_share_sessions(pairs, "implementation"),
+    )
+    write_fragment(
+        output_dir / "proc-planning-bucket-magnitude-sessions-by-participant.tex",
+        _bucket_magnitude_sessions(pairs, "planning"),
+    )
+    write_fragment(
+        output_dir / "proc-implementation-bucket-magnitude-sessions-by-participant.tex",
+        _bucket_magnitude_sessions(pairs, "implementation"),
+    )
+    write_fragment(
+        output_dir / "proc-buckets-composition-by-model.tex", _bucket_composition_by_model(pairs)
+    )
+    write_fragment(
+        output_dir / "proc-buckets-composition-by-role.tex", _bucket_composition_by_role(pairs)
+    )
+    write_fragment(
+        output_dir / "proc-steers-incidence-by-phase.tex", _steer_incidence_by_phase(pairs)
+    )
     write_fragment(output_dir / "proc-turns-levels-by-role.tex", _turn_levels_by_role(pairs))
+    write_fragment(
+        output_dir / "disc-planning-behaviour-paired.tex", _planning_behaviour_paired(pairs)
+    )
+    write_fragment(
+        output_dir / "disc-implementation-behaviour-paired.tex",
+        _implementation_behaviour_paired(pairs),
+    )
+    write_fragment(
+        output_dir / "disc-compaction-incidence-by-model.tex",
+        _compaction_incidence_by_model(pairs),
+    )
 
 
 def _duration_levels(pairs: list[ParticipantPair]) -> list[str]:
@@ -81,17 +132,19 @@ def _duration_levels(pairs: list[ParticipantPair]) -> list[str]:
         One LaTeX row per scope and framework.
     """
     rows: list[str] = []
-    rows.extend(
-        _level_rows_for_scope(
-            pairs, "Session", lambda session: session_scope(session, "metrics")["duration"]
-        )
-    )
-    for phase_key, phase_label in PHASES.items():
+    for scope_key, scope_label in (
+        ("session", "Session"),
+        ("planning", "Planning"),
+        ("implementation", "Implementation"),
+    ):
+        if rows:
+            rows.append(r"\midrule")
         rows.extend(
             _level_rows_for_scope(
                 pairs,
-                phase_label,
-                lambda session, phase=phase_key: phase_scope(session, "metrics", phase)["duration"],
+                scope_label,
+                lambda session, scope=scope_key: _duration_value(session, scope),
+                notes=_duration_notes(scope_key),
             )
         )
     return rows
@@ -107,19 +160,19 @@ def _turn_levels(pairs: list[ParticipantPair]) -> list[str]:
         One LaTeX row per scope and framework.
     """
     rows: list[str] = []
-    rows.extend(
-        _level_rows_for_scope(
-            pairs, "Session", lambda session: session_scope(session, "data")["turn_prompt_count"]
-        )
-    )
-    for phase_key, phase_label in PHASES.items():
+    for scope_key, scope_label in (
+        ("session", "Session"),
+        ("planning", "Planning"),
+        ("implementation", "Implementation"),
+    ):
+        if rows:
+            rows.append(r"\midrule")
         rows.extend(
             _level_rows_for_scope(
                 pairs,
-                phase_label,
-                lambda session, phase=phase_key: phase_scope(session, "data", phase)[
-                    "turn_prompt_count"
-                ],
+                scope_label,
+                lambda session, scope=scope_key: _turn_value(session, scope),
+                notes=_turn_notes(scope_key),
             )
         )
     return rows
@@ -129,6 +182,7 @@ def _level_rows_for_scope(
     pairs: list[ParticipantPair],
     scope_label: str,
     value_fn: Callable[[SessionArtefacts], float],
+    notes: dict[str, str] | None = None,
 ) -> list[str]:
     """Return APM and Spec-kit level rows for one scope.
 
@@ -136,16 +190,23 @@ def _level_rows_for_scope(
         pairs: Cohort participant pairs.
         scope_label: Row label for the scope (e.g. ``"Session"``).
         value_fn: Extracts the measured value from one session's artefacts.
+        notes: Optional LaTeX note markers keyed by framework.
 
     Returns:
         One LaTeX row per framework.
     """
     rows: list[str] = []
+    notes = notes or {}
     for framework in ("apm", "speckit"):
         values = [float(value_fn(getattr(pair, framework))) for pair in pairs]
+        framework_label = "APM" if framework == "apm" else "Spec-kit"
+        framework_label += notes.get(framework, "")
+        first_cell = scope_label if framework == "apm" else ""
         rows.append(
             level_row(
-                [scope_label, "APM" if framework == "apm" else "Spec-kit"], level_summary(values), 1
+                [first_cell, framework_label],
+                level_summary(values),
+                1,
             )
         )
     return rows
@@ -162,9 +223,33 @@ def _time_paired(pairs: list[ParticipantPair]) -> list[str]:
     """
     rows: list[str] = []
     for key, label in TIME_MEASURES.items():
+        if key == "duration":
+            label = "Session duration"
         apm = [session_scope(pair.apm, "metrics")[key] for pair in pairs]
         speckit = [session_scope(pair.speckit, "metrics")[key] for pair in pairs]
         rows.append(paired_row([label], paired_summary(apm, speckit), 1))
+    return rows
+
+
+def _time_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return session-time paired rows by model."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        if rows:
+            rows.append(r"\midrule")
+        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        for key, label in TIME_MEASURES.items():
+            measure = "Session duration" if key == "duration" else label
+            rows.append(
+                paired_row(
+                    [model.title() if key == "duration" else "", measure],
+                    paired_summary(
+                        [session_scope(pair.apm, "metrics")[key] for pair in subset],
+                        [session_scope(pair.speckit, "metrics")[key] for pair in subset],
+                    ),
+                    1,
+                )
+            )
     return rows
 
 
@@ -179,11 +264,50 @@ def _phase_time_paired(pairs: list[ParticipantPair]) -> list[str]:
     """
     rows: list[str] = []
     for phase_key, phase_label in PHASES.items():
+        if rows:
+            rows.append(r"\midrule")
         for key, label in TIME_MEASURES.items():
+            phase_cell = phase_label if key == "duration" else ""
             apm = [phase_scope(pair.apm, "metrics", phase_key)[key] for pair in pairs]
             speckit = [phase_scope(pair.speckit, "metrics", phase_key)[key] for pair in pairs]
-            rows.append(paired_row([phase_label, label], paired_summary(apm, speckit), 1))
+            rows.append(paired_row([phase_cell, label], paired_summary(apm, speckit), 1))
     return rows
+
+
+def _phase_time_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return phase-time paired rows by model."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        if rows:
+            rows.append(r"\midrule")
+        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        for phase_key, phase_label in PHASES.items():
+            if phase_key == "implementation":
+                rows.append(r"\cmidrule(lr){2-9}")
+            for key, label in TIME_MEASURES.items():
+                rows.append(
+                    paired_row(
+                        [
+                            model.title() if phase_key == "planning" and key == "duration" else "",
+                            phase_label if key == "duration" else "",
+                            label,
+                        ],
+                        paired_summary(
+                            [phase_scope(pair.apm, "metrics", phase_key)[key] for pair in subset],
+                            [
+                                phase_scope(pair.speckit, "metrics", phase_key)[key]
+                                for pair in subset
+                            ],
+                        ),
+                        1,
+                    )
+                )
+    return rows
+
+
+def _duration_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
+    """Return session-duration paired rows by realized order."""
+    return _session_metric_by_order(pairs, "duration", include_zero=False)
 
 
 def _turn_paired(pairs: list[ParticipantPair]) -> list[str]:
@@ -208,6 +332,51 @@ def _turn_paired(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
+def _turn_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return turn-prompt paired rows by model and scope."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        if rows:
+            rows.append(r"\midrule")
+        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        for scope, label in (
+            ("session", "Session"),
+            ("planning", "Planning"),
+            ("implementation", "Implementation"),
+        ):
+            rows.append(
+                paired_row(
+                    [model.title() if scope == "session" else "", label],
+                    paired_summary(
+                        [_turn_value(pair.apm, scope) for pair in subset],
+                        [_turn_value(pair.speckit, scope) for pair in subset],
+                    ),
+                    1,
+                    include_zero=True,
+                )
+            )
+    return rows
+
+
+def _turn_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
+    """Return session turn-prompt paired rows by realized order."""
+    rows: list[str] = []
+    for order in ("APM first", "APM second"):
+        subset = [pair for pair in pairs if order_label(pair) == order]
+        rows.append(
+            paired_row(
+                [order],
+                paired_summary(
+                    [session_scope(pair.apm, "data")["turn_prompt_count"] for pair in subset],
+                    [session_scope(pair.speckit, "data")["turn_prompt_count"] for pair in subset],
+                ),
+                1,
+                include_zero=True,
+            )
+        )
+    return rows
+
+
 def _turn_levels_by_role(pairs: list[ParticipantPair]) -> list[str]:
     """Return APM-only per-role turn count rows.
 
@@ -228,6 +397,390 @@ def _turn_levels_by_role(pairs: list[ParticipantPair]) -> list[str]:
             values.append(total)
         rows.append(level_row([label], level_summary(values), 1))
     return rows
+
+
+def _concurrency_sessions(pairs: list[ParticipantPair]) -> list[str]:
+    """Return APM session solo/concurrent active-time rows."""
+    rows: list[str] = []
+    for pair in pairs:
+        scope = session_scope(pair.apm, "metrics")
+        solo = float(scope["turn_time_solo"])
+        concurrent = float(scope["turn_time_concurrent"])
+        share = concurrent / float(scope["turn_time"]) if float(scope["turn_time"]) else 0.0
+        rows.append(f"{pair.pid} & {solo:.0f} & {concurrent:.0f} & {percent(share)} \\\\")
+    return rows
+
+
+def _bucket_composition(pairs: list[ParticipantPair]) -> list[str]:
+    """Return bucket share and magnitude summaries by phase and framework."""
+    rows: list[str] = []
+    for phase_key, phase_label in PHASES.items():
+        if rows:
+            rows.append(r"\midrule")
+        for framework in ("apm", "speckit"):
+            if framework == "speckit":
+                rows.append(r"\cmidrule(lr){2-9}")
+            for bucket, label in BUCKETS.items():
+                sessions = [getattr(pair, framework) for pair in pairs]
+                note = (
+                    r"\tnote{a}"
+                    if phase_key == "implementation"
+                    and framework == "apm"
+                    and bucket == "standard"
+                    else ""
+                )
+                row_label = label + note
+                framework_label = _framework_cell(framework, bucket)
+                rows.append(
+                    _bucket_summary_row(
+                        [
+                            phase_label if framework == "apm" and bucket == "protocol" else "",
+                            framework_label,
+                            row_label,
+                        ],
+                        [_bucket_share(session, phase_key, bucket) for session in sessions],
+                        [_bucket_magnitude(session, phase_key, bucket) for session in sessions],
+                    )
+                )
+    return rows
+
+
+def _bucket_share_sessions(pairs: list[ParticipantPair], phase: str) -> list[str]:
+    """Return per-participant bucket-share rows for one phase."""
+    rows: list[str] = []
+    for pair in pairs:
+        note = r"\tnote{a}" if phase == "implementation" and pair.pid == "P006" else ""
+        label = pair.pid + note
+        cells = [label]
+        for session in (pair.apm, pair.speckit):
+            count = int(_turn_value(session, phase))
+            if count == 0:
+                cells.extend(["---", "---", "---", "0"])
+            else:
+                cells.extend(
+                    [
+                        f"{_bucket_share(session, phase, bucket):.2f}"
+                        for bucket in ("protocol", "short", "standard")
+                    ]
+                )
+                cells.append(str(count))
+        rows.append(" & ".join(cells) + r" \\")
+    return rows
+
+
+def _bucket_magnitude_sessions(pairs: list[ParticipantPair], phase: str) -> list[str]:
+    """Return per-participant bucket-magnitude rows for one phase."""
+    rows: list[str] = []
+    for pair in pairs:
+        label = pair.pid
+        if phase == "implementation" and pair.pid == "P002":
+            label += r"\tnote{a}"
+        if phase == "implementation" and pair.pid == "P006":
+            label += r"\tnote{b}"
+        cells = [label]
+        for session in (pair.apm, pair.speckit):
+            cells.extend(
+                _plain_intish(_bucket_magnitude(session, phase, bucket))
+                for bucket in ("protocol", "short", "standard")
+            )
+        rows.append(" & ".join(cells) + r" \\")
+    return rows
+
+
+def _bucket_composition_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return bucket-share summaries by model, phase, and framework."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        if rows:
+            rows.append(r"\midrule")
+        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        for phase_key, phase_label in PHASES.items():
+            if phase_key == "implementation":
+                rows.append(r"\cmidrule(lr){2-7}")
+            for framework in ("apm", "speckit"):
+                sessions = [getattr(pair, framework) for pair in subset]
+                for bucket, label in BUCKETS.items():
+                    model_cell = (
+                        model.title()
+                        if phase_key == "planning" and framework == "apm" and bucket == "protocol"
+                        else ""
+                    )
+                    phase_cell = phase_label if framework == "apm" and bucket == "protocol" else ""
+                    rows.append(
+                        level_row(
+                            [
+                                model_cell,
+                                phase_cell,
+                                _framework_cell(framework, bucket),
+                                label,
+                            ],
+                            level_summary(
+                                [_bucket_share(session, phase_key, bucket) for session in sessions]
+                            ),
+                            2,
+                        )
+                    )
+    return rows
+
+
+def _bucket_composition_by_role(pairs: list[ParticipantPair]) -> list[str]:
+    """Return APM bucket summaries by agent role."""
+    rows: list[str] = []
+    for prefix, role_label in (
+        ("planner-", "Planner"),
+        ("manager-", "Manager"),
+        ("worker-", "Worker"),
+    ):
+        if rows:
+            rows.append(r"\midrule")
+        for bucket, bucket_label in BUCKETS.items():
+            shares = [_role_bucket(pair.apm, prefix, bucket)[0] for pair in pairs]
+            magnitudes = [_role_bucket(pair.apm, prefix, bucket)[1] for pair in pairs]
+            note = r"\tnote{a}" if prefix == "worker-" and bucket == "standard" else ""
+            label = bucket_label + note
+            rows.append(
+                _bucket_summary_row(
+                    [role_label if bucket == "protocol" else "", label],
+                    shares,
+                    magnitudes,
+                )
+            )
+    return rows
+
+
+def _steer_incidence_by_phase(pairs: list[ParticipantPair]) -> list[str]:
+    """Return summed attempted and delivered steer counts by framework and phase."""
+    rows: list[str] = []
+    for framework in ("apm", "speckit"):
+        if rows:
+            rows.append(r"\midrule")
+        for phase_key, phase_label in PHASES.items():
+            sessions = [getattr(pair, framework) for pair in pairs]
+            attempted = sum(
+                int(phase_scope(session, "data", phase_key)["steer_attempted_count"])
+                for session in sessions
+            )
+            delivered = sum(
+                int(phase_scope(session, "data", phase_key)["steer_delivered_count"])
+                for session in sessions
+            )
+            framework_cell = _framework_cell(framework, phase_key)
+            rows.append(
+                f"{framework_cell} & {phase_label} & {attempted} & {delivered} \\\\"
+            )
+    return rows
+
+
+def _planning_behaviour_paired(pairs: list[ParticipantPair]) -> list[str]:
+    """Return planning request and output paired rows for Discussions."""
+    return [
+        paired_row(
+            ["Requests"],
+            paired_summary(
+                [phase_scope(pair.apm, "data", "planning")["request_count"] for pair in pairs],
+                [phase_scope(pair.speckit, "data", "planning")["request_count"] for pair in pairs],
+            ),
+            1,
+        ),
+        paired_row(
+            ["Output (thousand tokens)"],
+            paired_summary(
+                [
+                    phase_scope(pair.apm, "data", "planning")["total_output_tokens"] / 1000
+                    for pair in pairs
+                ],
+                [
+                    phase_scope(pair.speckit, "data", "planning")["total_output_tokens"] / 1000
+                    for pair in pairs
+                ],
+            ),
+            1,
+        ),
+    ]
+
+
+def _implementation_behaviour_paired(pairs: list[ParticipantPair]) -> list[str]:
+    """Return implementation request paired row for Discussions."""
+    return [
+        paired_row(
+            ["Requests"],
+            paired_summary(
+                [
+                    phase_scope(pair.apm, "data", "implementation")["request_count"]
+                    for pair in pairs
+                ],
+                [
+                    phase_scope(pair.speckit, "data", "implementation")["request_count"]
+                    for pair in pairs
+                ],
+            ),
+            1,
+        )
+    ]
+
+
+def _compaction_incidence_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return compaction incidence rows by model and framework."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        for framework in ("apm", "speckit"):
+            sessions = [
+                getattr(pair, framework)
+                for pair in pairs
+                if model_band(pair.apm) == model
+            ]
+            counts = [_compaction_count(session) for session in sessions]
+            rows.append(
+                f"{model.title() if framework == 'apm' else ''} & "
+                f"{'APM' if framework == 'apm' else 'Spec-kit'} & "
+                f"{len(sessions)} & {sum(count > 0 for count in counts)} & "
+                f"{sum(count > 1 for count in counts)} \\\\"
+            )
+    return rows
+
+
+def _session_metric_by_order(
+    pairs: list[ParticipantPair], key: str, *, include_zero: bool
+) -> list[str]:
+    """Return session metric paired rows by realized order."""
+    rows: list[str] = []
+    for order in ("APM first", "APM second"):
+        subset = [pair for pair in pairs if order_label(pair) == order]
+        rows.append(
+            paired_row(
+                [order],
+                paired_summary(
+                    [session_scope(pair.apm, "metrics")[key] for pair in subset],
+                    [session_scope(pair.speckit, "metrics")[key] for pair in subset],
+                ),
+                1,
+                include_zero=include_zero,
+            )
+        )
+    return rows
+
+
+def _duration_value(session: SessionArtefacts, scope: str) -> float:
+    """Return duration for a session or phase scope."""
+    if scope == "session":
+        return float(session_scope(session, "metrics")["duration"])
+    return float(phase_scope(session, "metrics", scope)["duration"])
+
+
+def _turn_value(session: SessionArtefacts, scope: str) -> float:
+    """Return turn-prompt count for a session or phase scope."""
+    if scope == "session":
+        return float(session_scope(session, "data")["turn_prompt_count"])
+    return float(phase_scope(session, "data", scope)["turn_prompt_count"])
+
+
+def _duration_notes(scope: str) -> dict[str, str]:
+    """Return existing table note markers for duration rows."""
+    if scope == "planning":
+        return {"apm": r"\tnote{a}", "speckit": r"\tnote{c}"}
+    if scope == "implementation":
+        return {"speckit": r"\tnote{b,c,d}"}
+    return {}
+
+
+def _bucket_share(session: SessionArtefacts, scope: str, bucket: str) -> float:
+    """Return one input bucket share."""
+    block = _metric_scope(session, scope)
+    return float(block["all_inputs_bucket_shares"][bucket])
+
+
+def _bucket_magnitude(session: SessionArtefacts, scope: str, bucket: str) -> float:
+    """Return one turn-prompt bucket magnitude."""
+    block = _metric_scope(session, scope)
+    return float(block["turn_prompts_magnitude_by_bucket"][bucket])
+
+
+def _metric_scope(session: SessionArtefacts, scope: str) -> dict[str, Any]:
+    """Return a session or phase metric scope."""
+    if scope == "session":
+        return session_scope(session, "metrics")
+    return phase_scope(session, "metrics", scope)
+
+
+def _framework_cell(framework: str, first_row_key: str) -> str:
+    """Return framework label for the first row of a grouped block."""
+    if first_row_key not in {"protocol", "planning"}:
+        return ""
+    return "APM" if framework == "apm" else "Spec-kit"
+
+
+def _bucket_summary_row(
+    label_cells: list[str], shares: list[float], magnitudes: list[float]
+) -> str:
+    """Return a row with share and magnitude level summaries."""
+    share = level_summary(shares)
+    observed_magnitudes = [value for value in magnitudes if value > 0]
+    magnitude = level_summary(observed_magnitudes or magnitudes)
+    cells = [
+        *label_cells,
+        number(share.median, 2),
+        number(share.hl, 2),
+        number(share.mean, 2),
+        _math_intish(magnitude.median),
+        _math_intish(magnitude.hl),
+        _math_intish(magnitude.mean),
+    ]
+    return " & ".join(cells) + r" \\"
+
+
+def _role_bucket(session: SessionArtefacts, role_prefix: str, bucket: str) -> tuple[float, float]:
+    """Return aggregate share and magnitude for one role prefix and bucket."""
+    input_count_total = 0.0
+    input_bucket_count = 0.0
+    prompt_bucket_count = 0.0
+    prompt_bucket_chars = 0.0
+    for role, data in role_scopes(session, "data").items():
+        if not role.startswith(role_prefix):
+            continue
+        metrics = role_scopes(session, "metrics")[role]
+        prompt_count = float(data["turn_prompt_count"])
+        input_count = prompt_count + float(data["steer_delivered_count"])
+        input_share = float(metrics["all_inputs_bucket_shares"][bucket])
+        prompt_share = float(metrics["turn_prompts_bucket_shares"][bucket])
+        magnitude = float(metrics["turn_prompts_magnitude_by_bucket"][bucket])
+        input_count_total += input_count
+        input_bucket_count += input_count * input_share
+        role_prompt_bucket_count = prompt_count * prompt_share
+        prompt_bucket_count += role_prompt_bucket_count
+        prompt_bucket_chars += role_prompt_bucket_count * magnitude
+    if input_count_total == 0 or prompt_bucket_count == 0:
+        return 0.0, 0.0
+    return input_bucket_count / input_count_total, prompt_bucket_chars / prompt_bucket_count
+
+
+def _compaction_count(session: SessionArtefacts) -> int:
+    """Return the number of parser context segments closed by compaction."""
+    if "context_segments" not in session.parser_data:
+        raise ValueError(f"{session.record.parser_data}: missing context_segments[]")
+    return sum(
+        1
+        for segment in session.parser_data["context_segments"]
+        if segment["closed_by_compaction"]
+    )
+
+
+def _math_intish(value: float) -> str:
+    """Format a table value as a math integer unless a decimal is needed."""
+    return f"${_plain_intish(value)}$"
+
+
+def _plain_intish(value: float) -> str:
+    """Format a plain integer-like value with no needless decimal."""
+    return str(round(value))
+
+
+def _turn_notes(scope: str) -> dict[str, str]:
+    """Return existing table note markers for turn-count rows."""
+    if scope == "planning":
+        return {"apm": r"\tnote{a}"}
+    if scope == "implementation":
+        return {"speckit": r"\tnote{b,c}"}
+    return {}
 
 
 if __name__ == "__main__":

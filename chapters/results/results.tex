@@ -16,19 +16,7 @@ An APM session cost a median of about thirty-five US dollars under Opus and fift
     \toprule
     Model & Scope & Framework & Median & HL & Mean \\
     \midrule
-    Opus & Session & APM\tnote{a} & $35.20$ & $35.57$ & $36.67$ \\
-     & & Spec-kit & $23.94$ & $23.94$ & $24.08$ \\
-     & Planning & APM & $5.19$ & $5.62$ & $6.22$ \\
-     & & Spec-kit & $5.98$ & $6.62$ & $6.76$ \\
-     & Implementation & APM & $27.47$ & $27.47$ & $29.65$ \\
-     & & Spec-kit & $17.73$ & $16.69$ & $16.98$ \\
-    \midrule
-    Sonnet & Session & APM & $14.58$ & $14.58$ & $14.54$ \\
-     & & Spec-kit & $13.54$ & $13.54$ & $12.86$ \\
-     & Planning & APM & $2.39$ & $2.39$ & $2.38$ \\
-     & & Spec-kit & $3.71$ & $3.73$ & $4.18$ \\
-     & Implementation & APM & $12.22$ & $11.68$ & $11.82$ \\
-     & & Spec-kit & $9.76$ & $9.69$ & $8.46$ \\
+    \InputTableRows{analysis/generated/tables/cost-session-levels-by-model.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -47,7 +35,7 @@ Paired within each participant, the APM session cost more in US-dollar-equivalen
     \toprule
     $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    12 & 9 / 3 & $+6.10$ & $+6.10$ & $+7.14$ & $[+0.42, +14.14]$ \\
+    \InputTableRows{analysis/generated/tables/cost-session-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -73,8 +61,7 @@ The Opus group also varied widely, from one participant for whom APM cost about 
     \toprule
     Model & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & 6 & 5 / 1 & $+11.75$ & $+11.89$ & $+12.60$ & $[-3.73, +32.01]$ \\
-    Sonnet & 6 & 4 / 2 & $+0.42$ & $+1.25$ & $+1.68$ & $[-2.72, +7.22]$ \\
+    \InputTableRows{analysis/generated/tables/cost-session-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -98,8 +85,7 @@ The phase split holds as a paired difference, with both phases excluding zero, a
     \toprule
     Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Planning\tnote{a} & 12 & 2 / 10 & $-3.77$ & $-4.89$ & $-5.17$ & $[-8.84, -1.44]$ \\
-    Implementation\tnote{b,c} & 12 & 10 / 2 & $+9.41$ & $+10.01$ & $+12.21$ & $[+4.10, +22.94]$ \\
+    \InputTableRows{analysis/generated/tables/cost-phase-paired.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -121,12 +107,7 @@ Within an APM session the cost divided across the three agent roles in the same 
     \toprule
     Model & Role & Median & HL & Mean \\
     \midrule
-    Opus & Planner\tnote{a} & 5.50 & 5.85 & 6.53 \\
-    Opus & Manager\tnote{a} & 7.35 & 7.31 & 6.97 \\
-    Opus & Worker & 21.76 & 21.80 & 22.91 \\
-    Sonnet & Planner & 2.67 & 2.67 & 2.66 \\
-    Sonnet & Manager & 2.68 & 2.68 & 2.62 \\
-    Sonnet & Worker & 9.54 & 9.25 & 9.21 \\
+    \InputTableRows{analysis/generated/tables/cost-session-levels-by-role.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -147,19 +128,7 @@ On its own each framework's cost fell mostly on cache-read, the largest category
     \toprule
     Model & Framework & Category & Median & HL & Mean \\
     \midrule
-    Opus & APM & Output & $7.95$ & $7.95$ & $8.24$ \\
-     & & Cache read & $19.54$ & $19.54$ & $19.43$ \\
-     & & Cache write (1-hour) & $7.84$ & $8.07$ & $8.42$ \\
-     & Spec-kit & Output & $4.75$ & $4.99$ & $5.19$ \\
-     & & Cache read & $14.81$ & $14.81$ & $14.86$ \\
-     & & Cache write (1-hour) & $3.90$ & $3.71$ & $3.75$ \\
-    \midrule
-    Sonnet & APM & Output & $4.28$ & $4.28$ & $4.25$ \\
-     & & Cache read & $6.59$ & $6.59$ & $6.55$ \\
-     & & Cache write (1-hour) & $3.55$ & $3.44$ & $3.45$ \\
-     & Spec-kit & Output & $2.82$ & $2.67$ & $2.66$ \\
-     & & Cache read & $7.39$ & $7.39$ & $7.70$ \\
-     & & Cache write (1-hour) & $2.54$ & $2.34$ & $2.28$ \\
+    \InputTableRows{analysis/generated/tables/cost-token-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -174,11 +143,7 @@ Two of the three categories drove the difference: output and the one-hour writes
     \toprule
     Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Input & 12 & 7 / 5 & $+0.00$ & $+0.00$ & $+0.01$ & $[-0.00, +0.01]$ \\
-    Output & 12 & 11 / 1 & $+2.24$ & $+2.20$ & $+2.32$ & $[+1.15, +3.40]$ \\
-    Cache read & 12 & 7 / 5 & $+1.16$ & $+1.20$ & $+1.82$ & $[-2.33, +6.03]$ \\
-    Cache write (5-minute) & 12 & 10 / 2 & $+0.07$ & $+0.07$ & $+0.05$ & $[-0.00, +0.13]$ \\
-    Cache write (1-hour) & 12 & 12 / 0 & $+2.67$ & $+2.50$ & $+2.92$ & $[+1.28, +4.65]$ \\
+    \InputTableRows{analysis/generated/tables/cost-token-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -206,14 +171,7 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
     \toprule
     Scope & Framework & Median & HL & Mean \\
     \midrule
-    Session & APM & $7136.1$ & $7140.5$ & $7267.2$ \\
-     & Spec-kit & $4274.6$ & $4684.6$ & $4810.2$ \\
-    \midrule
-    Planning & APM\tnote{a} & $2153.4$ & $2179.3$ & $2298.9$ \\
-     & Spec-kit\tnote{c} & $2928.3$ & $2888.2$ & $2903.5$ \\
-    \midrule
-    Implementation & APM & $4641.5$ & $4790.6$ & $4865.1$ \\
-     & Spec-kit\tnote{b,c,d} & $1779.3$ & $1649.6$ & $1879.8$ \\
+    \InputTableRows{analysis/generated/tables/proc-duration-levels.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -235,9 +193,7 @@ APM was the longer session for every participant, as Table~\ref{tab:proc-time-pa
     \toprule
     Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Session duration & 12 & 12 / 0 & $+2160.7$ & $+2343.6$ & $+2457.0$ & $[+1394.2, +3594.2]$ \\
-    Turn time & 12 & 11 / 1 & $+1834.7$ & $+1868.5$ & $+1860.4$ & $[+935.0, +2845.0]$ \\
-    Inter-turn idle & 12 & 11 / 1 & $+674.4$ & $+650.1$ & $+596.7$ & $[+93.5, +1201.8]$ \\
+    \InputTableRows{analysis/generated/tables/proc-time-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -255,13 +211,7 @@ The two phases did not share that difference equally, as Table~\ref{tab:proc-pha
     \toprule
     Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    Planning & Duration & 12 & 5 / 7 & $-539.2$ & $-611.9$ & $-604.6$ & $[-1382.7, +200.9]$ \\
-     & Turn time & 12 & 4 / 8 & $-606.5$ & $-612.3$ & $-629.9$ & $[-1116.4, -49.1]$ \\
-     & Inter-turn idle & 12 & 7 / 5 & $+98.6$ & $+102.3$ & $+25.2$ & $[-290.7, +314.4]$ \\
-    \midrule
-    Implementation & Duration & 12 & 12 / 0 & $+2549.0$ & $+2605.0$ & $+2985.3$ & $[+1711.9, +4384.1]$ \\
-     & Turn time & 12 & 11 / 1 & $+2337.8$ & $+2357.6$ & $+2464.4$ & $[+1452.2, +3655.5]$ \\
-     & Inter-turn idle & 12 & 9 / 3 & $+346.5$ & $+367.0$ & $+520.9$ & $[+59.4, +1095.0]$ \\
+    \InputTableRows{analysis/generated/tables/proc-phase-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -295,14 +245,7 @@ An APM session had a median of 21.5 turn prompts against Spec-kit's 13.0, as Tab
     \toprule
     Scope & Framework & Median & HL & Mean \\
     \midrule
-    Session & APM & $21.5$ & $22.0$ & $22.2$ \\
-     & Spec-kit & $13.0$ & $12.8$ & $13.3$ \\
-    \midrule
-    Planning & APM\tnote{a} & $9.5$ & $9.5$ & $9.7$ \\
-     & Spec-kit & $10.0$ & $9.5$ & $9.8$ \\
-    \midrule
-    Implementation & APM & $10.5$ & $11.0$ & $12.2$ \\
-     & Spec-kit\tnote{b,c} & $3.0$ & $3.5$ & $3.3$ \\
+    \InputTableRows{analysis/generated/tables/proc-turns-levels.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -323,9 +266,7 @@ Paired within each participant, the added turns under APM fell almost entirely i
     \toprule
     Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    Session & 12 & 11 / 0 / 1 & $+8.0$ & $+8.5$ & $+8.9$ & $[+4.5, +14.0]$ \\
-    Planning & 12 & 5 / 5 / 2 & $0.0$ & $-0.2$ & $-0.2$ & $[-3.5, +2.0]$ \\
-    Implementation & 12 & 11 / 0 / 1 & $+8.0$ & $+8.2$ & $+8.8$ & $[+5.0, +13.0]$ \\
+    \InputTableRows{analysis/generated/tables/proc-turns-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -350,21 +291,7 @@ In implementation the composition reversed for APM, whose messages were mostly t
     \cmidrule(lr){4-6} \cmidrule(lr){7-9}
     Phase & Framework & Bucket & Median & HL & Mean & Median & HL & Mean \\
     \midrule 
-    Planning & APM & Protocol & $0.11$ & $0.11$ & $0.17$ & $150$ & $150$ & $147$ \\
-     & & Short & $0.50$ & $0.50$ & $0.47$ & $20$ & $20$ & $19$ \\
-     & & Standard & $0.38$ & $0.37$ & $0.36$ & $156$ & $139$ & $146$ \\
-    \cmidrule(lr){2-9}
-     & Spec-kit & Protocol & $0.56$ & $0.56$ & $0.54$ & $106$ & $109$ & $114$ \\
-     & & Short & $0.26$ & $0.32$ & $0.34$ & $20$ & $20$ & $20$ \\
-     & & Standard & $0.10$ & $0.08$ & $0.12$ & $81$ & $82$ & $85$ \\
-    \midrule
-    Implementation & APM & Protocol & $0.73$ & $0.72$ & $0.71$ & $124$ & $125$ & $125$ \\
-     & & Short & $0.13$ & $0.14$ & $0.15$ & $18$ & $20$ & $20$ \\
-     & & Standard\tnote{a} & $0.09$ & $0.11$ & $0.15$ & $79$ & $102$ & $184$ \\
-    \cmidrule(lr){2-9}
-     & Spec-kit & Protocol & $0.40$ & $0.36$ & $0.35$ & $100$ & $101$ & $125$ \\
-     & & Short & $0.25$ & $0.33$ & $0.37$ & $32$ & $33$ & $33$ \\
-     & & Standard & $0.14$ & $0.24$ & $0.28$ & $74$ & $76$ & $86$ \\
+    \InputTableRows{analysis/generated/tables/proc-buckets-composition.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -387,9 +314,7 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
     \toprule
     Role & Median & HL & Mean \\
     \midrule
-    Planner & $9.5$ & $9.5$ & $9.7$ \\
-    Manager & $6.5$ & $6.5$ & $6.2$ \\
-    Worker & $5.0$ & $5.0$ & $6.0$ \\
+    \InputTableRows{analysis/generated/tables/proc-turns-levels-by-role.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -413,14 +338,7 @@ Most sessions scored near the rubric's hundred-point ceiling. APM's twelve sessi
     \toprule
     Scope & Framework & Median & HL & Mean \\
     \midrule
-    Cohort & APM & $95.7$ & $95.5$ & $86.2$ \\
-     & Spec-kit & $96.5$ & $84.3$ & $78.8$ \\
-    \midrule
-    Opus & APM & $99.0$ & $97.5$ & $97.9$ \\
-     & Spec-kit & $98.5$ & $98.5$ & $94.2$ \\
-    \midrule
-    Sonnet & APM & $92.0$ & $66.0$ & $74.4$ \\
-     & Spec-kit & $62.1$ & $63.3$ & $63.5$ \\
+    \InputTableRows{analysis/generated/tables/func-score-levels.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -444,12 +362,12 @@ Paired within each participant, the two frameworks' scores were close, as Table~
     \toprule
     $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    12 & 6 / 2 / 4 & $+0.5$ & $+2.2$ & $+7.3$ & $[-0.8, +17.9]$ \\
+    \InputTableRows{analysis/generated/tables/func-score-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Split by model, the two groups behaved differently, as Table~\ref{tab:func-score-paired-by-model} sets out and Figure~\ref{fig:func-score-paired-by-model} plots. Under Opus the scores converged. Five of the six pairs fell within a couple of points, and the sixth was the one participant whose APM session, taken first, scored above their later Spec-kit session. Under Sonnet APM scored higher in four of the six pairs, by a wider and more variable margin, though the larger differences fell in the participants who met Spec-kit first. Section~\ref{sec:discussions-learning-effects} details that order pattern.
+Split by model, the two groups behaved differently, as Table~\ref{tab:func-score-paired-by-model} sets out and Figure~\ref{fig:func-score-paired-by-model} plots. Under Opus the scores converged. Five of the six pairs fell within a couple of points, and the sixth was the one participant whose APM session, taken first, scored above their later Spec-kit session. Under Sonnet APM scored higher in four of the six pairs, by a wider and more variable margin.
 
 \begin{table}[H]
   \centering
@@ -459,8 +377,7 @@ Split by model, the two groups behaved differently, as Table~\ref{tab:func-score
     \toprule
     Model & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    Opus & 6 & 2 / 1 / 3 & $0.0$ & $0.0$ & $+3.7$ & $[-2.0, +23.4]$ \\
-    Sonnet & 6 & 4 / 1 / 1 & $+3.2$ & $+4.4$ & $+10.9$ & $[-6.0, +53.0]$ \\
+    \InputTableRows{analysis/generated/tables/func-score-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -492,14 +409,7 @@ Each of the eight ratings was given once per session, so every participant rated
     \toprule
     Rating & Better when & Sign ($+$/$-$/$=$) \\
     \midrule
-    Effectiveness & higher & 11 / 0 / 1 \\
-    Confidence & higher & 9 / 0 / 3 \\
-    Frustration & lower & 2 / 8 / 2 \\
-    Effort & lower & 7 / 4 / 1 \\
-    Mental demand & lower & 6 / 2 / 4 \\
-    Verification effort & lower & 4 / 3 / 5 \\
-    Steering effort & lower & 3 / 4 / 5 \\
-    Familiarity & context & 3 / 2 / 7 \\
+    \InputTableRows{analysis/generated/tables/perc-ratings-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -508,6 +418,6 @@ Participants rated APM the more effective framework in eleven of the twelve pair
 
 The remaining items showed no consistent direction between the frameworks. Mental demand, the effort of checking what the AI produced, and the effort of instructing and steering it each split roughly evenly across the twelve pairs. Prior familiarity was low under both frameworks, with the ratings massed at the bottom of the scale for each, so neither framework was the more familiar one at the outset.
 
-A comparative item asked after the second session, grouped by the framework that session used, gave a softer pattern, as Table~\ref{tab:perc-comparative-distribution} of Appendix~\ref{app:results-perception-breakdowns} reports. Among the six whose second framework was APM the verdicts split evenly between easier, the same, and harder. Among the six whose second framework was Spec-kit four leaned harder and the other two were divided. The second Spec-kit session leaned towards the harder verdict, though neither group was uniform.
+A comparative item asked after the second session, grouped by the framework that session used, gave a softer pattern, as Table~\ref{tab:perc-comparative-distribution} of Appendix~\ref{app:results-perception-breakdowns} reports. Among the five whose second framework was APM the verdicts split evenly between easier and harder, with one rating it the same.\footnote{One participant is excluded from this item. Table~\ref{tab:perc-comparative-distribution}'s note explains why.} Among the six whose second framework was Spec-kit four leaned harder and the other two were divided. The second Spec-kit session leaned towards the harder verdict, though neither group was uniform.
 
 Section~\ref{sec:discussions-perception} reads these ratings against the measured behaviour behind them.

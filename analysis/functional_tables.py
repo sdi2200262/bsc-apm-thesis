@@ -17,6 +17,7 @@ from analysis.cohort import (
     SessionArtefacts,
     load_sessions,
     model_band,
+    order_label,
     pair_by_participant,
 )
 from analysis.config import ConfigError, load_records
@@ -57,6 +58,11 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(output_dir / "func-score-paired.tex", _score_paired(pairs))
     write_fragment(output_dir / "func-score-paired-by-model.tex", _score_paired_by_model(pairs))
     write_fragment(output_dir / "func-score-paired-by-section.tex", _score_paired_by_section(pairs))
+    write_fragment(output_dir / "func-score-sessions.tex", _score_sessions(pairs))
+    write_fragment(output_dir / "func-score-paired-by-order.tex", _score_paired_by_order(pairs))
+    write_fragment(
+        output_dir / "disc-learning-by-participant.tex", _learning_by_participant(pairs)
+    )
 
 
 def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
@@ -74,11 +80,16 @@ def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
         ("Opus", [pair for pair in pairs if model_band(pair.apm) == "opus"]),
         ("Sonnet", [pair for pair in pairs if model_band(pair.apm) == "sonnet"]),
     ]:
+        if rows:
+            rows.append(r"\midrule")
         for framework in ("apm", "speckit"):
             values = [_score(getattr(pair, framework), "total") for pair in subset]
+            scope_cell = label if framework == "apm" else ""
             rows.append(
                 level_row(
-                    [label, "APM" if framework == "apm" else "Spec-kit"], level_summary(values), 1
+                    [scope_cell, "APM" if framework == "apm" else "Spec-kit"],
+                    level_summary(values),
+                    1,
                 )
             )
     return rows
@@ -157,6 +168,66 @@ def _score_paired_by_section(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
+def _score_sessions(pairs: list[ParticipantPair]) -> list[str]:
+    """Return per-session functional score rows."""
+    rows: list[str] = []
+    for pair in pairs:
+        for framework in ("apm", "speckit"):
+            session = getattr(pair, framework)
+            scores = session.grader_results["scores"]
+            rows.append(
+                " & ".join(
+                    [
+                        pair.pid if framework == "apm" else "",
+                        "APM" if framework == "apm" else "Spec-kit",
+                        _points(float(scores["total_strict"])),
+                        _points(float(scores["total_partial"])),
+                        _points(float(scores["total"])),
+                        _points(float(scores["python"]["total"])),
+                        _points(float(scores["c"]["total"])),
+                    ]
+                )
+                + r" \\"
+            )
+    return rows
+
+
+def _score_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
+    """Return total-score paired rows by realized order."""
+    rows: list[str] = []
+    for order in ("APM first", "APM second"):
+        subset = [pair for pair in pairs if order_label(pair) == order]
+        rows.append(
+            paired_row(
+                [order],
+                paired_summary(
+                    [_score(pair.apm, "total") for pair in subset],
+                    [_score(pair.speckit, "total") for pair in subset],
+                ),
+                1,
+                include_zero=True,
+            )
+        )
+    return rows
+
+
+def _learning_by_participant(pairs: list[ParticipantPair]) -> list[str]:
+    """Return second-session score-gain rows for Learning Effects."""
+    rows: list[tuple[float, str]] = []
+    for pair in pairs:
+        first, second = _ordered_sessions(pair)
+        gain = _score(second, "total") - _score(first, "total")
+        if gain <= 0:
+            continue
+        note = r"\tnote{b}" if pair.pid == "P010" else ""
+        row = (
+            f"{pair.pid} & {model_band(pair.apm).title()} & "
+            f"{_framework_label(second)} & {_signed_points(gain)}{note} \\\\"
+        )
+        rows.append((gain, row))
+    return [row for _gain, row in sorted(rows, key=lambda item: item[0], reverse=True)]
+
+
 def _score(session: SessionArtefacts, key: str) -> float:
     """Return a grader score value.
 
@@ -171,6 +242,26 @@ def _score(session: SessionArtefacts, key: str) -> float:
     if key == "total":
         return float(scores["total"])
     return float(scores[key]["total"])
+
+
+def _ordered_sessions(pair: ParticipantPair) -> tuple[SessionArtefacts, SessionArtefacts]:
+    """Return sessions in realized first, second order."""
+    return (pair.apm, pair.speckit) if pair.apm.record.session == "S1" else (pair.speckit, pair.apm)
+
+
+def _framework_label(session: SessionArtefacts) -> str:
+    """Return display label for one session's framework."""
+    return "APM" if session.record.framework == "apm" else "Spec-kit"
+
+
+def _points(value: float) -> str:
+    """Format a score value."""
+    return f"${value:.1f}$"
+
+
+def _signed_points(value: float) -> str:
+    """Format a signed score value."""
+    return f"${value:+.1f}$"
 
 
 if __name__ == "__main__":

@@ -78,7 +78,7 @@ paths to its parser and grader artefacts. Figure scripts require
 matplotlib.
 
 ```bash
-python3 analysis/process_tables.py --config analysis/config/cohort.json --output-dir analysis/generated-local/tables
+python3 analysis/generate_tables.py --config analysis/config/cohort.json --output-dir analysis/generated/tables
 python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir figures/economic
 python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir figures/process
 python3 analysis/functional_figures.py --config analysis/config/cohort.json --output-dir figures/functional
