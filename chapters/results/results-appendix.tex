@@ -7,7 +7,7 @@
 
 These tables give the per-model and per-order detail behind claims in the Economic results (Section~\ref{sec:results-economic}).
 
-Table~\ref{tab:cost-phase-paired-by-model} splits the phase cost difference by model. The split is wider under Opus.
+Table~\ref{tab:cost-phase-paired-by-model} splits the phase cost difference by model. The implementation difference is the wider of the two under both models, and under Opus it is the only cell whose interval excludes zero; the planning difference spans zero in each model.
 
 \begin{table}[H]
   \centering
@@ -82,7 +82,7 @@ Table~\ref{tab:proc-time-paired-by-model} gives the session-time differences wit
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-phase-paired-by-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase-paired}. The implementation phase was longer under APM in all six pairs of each model, with the difference somewhat larger under Sonnet, while the planning difference remained mixed in sign under both.
+Table~\ref{tab:proc-phase-paired-by-model} splits the phase-time differences by model, the per-model view of Table~\ref{tab:proc-phase-paired}. The implementation phase was longer under APM in all six pairs of each model, by close medians, with the Sonnet group the higher of the two on the Hodges-Lehmann estimate and the mean, while the planning difference remained mixed in sign under both.
 
 \begin{table}[H]
   \centering

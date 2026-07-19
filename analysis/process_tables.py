@@ -677,9 +677,9 @@ def _turn_value(session: SessionArtefacts, scope: str) -> float:
 def _duration_notes(scope: str) -> dict[str, str]:
     """Return existing table note markers for duration rows."""
     if scope == "planning":
-        return {"apm": r"\tnote{a}", "speckit": r"\tnote{c}"}
+        return {"apm": r"\tnote{a}"}
     if scope == "implementation":
-        return {"speckit": r"\tnote{b,c,d}"}
+        return {"speckit": r"\tnote{b}"}
     return {}
 
 
