@@ -262,7 +262,7 @@ def _compact_regrade_sessions(pairs: list[ParticipantPair]) -> list[str]:
                         _points(diagnostic_score),
                     ]
                 )
-                + r" \\\\"
+                + r" \\"
             )
     return rows
 
