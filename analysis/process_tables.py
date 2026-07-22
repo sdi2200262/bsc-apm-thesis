@@ -36,6 +36,26 @@ TIME_MEASURES = {
     "inter_turn_time": "Inter-turn idle",
 }
 BUCKETS = {"protocol": "Protocol", "short": "Short", "standard": "Standard"}
+PLANNING_BEHAVIOUR_MEASURES = {
+    "request_count": "Requests",
+    "tool_result_count": "Main tool calls",
+    "subagent_request_count": "Subagent requests",
+    "subagent_tool_count": "Subagent tool calls",
+}
+IMPLEMENTATION_BEHAVIOUR_MEASURES = {
+    "request_count": "Requests",
+    "tool_result_count": "Main tool calls",
+}
+PLANNING_BEHAVIOUR_NOTES = {
+    "request_count": r"\tnote{a}",
+    "tool_result_count": r"\tnote{a}",
+    "subagent_request_count": r"\tnote{b}",
+}
+SUBAGENT_REQUEST_MEASURE = "subagent_request_count"
+# A subagent's request count is only readable from that subagent's own transcript. One
+# participant's APM submission shipped none, so its dispatches there contribute nothing and
+# the pair is dropped from that measure rather than read as zero.
+UNRECOVERABLE_SUBAGENT_REQUESTS = frozenset({("P001", "apm")})
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -424,9 +444,7 @@ def _bucket_composition(pairs: list[ParticipantPair]) -> list[str]:
                 sessions = [getattr(pair, framework) for pair in pairs]
                 note = (
                     r"\tnote{a}"
-                    if phase_key == "implementation"
-                    and framework == "apm"
-                    and bucket == "standard"
+                    if phase_key == "implementation" and framework == "apm" and bucket == "standard"
                     else ""
                 )
                 row_label = label + note
@@ -565,58 +583,98 @@ def _steer_incidence_by_phase(pairs: list[ParticipantPair]) -> list[str]:
                 for session in sessions
             )
             framework_cell = _framework_cell(framework, phase_key)
-            rows.append(
-                f"{framework_cell} & {phase_label} & {attempted} & {delivered} \\\\"
-            )
+            rows.append(f"{framework_cell} & {phase_label} & {attempted} & {delivered} \\\\")
     return rows
 
 
 def _planning_behaviour_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return planning request and output paired rows for Discussions."""
-    return [
-        paired_row(
-            ["Requests"],
-            paired_summary(
-                [phase_scope(pair.apm, "data", "planning")["request_count"] for pair in pairs],
-                [phase_scope(pair.speckit, "data", "planning")["request_count"] for pair in pairs],
-            ),
-            1,
-        ),
-        paired_row(
-            ["Output (thousand tokens)"],
-            paired_summary(
-                [
-                    phase_scope(pair.apm, "data", "planning")["total_output_tokens"] / 1000
-                    for pair in pairs
-                ],
-                [
-                    phase_scope(pair.speckit, "data", "planning")["total_output_tokens"] / 1000
-                    for pair in pairs
-                ],
-            ),
-            1,
-        ),
-    ]
+    """Return paired planning-phase behaviour rows for Discussions.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One LaTeX row per behaviour measure.
+    """
+    return _behaviour_paired(
+        pairs, "planning", PLANNING_BEHAVIOUR_MEASURES, notes=PLANNING_BEHAVIOUR_NOTES
+    )
 
 
 def _implementation_behaviour_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return implementation request paired row for Discussions."""
+    """Return paired implementation-phase behaviour rows for Discussions.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One LaTeX row per behaviour measure.
+    """
+    return _behaviour_paired(pairs, "implementation", IMPLEMENTATION_BEHAVIOUR_MEASURES)
+
+
+def _behaviour_paired(
+    pairs: list[ParticipantPair],
+    phase: str,
+    measures: dict[str, str],
+    notes: dict[str, str] | None = None,
+) -> list[str]:
+    """Return paired behaviour rows for one phase.
+
+    Args:
+        pairs: Cohort participant pairs.
+        phase: Phase scope key, ``"planning"`` or ``"implementation"``.
+        measures: Parser data field names mapped to their row labels.
+        notes: Optional LaTeX note markers keyed by measure.
+
+    Returns:
+        One LaTeX row per measure, in the order ``measures`` gives them.
+    """
+    rows: list[str] = []
+    notes = notes or {}
+    for measure, label in measures.items():
+        subset = _recoverable_pairs(pairs, measure)
+        rows.append(
+            paired_row(
+                [label + notes.get(measure, "")],
+                paired_summary(
+                    [_behaviour_value(pair.apm, phase, measure) for pair in subset],
+                    [_behaviour_value(pair.speckit, phase, measure) for pair in subset],
+                ),
+                1,
+            )
+        )
+    return rows
+
+
+def _recoverable_pairs(pairs: list[ParticipantPair], measure: str) -> list[ParticipantPair]:
+    """Return the pairs one behaviour measure is recoverable for in both frameworks.
+
+    A paired difference needs both sessions, so a pair is dropped when either
+    session is missing the measure.
+
+    Args:
+        pairs: Cohort participant pairs.
+        measure: Parser data field name.
+
+    Returns:
+        ``pairs`` unchanged, less any pair with an unrecoverable session.
+    """
+    if measure != SUBAGENT_REQUEST_MEASURE:
+        return pairs
     return [
-        paired_row(
-            ["Requests"],
-            paired_summary(
-                [
-                    phase_scope(pair.apm, "data", "implementation")["request_count"]
-                    for pair in pairs
-                ],
-                [
-                    phase_scope(pair.speckit, "data", "implementation")["request_count"]
-                    for pair in pairs
-                ],
-            ),
-            1,
+        pair
+        for pair in pairs
+        if not any(
+            (pair.pid, framework) in UNRECOVERABLE_SUBAGENT_REQUESTS
+            for framework in ("apm", "speckit")
         )
     ]
+
+
+def _behaviour_value(session: SessionArtefacts, phase: str, measure: str) -> float:
+    """Return one behaviour count from a session's phase scope."""
+    return float(phase_scope(session, "data", phase)[measure])
 
 
 def _compaction_incidence_by_model(pairs: list[ParticipantPair]) -> list[str]:
@@ -624,11 +682,7 @@ def _compaction_incidence_by_model(pairs: list[ParticipantPair]) -> list[str]:
     rows: list[str] = []
     for model in ("opus", "sonnet"):
         for framework in ("apm", "speckit"):
-            sessions = [
-                getattr(pair, framework)
-                for pair in pairs
-                if model_band(pair.apm) == model
-            ]
+            sessions = [getattr(pair, framework) for pair in pairs if model_band(pair.apm) == model]
             counts = [_compaction_count(session) for session in sessions]
             rows.append(
                 f"{model.title() if framework == 'apm' else ''} & "
@@ -758,9 +812,7 @@ def _compaction_count(session: SessionArtefacts) -> int:
     if "context_segments" not in session.parser_data:
         raise ValueError(f"{session.record.parser_data}: missing context_segments[]")
     return sum(
-        1
-        for segment in session.parser_data["context_segments"]
-        if segment["closed_by_compaction"]
+        1 for segment in session.parser_data["context_segments"] if segment["closed_by_compaction"]
     )
 
 
