@@ -60,9 +60,8 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(output_dir / "func-score-paired-by-section.tex", _score_paired_by_section(pairs))
     write_fragment(output_dir / "func-score-sessions.tex", _score_sessions(pairs))
     write_fragment(output_dir / "func-score-paired-by-order.tex", _score_paired_by_order(pairs))
-    write_fragment(
-        output_dir / "disc-learning-by-participant.tex", _learning_by_participant(pairs)
-    )
+    write_fragment(output_dir / "disc-learning-by-participant.tex", _learning_by_participant(pairs))
+    write_fragment(output_dir / "disc-compact-regrade.tex", _compact_regrade_sessions(pairs))
 
 
 def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
@@ -226,6 +225,46 @@ def _learning_by_participant(pairs: list[ParticipantPair]) -> list[str]:
         )
         rows.append((gain, row))
     return [row for _gain, row in sorted(rows, key=lambda item: item[0], reverse=True)]
+
+
+def _compact_regrade_sessions(pairs: list[ParticipantPair]) -> list[str]:
+    """Return compact-input diagnostic rows for sessions whose scores changed.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One LaTeX row per Sonnet session with a changed diagnostic score.
+
+    Raises:
+        ValueError: If a Sonnet session omits compact-input grading results.
+    """
+    rows: list[str] = []
+    for pair in pairs:
+        for session in (pair.apm, pair.speckit):
+            if model_band(session) != "sonnet":
+                continue
+            compact = session.compact_grader_results
+            if compact is None:
+                raise ValueError(
+                    f"{pair.pid} {session.record.session} {session.record.framework}: "
+                    "missing compact_grader_results in config"
+                )
+            standard_score = _score(session, "total")
+            diagnostic_score = float(compact["scores"]["total"])
+            if abs(diagnostic_score - standard_score) <= 0.01:
+                continue
+            rows.append(
+                " & ".join(
+                    [
+                        f"{pair.pid} {session.record.session} ({_framework_label(session)})",
+                        _points(standard_score),
+                        _points(diagnostic_score),
+                    ]
+                )
+                + r" \\\\"
+            )
+    return rows
 
 
 def _score(session: SessionArtefacts, key: str) -> float:

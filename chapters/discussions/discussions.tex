@@ -70,7 +70,7 @@ A few APM markers nonetheless reach the high ranges, one even passing the Spec-k
   \label{fig:disc-occupancy-sessions}
 \end{figure}
 
-Under Opus no conversation reset, so each used only one context window, growing from the start of the task to its end. Each call is charged for the whole context before it, and APM's conversations together held more accumulated context than Spec-kit's one. Therefore, APM with Opus paid more, even on cache reads, the one category where dividing the work might have lowered spending instead. With higher cache writes and output on top, APM cost more under Opus in every token category but input, where the difference was negligible. Table~\ref{tab:cost-token-paired-by-model} presents this and the wide gaps of Figure~\ref{fig:disc-occupancy-sessions-opus} show Spec-kit holding a few lone high markers and APM a spread that reaches toward them.
+Under Opus no conversation reset, so each used only one context window, growing from the start of the task to its end. Each call is charged for the whole context before it, and APM's conversations together held more accumulated context than Spec-kit's one. Under Opus, all three paired summaries were positive for output and both cache-write categories. Input was negligible, while the cache-read summaries were positive despite one negative pair. The cache-write differences were positive in every pair, while output and cache-read differences were positive in five of six. Table~\ref{tab:cost-token-paired-by-model} presents this and the wide gaps of Figure~\ref{fig:disc-occupancy-sessions-opus} show Spec-kit holding a few lone high markers and APM a spread that reaches toward them.
 
 \begin{figure}[H]
   \centering
@@ -132,7 +132,7 @@ The grader judges a submission only by the behaviour of the running program, nev
 
 Three Sonnet sessions show this. Each scored exactly 34 on the total, with the Python half complete and almost the whole C half lost. The cause in all three was the same narrow flaw in the parser their C replica used to read MCP messages. MCP carries requests as JSON-RPC objects\footnote{MCP transport specification available at: \url{https://modelcontextprotocol.io/specification/2025-06-18/basic/transports}}, so the replica had to read each JSON object and decide which operation to perform. Our grader sends requests with ordinary spacing between JSON fields, while an alternative compact form removes those spaces\footnote{For example, \texttt{\{"id": 1\}} uses ordinary spacing, while \texttt{\{"id":1\}} is compact.}. Both forms spell the same object, since the whitespace between fields is insignificant in the JSON the protocol uses.\footnote{RFC 8259, Section 2 (\url{https://www.rfc-editor.org/rfc/rfc8259}).}
 
-A conformant parser should accept both forms. The affected parsers accepted only the compact spelling. Because the first grader request used the spaced form, their C parser was unresponsive and the exchange stopped before the later checks could probe the rest of the implementation. These attempts were otherwise strong. When graded again with the grader's requests being in compact form, they rose to between 94 and 100, as Figure~\ref{fig:disc-grading-compact-comparison} shows.
+A conformant parser should accept both forms. The affected parsers accepted only the compact spelling. Because the first grader request used the spaced form, their C parser was unresponsive and the exchange stopped before the later checks could probe the rest of the implementation. These attempts were otherwise strong. When graded again with the grader's requests being in compact form, the three sessions received diagnostic scores between 93.9 and 100. Figure~\ref{fig:disc-grading-compact-comparison} plots the full Sonnet group, and Table~\ref{tab:disc-grading-compact-sessions} gives the three changed scores.
 
 \begin{figure}[H]
   \centering
@@ -140,6 +140,19 @@ A conformant parser should accept both forms. The affected parsers accepted only
   \caption{Each Sonnet session's total score on the grader's standard JSON input, filled, and its diagnostic score on the compact JSON input, open, joined where they differ. The Opus sessions do not differ and are omitted.}
   \label{fig:disc-grading-compact-comparison}
 \end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Compact-input diagnostic scores for the sessions whose score changed. These diagnostic scores are not part of the framework comparison.}
+  \label{tab:disc-grading-compact-sessions}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrr}
+    \toprule
+    Session & Standard total score & Compact-input diagnostic score \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/disc-compact-regrade.tex}
+    \bottomrule
+  \end{tabular*}
+\end{table}
 
 Five sessions across the cohort scored below fifty. The re-grade recovers three of them, both of APM's and one of Spec-kit's. After it, APM's sessions are all high, and the two that stay below fifty are Spec-kit's. What those two are, this re-grade cannot say. It reaches one kind of grader strictness, and the two it leaves may be sound work it does not reach, just as the three it recovered were, or they may be genuine shortfalls. Recovering two APM sessions also moves the cohort comparison toward APM, but that is one participant rather than a framework effect. The flaw appears under both frameworks, and the participant who shipped it in both sessions barely moves with the re-grade.
 
