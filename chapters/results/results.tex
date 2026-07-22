@@ -74,7 +74,7 @@ The Opus group also varied widely, from one participant for whom APM cost about 
   \label{fig:cost-session-paired-by-model}
 \end{figure}
 
-The phase split holds as a paired difference, with both phases excluding zero, as Table~\ref{tab:cost-phase-paired} sets out.\footnote{A small residual the parser records as an ``other'' phase, session activity outside either framework's workflow phases, accounts for under one percent of cost and a difference indistinguishable from zero, and is omitted.} APM's planning cost was the lower in ten of the twelve pairs and its implementation cost the higher in ten. The implementation excess was the larger of the two, so it set the direction of the overall difference. The pattern held in both models, stronger for the Opus group and slighter for the Sonnet group, with the per-model split given in Table~\ref{tab:cost-phase-paired-by-model} in Appendix~\ref{app:results-cost-breakdowns}.
+Only the implementation phase holds as a paired difference, as Table~\ref{tab:cost-phase-paired} sets out.\footnote{Session activity outside either framework's workflow phases accounts for under one percent of cohort cost and a difference indistinguishable from zero, and is omitted.} APM's implementation cost was the higher in nine of the twelve pairs, with an interval excluding zero, and it set the direction of the overall difference. Its planning cost was the lower in eight of the twelve, but that interval spans zero, so the phase carries no firm difference. The implementation excess concentrated in the Opus group, with the per-model split given in Table~\ref{tab:cost-phase-paired-by-model} in Appendix~\ref{app:results-cost-breakdowns}.
 
 \begin{table}[H]
   \centering
@@ -89,9 +89,9 @@ The phase split holds as a paired difference, with both phases excluding zero, a
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's APM Planner and Manager ran in one conversation, so Manager work is included in planning-phase cost. This makes the full-cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-4.11$, $-5.37$, and $-5.32$, rather than $-3.77$, $-4.89$, and $-5.17$.
-    \item[b] P006 did not invoke Spec-kit's implementation command, so its Spec-kit implementation cost is recorded as zero under our parser. This raises the full-cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+8.57$, $+9.90$, and $+12.12$, rather than $+9.41$, $+10.01$, and $+12.21$.
-    \item[c] P009 is also the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+8.57$, $+8.33$, and $+9.12$, rather than $+9.41$, $+10.01$, and $+12.21$.
+    \item[a] P004's APM Planner and Manager ran in one conversation, so Manager work is included in planning-phase cost. This makes the full-cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-1.10$, $-1.77$, and $-2.02$, rather than $-0.84$, $-1.27$, and $-1.07$.
+    \item[b] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no cost for the session. This raises the full-cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
+    \item[c] P009 is also the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$, rather than $+6.52$, $+6.52$, and $+8.08$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -150,7 +150,7 @@ Two of the three categories drove the difference: output and the one-hour writes
 
 Session order did not reverse the cost difference. All three summaries were positive in both order groups. Four of the seven APM-first pairs and all five APM-second pairs had a positive difference. Table~\ref{tab:cost-session-paired-by-order} in Appendix~\ref{app:results-cost-breakdowns} gives the difference within each order. All three summaries were larger and more consistent when participants met APM second, but at seven and five participants in each order the intervals are wide and the two order groups cannot be distinguished. The order split therefore does not establish an order effect.
 
-Two sections in Chapter~\ref{chap:discussions} read these differences further. Section~\ref{sec:discussions-sdd} traces the planning-phase difference to how the two frameworks carry out spec-driven planning. Section~\ref{sec:discussions-cost-mechanics} reads the implementation cost, how working across several agents shapes where the cost falls and why the two model groups diverge.
+Two sections in Chapter~\ref{chap:discussions} read these differences further. Section~\ref{sec:discussions-sdd} traces the planning-phase divergence to how the two frameworks carry out spec-driven planning. Section~\ref{sec:discussions-cost-mechanics} reads the implementation cost, how working across several agents shapes where the cost falls and why the two model groups diverge.
 
 \section{Process}
 \label{sec:results-process}
@@ -160,7 +160,7 @@ The process comparison reads how the time each task took and the effort it asked
 \subsection{Temporal Shape}
 \label{sec:results-process-time}
 
-An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Table~\ref{tab:proc-duration-levels} reports. APM's durations clustered tightly, with its Hodges-Lehmann estimate and mean close to the median, while Spec-kit's mean and Hodges-Lehmann estimate sat above its median, pulled up by a few long sessions. The two phases divided that time differently. APM's time fell mostly in implementation, at a median of about 77 minutes against Spec-kit's 30, while planning was closer and went the other way, with APM at about 36 minutes against Spec-kit's 49.
+An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Table~\ref{tab:proc-duration-levels} reports. APM's durations clustered tightly, with its Hodges-Lehmann estimate and mean close to the median, while Spec-kit's mean and Hodges-Lehmann estimate sat above its median, pulled up by a few long sessions. The two phases divided that time differently. APM's time fell mostly in implementation, at a median of about 77 minutes against Spec-kit's 37, while the two spent almost the same time planning, APM at about 36 minutes against Spec-kit's 35.
 
 \begin{table}[H]
   \centering
@@ -176,9 +176,7 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's merged APM Planner/Manager conversation raises the APM planning-duration summary. Without P004 the APM planning median, Hodges-Lehmann estimate, and mean are $1850.6$, $2129.2$, and $2181.7$ seconds, rather than $2153.4$, $2179.3$, and $2298.9$.
-    \item[b] P006 did not invoke Spec-kit's implementation command, so its implementation duration is recorded as zero under our parser. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $1954.6$, $1834.3$, and $2050.7$ seconds, rather than $1779.3$, $1649.6$, and $1879.8$.
-    \item[c] P009's Spec-kit agent self-invoked the implementation command inside a planning-labelled turn. The parser labels each turn by its starting prompt's phase, so that turn's entire duration, including the implementation work completed within it, is attributed to planning. Only one final turn is recorded as implementation, understating Spec-kit's implementation duration and overstating its planning duration for this participant.
-    \item[d] P002's Spec-kit implementation was the longest in the cohort at $6271$ seconds. This is the main upward pull on the row mean; without P002 the median, Hodges-Lehmann estimate, and mean are $1604.1$, $1504.0$, and $1480.6$ seconds, rather than $1779.3$, $1649.6$, and $1879.8$.
+    \item[b] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no duration for the session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -200,7 +198,7 @@ APM was the longer session for every participant, as Table~\ref{tab:proc-time-pa
 
 The session duration difference held under both models and was wider under Opus than Sonnet. Its split into active and idle time held under both as well, with the active-time gap the wider under Opus. Table~\ref{tab:proc-time-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} details the per-model split.
 
-The two phases did not share that difference equally, as Table~\ref{tab:proc-phase-paired} sets out. The implementation phase was longer under APM in every pair, with almost all of the extra time spent in active work, and it set the direction of the whole-session difference. The planning difference was a wash, mixed across participants with an interval spanning zero. The one clear planning contrast is in the active time, where Spec-kit's agent worked longer in eight of the twelve pairs, with an interval excluding zero, while the idle time between turns stood even between the frameworks.
+The two phases did not share that difference equally, as Table~\ref{tab:proc-phase-paired} sets out. The implementation phase was longer under APM in every pair, with most of the extra time spent in active work, and it set the direction of the whole-session difference. The planning difference was mixed across participants with an interval spanning zero. Its active time and its idle time between turns divided the same way, each mixed in sign with an interval spanning zero, so neither separates the frameworks within the phase.
 
 \begin{table}[H]
   \centering
@@ -216,7 +214,7 @@ The two phases did not share that difference equally, as Table~\ref{tab:proc-pha
   \end{tabular*}
 \end{table}
 
-Splitting the two phase differences by model changed neither result. Table~\ref{tab:proc-phase-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} presents the per-model view. The implementation phase was longer under APM in all six pairs of each model, with the typical difference somewhat larger under Sonnet. The planning difference remained mixed in sign under both models, with its interval spanning zero.
+Splitting the two phase differences by model changed neither result, as Table~\ref{tab:proc-phase-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} sets out.
 
 Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as Table~\ref{tab:proc-duration-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore tracks the framework rather than the order of the sessions.
 
@@ -250,8 +248,8 @@ An APM session had a median of 21.5 turn prompts against Spec-kit's 13.0, as Tab
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's merged Planner/Manager conversation raises the APM planning turn-prompt count. Without P004 the APM planning turn median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turns, rather than $9.5$, $9.5$, and $9.7$.
-    \item[b] P006 contributes zero Spec-kit implementation turns because it did not invoke the implementation command, as noted for duration in Table~\ref{tab:proc-duration-levels} note~[b]. This lowers the Spec-kit implementation count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turns, rather than $3.0$, $3.5$, and $3.3$.
-    \item[c] P007 and P009 each have one Spec-kit implementation turn. In both sessions the model self-invoked the implementation command inside a planning-labelled turn; as noted for duration in Table~\ref{tab:proc-duration-levels} note~[c], the parser labels each turn by its starting prompt's phase, so only the subsequent turn counts as implementation.
+    \item[b] P006's Spec-kit session opens no implementation turn, for the reason given in Table~\ref{tab:proc-duration-levels} note~[b]. This lowers the Spec-kit implementation count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turns, rather than $3.0$, $3.5$, and $3.3$.
+    \item[c] P007 and P009 each opened only one Spec-kit turn in implementation: in both, the agent invoked the implementation command inside a turn the participant had opened for planning, so only the turn that followed is counted in the phase.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -271,7 +269,7 @@ Paired within each participant, the added turns under APM fell almost entirely i
   \end{tabular*}
 \end{table}
 
-The same pattern appeared under both models, the implementation difference setting the session difference under each and planning staying level, with the gap clearer under Sonnet. Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} details the per-model split across the scopes.
+The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
 The bucket shares and the magnitude per bucket differed by phase and framework, as Table~\ref{tab:proc-buckets-composition} reports.
 
