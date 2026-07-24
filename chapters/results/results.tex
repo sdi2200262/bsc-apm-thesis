@@ -271,17 +271,17 @@ Paired within each participant, the added turns under APM fell almost entirely i
 
 The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
-The bucket shares and the magnitude per bucket differed by phase and framework, as Table~\ref{tab:proc-buckets-composition} reports.
+The turn-prompt bucket shares and the magnitude per bucket differed by phase and framework, as Table~\ref{tab:proc-buckets-composition} reports.
 
-In planning, APM's messages fell mostly in the short and standard buckets, with the protocol bucket small. The short messages were brief checkpoint approvals, with a magnitude near 20 characters. The standard messages were longer, with a magnitude near 156 characters, and were the exchange in which the Planner put questions to the user. Spec-kit's planning was mostly framework commands, with few standard messages from the user.
+In planning, APM's turn prompts fell mostly in the short and standard buckets, with the protocol bucket small. The short prompts had a magnitude near 20 characters, while the standard prompts had a magnitude near 156 characters. Spec-kit's planning was mostly framework commands, with few standard prompts from the user.
 
-In implementation the composition reversed for APM, whose messages were mostly the protocol commands that drive its workflow. Spec-kit's implementation had very few messages of any kind, so its bucket shares there rest on one to a few messages per session and are too sparse to read as a typical mix.
+In implementation the composition reversed for APM, whose turn prompts were mostly the protocol commands that drive its workflow. Spec-kit's implementation had very few turn prompts of any kind, so its bucket shares there rest on one to a few prompts per session and are too sparse to read as a typical mix.
 
 \begin{table}[H]
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-framework bucket shares and magnitude per bucket by phase, computed across the sessions of each framework. Each share is summarised on its own, so neither the medians nor the means necessarily sum to one. A mean falls below one when an included session has no recorded inputs for that phase.}
+  \caption{Turn-prompt bucket shares and mean character counts by phase and framework.}
   \label{tab:proc-buckets-composition}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lll rrr rrr}
     \toprule
@@ -293,16 +293,17 @@ In implementation the composition reversed for APM, whose messages were mostly t
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002 has the largest APM implementation standard-message magnitude in the cohort by a substantial margin, from a single message in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters, rather than $79$, $102$, and $184$.
+    \item Each bucket is summarised independently across the sessions, so the three medians need not sum to one. The three mean shares sum to one unless a session has no turn prompt in the phase and contributes three zeros.
+    \item[a] P002 has the largest APM implementation standard-prompt magnitude in the cohort by a substantial margin, from a single prompt in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters, rather than $79$, $102$, and $184$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-APM held close to the same bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} of Appendix~\ref{app:results-process-breakdowns} give the per-participant bucket shares, with the turn-prompt count behind each, and Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} the magnitude per bucket.
+APM held close to the same turn-prompt bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} of Appendix~\ref{app:results-process-breakdowns} give the per-participant bucket shares, with the turn-prompt count behind each, and Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} the magnitude per bucket.
 
 The composition held under both models. The one visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. Table~\ref{tab:proc-buckets-composition-by-model} of Appendix~\ref{app:results-process-breakdowns} gives the shares by model.
 
-Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-turns-levels-by-role} reports. The Planner's turns were those of the planning phase, while the Manager and the Workers divided the implementation phase between them, at medians of 6.5 and 5.0 turn prompts. The composition of those turns by role is given in Table~\ref{tab:proc-buckets-composition-by-role} of Appendix~\ref{app:results-process-breakdowns}. The Workers were addressed almost entirely through protocol commands, while the Manager's messages, mostly protocol as well, also included some short and standard text.
+Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-turns-levels-by-role} reports. The Planner's turns were those of the planning phase, while the Manager and the Workers divided the implementation phase between them, at medians of 6.5 and 5.0 turn prompts. The composition of those turns by role is given in Table~\ref{tab:proc-buckets-composition-by-role} of Appendix~\ref{app:results-process-breakdowns}. The Workers were addressed almost entirely through protocol commands, while the Manager's prompts, mostly protocol as well, also included some short and standard text.
 
 \begin{table}[H]
   \centering
@@ -317,7 +318,7 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
   \end{tabular*}
 \end{table}
 
-Steering was light to non-existent under both frameworks. Across the cohort participants attempted thirteen steers under APM and six under Spec-kit, of which three reached the agent under APM and none under Spec-kit. Table~\ref{tab:proc-steers-incidence-by-phase} of Appendix~\ref{app:results-process-breakdowns} gives the counts by phase.
+Steering was sparse under both frameworks. APM recorded thirteen steers, three of which were delivered. Spec-kit recorded six, with no deliveries. Eight of APM's steers occurred in planning, including two of the three delivered steers. Table~\ref{tab:proc-steers-incidence-by-phase} of Appendix~\ref{app:results-process-breakdowns} gives both outcome counts by phase.
 
 Session order did not reverse the result. The higher turn-prompt count under APM held whether participants met it first or second. Table~\ref{tab:proc-turns-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports the difference by order.
 

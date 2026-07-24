@@ -473,7 +473,7 @@ def _bucket_share_sessions(pairs: list[ParticipantPair], phase: str) -> list[str
         for session in (pair.apm, pair.speckit):
             count = int(_turn_value(session, phase))
             if count == 0:
-                cells.extend(["---", "---", "---", "0"])
+                cells.extend(["--", "--", "--", "0"])
             else:
                 cells.extend(
                     [
@@ -567,23 +567,23 @@ def _bucket_composition_by_role(pairs: list[ParticipantPair]) -> list[str]:
 
 
 def _steer_incidence_by_phase(pairs: list[ParticipantPair]) -> list[str]:
-    """Return summed attempted and delivered steer counts by framework and phase."""
+    """Return delivered and abandoned steer counts by framework and phase."""
     rows: list[str] = []
     for framework in ("apm", "speckit"):
         if rows:
             rows.append(r"\midrule")
         for phase_key, phase_label in PHASES.items():
             sessions = [getattr(pair, framework) for pair in pairs]
-            attempted = sum(
-                int(phase_scope(session, "data", phase_key)["steer_attempted_count"])
-                for session in sessions
-            )
             delivered = sum(
                 int(phase_scope(session, "data", phase_key)["steer_delivered_count"])
                 for session in sessions
             )
+            abandoned = sum(
+                int(phase_scope(session, "data", phase_key)["steer_abandoned_count"])
+                for session in sessions
+            )
             framework_cell = _framework_cell(framework, phase_key)
-            rows.append(f"{framework_cell} & {phase_label} & {attempted} & {delivered} \\\\")
+            rows.append(f"{framework_cell} & {phase_label} & {delivered} & {abandoned} \\\\")
     return rows
 
 
@@ -738,9 +738,9 @@ def _duration_notes(scope: str) -> dict[str, str]:
 
 
 def _bucket_share(session: SessionArtefacts, scope: str, bucket: str) -> float:
-    """Return one input bucket share."""
+    """Return one turn-prompt bucket share."""
     block = _metric_scope(session, scope)
-    return float(block["all_inputs_bucket_shares"][bucket])
+    return float(block["turn_prompts_bucket_shares"][bucket])
 
 
 def _bucket_magnitude(session: SessionArtefacts, scope: str, bucket: str) -> float:
@@ -783,9 +783,8 @@ def _bucket_summary_row(
 
 
 def _role_bucket(session: SessionArtefacts, role_prefix: str, bucket: str) -> tuple[float, float]:
-    """Return aggregate share and magnitude for one role prefix and bucket."""
-    input_count_total = 0.0
-    input_bucket_count = 0.0
+    """Return aggregate turn-prompt share and magnitude for one role prefix and bucket."""
+    prompt_count_total = 0.0
     prompt_bucket_count = 0.0
     prompt_bucket_chars = 0.0
     for role, data in role_scopes(session, "data").items():
@@ -793,18 +792,15 @@ def _role_bucket(session: SessionArtefacts, role_prefix: str, bucket: str) -> tu
             continue
         metrics = role_scopes(session, "metrics")[role]
         prompt_count = float(data["turn_prompt_count"])
-        input_count = prompt_count + float(data["steer_delivered_count"])
-        input_share = float(metrics["all_inputs_bucket_shares"][bucket])
         prompt_share = float(metrics["turn_prompts_bucket_shares"][bucket])
         magnitude = float(metrics["turn_prompts_magnitude_by_bucket"][bucket])
-        input_count_total += input_count
-        input_bucket_count += input_count * input_share
+        prompt_count_total += prompt_count
         role_prompt_bucket_count = prompt_count * prompt_share
         prompt_bucket_count += role_prompt_bucket_count
         prompt_bucket_chars += role_prompt_bucket_count * magnitude
-    if input_count_total == 0 or prompt_bucket_count == 0:
+    if prompt_count_total == 0 or prompt_bucket_count == 0:
         return 0.0, 0.0
-    return input_bucket_count / input_count_total, prompt_bucket_chars / prompt_bucket_count
+    return prompt_bucket_count / prompt_count_total, prompt_bucket_chars / prompt_bucket_count
 
 
 def _compaction_count(session: SessionArtefacts) -> int:

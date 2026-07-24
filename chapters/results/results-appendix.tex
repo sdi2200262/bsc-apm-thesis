@@ -145,12 +145,12 @@ Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by s
   \end{tabular*}
 \end{table}
 
-Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} give the per-participant bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} give the magnitude per bucket for the same sessions.
+Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} give the per-participant turn-prompt bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} give the magnitude per bucket for the same prompts.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Per-participant planning input-bucket shares, with the turn-prompt count $n$ behind each session.}
+  \caption{Per-participant planning turn-prompt bucket shares, with the count $n$ behind each session.}
   \label{tab:proc-planning-buckets-composition-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
     \toprule
@@ -167,7 +167,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-participant implementation input-bucket shares, with the turn-prompt count $n$ behind each session. A session with no implementation message has no shares.}
+  \caption{Per-participant implementation turn-prompt bucket shares, with the count $n$ behind each session. A session with no implementation turn prompt has no shares.}
   \label{tab:proc-implementation-buckets-composition-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
     \toprule
@@ -187,7 +187,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
 \begin{table}[H]
   \centering
   \small
-  \caption{Per-participant magnitude per bucket in the planning phase, in characters. A zero marks a bucket with no messages in that session.}
+  \caption{Per-participant turn-prompt magnitude per bucket in the planning phase, in characters. A zero marks a bucket with no prompt in that session.}
   \label{tab:proc-planning-bucket-magnitude-sessions-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
     \toprule
@@ -204,7 +204,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-participant magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no messages in that session.}
+  \caption{Per-participant turn-prompt magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no prompt in that session.}
   \label{tab:proc-implementation-bucket-magnitude-sessions-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
     \toprule
@@ -216,18 +216,18 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
+    \item[a] P002's high standard-prompt magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
     \item[b] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-buckets-composition-by-model} gives the input-bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
+Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Input-bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
+  \caption{Turn-prompt bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
   \label{tab:proc-buckets-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
     \toprule
@@ -238,13 +238,13 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the input-bucket shares 
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-buckets-composition-by-role} gives the bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
+Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
 
 \begin{table}[H]
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-role bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
+  \caption{Per-role turn-prompt bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
   \label{tab:proc-buckets-composition-by-role}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr}
     \toprule
@@ -256,20 +256,20 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the bucket shares and mag
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-message magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
+    \item[a] P002's high standard-prompt magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-steers-incidence-by-phase} gives the steer counts by framework and phase.
+Table~\ref{tab:proc-steers-incidence-by-phase} gives the counts of steers that were delivered and those that were not, by framework and phase.
 
 \begin{table}[H]
   \centering
-  \caption{Steer counts summed across the cohort, by framework and phase. An attempted steer is one the participant began to send; a delivered steer is one the platform passed to the working agent.}
+  \caption{Steer outcomes summed across the cohort by framework and phase.}
   \label{tab:proc-steers-incidence-by-phase}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr}
     \toprule
-    Framework & Phase & Attempted & Delivered \\
+    Framework & Phase & Delivered & Not delivered \\
     \midrule
     \InputTableRows{analysis/generated/tables/proc-steers-incidence-by-phase.tex}
     \bottomrule
