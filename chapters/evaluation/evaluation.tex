@@ -78,7 +78,7 @@ The economic measurement is the \textbf{dollar-equivalent cost}, computed by pri
 \subsection{Process}
 \label{sec:evaluation-measures-process}
 
-The process measures capture two aspects of a session, its temporal shape and its interaction shape. The first is how the session's time was spent; the second is how the user engaged with the agent, which reflects the effort each framework demands.
+The process measures describe the session's temporal shape and the user's interaction with the agent.
 
 The temporal shape of the session is captured by the session duration and the two measures that decompose the time within it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
@@ -87,22 +87,24 @@ The temporal shape of the session is captured by the session duration and the tw
     \item \textbf{Inter-turn time} is the residual of the session duration once turn time is subtracted. It is the assistant's idle time as recorded in the transcripts, not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
-The interaction shape is captured by the count of turn prompts, the number of turns the user opened across the session, the counts of delivered and attempted steers, and two views of how those messages divide by content. A user message is one of two kinds:
+The interaction shape is captured through two forms of user input:
 \begin{itemize}
     \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
-    \item A \textbf{steer} is an interjection enqueued while the agent is still working, which the platform either delivers during the turn or abandons if the user retracts it first.
+    \item A \textbf{steer} is an interjection enqueued while the agent is still working.
 \end{itemize}
-The two steer counts separate intent from effect. Every steer the participant began to send is an attempted steer; a delivered steer is one the platform actually passed to the working agent. A steer abandoned before delivery carries no content the agent acted on, so it is counted but not bucketed below, and the gap between the two counts records the interjections a participant started and then withdrew.
 
-Each turn prompt and delivered steer also falls into a content bucket, by whether it invokes a framework command and, otherwise, by its length:
+Turn prompts are counted, and each falls into one of three content buckets:
 \begin{itemize}
-    \item \textbf{Protocol} for an APM or Spec-kit framework command.
-    \item \textbf{Short} for a brief non-command message below a length threshold.
-    \item \textbf{Standard} for a longer, substantive message at or above it, such as a correction, a decision, or guidance.
+    \item \textbf{Protocol} for a prompt that invokes an APM or Spec-kit framework command.
+    \item \textbf{Short} for a non-command prompt below 50 characters.
+    \item \textbf{Standard} for a non-command prompt of 50 characters or more.
 \end{itemize}
-The two bucket views summarise how the messages fall across the buckets. The \textbf{bucket-share distribution} is each bucket's share of the messages, counted for prompts and delivered steers separately and together. The \textbf{magnitude per bucket} is the mean character count of the messages in each bucket, taken for the turn prompts and the delivered steers separately. Together these distinguish effort spent shuttling mechanical messages, where the protocol share is high and the magnitude low, from effort spent on substantive correction and guidance, where the standard share and magnitude are high.
 
-Unlike the temporal measures, the interaction counts and both bucket views are also reported at role scope for APM, attributing each turn prompt and delivered steer to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
+The \textbf{bucket-share distribution} gives each bucket's share of the turn prompts, and the \textbf{magnitude per bucket} gives their mean character count within each bucket. Together with the \textbf{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
+
+Steers are reported only as two counts, one for those delivered to the working agent and one for those not delivered.
+
+Unlike the temporal measures, the turn-prompt measures are also reported at role scope for APM, attributing each prompt to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
 
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
@@ -145,7 +147,7 @@ The uncertainty around that typical difference is a confidence interval for it, 
 \]
 The interval's coverage depends on the number of pairs, and is 95.8\% across the full cohort of twelve and 96.9\% across the six-participant model splits.
 
-The economic and process measures are continuous, and each is reported both by each framework's measured values and by the within-participant paired difference between them, taking the three summaries in full. Where a measure has no counterpart to pair against, as with APM's per-role attribution, or is a composition whose shares move together rather than a single magnitude, no paired difference is formed. Such a measure is reported descriptively by each framework's central values alone, the median, Hodges-Lehmann estimate, and mean, without the sign test or the confidence interval. At this cohort size, distinct session-level edge cases can shift individual summaries; where that happens, the affected table row notes the case. The functional total score is compared within participant the same way. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support.
+The economic measures, the temporal process measures, and the turn-prompt count are each reported both by each framework's measured values and by the within-participant paired difference between them, taking the three summaries in full. Where a measure has no counterpart to pair against, as with APM's per-role attribution, or is a composition whose shares move together rather than a single magnitude, no paired difference is formed. Such a measure is reported descriptively by each framework's central values alone, the median, Hodges-Lehmann estimate, and mean, without the sign test or the confidence interval. At this cohort size, distinct session-level edge cases can shift individual summaries; where that happens, the affected table row notes the case. The functional total score is compared within participant the same way. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support.
 
 The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count and the median of its paired differences, read with the item's polarity, with the per-framework median ratings giving a profile across the items. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
 
