@@ -211,20 +211,24 @@ def _score_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
 
 
 def _learning_by_participant(pairs: list[ParticipantPair]) -> list[str]:
-    """Return second-session score-gain rows for Learning Effects."""
-    rows: list[tuple[float, str]] = []
-    for pair in pairs:
+    """Return first-to-second total-score change rows for Learning Effects.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One row per participant in participant-id order.
+    """
+    rows: list[str] = []
+    for pair in sorted(pairs, key=lambda item: item.pid):
         first, second = _ordered_sessions(pair)
-        gain = _score(second, "total") - _score(first, "total")
-        if gain <= 0:
-            continue
-        note = r"\tnote{b}" if pair.pid == "P010" else ""
-        row = (
+        change = _score(second, "total") - _score(first, "total")
+        change_text = _points(change) if change == 0.0 else _signed_points(change)
+        rows.append(
             f"{pair.pid} & {model_band(pair.apm).title()} & "
-            f"{_framework_label(second)} & {_signed_points(gain)}{note} \\\\"
+            f"{_framework_label(second)} & {change_text} \\\\"
         )
-        rows.append((gain, row))
-    return [row for _gain, row in sorted(rows, key=lambda item: item[0], reverse=True)]
+    return rows
 
 
 def _compact_regrade_sessions(pairs: list[ParticipantPair]) -> list[str]:
