@@ -194,36 +194,35 @@ Mental demand and the effort spent checking the AI's output have no measured cou
 
 The within-subjects design has each participant carry out the same task twice, with the environment reset between the two sessions so that no code, workspace state, or assistant context passes from the first into the second. Anything a participant took from their first attempt could then lift their second, and left unaccounted it would be indistinguishable from an effect of the framework used. This section reads the cohort for such a carried-over effect, holding to the same reproducible standard as the rest of the chapter and setting transcript reading aside.
 
-That standard fixes what evidence the question can draw on. The chapter measures each session along four dimensions, and the score is not the only one that could in principle bear on learning. How a participant interacted with the framework and its agents, the interaction measures of Section~\ref{sec:results-process-interaction}, might shift as the task grew familiar. The obstacle is that the comparison here is within participant, between two sessions that used different frameworks, and the two demand such different interaction that the difference between a participant's two sessions is already large from the change of framework alone. A learning-driven change would mesh into that framework difference rather than standing apart. The cost a session incurred and the time it took stand the same way, each shaped first by the framework. The score is different in kind, the task's graded outcome on one rubric rather than framework-shaped behaviour, so a within-participant difference is a common measure a practiced participant should raise. We therefore read the score alone to investigate learning effects.
+That standard fixes what evidence the question can draw on. The chapter measures each session along four dimensions, and the score is not the only one that could in principle bear on learning. How a participant interacted with the framework and its agents, the interaction measures of Section~\ref{sec:results-process-interaction}, might shift as the task grew familiar. The obstacle is that the comparison here is within participant, between two sessions that used different frameworks, and the two demand such different interaction that the difference between a participant's two sessions is already large from the change of framework alone. A learning-driven change would mesh into that framework difference rather than standing apart. The cost a session incurred and the time it took stand the same way, each shaped first by the framework. The score is different in kind, being the task's graded outcome on one rubric rather than framework-shaped behaviour, so a within-participant difference is a common measure a practiced participant should raise. We therefore read the score alone to investigate learning effects.
 
 One limit still bounds what the score can show of a learning effect: the rubric's ceiling. Most sessions scored near the hundred-point maximum, as Table~\ref{tab:func-score-levels} reports, and nine of the twelve participants already scored above ninety in their first session, as Table~\ref{tab:func-score-sessions} details, so a practiced second session had almost no room to register a gain and only three participants entered their second with substantial ground to recover.
 
-Across the cohort the score shows no order effect. Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} splits the paired total-score difference by which framework each participant met first, and the two orders' summaries land close together with both confidence intervals crossing zero. A learning effect large enough to bias the framework comparison would separate the two orders, and the split shows none.
-
-Individually, four participants scored higher in their second session than their first, as Table~\ref{tab:disc-learning-by-participant} sets out, though only two by a wide margin. P002 rose 53 points on the total score, and P010 moved little on the score but the widest in the cohort under the re-grade of Section~\ref{sec:discussions-grading-blackbox}, which raises their second session from 34 to 93.9. Both wide gains fell in an APM second session, so for these two the score cannot separate a practice effect from the framework or from how much a single unrepeated session varies on its own. The remaining two gains, of six points and one, are too small to read as signal. Two individual gains do not amount to a cohort effect, and the order split above agrees with this.
+The individual changes have no common direction. Four participants scored higher in their second session, four scored lower, and four had the same score, as Table~\ref{tab:disc-learning-by-participant} sets out. Nine changes lay between a two-point loss and a six-point gain. Of the three larger movements, P002 gained 53 points while P001 and P012 lost 23.4 and 12.3 points. These movements all favour APM regardless of its position, so they cannot separate a practice effect from the framework or from session-to-session variation.
 
 \begin{table}[H]
   \centering
   \begin{threeparttable}
-  \caption{Total-score gain from first session to second, for the four participants whose second session outscored their first. The second framework is the one used in that winning session.}
+  \caption{Change in total score from first session to second for each participant.}
   \label{tab:disc-learning-by-participant}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllr}
     \toprule
-    Participant & Model & Second framework & Score gain\tnote{a} \\
+    Participant & Model & Second framework & Score change\tnote{a} \\
     \midrule
     \InputTableRows{analysis/generated/tables/disc-learning-by-participant.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] The gain is the difference in total score between the two sessions, the measure Table~\ref{tab:func-score-paired} reports for the cohort.
-    \item[b] On that re-grade, P010's second session rises to $93.9$ and the gain to $+64.3$.
+    \item[a] The change is the second-session score minus the first-session score. Positive values indicate a higher score in the second session.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-Interestingly, two participants gained the other way, toward their first session. P001 and P012 scored 23.4 and 12.3 points higher in their APM session, and for both that session was the first, unpracticed one, so a benefit from practice cannot account for their advantage. This does not exclude the opposite effect, a second session weakened by fatigue or by lower engagement with a repeated task, which would leave the same trace as a framework effect. The order split gives no sign of this either, though it cannot be ruled out for any single pair.
+P010 has a different reading under the diagnostic re-grade of Section~\ref{sec:discussions-grading-blackbox}. The first-session diagnostic score remains $29.6$ while the second rises to $93.9$. The diagnostic scores therefore differ by $64.3$ points, whereas the total scores differ by $4.4$ points. The second session's diagnostic score demonstrates that this re-grade recovers a strong implementation. Since it reaches only one fault class, however, the first session's unchanged diagnostic score cannot establish that the first implementation was unsound. The diagnostic difference therefore remains unable to separate learning from the change of framework.
 
-Any learning here therefore stayed with individual participants and left no measured trace in the one outcome that could reproducibly show it. The counterbalanced design keeps such an effect from biasing the framework comparison, spreading it symmetrically across the cohort whichever way it runs, but it cannot confirm or measure the effect on any one participant.
+The order split supports the same cautious reading. Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} separates the paired total-score difference by which framework each participant met first, and both confidence intervals cross zero. Counterbalancing distributed first exposure across the frameworks, although the realised seven-to-five allocation was not perfectly even.
+
+The total scores therefore offer no clear cohort-wide learning direction. The mixed individual changes provide no common direction, while the score ceiling limits what improvement could appear. The slightly uneven order allocation is a secondary qualification rather than the source of that uncertainty. These results cannot confirm or measure a learning effect for any one participant.
 
 \section{Threats to Validity}
 \label{sec:discussions-threats}
