@@ -129,11 +129,7 @@ The cohort is small: in total, data from twelve participants, thinned to six aga
 
 Every comparison is made within participant. For a given measure, participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, the value from their APM session minus the value from their Spec-kit session. The analysis works from these $n$ paired differences, with $n = 12$ for the full cohort.
 
-The direction is the sign count, the tally of participants whose difference favours APM against the number favouring Spec-kit. Where the tally is one-sided we test it with the sign test~\cite{hollander2014nonparametric}. Its statistic $B$ is the number of positive differences,
-\[
-    B = \sum_{i \,:\, d_i \neq 0} \mathbf{1}\!\left( d_i > 0 \right).
-\]
-Tied pairs, where a participant's two sessions come out equal, give no direction and are set aside, reducing $n$ to the count of non-zero differences. If neither framework were systematically higher, $B$ would behave like the number of heads in $n$ fair coin tosses, and the test reports how improbable the observed tally, or a more one-sided one, would be under that even-odds model.
+The direction is the sign count, the tally of participants whose difference favours APM against the number favouring Spec-kit. Tied pairs, where a participant's two sessions come out equal, give no direction and are set aside, reducing $n$ to the count of non-zero differences.
 
 The typical size of the difference is estimated two ways. The first is the median of the differences, the middle value once they are ordered. The second is the Hodges-Lehmann estimate~\cite{hodges1963location}, the median of the averages of every pair of differences,
 \[
@@ -147,8 +143,12 @@ The uncertainty around that typical difference is a confidence interval for it, 
 \]
 The interval's coverage depends on the number of pairs, and is 95.8\% across the full cohort of twelve and 96.9\% across the six-participant model splits.
 
-The economic measures, the temporal process measures, and the turn-prompt count are each reported both by each framework's measured values and by the within-participant paired difference between them, taking the three summaries in full. Where a measure has no counterpart to pair against, as with APM's per-role attribution, or is a composition whose shares move together rather than a single magnitude, no paired difference is formed. Such a measure is reported descriptively by each framework's central values alone, the median, Hodges-Lehmann estimate, and mean, without the sign test or the confidence interval. At this cohort size, distinct session-level edge cases can shift individual summaries; where that happens, the affected table row notes the case. The functional total score is compared within participant the same way. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count and the spread of the differences, with the typical-size estimate in support.
+The economic measures, the temporal process measures, and the turn-prompt count are each reported both by each framework's measured values and by the within-participant paired difference between them, taking the three summaries in full. Where a measure has no counterpart to pair against, as with APM's per-role attribution, or is a composition whose shares move together rather than a single magnitude, no paired difference is formed. Such a measure is reported descriptively by each framework's central values alone, the median, Hodges-Lehmann estimate, and mean, without the confidence interval. At this cohort size, distinct session-level edge cases can shift individual summaries; where that happens, the affected table row notes the case. The functional total score is compared within participant the same way. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count, with the three typical-size summaries in support and their divergence marking how far a few participants carry the difference.
 
-The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count and the median of its paired differences, read with the item's polarity, with the per-framework median ratings giving a profile across the items. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
+Alongside these summaries, a measure's per-participant values are listed in full wherever they carry the reading better than any summary of them: where the individual values behind an aggregate are themselves the point, and where the events are too few for a summary to mean anything.
+
+The interpretation in Chapter~\ref{chap:discussions} draws further on descriptive counts the parser records as supplementary, summarised the same way and read as supporting evidence rather than as measures of the comparison.
+
+The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count, read with the item's polarity, and each framework's full distribution across the five points. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
 
 These statistics are computed, and the figures and table data generated, by the analysis scripts listed in Appendix~\ref{app:evaluation-availability}.
