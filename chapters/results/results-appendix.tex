@@ -261,17 +261,19 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket sh
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-steers-incidence-by-phase} gives the counts of steers that were delivered and those that were not, by framework and phase.
+Table~\ref{tab:proc-steers-by-participant} gives each session's steers, separating those delivered to the working agent from those that were not.
 
 \begin{table}[H]
   \centering
-  \caption{Steer outcomes summed across the cohort by framework and phase.}
-  \label{tab:proc-steers-incidence-by-phase}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr}
+  \caption{Steers per participant and framework, at session scope.}
+  \label{tab:proc-steers-by-participant}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
-    Framework & Phase & Delivered & Not delivered \\
+    & \multicolumn{2}{c}{APM} & \multicolumn{2}{c}{Spec-kit} \\
+    \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+    Participant & Delivered & Not delivered & Delivered & Not delivered \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-steers-incidence-by-phase.tex}
+    \InputTableRows{analysis/generated/tables/proc-steers-by-participant.tex}
     \bottomrule
   \end{tabular*}
 \end{table}

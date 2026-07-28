@@ -125,9 +125,7 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(
         output_dir / "proc-buckets-composition-by-role.tex", _bucket_composition_by_role(pairs)
     )
-    write_fragment(
-        output_dir / "proc-steers-incidence-by-phase.tex", _steer_incidence_by_phase(pairs)
-    )
+    write_fragment(output_dir / "proc-steers-by-participant.tex", _steers_by_participant(pairs))
     write_fragment(output_dir / "proc-turns-levels-by-role.tex", _turn_levels_by_role(pairs))
     write_fragment(
         output_dir / "disc-planning-behaviour-paired.tex", _planning_behaviour_paired(pairs)
@@ -566,24 +564,30 @@ def _bucket_composition_by_role(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
-def _steer_incidence_by_phase(pairs: list[ParticipantPair]) -> list[str]:
-    """Return delivered and abandoned steer counts by framework and phase."""
+def _steers_by_participant(pairs: list[ParticipantPair]) -> list[str]:
+    """Return per-participant steer outcomes for both frameworks.
+
+    Steers are too few to summarise, so every session's own counts are listed at
+    session scope, the only scope at which the events are numerous enough to read.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One LaTeX row per participant, plus a cohort total row.
+    """
     rows: list[str] = []
-    for framework in ("apm", "speckit"):
-        if rows:
-            rows.append(r"\midrule")
-        for phase_key, phase_label in PHASES.items():
-            sessions = [getattr(pair, framework) for pair in pairs]
-            delivered = sum(
-                int(phase_scope(session, "data", phase_key)["steer_delivered_count"])
-                for session in sessions
-            )
-            abandoned = sum(
-                int(phase_scope(session, "data", phase_key)["steer_abandoned_count"])
-                for session in sessions
-            )
-            framework_cell = _framework_cell(framework, phase_key)
-            rows.append(f"{framework_cell} & {phase_label} & {delivered} & {abandoned} \\\\")
+    totals = [0, 0, 0, 0]
+    for pair in pairs:
+        counts: list[int] = []
+        for framework in ("apm", "speckit"):
+            scope = session_scope(getattr(pair, framework), "data")
+            counts.append(int(scope["steer_delivered_count"]))
+            counts.append(int(scope["steer_abandoned_count"]))
+        totals = [total + count for total, count in zip(totals, counts, strict=True)]
+        rows.append(f"{pair.pid} & " + " & ".join(str(count) for count in counts) + r" \\")
+    rows.append(r"\midrule")
+    rows.append("Cohort & " + " & ".join(str(total) for total in totals) + r" \\")
     return rows
 
 
