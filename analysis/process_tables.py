@@ -737,11 +737,13 @@ def _duration_notes(scope: str) -> dict[str, str]:
 
     Markers run in row order, so the session row takes the first letter.
     """
+    if scope == "session":
+        return {"apm": r"\tnote{a}"}
     if scope == "planning":
         return {"apm": r"\tnote{b}"}
     if scope == "implementation":
         return {"speckit": r"\tnote{c}"}
-    return {"apm": r"\tnote{a}"}
+    return {}
 
 
 def _bucket_share(session: SessionArtefacts, scope: str, bucket: str) -> float:
