@@ -179,7 +179,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-levels}.
+    \item[a] P006 did not invoke the implementation command; see note~[c] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -217,7 +217,7 @@ Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:p
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P002's high standard-prompt magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
-    \item[b] P006 did not invoke the implementation command; see note~[b] of Table~\ref{tab:proc-duration-levels}.
+    \item[b] P006 did not invoke the implementation command; see note~[c] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -261,17 +261,19 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket sh
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-steers-incidence-by-phase} gives the counts of steers that were delivered and those that were not, by framework and phase.
+Table~\ref{tab:proc-steers-by-participant} gives each session's steers, separating those delivered to the working agent from those that were not.
 
 \begin{table}[H]
   \centering
-  \caption{Steer outcomes summed across the cohort by framework and phase.}
-  \label{tab:proc-steers-incidence-by-phase}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr}
+  \caption{Steers per participant and framework, at session scope.}
+  \label{tab:proc-steers-by-participant}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
-    Framework & Phase & Delivered & Not delivered \\
+    & \multicolumn{2}{c}{APM} & \multicolumn{2}{c}{Spec-kit} \\
+    \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+    Participant & Delivered & Not delivered & Delivered & Not delivered \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-steers-incidence-by-phase.tex}
+    \InputTableRows{analysis/generated/tables/proc-steers-by-participant.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -346,22 +348,7 @@ Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by 
 \section{Perception Breakdowns}
 \label{app:results-perception-breakdowns}
 
-These tables give the per-framework rating distributions and the second-session comparative item behind the Perception results (Section~\ref{sec:results-perception}).
-
-Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
-
-\begin{table}[H]
-  \centering
-  \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
-  \label{tab:perc-ratings-distribution}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
-    \toprule
-    Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
+These tables give the second-session comparative item, the completion state reported for each session, and the per-framework rating distributions behind the Perception results (Section~\ref{sec:results-perception}).
 
 Table~\ref{tab:perc-comparative-distribution} gives the second-session comparative item, grouped by the framework that session used.
 
@@ -381,4 +368,34 @@ Table~\ref{tab:perc-comparative-distribution} gives the second-session comparati
     \item[a] P012 is excluded from this row; their comparative response is tied to the session they labelled second, which does not match the session they actually completed second, so it cannot be assigned to either framework's realized-order group. Their other perception ratings, reported per session rather than by order, are unaffected.
   \end{tablenotes}
   \end{threeparttable}
+\end{table}
+
+Table~\ref{tab:perc-completion-state} gives each framework's sessions across the four completion states the questionnaire offered.
+
+\begin{table}[H]
+  \centering
+  \caption{Self-reported completion state against the three-hour cap, by framework.}
+  \label{tab:perc-completion-state}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+    \toprule
+    Framework & Comfortably within & Near the cap & Hit the cap & Stopped early \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/perc-completion-state.tex}
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
+
+\begin{table}[H]
+  \centering
+  \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
+  \label{tab:perc-ratings-distribution}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
+    \toprule
+    Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
+    \bottomrule
+  \end{tabular*}
 \end{table}

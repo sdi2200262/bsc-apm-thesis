@@ -17,16 +17,18 @@ if __package__ in (None, ""):
 from analysis.config import ConfigError, InputRecord, load_records
 from analysis.latex import write_fragment
 
+# Item order follows the questionnaire, so a table row sits where the participant met it.
 ITEMS: tuple[tuple[str, str, str], ...] = (
+    ("Familiarity", "context", "How familiar were you with this framework before this study?"),
+    ("Confidence", "higher", "How confident are you in your submitted solution?"),
     (
         "Effectiveness",
         "higher",
         "How effective was the framework in helping you complete the task?",
     ),
-    ("Confidence", "higher", "How confident are you in your submitted solution?"),
+    ("Mental demand", "lower", "How mentally demanding was the session?"),
     ("Frustration", "lower", "How frustrated did you feel during the session?"),
     ("Effort", "lower", "How much effort did you have to invest?"),
-    ("Mental demand", "lower", "How mentally demanding was the session?"),
     (
         "Verification effort",
         "lower",
@@ -37,13 +39,19 @@ ITEMS: tuple[tuple[str, str, str], ...] = (
         "lower",
         "How much effort went into instructing and steering the AI in this framework?",
     ),
-    ("Familiarity", "context", "How familiar were you with this framework before this study?"),
 )
 COMPARATIVE_COLUMN = (
     "Compared to the framework you used in your first session, completing the task with this "
     "framework felt..."
 )
 COMPARATIVE_VALUES = ("Much harder", "Harder", "About the same", "Easier", "Much easier")
+COMPLETION_COLUMN = "Completion state"
+COMPLETION_VALUES = (
+    "Completed the task comfortably within the three-hour cap",
+    "Completed the task near the three-hour cap",
+    "Hit the three-hour cap without completing",
+    "Stopped early without completing",
+)
 
 
 @dataclass(frozen=True)
@@ -54,6 +62,7 @@ class QuestionnaireRow:
     framework: str
     session_number: str
     comparative: str
+    completion: str
     values: dict[str, int]
 
 
@@ -73,6 +82,7 @@ def main(argv: list[str] | None = None) -> int:
         write_fragment(
             args.output_dir / "perc-ratings-distribution.tex", _rating_distribution_rows(rows)
         )
+        write_fragment(args.output_dir / "perc-completion-state.tex", _completion_state_rows(rows))
         write_fragment(
             args.output_dir / "perc-comparative-distribution.tex",
             _comparative_distribution_rows(rows, records),
@@ -97,6 +107,7 @@ def _read_questionnaire(path: Path) -> list[QuestionnaireRow]:
                     framework=framework,
                     session_number=raw["Session number"],
                     comparative=raw[COMPARATIVE_COLUMN],
+                    completion=raw[COMPLETION_COLUMN],
                     values=values,
                 )
             )
@@ -135,6 +146,31 @@ def _rating_distribution_rows(rows: list[QuestionnaireRow]) -> list[str]:
                 + " & ".join(str(count) for count in counts)
                 + r" \\"
             )
+    return out
+
+
+def _completion_state_rows(rows: list[QuestionnaireRow]) -> list[str]:
+    """Return per-framework completion-state counts against the session cap.
+
+    Args:
+        rows: Parsed questionnaire responses.
+
+    Returns:
+        One LaTeX row per framework, counting the sessions in each state.
+
+    Raises:
+        ValueError: When a response records a state the instrument does not offer.
+    """
+    out: list[str] = []
+    for framework, label in (("apm", "APM"), ("speckit", "Spec-kit")):
+        counts = [0] * len(COMPLETION_VALUES)
+        for row in rows:
+            if row.framework != framework:
+                continue
+            if row.completion not in COMPLETION_VALUES:
+                raise ValueError(f"unrecognised completion state: {row.completion}")
+            counts[COMPLETION_VALUES.index(row.completion)] += 1
+        out.append(f"{label} & " + " & ".join(str(count) for count in counts) + r" \\")
     return out
 
 

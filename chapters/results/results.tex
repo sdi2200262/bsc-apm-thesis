@@ -175,8 +175,9 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's merged APM Planner/Manager conversation raises the APM planning-duration summary. Without P004 the APM planning median, Hodges-Lehmann estimate, and mean are $1850.6$, $2129.2$, and $2181.7$ seconds, rather than $2153.4$, $2179.3$, and $2298.9$.
-    \item[b] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no duration for the session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
+    \item[a] P010's APM session ran about ten minutes past the three-hour cap and is measured to it, so that tail lies outside every summary in this row. The excluded records carry verification runs, version-control work, and framework bookkeeping, and no part of the submitted solution was written in them.
+    \item[b] P004's merged APM Planner/Manager conversation raises the APM planning-duration summary. Without P004 the APM planning median, Hodges-Lehmann estimate, and mean are $1850.6$, $2129.2$, and $2181.7$ seconds, rather than $2153.4$, $2179.3$, and $2298.9$.
+    \item[c] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no duration for the session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -248,7 +249,7 @@ An APM session had a median of 21.5 turn prompts against Spec-kit's 13.0, as Tab
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's merged Planner/Manager conversation raises the APM planning turn-prompt count. Without P004 the APM planning turn median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turns, rather than $9.5$, $9.5$, and $9.7$.
-    \item[b] P006's Spec-kit session opens no implementation turn, for the reason given in Table~\ref{tab:proc-duration-levels} note~[b]. This lowers the Spec-kit implementation count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turns, rather than $3.0$, $3.5$, and $3.3$.
+    \item[b] P006's Spec-kit session opens no implementation turn, for the reason given in Table~\ref{tab:proc-duration-levels} note~[c]. This lowers the Spec-kit implementation count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turns, rather than $3.0$, $3.5$, and $3.3$.
     \item[c] P007 and P009 each opened only one Spec-kit turn in implementation: in both, the agent invoked the implementation command inside a turn the participant had opened for planning, so only the turn that followed is counted in the phase.
   \end{tablenotes}
   \end{threeparttable}
@@ -318,7 +319,7 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
   \end{tabular*}
 \end{table}
 
-Steering was sparse under both frameworks. APM recorded thirteen steers, three of which were delivered. Spec-kit recorded six, with no deliveries. Eight of APM's steers occurred in planning, including two of the three delivered steers. Table~\ref{tab:proc-steers-incidence-by-phase} of Appendix~\ref{app:results-process-breakdowns} gives both outcome counts by phase.
+Steering was sparse under both frameworks and confined to a minority of sessions. Seven of the twelve participants steered at all under APM and four did under Spec-kit, most of them once or twice, with four steers the largest count in any session. Across the cohort that came to thirteen steers under APM, three of which reached the working agent, and six under Spec-kit, none of which did. Table~\ref{tab:proc-steers-by-participant} of Appendix~\ref{app:results-process-breakdowns} gives each session's counts.
 
 Session order did not reverse the result. The higher turn-prompt count under APM held whether participants met it first or second. Table~\ref{tab:proc-turns-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports the difference by order.
 
@@ -413,10 +414,14 @@ Each of the eight ratings was given once per session, so every participant rated
   \end{tabular*}
 \end{table}
 
-Participants rated APM the more effective framework in eleven of the twelve pairs and the more confidence-inspiring in nine, with no participant rating Spec-kit higher on either item. Under APM the effectiveness ratings clustered at the top of the scale, with every session at four or five and eight of the twelve at the maximum, while the Spec-kit ratings formed two clusters, at two and four, with only two at three. Table~\ref{tab:perc-ratings-distribution} of Appendix~\ref{app:results-perception-breakdowns} sets out the per-framework distribution behind these readings for every rating. APM was the less frustrating framework in eight of the twelve pairs, with its frustration ratings settling at the bottom of the scale and Spec-kit's spread upward across it. Set against this, participants reported investing more effort under APM in seven of the twelve pairs and more under Spec-kit in four.
+Prior familiarity was low under both frameworks, with the ratings massed at the bottom of the scale for each, so neither framework was the more familiar one at the outset.
 
-The remaining items showed no consistent direction between the frameworks. Mental demand leaned towards Spec-kit, with six pairs favouring it, two favouring APM, and four tied. The effort of checking what the AI produced and the effort of instructing and steering it showed no consistent direction. Prior familiarity was low under both frameworks, with the ratings massed at the bottom of the scale for each, so neither framework was the more familiar one at the outset.
+Participants rated APM the more confidence-inspiring framework in nine of the twelve pairs and the more effective in eleven, with no participant rating Spec-kit higher on either item. Under APM the effectiveness ratings clustered at the top of the scale, with every session at four or five and eight of the twelve at the maximum, while the Spec-kit ratings formed two clusters, at two and four, with only two at three. Table~\ref{tab:perc-ratings-distribution} of Appendix~\ref{app:results-perception-breakdowns} sets out the per-framework distribution behind these readings for every rating.
+
+Mental demand leaned towards Spec-kit, with six pairs favouring it, two favouring APM, and four tied. APM was the less frustrating framework in eight of the twelve pairs, with its frustration ratings settling at the bottom of the scale and Spec-kit's spread upward across it. Set against this, participants reported investing more effort under APM in seven of the twelve pairs and more under Spec-kit in four. The effort of checking what the AI produced and the effort of instructing and steering it showed no consistent direction.
 
 A comparative item asked after the second session, grouped by the framework that session used, gave a softer pattern, as Table~\ref{tab:perc-comparative-distribution} of Appendix~\ref{app:results-perception-breakdowns} reports. Among the five whose second framework was APM the verdicts split evenly between easier and harder, with one rating it the same.\footnote{One participant is excluded from this item. Table~\ref{tab:perc-comparative-distribution}'s note explains why.} Among the six whose second framework was Spec-kit four leaned harder and the other two were divided. The second Spec-kit session leaned towards the harder verdict, though neither group was uniform.
+
+Participants also recorded how their session ended against the three-hour cap. Nineteen of the twenty-four sessions finished comfortably within it and five finished near it, nine against three under APM and ten against two under Spec-kit, as Table~\ref{tab:perc-completion-state} of Appendix~\ref{app:results-perception-breakdowns} reports. No participant reported hitting the cap without completing or stopping early.
 
 Section~\ref{sec:discussions-perception} reads these ratings against the measured behaviour behind them.
