@@ -348,22 +348,7 @@ Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by 
 \section{Perception Breakdowns}
 \label{app:results-perception-breakdowns}
 
-These tables give the per-framework rating distributions and the second-session comparative item behind the Perception results (Section~\ref{sec:results-perception}).
-
-Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
-
-\begin{table}[H]
-  \centering
-  \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
-  \label{tab:perc-ratings-distribution}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
-    \toprule
-    Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
+These tables give the second-session comparative item, the completion state reported for each session, and the per-framework rating distributions behind the Perception results (Section~\ref{sec:results-perception}).
 
 Table~\ref{tab:perc-comparative-distribution} gives the second-session comparative item, grouped by the framework that session used.
 
@@ -383,4 +368,34 @@ Table~\ref{tab:perc-comparative-distribution} gives the second-session comparati
     \item[a] P012 is excluded from this row; their comparative response is tied to the session they labelled second, which does not match the session they actually completed second, so it cannot be assigned to either framework's realized-order group. Their other perception ratings, reported per session rather than by order, are unaffected.
   \end{tablenotes}
   \end{threeparttable}
+\end{table}
+
+Table~\ref{tab:perc-completion-state} gives each framework's sessions across the four completion states the questionnaire offered.
+
+\begin{table}[H]
+  \centering
+  \caption{Self-reported completion state against the three-hour cap, by framework.}
+  \label{tab:perc-completion-state}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+    \toprule
+    Framework & Comfortably within & Near the cap & Hit the cap & Stopped early \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/perc-completion-state.tex}
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Table~\ref{tab:perc-ratings-distribution} sets out, for each rating, how each framework's twelve sessions fell across the one-to-five scale.
+
+\begin{table}[H]
+  \centering
+  \caption{Distribution of each questionnaire rating across each framework's twelve sessions, the count rating the item at each point of the one-to-five scale, where one is the low anchor and five the high anchor.}
+  \label{tab:perc-ratings-distribution}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrr}
+    \toprule
+    Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
+    \bottomrule
+  \end{tabular*}
 \end{table}
