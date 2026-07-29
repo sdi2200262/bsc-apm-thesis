@@ -4,8 +4,10 @@
 
 from __future__ import annotations
 
+import os
+import sys
 from pathlib import Path
-from typing import Literal
+from typing import Literal, NoReturn
 
 import matplotlib as mpl
 import matplotlib.font_manager as fm
@@ -13,14 +15,17 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-_LM_OTF_DIR = Path("/usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm")
+_LM_DIR_ENV = "THESIS_LM_FONT_DIR"
 _LM_FACES = (
-    "lmroman10-regular.otf",
-    "lmroman10-italic.otf",
-    "lmroman10-bold.otf",
-    "lmroman10-bolditalic.otf",
+    ("lmroman10-regular.otf", "normal", "normal"),
+    ("lmroman10-italic.otf", "italic", "normal"),
+    ("lmroman10-bold.otf", "normal", "bold"),
+    ("lmroman10-bolditalic.otf", "italic", "bold"),
 )
-_LM_FAMILY = "Latin Modern Roman"
+# A private family name, since the faces' own "Latin Modern Roman" is shared by
+# every optical size a full TeX installation ships and matplotlib resolves a
+# family to whichever tying face it scanned first.
+_LM_FAMILY = "LM Roman 10 (thesis figures)"
 
 APM_COLOR = "#000000"
 APM_LABEL = "APM"
@@ -35,19 +40,51 @@ SPECKIT_MARKER = "D"
 GRID_ALPHA = 0.4
 
 
+def _fail(message: str) -> NoReturn:
+    """Exit with one actionable stderr line.
+
+    This runs at import, ahead of any script's own error handling, so it exits
+    rather than unwinding a traceback through the caller.
+
+    Args:
+        message: The line to emit.
+
+    Raises:
+        SystemExit: Always, with status 1.
+    """
+    print(f"error: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+
 def _register_lm_fonts() -> str:
-    """Register TeX Latin Modern faces when available.
+    """Register the ten-point Latin Modern faces the figures are set in.
+
+    The faces are entered ahead of the scanned system fonts, so a host carrying
+    the whole family cannot pull in another optical size.
 
     Returns:
-        The preferred serif family for matplotlib rcParams.
+        The family name to select in the rcParams.
+
+    Raises:
+        SystemExit: When ``THESIS_LM_FONT_DIR`` is unset, does not name a
+            directory, or the directory lacks one of the four faces.
     """
-    if not _LM_OTF_DIR.is_dir():
-        return "DejaVu Serif"
-    for face in _LM_FACES:
-        path = _LM_OTF_DIR / face
+    configured = os.environ.get(_LM_DIR_ENV)
+    if not configured:
+        _fail(
+            f"{_LM_DIR_ENV} is unset; set it to the directory holding the Latin Modern "
+            "OpenType faces (locate one with: kpsewhich lmroman10-regular.otf)"
+        )
+    directory = Path(configured)
+    if not directory.is_dir():
+        _fail(f"{_LM_DIR_ENV} does not name a directory: {directory}")
+    for face, style, weight in _LM_FACES:
+        path = directory / face
         if not path.is_file():
-            return "DejaVu Serif"
-        fm.fontManager.addfont(str(path))
+            _fail(f"{_LM_DIR_ENV} directory is missing {face}: {directory}")
+        fm.fontManager.ttflist.insert(
+            0, fm.FontEntry(fname=str(path), name=_LM_FAMILY, style=style, weight=weight)
+        )
     return _LM_FAMILY
 
 
@@ -56,7 +93,7 @@ _SERIF_FAMILY = _register_lm_fonts()
 mpl.rcParams.update(
     {
         "font.family": "serif",
-        "font.serif": [_SERIF_FAMILY, "DejaVu Serif"],
+        "font.serif": [_SERIF_FAMILY],
         "font.size": 10,
         "axes.titlesize": 10,
         "axes.labelsize": 9,
