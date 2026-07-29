@@ -75,9 +75,11 @@ The thesis keeps table and figure environments in the chapter files. Analysis
 scripts under `analysis/` generate only table rows and figure PDFs, run
 against a config that lists each session's identity, framework, and the
 paths to its parser and grader artefacts. Figure scripts require
-matplotlib.
+matplotlib, and read the Latin Modern faces the figures are set in from
+`THESIS_LM_FONT_DIR`.
 
 ```bash
+export THESIS_LM_FONT_DIR="$(dirname "$(kpsewhich lmroman10-regular.otf)")"
 python3 analysis/generate_tables.py --config analysis/config/cohort.json --output-dir analysis/generated/tables
 python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir figures/economic
 python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir figures/process
