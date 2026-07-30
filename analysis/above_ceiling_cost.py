@@ -87,6 +87,36 @@ class AboveCeiling:
     session_cost: float
 
 
+def main(argv: list[str] | None = None) -> int:
+    """Generate the above-ceiling cost fragment.
+
+    Args:
+        argv: Command-line arguments; defaults to ``sys.argv[1:]``.
+
+    Returns:
+        Process exit code (0 on success, 1 on a config or data error).
+    """
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path)
+    args = parser.parse_args(argv)
+    try:
+        sessions, bands = load_inputs(args.config)
+        summaries = [
+            summary
+            for summary in (measure(session, bands) for session in sessions)
+            if summary is not None
+        ]
+        if not summaries:
+            raise ConfigError("no configured session peaks above its band's window")
+        summaries.sort(key=lambda summary: summary.pid)
+        write_fragment(args.output_dir / FRAGMENT_NAME, rows(summaries))
+    except (ConfigError, KeyError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 1
+    return 0
+
+
 def load_inputs(config_path: Path) -> tuple[list[SessionInput], dict[str, BandThresholds]]:
     """Load the generator's config.
 
@@ -114,6 +144,91 @@ def load_inputs(config_path: Path) -> tuple[list[SessionInput], dict[str, BandTh
     base = path.parent
     sessions = [_session_from_payload(item, base, path, index) for index, item in enumerate(raw)]
     return sessions, bands
+
+
+def measure(session: SessionInput, bands: dict[str, BandThresholds]) -> AboveCeiling | None:
+    """Price one session's above-ceiling accumulation.
+
+    A call's above-ceiling part is capped at the cache reads it actually made, so
+    the figure never counts tokens the call did not read from cache, and it is
+    priced at that call's own realised cache-read rate rather than a rate table
+    restated here.
+
+    Args:
+        session: The configured session to measure.
+        bands: Thresholds by model band, as declared in the config.
+
+    Returns:
+        The session's summary, or ``None`` when its band is not declared or no
+        segment peaks above that band's window.
+
+    Raises:
+        ConfigError: When the session's parser artefact cannot be read or is
+            missing a field this computation needs.
+    """
+    try:
+        data = json.loads(session.parser_data.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ConfigError(f"cannot read {session.parser_data}: {error}") from error
+    try:
+        thresholds = bands.get(model_band_from_parser_data(data))
+        if thresholds is None:
+            return None
+        ceiling = thresholds.ceiling_tokens
+        peaks = [segment["peak_context_tokens"] for segment in data["context_segments"]]
+        peak = max(peaks, default=0)
+        if peak <= thresholds.window_tokens:
+            return None
+        cache_read_tokens = 0
+        excess_tokens = 0
+        excess_cost = 0.0
+        session_cost = 0.0
+        for call in data["calls"]:
+            session_cost += _call_cost(call)
+            cache_read_tokens += call["cache_read"]
+            seen = _occupancy(call)
+            if seen <= ceiling or call["cache_read"] == 0:
+                continue
+            excess = min(seen - ceiling, call["cache_read"])
+            excess_tokens += excess
+            excess_cost += call["cache_read_cost_usd"] * excess / call["cache_read"]
+        # Subagent dispatches are billed to the session but run in their own context,
+        # so they belong to the session's cost and carry no occupancy of their own.
+        for dispatch in data.get("dispatch_calls") or []:
+            session_cost += _call_cost(dispatch)
+    except KeyError as error:
+        raise ConfigError(f"{session.parser_data}: missing field {error}") from error
+    return AboveCeiling(
+        pid=session.pid,
+        cache_read_tokens=cache_read_tokens,
+        excess_tokens=excess_tokens,
+        excess_cost=excess_cost,
+        session_cost=session_cost,
+    )
+
+
+def rows(summaries: list[AboveCeiling]) -> list[str]:
+    """Return the LaTeX row lines for the fragment.
+
+    Args:
+        summaries: Per-session summaries, in the order they should appear.
+
+    Returns:
+        One row string per session.
+    """
+    return [
+        " & ".join(
+            [
+                summary.pid,
+                f"${summary.cache_read_tokens / 1000:.1f}$",
+                f"${summary.excess_tokens / 1000:.1f}$",
+                money(summary.excess_cost),
+                money(summary.session_cost),
+            ]
+        )
+        + r" \\"
+        for summary in summaries
+    ]
 
 
 def _bands_from_payload(payload: Any, config_path: Path) -> dict[str, BandThresholds]:
@@ -175,117 +290,6 @@ def _call_cost(call: dict[str, Any]) -> float:
         + call["cache_5m_cost_usd"]
         + call["cache_1h_cost_usd"]
     )
-
-
-def measure(session: SessionInput, bands: dict[str, BandThresholds]) -> AboveCeiling | None:
-    """Price one session's above-ceiling accumulation.
-
-    A call's above-ceiling part is capped at the cache reads it actually made, so
-    the figure never counts tokens the call did not read from cache, and it is
-    priced at that call's own realised cache-read rate rather than a rate table
-    restated here.
-
-    Args:
-        session: The configured session to measure.
-        bands: Thresholds by model band, as declared in the config.
-
-    Returns:
-        The session's summary, or ``None`` when its band is not declared or no
-        segment peaks above that band's window.
-
-    Raises:
-        ConfigError: When the session's parser artefact cannot be read.
-    """
-    try:
-        data = json.loads(session.parser_data.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
-        raise ConfigError(f"cannot read {session.parser_data}: {error}") from error
-    thresholds = bands.get(model_band_from_parser_data(data))
-    if thresholds is None:
-        return None
-    ceiling = thresholds.ceiling_tokens
-    peaks = [segment["peak_context_tokens"] for segment in data["context_segments"]]
-    peak = max(peaks, default=0)
-    if peak <= thresholds.window_tokens:
-        return None
-    cache_read_tokens = 0
-    excess_tokens = 0
-    excess_cost = 0.0
-    session_cost = 0.0
-    for call in data["calls"]:
-        session_cost += _call_cost(call)
-        cache_read_tokens += call["cache_read"]
-        seen = _occupancy(call)
-        if seen <= ceiling or call["cache_read"] == 0:
-            continue
-        excess = min(seen - ceiling, call["cache_read"])
-        excess_tokens += excess
-        excess_cost += call["cache_read_cost_usd"] * excess / call["cache_read"]
-    # Subagent dispatches are billed to the session but run in their own context,
-    # so they belong to the session's cost and carry no occupancy of their own.
-    for dispatch in data.get("dispatch_calls") or []:
-        session_cost += _call_cost(dispatch)
-    return AboveCeiling(
-        pid=session.pid,
-        cache_read_tokens=cache_read_tokens,
-        excess_tokens=excess_tokens,
-        excess_cost=excess_cost,
-        session_cost=session_cost,
-    )
-
-
-def rows(summaries: list[AboveCeiling]) -> list[str]:
-    """Return the LaTeX row lines for the fragment.
-
-    Args:
-        summaries: Per-session summaries, in the order they should appear.
-
-    Returns:
-        One row string per session.
-    """
-    return [
-        " & ".join(
-            [
-                summary.pid,
-                f"${summary.cache_read_tokens / 1000:.1f}$",
-                f"${summary.excess_tokens / 1000:.1f}$",
-                money(summary.excess_cost),
-                money(summary.session_cost),
-            ]
-        )
-        + r" \\"
-        for summary in summaries
-    ]
-
-
-def main(argv: list[str] | None = None) -> int:
-    """Generate the above-ceiling cost fragment.
-
-    Args:
-        argv: Command-line arguments; defaults to ``sys.argv[1:]``.
-
-    Returns:
-        Process exit code (0 on success, 1 on a config or data error).
-    """
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
-    args = parser.parse_args(argv)
-    try:
-        sessions, bands = load_inputs(args.config)
-        summaries = [
-            summary
-            for summary in (measure(session, bands) for session in sessions)
-            if summary is not None
-        ]
-        if not summaries:
-            raise ConfigError("no configured session peaks above its band's window")
-        summaries.sort(key=lambda summary: summary.pid)
-        write_fragment(args.output_dir / FRAGMENT_NAME, rows(summaries))
-    except (ConfigError, KeyError, ValueError) as error:
-        print(f"error: {error}", file=sys.stderr)
-        return 1
-    return 0
 
 
 if __name__ == "__main__":
