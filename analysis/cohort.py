@@ -64,7 +64,20 @@ def pair_by_participant(sessions: list[SessionArtefacts]) -> list[ParticipantPai
 
 def model_band(session: SessionArtefacts) -> str:
     """Return ``opus`` or ``sonnet`` from the parser model distribution."""
-    distribution = session.parser_data["scopes"]["session"]["model_token_distribution"]
+    return model_band_from_parser_data(session.parser_data)
+
+
+def model_band_from_parser_data(parser_data: dict[str, Any]) -> str:
+    """Return ``opus`` or ``sonnet`` from a loaded ``parser_data.json`` payload.
+
+    Args:
+        parser_data: The parsed contents of a session's ``parser_data.json``.
+
+    Returns:
+        ``opus`` or ``sonnet`` for the model holding most of the session's
+        tokens, or ``unknown`` when neither appears in the distribution.
+    """
+    distribution = parser_data["scopes"]["session"]["model_token_distribution"]
     study = {k: v for k, v in distribution.items() if "opus" in k or "sonnet" in k}
     if not study:
         return "unknown"
