@@ -2,8 +2,8 @@
 % Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
 % This is an \input fragment, not a standalone document.
 
-\section{Methodology and Research Questions}
-\label{sec:evaluation-methodology}
+\section{Evaluation Scope and Research Questions}
+\label{sec:evaluation-scope}
 
 We evaluate Agentic Project Management version 1 (APM v1) in a realistic setting through a comparative case study with human participants. The study compares APM v1, the framework presented in Chapter~\ref{chap:framework-design} that coordinates several agents through the user, against GitHub Spec-kit, a framework applying the spec-driven discipline of Chapter~\ref{chap:background} through one agent. The study was conducted on the Claude Code command-line interface, which both frameworks operate on top of, over a study window from 5 May to 5 June 2026; pricing, model, and command-set statements in this chapter refer to that window.
 
@@ -35,12 +35,12 @@ Finally, \texttt{/speckit-implement} has the agent work through the task list in
 
 Across these steps the workflow is command-driven, and within each step the agent works largely on its own. It fills gaps in the brief with documented assumptions and puts a question to the developer only where an ambiguity would change the scope of the work.
 
-\section{Case-Study Design}
-\label{sec:evaluation-case-study-design}
+\section{Case-Study Methodology}
+\label{sec:evaluation-case-study-methodology}
 
-The study is a within-subjects comparative case study with twelve participants drawn from university students and working professionals. Every participant completes the same task in two study sessions, one with each framework, so per-participant variance in skill, prior experience, and working style is absorbed into each pairwise comparison rather than confounding it. The cohort therefore yields twenty-four sessions in total.
+The case-study methodology uses a within-participant framework comparison across a cohort of twelve university students and working professionals. Each participant attempts the same task twice, once with each framework. This keeps the participant's skill, prior experience, and working style the same on both sides of the comparison.
 
-Each participant receives materials containing the task brief and a guide to the study setup, both framework attempts, and the reset between them, together with a portable testing environment. The brief and the environment are detailed in the two subsections that follow, and the materials, with the rest of the study's software and data, are listed in Appendix~\ref{app:evaluation-availability}.
+The participant materials include the task brief, a guide to preparing for and completing both framework attempts and the reset between them, and a portable testing environment. The brief and the environment are detailed in the two subsections that follow, and the materials, with the rest of the study's software and data, are listed in Appendix~\ref{app:evaluation-availability}.
 
 \subsection{Task Specification}
 \label{sec:evaluation-task-spec}
@@ -57,9 +57,9 @@ Each participant works in a freshly created, dedicated Linux virtual machine. Th
 \subsection{Sessions and Data}
 \label{sec:evaluation-sessions-data}
 
-A study session is one attempt to complete the task with the assigned framework. It begins with the first task prompt and ends when the participant stops task work or reaches the three-hour cap. The post-session procedure then has the participant package the solution patch and transcripts and answer a short questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first session carries into the second.
+A study session is one attempt to complete the task with the assigned framework. It begins with the first task prompt and ends when the participant stops task work or reaches the three-hour cap. Across the cohort, this gives twenty-four study sessions. The post-session procedure then has the participant package the solution patch and transcripts and answer a short questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first session carries into the second.
 
-Two factors are counterbalanced across the cohort: the framework order and the model assignment. The framework-order factor varies which framework a participant encounters first; counterbalancing it lets any first-to-second-session improvement, a learning effect from growing task familiarity, be distinguished from the framework's own effect. The model factor holds one Claude model fixed across both of a participant's sessions, so the model varies between participants rather than within one. Each participant is assigned either Claude Opus 4.7 or Claude Sonnet 4.6, the two models Claude Code offered during the study window, which differ in capability. Crossing the two factors gives four assignment cells of three participants each.\footnote{One participant deviated from their assigned order at run time: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. The realised counterbalance is therefore 3/4/3/2 across the four cells rather than the intended 3/3/3/3, with the Sonnet group split 4 APM-first and 2 APM-second instead of 3 and 3. All order-split tables in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} classify participants by realised execution order throughout.}
+Participants kept one assigned model across both study sessions, either Claude Opus 4.7 or Claude Sonnet 4.6 forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets improvement from growing task familiarity be distinguished from the framework difference. Together, the two assignments formed four planned model-and-order groups of three participants each.\footnote{One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two Opus model-and-order groups contain three participants each, while the Sonnet APM-first and APM-second groups contain four and two rather than three each as planned. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
 
 From each session we collect the solution patch written against the baseline, the transcripts recorded for every conversation opened in the command-line interface, and the participant's questionnaire response.
 
@@ -70,12 +70,14 @@ Every measurement defined in this section is extracted from a participant's subm
 
 Sessions are time-boxed to three hours, and every transcript-derived measurement covers that window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
 
-Each transcript-derived measurement is computed at more than one scope, a scope being the portion of a session it is aggregated over. The session scope is the whole session, the headline on which the two frameworks are compared, since it puts APM's multi-conversation workflow and Spec-kit's single conversation on the same denominator. The phase scope splits the session into its planning and implementation portions and shows how each measurement divides between them. The role scope applies to APM alone, since Spec-kit has no agent roles to separate, and is a descriptive, deeper look at how each measurement is spread across its agents. Both the phase split and, for APM, the role attribution follow the frameworks' own workflow as recorded in the transcript, rather than an arbitrary division of the session. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own; APM divides by role, its Planner conversation being planning and its Manager and Worker conversations implementation. The division therefore tracks how far each workflow has advanced rather than the nature of the work being done. Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-call counts follow the individual call, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it. The functional dimension admits no such split and is reported at the session scope alone.
+Each transcript-derived measurement is computed at one or more scopes. A measurement scope is the level of the recorded workflow over which a value is aggregated. The session scope covers the whole study session and supplies the headline framework comparison. The phase scope gives separate values for planning and implementation. The role scope gives APM-only values for each agent role, since Spec-kit has no roles to separate. A measurement breakdown instead separates a value at one scope into named components.
+
+The phase and role scopes follow the frameworks' own workflow as recorded in the transcript, rather than an arbitrary division of the session. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own; APM divides by role, its Planner conversation being planning and its Manager and Worker conversations implementation. The division therefore tracks how far each workflow has advanced rather than the nature of the work being done. Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-call counts follow the individual call, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it. The functional dimension has no phase or role scope; it is reported at session scope and broken down as defined below.
 
 \subsection{Economic}
 \label{sec:evaluation-measures-economic}
 
-The economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Each request is priced by the model recorded for it, including requests made by subagents. The cost is measured at the session scope and broken down further to locate where the spending accrues, by token category, across the planning and implementation phases, and for APM across its agent roles.
+The economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Each request is priced by the model recorded for it, including requests made by subagents. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
 \subsection{Process}
 \label{sec:evaluation-measures-process}
@@ -85,7 +87,7 @@ The process measures describe the session's temporal shape and the user's intera
 The temporal shape of the session is captured by the session duration and the two measures that decompose the time within it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
     \item \textbf{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record.
-    \item \textbf{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. It is reported in total and split into the time covered by exactly one interval (\textbf{solo}) and the time covered by two or more intervals (\textbf{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
+    \item \textbf{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\textbf{solo}) from the time covered by two or more intervals (\textbf{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
     \item \textbf{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
@@ -102,7 +104,7 @@ Turn prompts are counted, and each falls into one of three content buckets:
     \item \textbf{Standard} for a non-command prompt of 50 characters or more.
 \end{itemize}
 
-The \textbf{bucket-share distribution} gives each bucket's share of the turn prompts, and the \textbf{magnitude per bucket} gives their mean character count within each bucket. Together with the \textbf{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
+The turn-prompt breakdown is described by the \textbf{bucket-share distribution}, which gives each bucket's share of the prompts, and the \textbf{magnitude per bucket}, their mean character count within each bucket. Together with the \textbf{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
 
 Steers are reported only as two counts, one for those delivered to the working agent and one for those not delivered.
 
@@ -115,7 +117,7 @@ The functional dimension is scored by an automated grader that runs a fixed rubr
 
 Each check returns one of three verdicts. A \textbf{passed} check matches an accepted form and earns its full points. A \textbf{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \textbf{failed} check earns zero.
 
-The framework comparison uses the \textbf{total score}, the points earned across the rubric. This separates into a strict part, the full points earned by passed checks, and a partial part, the fractional credit earned by partial checks. The 100 points split across the task's two parts, 30 on the Python extension and 70 on the heavier C replica. The \textbf{per-section scores} decompose the total across these two parts, locating where each framework's work lands.
+The framework comparison uses the \textbf{total score}, the points earned across the rubric. Its scoring breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. Its task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \textbf{per-section scores} locate where each framework's work lands.
 
 \subsection{Perception}
 \label{sec:evaluation-measures-perception}
@@ -127,31 +129,31 @@ Beyond the rating items, the questionnaire asks one second-session question on a
 \section{Analysis Plan}
 \label{sec:evaluation-analysis-plan}
 
-The cohort is small: in total, data from twelve participants, thinned to six against six when split by model. The analysis therefore leads with the measured values and with summaries of the per-participant difference between a participant's two sessions. Three such summaries are common to every measure and are set out here before being applied to each in turn: the direction of the framework effect, its typical size, and the uncertainty around that size.
+Our findings lead with the measured values for APM and Spec-kit. Where a measure supports a within-participant comparison, these are followed by each participant's APM-minus-Spec-kit difference and summaries of its direction, typical size, and uncertainty. Model-group breakdowns present the paired differences within Opus and Sonnet separately and compare the two groups descriptively.
 
-Every framework comparison is made within participant. For a given measure, participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, the value from their APM session minus the value from their Spec-kit session. The analysis works from these $n$ paired differences, with $n = 12$ for the full cohort.
+For a measure compared within participant, participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, the value from their APM session minus the value from their Spec-kit session. The cohort analysis uses these $n = 12$ differences, while each model-group breakdown uses the six differences contributed by that group's participants. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
 
-The model factor is not paired in this way. Each participant keeps one model across both of their sessions, as Section~\ref{sec:evaluation-sessions-data} describes, so the six paired differences within one model group and the six within the other come from different participants. A comparison between the two model groups therefore carries whatever separates those two sets of participants alongside the models themselves, and is read descriptively rather than as a paired result.
+The direction is the sign count, the number of positive against negative differences. A difference of zero contributes to neither count.
 
-The direction is the sign count, the tally of participants whose difference favours APM against the number favouring Spec-kit. Tied pairs, where a participant's two sessions come out equal, give no direction and are set aside, reducing $n$ to the count of non-zero differences.
-
-The typical size of the difference is estimated two ways. The first is the median of the differences, the middle value once they are ordered. The second is the Hodges-Lehmann estimate~\cite{hodges1963location}, the median of the averages of every pair of differences,
+The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The median is the middle ordered difference, while the Hodges-Lehmann estimate is the median of the averages of every pair of differences,
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
-It summarises the differences through all their pairwise averages rather than the single middle value, so it shifts in finer, steadier steps while keeping the same resistance to extreme values where they occur. The mean is reported beside both, where a divergence from the median marks an asymmetric spread of the differences.
+The Hodges-Lehmann estimate reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether an uneven spread changes that reading.
 
 The uncertainty around that typical difference is a confidence interval for it, built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location}. Unlike the sign count, this statistic uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
-The interval's coverage depends on the number of pairs, and is 95.8\% across the full cohort of twelve and 96.9\% across the six-participant model splits.
+The interval's coverage depends on the number of pairs, and is 95.8\% across the cohort's twelve pairs and 96.9\% within each model group's six pairs. At six pairs its endpoints are the smallest and largest observed differences, so it excludes zero only when all six differences have the same sign.
 
-The economic measures, the temporal process measures, and the turn-prompt count are each reported both by each framework's measured values and by the within-participant paired difference between them, taking the three summaries in full. Where a measure has no counterpart to pair against, as with APM's per-role attribution, or is a composition whose shares move together rather than a single magnitude, no paired difference is formed. Such a measure is reported descriptively by each framework's central values alone, the median, Hodges-Lehmann estimate, and mean, without the confidence interval. At this cohort size, distinct session-level edge cases can shift individual summaries; where that happens, the affected table row notes the case. The functional total score is compared within participant the same way. Because that score is bounded by the rubric's hundred-point ceiling, its comparison leads on the sign count, with the median, Hodges-Lehmann estimate, and mean in support and their divergence marking how far a few participants carry the difference.
+The dollar-equivalent cost, temporal process measures, turn-prompt count, and functional total score are each presented first through the two frameworks' measured values and then through their within-participant paired difference. Because the total score is bounded by the rubric's hundred-point ceiling, its paired comparison leads on the sign count, with the median, Hodges-Lehmann estimate, and mean in support.
 
-Alongside these summaries, a measure's per-participant values are listed in full wherever they carry the reading better than any summary of them, where the individual values behind an aggregate are themselves the point, or where the events are too few for a summary to mean anything.
+Measurements at phase or role scope, and their component breakdowns, are compared within participant when they give one directly comparable value for each framework. This applies to phase-scope cost, temporal measures, and turn-prompt count, as well as cost by token category and score by task section. Role-scope values and turn-prompt bucket distributions are presented descriptively through their median, Hodges-Lehmann estimate, and mean, without a paired difference or confidence interval. The solo and concurrent breakdown of turn time is shown per participant because concurrent time applies only to APM. When an irregularity in one participant's data materially shifts a summary, the affected table row identifies it.
 
-The interpretation in Chapter~\ref{chap:discussions} draws further on descriptive counts the parser records as supplementary, summarised the same way and read as supporting evidence rather than as measures of the comparison.
+Alongside these summaries, participant-level values are shown when the individual pattern is needed to read the result or when the events are too sparse for an aggregate summary.
+
+The interpretation in Chapter~\ref{chap:discussions} draws further on supplementary descriptive counts where they support a specific reading. These counts are supporting evidence rather than additional measures of the framework comparison, and their presentation follows the question they help interpret.
 
 The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count, read with the item's polarity, and each framework's full distribution across the five points. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two.
 
