@@ -7,7 +7,7 @@
 
 The study's software and data are openly available in the following repositories:
 \begin{itemize}[nosep]
-    \item The participant package, holding the task brief, the participant guide, and the materials to set up the testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
+    \item The task and participant-materials repository, holding the task brief, the participant guide, and the portable testing environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-task};
     \item The evaluation infrastructure, holding the transcript parser, the grader with its scoring rubric, and the grading environment, at \url{https://github.com/sdi2200262/bsc-apm-case-study-infra};
     \item The dataset of participant submissions, from which our measurements are computed, at \url{https://github.com/sdi2200262/bsc-apm-case-study-data};
     \item The analysis scripts that compute the reported statistics and produce the figures and table data from the parser and grader outputs, in the thesis source repository under \texttt{analysis/}, at \url{https://github.com/sdi2200262/bsc-apm-thesis}.
@@ -33,7 +33,7 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \end{tabular*}
 \end{table}
 
-Although a participant's assigned model was fixed to Opus 4.7 or Sonnet 4.6 for the agents they used, the subagents those agents dispatch and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:evaluation-availability}).
+A participant's model-group membership follows the Opus 4.7 or Sonnet 4.6 assignment fixed across the two sessions. Subagents dispatched within those sessions and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The rates are held as a data file, \texttt{rates.yaml}, in the evaluation infrastructure (Appendix~\ref{app:evaluation-availability}).
 
 \section{Questionnaire Instrument}
 \label{app:evaluation-questionnaire}
