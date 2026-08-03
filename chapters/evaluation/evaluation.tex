@@ -77,7 +77,7 @@ The phase and role scopes follow the frameworks' own workflow as recorded in the
 \subsection{Economic}
 \label{sec:evaluation-measures-economic}
 
-The economic measurement is the \textbf{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Each request is priced by the model recorded for it, including requests made by subagents. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
+The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Each request is priced by the model recorded for it, including requests made by subagents. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
 \subsection{Process}
 \label{sec:evaluation-measures-process}
@@ -86,25 +86,25 @@ The process measures describe the session's temporal shape and the user's intera
 
 The temporal shape of the session is captured by the session duration and the two measures that decompose the time within it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
-    \item \textbf{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record.
-    \item \textbf{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\textbf{solo}) from the time covered by two or more intervals (\textbf{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
-    \item \textbf{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
+    \item \emph{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record.
+    \item \emph{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\emph{solo}) from the time covered by two or more intervals (\emph{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
+    \item \emph{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
 The interaction shape is captured through two forms of user input:
 \begin{itemize}
-    \item A \textbf{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
-    \item A \textbf{steer} is an interjection enqueued while the agent is still working.
+    \item A \emph{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
+    \item A \emph{steer} is an interjection enqueued while the agent is still working.
 \end{itemize}
 
 Turn prompts are counted, and each falls into one of three content buckets:
 \begin{itemize}
-    \item \textbf{Protocol} for a prompt that invokes an APM or Spec-kit framework command.
-    \item \textbf{Short} for a non-command prompt below 50 characters.
-    \item \textbf{Standard} for a non-command prompt of 50 characters or more.
+    \item \emph{Protocol} for a prompt that invokes an APM or Spec-kit framework command.
+    \item \emph{Short} for a non-command prompt below 50 characters.
+    \item \emph{Standard} for a non-command prompt of 50 characters or more.
 \end{itemize}
 
-The turn-prompt breakdown is described by the \textbf{bucket-share distribution}, which gives each bucket's share of the prompts, and the \textbf{magnitude per bucket}, their mean character count within each bucket. Together with the \textbf{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
+The turn-prompt breakdown is described by the \emph{bucket-share distribution}, which gives each bucket's share of the prompts, and the \emph{magnitude per bucket}, their mean character count within each bucket. Together with the \emph{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
 
 Steers are reported only as two counts, one for those delivered to the working agent and one for those not delivered.
 
@@ -115,14 +115,14 @@ Unlike the temporal measures, the turn-prompt measures are also reported at role
 
 The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a 100-point total.
 
-Each check returns one of three verdicts. A \textbf{passed} check matches an accepted form and earns its full points. A \textbf{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \textbf{failed} check earns zero.
+Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
-The framework comparison uses the \textbf{total score}, the points earned across the rubric. Its scoring breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. Its task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \textbf{per-section scores} locate where each framework's work lands.
+The framework comparison uses the \emph{total score}, the points earned across the rubric. Its scoring breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. Its task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \emph{per-section scores} locate where each framework's work lands.
 
 \subsection{Perception}
 \label{sec:evaluation-measures-perception}
 
-The perception measures come from a short questionnaire answered at the end of each session, the self-reported counterpart to the measured behaviour. Its core is \textbf{eight rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the AI. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
+The perception measures come from a short questionnaire answered at the end of each session, the self-reported counterpart to the measured behaviour. Its core is \emph{eight rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the AI. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
 
 Beyond the rating items, the questionnaire asks one second-session question on a five-point scale, whether the task felt easier or harder than with the first framework. It records the participant's own completion state against the three-hour cap. It closes with two free-text prompts, read only as illustration, on what stood out and any closing remarks. The questionnaire items used in the analysis are reproduced in Appendix~\ref{app:evaluation-questionnaire}.
 
