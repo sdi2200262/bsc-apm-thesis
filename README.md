@@ -89,6 +89,24 @@ python3 analysis/functional_compact_figure.py --config analysis/config/cohort.js
 python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir figures/discussions
 ```
 
+## Spec-kit Release Audit
+
+The Spec-kit sessions ran a span of releases rather than one pinned version. The
+audit under `spec-kit-audit/` compares each release in that span against the one
+before it, over the instructions Spec-kit installs into a project, and holds the
+evidence the release-audit appendix cites: one unified diff per release step and a
+manifest hashing every installed file at every release, both committed under
+`spec-kit-audit/generated/`. It requires `git`, [`uv`](https://docs.astral.sh/uv/),
+and network access to GitHub.
+
+```bash
+# Re-derive the committed outputs
+python3 spec-kit-audit/audit.py
+
+# Verify the committed outputs against a fresh derivation
+python3 spec-kit-audit/audit.py --check
+```
+
 ## Related
 
 - [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task specification, participant package, and testing environment.

@@ -1,0 +1,111 @@
+--- a/.specify/templates/plan-template.md
++++ b/.specify/templates/plan-template.md
+@@ -1,6 +1,7 @@
+ # Implementation Plan: [FEATURE]
+ 
+ **Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
++
+ **Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+ 
+ **Note**: This template is filled in by the `/speckit-plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
+@@ -17,14 +18,22 @@
+   the iteration process.
+ -->
+ 
+-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
+-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
+-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
+-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
++**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
++
++**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
++
++**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
++
++**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
++
+ **Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]  
+-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
+-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
++
++**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
++
++**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
++
++**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
++
+ **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+ 
+ ## Constitution Check
+--- a/.specify/templates/spec-template.md
++++ b/.specify/templates/spec-template.md
+@@ -1,8 +1,11 @@
+ # Feature Specification: [FEATURE NAME]
+ 
+-**Feature Branch**: `[###-feature-name]`  
+-**Created**: [DATE]  
+-**Status**: Draft  
++**Feature Branch**: `[###-feature-name]`
++
++**Created**: [DATE]
++
++**Status**: Draft
++
+ **Input**: User description: "$ARGUMENTS"
+ 
+ ## User Scenarios & Testing *(mandatory)*
+@@ -11,7 +14,7 @@
+   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
+   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
+   you should still have a viable MVP (Minimum Viable Product) that delivers value.
+-  
++
+   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
+   Think of each story as a standalone slice of functionality that can be:
+   - Developed independently
+@@ -85,7 +88,7 @@
+ ### Functional Requirements
+ 
+ - **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
+-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
++- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]
+ - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
+ - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
+ - **FR-005**: System MUST [behavior, e.g., "log all security events"]
+--- a/.specify/templates/tasks-template.md
++++ b/.specify/templates/tasks-template.md
+@@ -6,6 +6,7 @@
+ # Tasks: [FEATURE NAME]
+ 
+ **Input**: Design documents from `/specs/[###-feature-name]/`
++
+ **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+ 
+ **Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+@@ -25,21 +26,21 @@
+ - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
+ - Paths shown below assume single project - adjust based on plan.md structure
+ 
+-<!-- 
++<!--
+   ============================================================================
+   IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
+-  
++
+   The /speckit-tasks command MUST replace these with actual tasks based on:
+   - User stories from spec.md (with their priorities P1, P2, P3...)
+   - Feature requirements from plan.md
+   - Entities from data-model.md
+   - Endpoints from contracts/
+-  
++
+   Tasks MUST be organized by user story so each story can be:
+   - Implemented independently
+   - Tested independently
+   - Delivered as an MVP increment
+-  
++
+   DO NOT keep these sample tasks in the generated tasks.md file.
+   ============================================================================
+ -->
