@@ -188,7 +188,7 @@ def _by_pid(rows: list[QuestionnaireRow]) -> dict[str, dict[str, QuestionnaireRo
 def _comparative_distribution_rows(
     rows: list[QuestionnaireRow], records: list[InputRecord]
 ) -> list[str]:
-    """Return second-session comparative item counts by realized second framework."""
+    """Return comparison-question response counts by realized second framework."""
     record_sessions = {(record.pid, record.framework): record.session for record in records}
     out: list[str] = []
     for framework in ("apm", "speckit"):
@@ -205,9 +205,7 @@ def _comparative_distribution_rows(
             counts[row.comparative] += 1
         label = r"APM\tnote{a}" if framework == "apm" else "Spec-kit"
         out.append(
-            f"{label} & "
-            + " & ".join(str(counts[value]) for value in COMPARATIVE_VALUES)
-            + r" \\"
+            f"{label} & " + " & ".join(str(counts[value]) for value in COMPARATIVE_VALUES) + r" \\"
         )
     return out
 
