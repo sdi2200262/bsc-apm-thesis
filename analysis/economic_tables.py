@@ -27,7 +27,11 @@ from analysis.config import ConfigError, load_records
 from analysis.latex import level_row, paired_row, write_fragment
 from analysis.stats import level_summary, paired_summary
 
-PHASES = {"planning": "Planning", "implementation": "Implementation"}
+SCOPES = {
+    "session": "Session",
+    "planning": "Planning",
+    "implementation": "Implementation",
+}
 TOKEN_KEYS = {
     "input": "Input",
     "output": "Output",
@@ -68,15 +72,8 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
         output_dir: Destination directory for the row-fragment files.
     """
     write_fragment(output_dir / "cost-session-levels-by-model.tex", _cost_session_levels(pairs))
-    write_fragment(output_dir / "cost-session-paired.tex", _cost_session_paired(pairs))
-    write_fragment(
-        output_dir / "cost-session-paired-by-model.tex", _cost_session_paired_by_model(pairs)
-    )
+    write_fragment(output_dir / "cost-paired-by-scope.tex", _cost_paired_by_scope(pairs))
     write_fragment(output_dir / "cost-session-levels-by-role.tex", _cost_levels_by_role(pairs))
-    write_fragment(output_dir / "cost-phase-paired.tex", _cost_phase_paired(pairs))
-    write_fragment(
-        output_dir / "cost-phase-paired-by-model.tex", _cost_phase_paired_by_model(pairs)
-    )
     write_fragment(
         output_dir / "cost-session-paired-by-order.tex", _cost_session_paired_by_order(pairs)
     )
@@ -123,77 +120,54 @@ def _cost_session_levels(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
-def _cost_session_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return rows for pooled session cost paired differences.
+def _cost_paired_by_scope(pairs: list[ParticipantPair]) -> list[str]:
+    """Return paired cost differences by scope, for the cohort and each model group.
 
     Args:
         pairs: Cohort participant pairs.
 
     Returns:
-        A single-row list with the pooled paired summary.
-    """
-    apm = [session_scope(pair.apm, "metrics")["cost_usd"] for pair in pairs]
-    speckit = [session_scope(pair.speckit, "metrics")["cost_usd"] for pair in pairs]
-    return [paired_row([], paired_summary(apm, speckit), 2)]
-
-
-def _cost_session_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return rows for session cost paired differences by model.
-
-    Args:
-        pairs: Cohort participant pairs.
-
-    Returns:
-        One LaTeX row per model.
+        Session, planning, and implementation rows for the cohort, then for each
+        model group, separated by rules.
     """
     rows: list[str] = []
-    for model in ("opus", "sonnet"):
-        subset = [pair for pair in pairs if model_band(pair.apm) == model]
-        apm = [session_scope(pair.apm, "metrics")["cost_usd"] for pair in subset]
-        speckit = [session_scope(pair.speckit, "metrics")["cost_usd"] for pair in subset]
-        rows.append(paired_row([model.title()], paired_summary(apm, speckit), 2))
-    return rows
-
-
-def _cost_phase_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return rows for pooled phase cost paired differences.
-
-    Args:
-        pairs: Cohort participant pairs.
-
-    Returns:
-        One LaTeX row per phase.
-    """
-    rows: list[str] = []
-    for key, label in PHASES.items():
-        note = r"\tnote{a}" if key == "planning" else r"\tnote{b,c}"
-        apm = [phase_scope(pair.apm, "metrics", key)["cost_usd"] for pair in pairs]
-        speckit = [phase_scope(pair.speckit, "metrics", key)["cost_usd"] for pair in pairs]
-        rows.append(paired_row([label + note], paired_summary(apm, speckit), 2))
-    return rows
-
-
-def _cost_phase_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return phase cost paired differences by model."""
-    rows: list[str] = []
-    for model in ("opus", "sonnet"):
+    for group, subset in _cost_groups(pairs):
         if rows:
             rows.append(r"\midrule")
-        subset = [pair for pair in pairs if model_band(pair.apm) == model]
-        for key, label in PHASES.items():
-            model_cell = model.title() if key == "planning" else ""
-            note = _phase_model_note(model, key)
+        for scope_key, scope_label in SCOPES.items():
             rows.append(
                 paired_row(
-                    [model_cell, label + note],
+                    [
+                        group if scope_key == "session" else "",
+                        scope_label + _scope_note(group, scope_key),
+                    ],
                     paired_summary(
-                        [phase_scope(pair.apm, "metrics", key)["cost_usd"] for pair in subset],
-                        [phase_scope(pair.speckit, "metrics", key)["cost_usd"] for pair in subset],
+                        [_scope_cost(pair.apm, scope_key) for pair in subset],
+                        [_scope_cost(pair.speckit, scope_key) for pair in subset],
                     ),
                     2,
                 )
             )
     return rows
+
+
+def _cost_groups(pairs: list[ParticipantPair]) -> list[tuple[str, list[ParticipantPair]]]:
+    """Return the row groups of the paired cost table, cohort first.
+
+    The cohort row carries the inference and the model rows show where the
+    difference concentrates, so the two always appear together.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        One (label, subset) entry per group.
+    """
+    return [
+        ("Cohort", pairs),
+        ("Opus", [pair for pair in pairs if model_band(pair.apm) == "opus"]),
+        ("Sonnet", [pair for pair in pairs if model_band(pair.apm) == "sonnet"]),
+    ]
 
 
 def _cost_session_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
@@ -350,15 +324,28 @@ def _category_cost(session: SessionArtefacts, category: str) -> float:
     return total
 
 
-def _phase_model_note(model: str, phase: str) -> str:
-    """Return note marker for a model-split phase-cost row."""
-    if model == "opus" and phase == "planning":
-        return r"\tnote{a}"
-    if model == "opus" and phase == "implementation":
-        return r"\tnote{c}"
-    if model == "sonnet" and phase == "implementation":
-        return r"\tnote{b}"
-    return ""
+def _scope_note(group: str, scope: str) -> str:
+    r"""Return the table-note marker for one row of the paired cost table.
+
+    A note is attached only where the named session actually reaches that row's
+    group and scope, so the cohort rows carry every affected case and each model
+    row carries only its own.
+
+    Args:
+        group: Row group label, ``"Cohort"``, ``"Opus"``, or ``"Sonnet"``.
+        scope: Row scope key.
+
+    Returns:
+        A ``\tnote`` marker, or an empty string where the row has no note.
+    """
+    markers = {
+        ("Cohort", "planning"): r"\tnote{a}",
+        ("Cohort", "implementation"): r"\tnote{b,c}",
+        ("Opus", "planning"): r"\tnote{a}",
+        ("Opus", "implementation"): r"\tnote{c}",
+        ("Sonnet", "implementation"): r"\tnote{b}",
+    }
+    return markers.get((group, scope), "")
 
 
 if __name__ == "__main__":

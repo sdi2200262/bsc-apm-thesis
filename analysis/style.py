@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) BSc APM Case Study 2025-2026
-"""Shared matplotlib style for thesis analysis figures."""
+"""Shared matplotlib style and reporting for thesis analysis figures."""
 
 from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal, NoReturn
 
@@ -143,6 +144,32 @@ def apply_grid(ax: Axes, axis: Literal["both", "x", "y"] = "both") -> None:
     """
     ax.grid(True, axis=axis, color="#cccccc", linewidth=0.5, linestyle="-", alpha=GRID_ALPHA)
     ax.set_axisbelow(True)
+
+
+def report_extremes(series: str, values: Sequence[float], precision: int) -> None:
+    """Print the smallest and largest value of one plotted series.
+
+    A data plot shows how far its values reach, and prose that states that reach
+    needs the numbers behind it. The plot is the reader's evidence; this is where
+    the writer's numbers come from, so a range in prose is never measured off a
+    rendered figure. Every figure module calls this for each series and panel it
+    draws, whether or not prose currently names a value.
+
+    Args:
+        series: Identifier of the panel and series, as the figure draws it.
+        values: The values plotted for that series.
+        precision: Decimal places, matching the dimension's table precision so a
+            prose value and its table read the same.
+
+    Raises:
+        ValueError: If ``values`` is empty, since an empty series has no reach
+            and a figure module asking for one has drawn nothing.
+    """
+    if not values:
+        raise ValueError(f"no values plotted for series {series}")
+    low = f"{min(values):.{precision}f}"
+    high = f"{max(values):.{precision}f}"
+    print(f"{series}: min={low} max={high} n={len(values)}")
 
 
 def label_axis_end_right(

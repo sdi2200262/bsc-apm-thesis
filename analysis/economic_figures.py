@@ -32,12 +32,9 @@ from analysis.style import (
     SPECKIT_LABEL,
     SPECKIT_MARKER,
     apply_grid,
-    label_axis_end_right,
     new_figure,
+    report_extremes,
 )
-
-MORE_FILL = "#e6e6e6"
-LESS_FILL = "#ffffff"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -69,21 +66,6 @@ def render_all(pairs: list[ParticipantPair], output_dir: Path) -> None:
         pairs: Cohort participant pairs.
         output_dir: Destination directory.
     """
-    render_cost_differences(pairs, output_dir / "cost_overall.pdf", width_in=6.8)
-    render_cost_differences(
-        _model_pairs(pairs, "opus"),
-        output_dir / "cost_opus.pdf",
-        width_in=3.3,
-        y_limits=_common_ylim(pairs),
-        x_label="Opus",
-    )
-    render_cost_differences(
-        _model_pairs(pairs, "sonnet"),
-        output_dir / "cost_sonnet.pdf",
-        width_in=3.3,
-        y_limits=_common_ylim(pairs),
-        x_label="Sonnet",
-    )
     render_cost_levels(
         _model_pairs(pairs, "opus"),
         output_dir / "cost_levels_opus.pdf",
@@ -96,47 +78,6 @@ def render_all(pairs: list[ParticipantPair], output_dir: Path) -> None:
         width_in=3.3,
         x_label="Sonnet",
     )
-
-
-def render_cost_differences(
-    pairs: list[ParticipantPair],
-    output: Path,
-    *,
-    width_in: float,
-    y_limits: tuple[float, float] | None = None,
-    x_label: str | None = None,
-) -> None:
-    """Render one per-participant cost-difference panel.
-
-    Args:
-        pairs: Participant pairs to plot.
-        output: Destination PDF path.
-        width_in: Figure width in inches.
-        y_limits: Optional shared y-axis limits.
-        x_label: Optional x-axis label.
-    """
-    diffs = [_cost(pair.apm) - _cost(pair.speckit) for pair in pairs]
-    y_bot, y_top = y_limits if y_limits is not None else _limits_for_values(diffs)
-    fig, ax = new_figure(width_in=width_in, height_in=4.0)
-    ax.set_ylim(y_bot, y_top)
-    ax.axhspan(0, y_top, facecolor=MORE_FILL, edgecolor="none", zorder=0)
-    ax.axhspan(y_bot, 0, facecolor=LESS_FILL, edgecolor="none", zorder=0)
-    ax.axhline(y=0, color="#333333", linewidth=0.9, linestyle="--", zorder=2)
-    xs = list(range(len(pairs)))
-    ax.scatter(xs, diffs, s=28, color=APM_COLOR, marker=APM_MARKER, linewidths=0, zorder=3)
-    ax.set_xticks(xs)
-    ax.set_xticklabels([pair.pid for pair in pairs], fontsize=8, rotation=45, ha="right")
-    ax.set_xlim(-0.6, len(pairs) - 0.4)
-    ax.set_ylabel("Cost difference (USD)", fontsize=9)
-    if x_label is not None:
-        ax.set_xlabel(x_label, fontsize=9, labelpad=8)
-    apply_grid(ax, axis="y")
-    label_axis_end_right(ax, y_data=y_top * 0.78, text="APM costs more", fontsize=7.5)
-    label_axis_end_right(ax, y_data=y_bot * 0.78, text="APM costs less", fontsize=7.5)
-    fig.tight_layout()
-    output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output)
-    plt.close(fig)
 
 
 def render_cost_levels(
@@ -158,10 +99,13 @@ def render_cost_levels(
         width_in: Figure width in inches.
         x_label: Model name for the x-axis.
     """
+    panel = output.stem
+    report_extremes(f"{panel} APM", [_cost(pair.apm) for pair in pairs], 2)
+    report_extremes(f"{panel} Spec-kit", [_cost(pair.speckit) for pair in pairs], 2)
     fig, ax = new_figure(width_in=width_in, height_in=4.0)
     _draw_levels(ax, pairs)
     # The model name sits below the form key, so it clears the tick labels and the
-    # key both; the difference panels need no such clearance, having no key.
+    # key both.
     ax.set_xlabel(x_label, fontsize=9, labelpad=34)
     fig.tight_layout()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -245,18 +189,6 @@ def _form_key(ax: Axes) -> None:
 def _model_pairs(pairs: list[ParticipantPair], model: str) -> list[ParticipantPair]:
     """Return participant pairs for one model band."""
     return [pair for pair in pairs if model_band(pair.apm) == model]
-
-
-def _common_ylim(pairs: list[ParticipantPair]) -> tuple[float, float]:
-    """Return y-axis limits from the full-cohort cost range."""
-    return _limits_for_values([_cost(pair.apm) - _cost(pair.speckit) for pair in pairs])
-
-
-def _limits_for_values(values: list[float]) -> tuple[float, float]:
-    """Return padded y-axis limits for ``values``."""
-    span = max(values) - min(values)
-    pad = 0.10 * span if span else 1.0
-    return min(values) - pad, max(values) + pad
 
 
 def _cost(session: SessionArtefacts) -> float:

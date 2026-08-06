@@ -5,51 +5,13 @@
 \section{Economic Cost Breakdowns}
 \label{app:results-cost-breakdowns}
 
-These tables give the per-model and per-order detail behind claims in the Economic results (Section~\ref{sec:results-economic}).
+This table gives the per-order detail behind the order reading in the Economic results (Section~\ref{sec:results-economic}).
 
-Table~\ref{tab:cost-phase-paired-by-model} splits the phase cost difference by model. The implementation difference is the wider of the two under both models, and under Opus it is the only cell whose interval excludes zero; the planning difference spans zero in each model.
-
-\begin{table}[H]
-  \centering
-  \begin{threeparttable}
-  \caption{Paired cost differences by phase within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-phase-paired-by-model}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
-    \toprule
-    Model & Phase & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/cost-phase-paired-by-model.tex}
-    \bottomrule
-  \end{tabular*}
-  \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004 affects the Opus planning row; see note~[a] of Table~\ref{tab:cost-phase-paired}.
-    \item[b] P006 affects the Sonnet implementation row; see note~[b] of Table~\ref{tab:cost-phase-paired}.
-    \item[c] P009 also affects the Opus implementation row; see note~[c] of Table~\ref{tab:cost-phase-paired}.
-  \end{tablenotes}
-  \end{threeparttable}
-\end{table}
-
-Table~\ref{tab:cost-token-paired-by-model} splits the token-category cost difference by model. The output and one-hour cache-write differences are larger under Opus, and the cache-read difference reverses sign between the models.
+Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by realised session order, with each order group's own summaries and interval.
 
 \begin{table}[H]
   \centering
-  \small
-  \caption{Paired cost differences by token category within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-token-paired-by-model}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
-    \toprule
-    Model & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/cost-token-paired-by-model.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
-
-Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by realized session order. The central difference is larger when APM came second, but at seven and five participants in each order the intervals are wide and the two orders are not distinguishable.
-
-\begin{table}[H]
-  \centering
-  \caption{Paired cost differences by realized session order, APM minus Spec-kit, in US dollars, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
+  \caption{Paired cost differences by realised session order, APM minus Spec-kit, in US dollars, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
   \label{tab:cost-session-paired-by-order}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule

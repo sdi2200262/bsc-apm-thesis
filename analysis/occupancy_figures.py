@@ -44,6 +44,7 @@ from analysis.style import (
     SPECKIT_LABEL,
     SPECKIT_MARKER,
     new_figure,
+    report_extremes,
 )
 
 SONNET_WINDOW = 200_000
@@ -111,6 +112,10 @@ def render(
     columns = [(pair.pid, _segments(pair.apm), _segments(pair.speckit)) for pair in pairs]
     if not any(apm_peaks or speckit_peaks for _, apm_peaks, speckit_peaks in columns):
         raise ValueError("no context segment peaks to plot")
+
+    panel = output.stem
+    report_extremes(f"{panel} APM", [p for _, apm, _ in columns for p in apm], 0)
+    report_extremes(f"{panel} Spec-kit", [p for _, _, speckit in columns for p in speckit], 0)
 
     plot_h_in = 3.2
     left_in, top_in, bottom_in, right_in = 0.55, 0.18, 0.82, 0.08
