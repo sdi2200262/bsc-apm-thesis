@@ -5,7 +5,7 @@
 \section{Economic}
 \label{sec:results-economic}
 
-An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, against Spec-kit's \$24 and \$14, as Table~\ref{tab:cost-session-levels-by-model} reports. APM was the more expensive of the two under both models, by a wide margin under Opus and only slightly under Sonnet. Within a model each framework's median, Hodges-Lehmann estimate, and mean lay close together, so neither framework's typical session cost rests on a few extreme sessions. The Opus sessions cost roughly twice the Sonnet ones, due to the model's higher rate, therefore the two groups are read apart throughout. Within each session the two frameworks placed the cost differently across the task's two phases. APM's fell mostly in implementation, at a median close to \$28 under Opus and \$12 under Sonnet, while its planning cost was the smaller of the two and, unlike implementation, stayed below Spec-kit's.
+An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, against Spec-kit's \$24 and \$14, as Table~\ref{tab:cost-session-levels-by-model} reports. APM was the more expensive of the two under both models, by a wide margin under Opus and only slightly under Sonnet. Within a model each framework's median, Hodges-Lehmann estimate, and mean lay close together, so neither framework's typical session rests on a few extreme ones. The two groups are, however, read apart, since the Opus sessions cost roughly twice the Sonnet ones, due to the model's higher rate. Within each session the two frameworks placed the cost differently across the task's two phases. APM's fell mostly in implementation, at a median close to \$28 under Opus and \$12 under Sonnet, while its planning cost was the smaller of the two and stayed below Spec-kit's.
 
 \begin{table}[H]
   \centering
@@ -14,13 +14,13 @@ An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, aga
   \label{tab:cost-session-levels-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrr}
     \toprule
-    Model & Scope & Framework & Median & HL & Mean \\
+    Group & Scope & Framework & Median & HL & Mean \\
     \midrule
     \InputTableRows{analysis/generated/tables/cost-session-levels-by-model.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P009's assigned-Opus APM session records both Opus and Sonnet tokens, and the row prices calls as recorded, so it is not a pure Opus level. P009 has the largest paired difference in the Opus group.
+    \item[a] P009's assigned-Opus APM session records both Opus and Sonnet tokens in their APM agent transcripts. The row prices calls as recorded, so it is not a pure Opus session. P009 has the largest paired difference in the Opus group.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -31,11 +31,17 @@ Figure~\ref{fig:cost-session-levels-by-model} plots each participant's two sessi
   \centering
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_opus.pdf}\hfill
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_sonnet.pdf}
-  \caption{Per-participant session cost within each model, Opus on the left and Sonnet on the right. Each participant has an APM circle and a Spec-kit diamond joined by a line, and each panel carries its own scale.}
+  \caption{Per-participant session cost within each model, Opus on the left and Sonnet on the right. Each participant has an APM circle and a Spec-kit diamond joined by a line, and each panel carries its own scale. Each framework's cheapest and most expensive session carries its value.}
   \label{fig:cost-session-levels-by-model}
 \end{figure}
 
-Paired within each participant, the APM session incurred the higher dollar-equivalent cost for nine of the twelve, and all three summaries of the difference are positive. Table~\ref{tab:cost-paired-by-scope} gives that difference at session scope and in each phase, for the cohort and within each model group. The median and the Hodges-Lehmann estimate fall close together and the mean sits somewhat higher, being the mark of a few large values pulling the average up. The Wilcoxon interval does not include zero, so the cohort-level direction holds, though its width leaves the size of the difference imprecise.
+Paired within each participant, the APM session incurred the higher dollar-equivalent cost for nine of the twelve, and all three summaries of the difference are positive. The median and the Hodges-Lehmann estimate fall close together and the mean sits somewhat higher, being the mark of a few large values pulling the average up. The Wilcoxon interval does not include zero, so the cohort-level direction holds, though its width leaves the size of the difference imprecise.
+
+The difference behaved very differently in the two model groups. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries, with the median and the Hodges-Lehmann estimate close together and the mean a little above. Those differences run from \$3.73 less to \$32.01 more, which at six pairs is the whole observed range and is what the row's wide interval reports. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, running from \$2.72 less to \$7.22 more and leaving the two frameworks at about the same cost for that group. Those large Opus values pulled the cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
+
+Only the implementation phase carries a difference of its own.\footnote{Session activity outside either framework's workflow phases accounts for under one percent of cohort cost and a difference indistinguishable from zero, and is omitted.} APM's implementation cost was the higher in nine of the twelve pairs, with an interval excluding zero, and it set the direction of the overall difference. Its planning cost was the lower in eight of the twelve, but that interval spans zero, so the phase carries no firm difference. The implementation excess concentrated in the Opus group, where APM cost more in all six pairs, against three of the six under Sonnet. Planning stayed mixed in both, at three of the six pairs under Opus and one of the six under Sonnet.
+
+Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope and in each phase, for the cohort and within each model group.
 
 \begin{table}[H]
   \centering
@@ -50,16 +56,12 @@ Paired within each participant, the APM session incurred the higher dollar-equiv
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's APM Planner and Manager ran in one conversation, so Manager work is included in planning-phase cost. This makes the full-cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-1.10$, $-1.77$, and $-2.02$, rather than $-0.84$, $-1.27$, and $-1.07$.
-    \item[b] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no cost for the session. This raises the full-cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
-    \item[c] P009 is also the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$, rather than $+6.52$, $+6.52$, and $+8.08$.
+    \item[a] P004's APM Planner and Manager ran in one conversation, so Manager work is included in planning-phase cost. This makes the cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-1.10$, $-1.77$, and $-2.02$, rather than $-0.84$, $-1.27$, and $-1.07$.
+    \item[b] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no cost for the session. This raises the cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
+    \item[c] P009 is the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three cohort implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$, rather than $+6.52$, $+6.52$, and $+8.08$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
-
-The difference behaved very differently in the two model groups. Among the participants who worked with Opus, five of the six APM sessions cost more, and the difference was large on all three summaries, with the median and the Hodges-Lehmann estimate close together and the mean a little above. Those differences run from \$3.73 less to \$32.01 more, which at six pairs is the whole observed range and is what the row's wide interval reports. Among the participants who worked with Sonnet the difference was small on all three summaries and mixed in direction, running from \$2.72 less to \$7.22 more and leaving the two frameworks at about the same cost for that group. Those large Opus values pulled the cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
-
-Only the implementation phase carries a difference of its own.\footnote{Session activity outside either framework's workflow phases accounts for under one percent of cohort cost and a difference indistinguishable from zero, and is omitted.} APM's implementation cost was the higher in nine of the twelve pairs, with an interval excluding zero, and it set the direction of the overall difference. Its planning cost was the lower in eight of the twelve, but that interval spans zero, so the phase carries no firm difference. The implementation excess concentrated in the Opus group, where APM cost more in all six pairs, against three of the six under Sonnet. Planning stayed mixed in both, at three of the six pairs under Opus and one of the six under Sonnet.
 
 Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
 
@@ -70,20 +72,20 @@ Within an APM session the cost divided across the three agent roles in the same 
   \label{tab:cost-session-levels-by-role}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr}
     \toprule
-    Model & Role & Median & HL & Mean \\
+    Group & Role & Median & HL & Mean \\
     \midrule
     \InputTableRows{analysis/generated/tables/cost-session-levels-by-role.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, assigns Manager work to the Planner role and shifts the Opus Planner and Manager row summaries in opposite directions. Without P004 the Planner median, Hodges-Lehmann estimate, and mean are $4.76$, $4.76$, and $4.84$ rather than $5.50$, $5.85$, and $6.53$, and the Manager values are $7.86$, $7.86$, and $8.37$ rather than $7.35$, $7.31$, and $6.97$.
+    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, assigns Manager work to the Planner role and shifts the Opus Planner and Manager row summaries in opposite directions. Without P004 the Opus Planner median, Hodges-Lehmann estimate, and mean are $4.76$, $4.76$, and $4.84$ rather than $5.50$, $5.85$, and $6.53$, and the Opus Manager values are $7.86$, $7.86$, and $8.37$ rather than $7.35$, $7.31$, and $6.97$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-The cost also divides by token category, the kind of token each dollar paid for. As Section~\ref{sec:background-context-windows-and-context-decay} described, each call reprocesses the context accumulated so far, and caching lowers the price of the tokens that repeat. Under both frameworks Claude Code cached almost all the prompt, so uncached input was negligible, a few cents either way. Claude Code writes the one-hour cache for the main agents the user works in and the five-minute cache for the subagents they dispatch. The five-minute writes were negligible too, leaving the framework difference on output, cache-read, and the one-hour writes.
+The cost also divides by token category, the kind of token each dollar paid for. As Section~\ref{sec:background-context-windows-and-context-decay} described, each call reprocesses the context accumulated so far, and caching lowers the price of the tokens that repeat. Claude Code cached almost all the context, so uncached input was negligible, a few cents either way. It writes to the one-hour cache for the main agents the user works in and the five-minute cache for the subagents they dispatch. The five-minute writes were negligible too, leaving the framework difference on output, cache-read, and the one-hour writes.
 
-On its own each framework's cost fell mostly on cache-read, the largest category under both models, since the repeated context is read from cache on every call. Output and the one-hour writes came next, neither reaching \$10 in any cell, as Table~\ref{tab:cost-token-composition-by-model} reports. APM's output and one-hour-write costs were above Spec-kit's under both models, while cache-read was the one category to differ in direction between the models, higher for APM under Opus and slightly lower under Sonnet.
+On its own, each framework's cost fell mostly on cache-read, the largest category under both models. Output and the one-hour writes came next, neither reaching \$10 in any cell, as Table~\ref{tab:cost-token-composition-by-model} reports. APM's output and one-hour-write costs were above Spec-kit's under both models, while cache-read was the one category to differ in direction between the models, higher for APM under Opus and slightly lower under Sonnet.
 
 \begin{table}[H]
   \centering
@@ -91,43 +93,30 @@ On its own each framework's cost fell mostly on cache-read, the largest category
   \label{tab:cost-token-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllrrr}
     \toprule
-    Model & Framework & Category & Median & HL & Mean \\
+    Group & Framework & Category & Median & HL & Mean \\
     \midrule
     \InputTableRows{analysis/generated/tables/cost-token-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Two of the three categories drove the difference: output and the one-hour writes. Table~\ref{tab:cost-token-paired} lists the paired difference across all five categories, and Table~\ref{tab:cost-token-paired-by-model} splits it by model. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session, with each difference excluding zero across the cohort and each larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero and APM reading more under Opus and less under Sonnet. The five-minute subagent writes were a small positive difference.
-
-\begin{table}[H]
-  \centering
-  \caption{Paired cost differences by token category, APM minus Spec-kit, in US dollars, at 95.8\% coverage.}
-  \label{tab:cost-token-paired}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
-    \toprule
-    Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/cost-token-paired.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
+Two of the three categories drove the difference: output and the one-hour writes. Table~\ref{tab:cost-token-paired-by-category} gives the paired difference across all five categories, for the cohort and within each model group. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session, with each difference excluding zero across the cohort and each larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero. The five-minute subagent writes were a small positive difference.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Paired cost differences by token category within each model, APM minus Spec-kit, in US dollars, at 96.9\% coverage.}
-  \label{tab:cost-token-paired-by-model}
+  \caption{Paired cost differences by token category, APM minus Spec-kit, in US dollars, at 95.8\% coverage for the cohort rows and 96.9\% for the model rows.}
+  \label{tab:cost-token-paired-by-category}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
-    Model & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    Group & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-token-paired-by-model.tex}
+    \InputTableRows{analysis/generated/tables/cost-token-paired-by-category.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Session order did not reverse the cost difference. All three summaries were positive in both order groups, with four of the seven APM-first pairs and all five APM-second pairs positive, as Table~\ref{tab:cost-session-paired-by-order} of Appendix~\ref{app:results-cost-breakdowns} reports. They ran larger and more consistent when participants met APM second, but at seven and five participants the intervals are wide and the two order groups cannot be told apart, so the difference tracks the framework rather than the order of the sessions.
+Session order did not reverse the cost difference. All three summaries were positive in both order groups, with four of the seven APM-first pairs and all five APM-second pairs positive, as Table~\ref{tab:cost-session-paired-by-order} of Appendix~\ref{app:results-cost-breakdowns} reports. They ran larger and more consistent when participants met APM second. At seven and five participants the intervals are wide and the two order groups cannot be told apart, so the difference appears to track the framework rather than the order of the sessions.
 
 Two sections in Chapter~\ref{chap:discussions} read these differences further. Section~\ref{sec:discussions-sdd} traces the planning-phase divergence to how the two frameworks carry out spec-driven planning. Section~\ref{sec:discussions-cost-mechanics} reads the implementation cost, showing how working across several agents shapes where the cost falls and why the two model groups diverge.
 

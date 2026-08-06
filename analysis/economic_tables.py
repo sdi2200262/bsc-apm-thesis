@@ -81,9 +81,8 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
         output_dir / "cost-token-composition-by-model.tex",
         _cost_token_composition_by_model(pairs),
     )
-    write_fragment(output_dir / "cost-token-paired.tex", _cost_token_paired(pairs))
     write_fragment(
-        output_dir / "cost-token-paired-by-model.tex", _cost_token_paired_by_model(pairs)
+        output_dir / "cost-token-paired-by-category.tex", _cost_token_paired_by_category(pairs)
     )
 
 
@@ -152,7 +151,7 @@ def _cost_paired_by_scope(pairs: list[ParticipantPair]) -> list[str]:
 
 
 def _cost_groups(pairs: list[ParticipantPair]) -> list[tuple[str, list[ParticipantPair]]]:
-    """Return the row groups of the paired cost table, cohort first.
+    """Return the row groups shared by the paired cost tables, cohort first.
 
     The cohort row carries the inference and the model rows show where the
     difference concentrates, so the two always appear together.
@@ -261,34 +260,28 @@ def _role_cost(session: SessionArtefacts, role_prefix: str) -> float:
     )
 
 
-def _cost_token_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return rows for pooled token-category cost differences.
+def _cost_token_paired_by_category(pairs: list[ParticipantPair]) -> list[str]:
+    """Return paired token-category cost differences, for the cohort and each model group.
+
+    Keyed as ``_cost_paired_by_scope`` is, so the two paired cost tables read the
+    same way: the group blocks of ``_cost_groups`` leftmost, the finer factor
+    nested to their right.
 
     Args:
         pairs: Cohort participant pairs.
 
     Returns:
-        One LaTeX row per token category.
+        One row per token category for the cohort, then for each model group,
+        separated by rules.
     """
     rows: list[str] = []
-    for key, label in TOKEN_KEYS.items():
-        apm = [_category_cost(pair.apm, key) for pair in pairs]
-        speckit = [_category_cost(pair.speckit, key) for pair in pairs]
-        rows.append(paired_row([label], paired_summary(apm, speckit), 2))
-    return rows
-
-
-def _cost_token_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return token-category cost paired differences by model."""
-    rows: list[str] = []
-    for model in ("opus", "sonnet"):
+    for group, subset in _cost_groups(pairs):
         if rows:
             rows.append(r"\midrule")
-        subset = [pair for pair in pairs if model_band(pair.apm) == model]
         for key, label in TOKEN_KEYS.items():
             rows.append(
                 paired_row(
-                    [model.title() if key == "input" else "", label],
+                    [group if key == "input" else "", label],
                     paired_summary(
                         [_category_cost(pair.apm, key) for pair in subset],
                         [_category_cost(pair.speckit, key) for pair in subset],

@@ -172,6 +172,53 @@ def report_extremes(series: str, values: Sequence[float], precision: int) -> Non
     print(f"{series}: min={low} max={high} n={len(values)}")
 
 
+def label_extremes(
+    ax: Axes,
+    xs: Sequence[float],
+    values: Sequence[float],
+    companions: Sequence[float],
+    precision: int,
+) -> None:
+    """Draw the smallest and largest value of one plotted series beside its marker.
+
+    Where prose states how far a series reaches, the reader has to be able to
+    read those digits off the same plot that shows the reach. The two extreme
+    markers therefore carry their own value at table precision, so a range in
+    prose and the figure it points to print the same number.
+
+    Each label sits on the outward side of its marker, away from the companion
+    series at the same position, so the two never collide where a participant's
+    values are close.
+
+    Args:
+        ax: Axes to draw on.
+        xs: Marker positions of the series.
+        values: The values plotted for the series.
+        companions: The other series' values at the same positions.
+        precision: Decimal places, matching the dimension's table precision.
+
+    Raises:
+        ValueError: If ``values`` is empty, since an empty series has no reach.
+    """
+    if not values:
+        raise ValueError("no values plotted for the labelled series")
+    for index in (
+        min(range(len(values)), key=lambda i: values[i]),
+        max(range(len(values)), key=lambda i: values[i]),
+    ):
+        above = values[index] >= companions[index]
+        ax.annotate(
+            f"{values[index]:.{precision}f}",
+            xy=(xs[index], values[index]),
+            xytext=(0, 7 if above else -13),
+            textcoords="offset points",
+            ha="center",
+            va="bottom" if above else "top",
+            fontsize=7,
+            zorder=4,
+        )
+
+
 def label_axis_end_right(
     ax: Axes,
     y_data: float,

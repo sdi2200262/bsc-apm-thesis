@@ -32,8 +32,8 @@ from analysis.style import (
     SPECKIT_LABEL,
     SPECKIT_MARKER,
     apply_grid,
+    label_extremes,
     new_figure,
-    report_extremes,
 )
 
 
@@ -99,9 +99,6 @@ def render_cost_levels(
         width_in: Figure width in inches.
         x_label: Model name for the x-axis.
     """
-    panel = output.stem
-    report_extremes(f"{panel} APM", [_cost(pair.apm) for pair in pairs], 2)
-    report_extremes(f"{panel} Spec-kit", [_cost(pair.speckit) for pair in pairs], 2)
     fig, ax = new_figure(width_in=width_in, height_in=4.0)
     _draw_levels(ax, pairs)
     # The model name sits below the form key, so it clears the tick labels and the
@@ -121,11 +118,10 @@ def _draw_levels(ax: Axes, pairs: list[ParticipantPair]) -> None:
         pairs: Participant pairs.
     """
     xs = list(range(len(pairs)))
-    values: list[float] = []
-    for x, pair in zip(xs, pairs, strict=True):
-        apm = _cost(pair.apm)
-        speckit = _cost(pair.speckit)
-        values.extend((apm, speckit))
+    apm_values = [_cost(pair.apm) for pair in pairs]
+    speckit_values = [_cost(pair.speckit) for pair in pairs]
+    values = apm_values + speckit_values
+    for x, apm, speckit in zip(xs, apm_values, speckit_values, strict=True):
         ax.plot([x, x], [speckit, apm], color="#000000", linewidth=0.8, zorder=1)
         ax.plot(
             x,
@@ -150,6 +146,8 @@ def _draw_levels(ax: Axes, pairs: list[ParticipantPair]) -> None:
     ax.set_xlim(-0.6, len(pairs) - 0.4)
     ax.set_ylabel("Session cost (USD)", fontsize=9)
     ax.set_ylim(0, max(values) * 1.10)
+    label_extremes(ax, xs, apm_values, speckit_values, 2)
+    label_extremes(ax, xs, speckit_values, apm_values, 2)
     apply_grid(ax, axis="y")
     _form_key(ax)
 
