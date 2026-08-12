@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) BSc APM Case Study 2025-2026
-"""Shared matplotlib style for thesis analysis figures."""
+"""Shared matplotlib style and reporting for thesis analysis figures."""
 
 from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal, NoReturn
 
@@ -143,6 +144,79 @@ def apply_grid(ax: Axes, axis: Literal["both", "x", "y"] = "both") -> None:
     """
     ax.grid(True, axis=axis, color="#cccccc", linewidth=0.5, linestyle="-", alpha=GRID_ALPHA)
     ax.set_axisbelow(True)
+
+
+def report_extremes(series: str, values: Sequence[float], precision: int) -> None:
+    """Print the smallest and largest value of one plotted series.
+
+    A data plot shows how far its values reach, and prose that states that reach
+    needs the numbers behind it. The plot is the reader's evidence; this is where
+    the writer's numbers come from, so a range in prose is never measured off a
+    rendered figure. Every figure module calls this for each series and panel it
+    draws, whether or not prose currently names a value.
+
+    Args:
+        series: Identifier of the panel and series, as the figure draws it.
+        values: The values plotted for that series.
+        precision: Decimal places, matching the dimension's table precision so a
+            prose value and its table read the same.
+
+    Raises:
+        ValueError: If ``values`` is empty, since an empty series has no reach
+            and a figure module asking for one has drawn nothing.
+    """
+    if not values:
+        raise ValueError(f"no values plotted for series {series}")
+    low = f"{min(values):.{precision}f}"
+    high = f"{max(values):.{precision}f}"
+    print(f"{series}: min={low} max={high} n={len(values)}")
+
+
+def label_extremes(
+    ax: Axes,
+    xs: Sequence[float],
+    values: Sequence[float],
+    companions: Sequence[float],
+    precision: int,
+) -> None:
+    """Draw the smallest and largest value of one plotted series beside its marker.
+
+    Where prose states how far a series reaches, the reader has to be able to
+    read those digits off the same plot that shows the reach. The two extreme
+    markers therefore carry their own value at table precision, so a range in
+    prose and the figure it points to print the same number.
+
+    Each label sits on the outward side of its marker, away from the companion
+    series at the same position, so the two never collide where a participant's
+    values are close.
+
+    Args:
+        ax: Axes to draw on.
+        xs: Marker positions of the series.
+        values: The values plotted for the series.
+        companions: The other series' values at the same positions.
+        precision: Decimal places, matching the dimension's table precision.
+
+    Raises:
+        ValueError: If ``values`` is empty, since an empty series has no reach.
+    """
+    if not values:
+        raise ValueError("no values plotted for the labelled series")
+    for index in (
+        min(range(len(values)), key=lambda i: values[i]),
+        max(range(len(values)), key=lambda i: values[i]),
+    ):
+        above = values[index] >= companions[index]
+        ax.annotate(
+            f"{values[index]:.{precision}f}",
+            xy=(xs[index], values[index]),
+            xytext=(0, 7 if above else -13),
+            textcoords="offset points",
+            ha="center",
+            va="bottom" if above else "top",
+            fontsize=7,
+            zorder=4,
+        )
 
 
 def label_axis_end_right(

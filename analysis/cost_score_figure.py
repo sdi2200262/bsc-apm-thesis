@@ -25,7 +25,7 @@ from analysis.cohort import (
     pair_by_participant,
 )
 from analysis.config import ConfigError, load_records
-from analysis.style import APM_COLOR, SPECKIT_FACECOLOR, apply_grid, new_figure
+from analysis.style import APM_COLOR, SPECKIT_FACECOLOR, apply_grid, new_figure, report_extremes
 
 LABELLED = {"P001", "P002", "P004", "P009", "P012"}
 
@@ -69,6 +69,9 @@ def render(points: list[Point], output: Path) -> None:
         points: Participant difference points.
         output: Destination PDF path.
     """
+    panel = output.stem
+    report_extremes(f"{panel} cost", [point.cost_difference for point in points], 2)
+    report_extremes(f"{panel} score", [point.score_difference for point in points], 1)
     fig, ax = new_figure(width_in=6.9, height_in=4.2)
     ax.axhline(0, color="#888888", linewidth=0.7, zorder=0)
     ax.axvline(0, color="#888888", linewidth=0.7, zorder=0)
