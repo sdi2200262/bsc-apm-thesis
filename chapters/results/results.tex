@@ -172,7 +172,7 @@ Table~\ref{tab:proc-time-paired-by-scope} gives the cohort's paired time differe
 
 The same session and phase patterns held within both model groups; Table~\ref{tab:proc-time-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} gives the model-specific estimates.
 
-Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as Table~\ref{tab:proc-duration-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore appears to track the framework rather than the order of the sessions.
+Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as the duration rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore appears to track the framework rather than the order of the sessions.
 
 Within the active time APM could have two or more of its agents working at once, but participants used concurrent work sparingly. In five sessions it made up less than 2\% of active time; across the cohort it remained below a sixth of active time in all but one, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
 
@@ -205,7 +205,7 @@ An APM session had a median of 21.5 turn prompts against Spec-kit's 13.0, as Tab
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's merged Planner/Manager conversation raises the APM planning turn-prompt count. Without P004 the APM planning turn median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turns, rather than $9.5$, $9.5$, and $9.7$.
     \item[b] P006's Spec-kit session opens no implementation turn, for the reason given in Table~\ref{tab:proc-duration-levels} note~[c]. This lowers the Spec-kit implementation count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turns, rather than $3.0$, $3.5$, and $3.3$.
-    \item[c] P007 and P009 each opened only one Spec-kit turn in implementation: in both, the agent invoked the implementation command inside a turn the participant had opened for planning, so only the turn that followed is counted in the phase.
+    \item[c] P007 and P009 started implementation within a planning turn, so that turn remains planning and each had one subsequent implementation turn.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -227,11 +227,11 @@ Paired within each participant, the added turns under APM fell almost entirely i
 
 The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
-The turn-prompt bucket shares and the magnitude per bucket differed by phase and framework, as Table~\ref{tab:proc-buckets-composition} reports.
+In planning, APM's turn prompts were mostly short or standard text. Their mean character counts were 19 and 146, respectively. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
 
-In planning, APM's turn prompts fell mostly in the short and standard buckets, with the protocol bucket small. The short prompts had a magnitude near 20 characters, while the standard prompts had a magnitude near 156 characters. Spec-kit's planning was mostly framework commands, with few standard prompts from the user.
+In implementation the APM mix reversed. The protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation had very few turn prompts of any kind, so its bucket shares there rest on one to a few prompts per session and are too sparse to read as a typical mix.
 
-In implementation the composition reversed for APM, whose turn prompts were mostly the protocol commands that drive its workflow. Spec-kit's implementation had very few turn prompts of any kind, so its bucket shares there rest on one to a few prompts per session and are too sparse to read as a typical mix.
+Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count.
 
 \begin{table}[H]
   \centering
@@ -249,15 +249,15 @@ In implementation the composition reversed for APM, whose turn prompts were most
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item Each bucket is summarised independently across the sessions, so the three medians need not sum to one. The three mean shares sum to one unless a session has no turn prompt in the phase and contributes three zeros.
-    \item[a] P002 has the largest APM implementation standard-prompt magnitude in the cohort by a substantial margin, from a single prompt in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters, rather than $79$, $102$, and $184$.
+    \item[a] Each bucket is summarised independently across the sessions, so the three medians need not sum to one. The three mean shares sum to one unless a session has no turn prompt in the phase and contributes three zeros.
+    \item[b] P002 has the largest APM implementation standard-prompt character count in the cohort by a substantial margin, from a single prompt in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters, rather than $79$, $102$, and $184$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-APM held close to the same turn-prompt bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} of Appendix~\ref{app:results-process-breakdowns} give the per-participant bucket shares, with the turn-prompt count behind each, and Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} the magnitude per bucket.
+APM held close to the same turn-prompt bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Both frameworks' short and standard-prompt character counts varied across participants. Spec-kit's smaller implementation turn counts make those summaries particularly sensitive to a single prompt. Tables~\ref{tab:proc-planning-buckets-by-participant} and~\ref{tab:proc-implementation-buckets-by-participant} of Appendix~\ref{app:results-process-breakdowns} give each participant's shares, character counts, and turn-prompt counts by phase.
 
-The composition held under both models. The one visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. Table~\ref{tab:proc-buckets-composition-by-model} of Appendix~\ref{app:results-process-breakdowns} gives the shares by model.
+The share composition held under both models. The visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. The character-count summaries were otherwise aligned across models, apart from APM's Sonnet implementation standard bucket, whose mean was higher. Tables~\ref{tab:proc-buckets-composition-by-model} and~\ref{tab:proc-bucket-magnitudes-by-model} of Appendix~\ref{app:results-process-breakdowns} give the shares and character counts by model.
 
 Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-turns-levels-by-role} reports. The Planner's turns were those of the planning phase, while the Manager and the Workers divided the implementation phase between them, at medians of 6.5 and 5.0 turn prompts. The composition of those turns by role is given in Table~\ref{tab:proc-buckets-composition-by-role} of Appendix~\ref{app:results-process-breakdowns}. The Workers were addressed almost entirely through protocol commands, while the Manager's prompts, mostly protocol as well, also included some short and standard text.
 
@@ -276,9 +276,9 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
 
 Steering was sparse under both frameworks and confined to a minority of sessions. Seven of the twelve participants steered at all under APM and four did under Spec-kit, most of them once or twice, with four steers the largest count in any session. Across the cohort that came to thirteen steers under APM, three of which reached the working agent, and six under Spec-kit, none of which did. Table~\ref{tab:proc-steers-by-participant} of Appendix~\ref{app:results-process-breakdowns} gives each session's counts.
 
-Session order did not reverse the result. The higher turn-prompt count under APM held whether participants met it first or second. Table~\ref{tab:proc-turns-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports the difference by order.
+Session order did not reverse the result. The higher turn-prompt count under APM held whether participants met it first or second. The turn-prompt rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report the difference by order.
 
-Chapter~\ref{chap:discussions} reads the added time and effort against the frameworks' designs. Section~\ref{sec:discussions-sdd} reads the planning behaviour, and Section~\ref{sec:discussions-demands} the demands the implementation places on the user.
+Chapter~\ref{chap:discussions} interprets the added time and recorded interaction in light of the frameworks' designs. Section~\ref{sec:discussions-sdd} examines planning behaviour, and Section~\ref{sec:discussions-demands} examines the demands placed on the user during implementation.
 
 \section{Functional}
 \label{sec:results-functional}

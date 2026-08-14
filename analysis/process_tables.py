@@ -91,33 +91,25 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(output_dir / "proc-duration-levels.tex", _duration_levels(pairs))
     write_fragment(output_dir / "proc-time-paired-by-scope.tex", _time_paired_by_scope(pairs))
     write_fragment(output_dir / "proc-time-paired-by-model.tex", _time_paired_by_model(pairs))
-    write_fragment(
-        output_dir / "proc-duration-paired-by-order.tex", _duration_paired_by_order(pairs)
-    )
+    write_fragment(output_dir / "proc-paired-by-order.tex", _paired_by_order(pairs))
     write_fragment(output_dir / "proc-concurrency-sessions.tex", _concurrency_sessions(pairs))
     write_fragment(output_dir / "proc-turns-levels.tex", _turn_levels(pairs))
     write_fragment(output_dir / "proc-turns-paired.tex", _turn_paired(pairs))
     write_fragment(output_dir / "proc-turns-paired-by-model.tex", _turn_paired_by_model(pairs))
-    write_fragment(output_dir / "proc-turns-paired-by-order.tex", _turn_paired_by_order(pairs))
     write_fragment(output_dir / "proc-buckets-composition.tex", _bucket_composition(pairs))
     write_fragment(
-        output_dir / "proc-planning-buckets-composition-by-participant.tex",
-        _bucket_share_sessions(pairs, "planning"),
+        output_dir / "proc-planning-buckets-by-participant.tex",
+        _bucket_sessions(pairs, "planning"),
     )
     write_fragment(
-        output_dir / "proc-implementation-buckets-composition-by-participant.tex",
-        _bucket_share_sessions(pairs, "implementation"),
-    )
-    write_fragment(
-        output_dir / "proc-planning-bucket-magnitude-sessions-by-participant.tex",
-        _bucket_magnitude_sessions(pairs, "planning"),
-    )
-    write_fragment(
-        output_dir / "proc-implementation-bucket-magnitude-sessions-by-participant.tex",
-        _bucket_magnitude_sessions(pairs, "implementation"),
+        output_dir / "proc-implementation-buckets-by-participant.tex",
+        _bucket_sessions(pairs, "implementation"),
     )
     write_fragment(
         output_dir / "proc-buckets-composition-by-model.tex", _bucket_composition_by_model(pairs)
+    )
+    write_fragment(
+        output_dir / "proc-bucket-magnitudes-by-model.tex", _bucket_magnitudes_by_model(pairs)
     )
     write_fragment(
         output_dir / "proc-buckets-composition-by-role.tex", _bucket_composition_by_role(pairs)
@@ -283,9 +275,40 @@ def _time_rows(pairs: list[ParticipantPair], group_label: str | None = None) -> 
     return rows
 
 
-def _duration_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
-    """Return session-duration paired rows by realized order."""
-    return _session_metric_by_order(pairs, "duration", include_zero=False)
+def _paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
+    """Return paired session duration and turn-prompt rows by realized order."""
+    rows: list[str] = []
+    measures = (
+        (
+            "Duration",
+            lambda pair: float(session_scope(pair.apm, "metrics")["duration"]),
+            lambda pair: float(session_scope(pair.speckit, "metrics")["duration"]),
+            False,
+        ),
+        (
+            "Turn prompts",
+            lambda pair: _turn_value(pair.apm, "session"),
+            lambda pair: _turn_value(pair.speckit, "session"),
+            True,
+        ),
+    )
+    for measure, apm_value, speckit_value, include_zero in measures:
+        if rows:
+            rows.append(r"\midrule")
+        for order in ("APM first", "APM second"):
+            subset = [pair for pair in pairs if order_label(pair) == order]
+            rows.append(
+                paired_row(
+                    [measure if order == "APM first" else "", f"{order}~"],
+                    paired_summary(
+                        [apm_value(pair) for pair in subset],
+                        [speckit_value(pair) for pair in subset],
+                    ),
+                    1,
+                    include_zero=include_zero,
+                )
+            )
+    return rows
 
 
 def _turn_paired(pairs: list[ParticipantPair]) -> list[str]:
@@ -336,25 +359,6 @@ def _turn_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
-def _turn_paired_by_order(pairs: list[ParticipantPair]) -> list[str]:
-    """Return session turn-prompt paired rows by realized order."""
-    rows: list[str] = []
-    for order in ("APM first", "APM second"):
-        subset = [pair for pair in pairs if order_label(pair) == order]
-        rows.append(
-            paired_row(
-                [order],
-                paired_summary(
-                    [session_scope(pair.apm, "data")["turn_prompt_count"] for pair in subset],
-                    [session_scope(pair.speckit, "data")["turn_prompt_count"] for pair in subset],
-                ),
-                1,
-                include_zero=True,
-            )
-        )
-    return rows
-
-
 def _turn_levels_by_role(pairs: list[ParticipantPair]) -> list[str]:
     """Return APM-only per-role turn count rows.
 
@@ -401,7 +405,7 @@ def _bucket_composition(pairs: list[ParticipantPair]) -> list[str]:
             for bucket, label in BUCKETS.items():
                 sessions = [getattr(pair, framework) for pair in pairs]
                 note = (
-                    r"\tnote{a}"
+                    r"\tnote{b}"
                     if phase_key == "implementation" and framework == "apm" and bucket == "standard"
                     else ""
                 )
@@ -421,45 +425,46 @@ def _bucket_composition(pairs: list[ParticipantPair]) -> list[str]:
     return rows
 
 
-def _bucket_share_sessions(pairs: list[ParticipantPair], phase: str) -> list[str]:
-    """Return per-participant bucket-share rows for one phase."""
+def _bucket_sessions(pairs: list[ParticipantPair], phase: str, measure: str = "both") -> list[str]:
+    """Return per-participant bucket values and counts for one phase and measure."""
     rows: list[str] = []
     for pair in pairs:
-        note = r"\tnote{a}" if phase == "implementation" and pair.pid == "P006" else ""
-        label = pair.pid + note
-        cells = [label]
-        for session in (pair.apm, pair.speckit):
+        for framework in ("apm", "speckit"):
+            session = getattr(pair, framework)
+            label = pair.pid if framework == "apm" else ""
+            if (
+                phase == "implementation"
+                and measure in ("both", "magnitudes")
+                and framework == "apm"
+                and pair.pid == "P002"
+            ):
+                label += r"\tnote{a}"
+            if (
+                phase == "implementation"
+                and measure in ("both", "shares")
+                and framework == "apm"
+                and pair.pid == "P006"
+            ):
+                label += r"\tnote{b}"
             count = int(_turn_value(session, phase))
-            if count == 0:
-                cells.extend(["--", "--", "--", "0"])
-            else:
-                cells.extend(
-                    [
-                        f"{_bucket_share(session, phase, bucket):.2f}"
-                        for bucket in ("protocol", "short", "standard")
-                    ]
-                )
-                cells.append(str(count))
-        rows.append(" & ".join(cells) + r" \\")
-    return rows
-
-
-def _bucket_magnitude_sessions(pairs: list[ParticipantPair], phase: str) -> list[str]:
-    """Return per-participant bucket-magnitude rows for one phase."""
-    rows: list[str] = []
-    for pair in pairs:
-        label = pair.pid
-        if phase == "implementation" and pair.pid == "P002":
-            label += r"\tnote{a}"
-        if phase == "implementation" and pair.pid == "P006":
-            label += r"\tnote{b}"
-        cells = [label]
-        for session in (pair.apm, pair.speckit):
-            cells.extend(
-                _plain_intish(_bucket_magnitude(session, phase, bucket))
-                for bucket in ("protocol", "short", "standard")
+            shares = (
+                ["--", "--", "--"]
+                if count == 0
+                else [
+                    f"{_bucket_share(session, phase, bucket):.2f}"
+                    for bucket in ("protocol", "short", "standard")
+                ]
             )
-        rows.append(" & ".join(cells) + r" \\")
+            cells = [label, "APM" if framework == "apm" else "Spec-kit"]
+            if measure in ("both", "shares"):
+                cells.extend(shares)
+            if measure in ("both", "magnitudes"):
+                cells.extend(
+                    _plain_intish(_bucket_magnitude(session, phase, bucket))
+                    for bucket in ("protocol", "short", "standard")
+                )
+            cells.append(str(count))
+            rows.append(" & ".join(cells) + r" \\")
     return rows
 
 
@@ -496,6 +501,51 @@ def _bucket_composition_by_model(pairs: list[ParticipantPair]) -> list[str]:
                             2,
                         )
                     )
+    return rows
+
+
+def _bucket_magnitudes_by_model(pairs: list[ParticipantPair]) -> list[str]:
+    """Return bucket character-count summaries by model, phase, and framework."""
+    rows: list[str] = []
+    for model in ("opus", "sonnet"):
+        if rows:
+            rows.append(r"\midrule")
+        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        for phase_key, phase_label in PHASES.items():
+            if phase_key == "implementation":
+                rows.append(r"\cmidrule(lr){2-7}")
+            for framework in ("apm", "speckit"):
+                sessions = [getattr(pair, framework) for pair in subset]
+                for bucket, label in BUCKETS.items():
+                    model_cell = (
+                        model.title()
+                        if phase_key == "planning" and framework == "apm" and bucket == "protocol"
+                        else ""
+                    )
+                    phase_cell = phase_label if framework == "apm" and bucket == "protocol" else ""
+                    note = (
+                        r"\tnote{a}"
+                        if model == "sonnet"
+                        and phase_key == "implementation"
+                        and framework == "apm"
+                        and bucket == "standard"
+                        else ""
+                    )
+                    magnitudes = [
+                        _bucket_magnitude(session, phase_key, bucket) for session in sessions
+                    ]
+                    observed = [value for value in magnitudes if value > 0]
+                    summary = level_summary(observed or magnitudes)
+                    cells = [
+                        model_cell,
+                        phase_cell,
+                        _framework_cell(framework, bucket),
+                        label + note,
+                        _math_intish(summary.median),
+                        _math_intish(summary.hl),
+                        _math_intish(summary.mean),
+                    ]
+                    rows.append(" & ".join(cells) + r" \\")
     return rows
 
 
@@ -654,27 +704,6 @@ def _compaction_incidence_by_model(pairs: list[ParticipantPair]) -> list[str]:
                 f"{len(sessions)} & {sum(count > 0 for count in counts)} & "
                 f"{sum(count > 1 for count in counts)} \\\\"
             )
-    return rows
-
-
-def _session_metric_by_order(
-    pairs: list[ParticipantPair], key: str, *, include_zero: bool
-) -> list[str]:
-    """Return session metric paired rows by realized order."""
-    rows: list[str] = []
-    for order in ("APM first", "APM second"):
-        subset = [pair for pair in pairs if order_label(pair) == order]
-        rows.append(
-            paired_row(
-                [order],
-                paired_summary(
-                    [session_scope(pair.apm, "metrics")[key] for pair in subset],
-                    [session_scope(pair.speckit, "metrics")[key] for pair in subset],
-                ),
-                1,
-                include_zero=include_zero,
-            )
-        )
     return rows
 
 

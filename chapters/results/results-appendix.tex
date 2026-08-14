@@ -45,17 +45,19 @@ Table~\ref{tab:proc-time-paired-by-model} gives the model-specific paired time d
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-duration-paired-by-order} gives the session-duration difference within each realised session order. Neither order reverses it; the central differences are comparable across the two groups.
+Table~\ref{tab:proc-paired-by-order} gives the session-duration and turn-prompt differences within each realised session order. Neither order reverses either result; the central differences are comparable across the two groups.
 
 \begin{table}[H]
   \centering
-  \caption{Paired session-duration differences by realised session order, APM minus Spec-kit, in seconds, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:proc-duration-paired-by-order}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+  \caption{Paired session-duration and turn-prompt differences by realised session order, APM minus Spec-kit. Duration is in seconds; the turn-prompt rows are counts. The $n = 7$ rows have 95.3\% coverage and the $n = 5$ rows 93.8\%.}
+  \label{tab:proc-paired-by-order}
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
-    Order & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    Measure & Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-duration-paired-by-order.tex}
+    \InputTableRows{analysis/generated/tables/proc-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -75,8 +77,6 @@ Table~\ref{tab:proc-concurrency-sessions} sets out each APM session's active-tim
   \end{tabular*}
 \end{table}
 
-\newpage
-
 Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
 
 \begin{table}[H]
@@ -86,85 +86,51 @@ Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by s
   \label{tab:proc-turns-paired-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
-    Model & Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    Group & Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
     \InputTableRows{analysis/generated/tables/proc-turns-paired-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Tables~\ref{tab:proc-planning-buckets-composition-by-participant} and~\ref{tab:proc-implementation-buckets-composition-by-participant} give the per-participant turn-prompt bucket shares in each phase, with the turn-prompt count behind each session's shares. Tables~\ref{tab:proc-planning-bucket-magnitude-sessions-by-participant} and~\ref{tab:proc-implementation-bucket-magnitude-sessions-by-participant} give the magnitude per bucket for the same prompts.
+Tables~\ref{tab:proc-planning-buckets-by-participant} and~\ref{tab:proc-implementation-buckets-by-participant} give the per-participant turn-prompt bucket shares, magnitudes, and counts in the two phases.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Per-participant planning turn-prompt bucket shares, with the count $n$ behind each session.}
-  \label{tab:proc-planning-buckets-composition-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
+  \caption{Per-participant planning turn-prompt bucket shares, magnitudes in characters, and counts.}
+  \label{tab:proc-planning-buckets-by-participant}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr r}
     \toprule
-    & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
-    \cmidrule(lr){2-5} \cmidrule(lr){6-9}
-    Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
+    & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} & \\
+    \cmidrule(lr){3-5} \cmidrule(lr){6-8}
+    Participant & Framework & Prot. & Short & Std. & Prot. & Short & Std. & $n$ \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-planning-buckets-composition-by-participant.tex}
+    \InputTableRows{analysis/generated/tables/proc-planning-buckets-by-participant.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
+
+\newpage % Temporary: keep the full implementation table on a fresh appendix page.
 
 \begin{table}[H]
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-participant implementation turn-prompt bucket shares, with the count $n$ behind each session. A session with no implementation turn prompt has no shares.}
-  \label{tab:proc-implementation-buckets-composition-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrrr rrrr}
+  \caption{Per-participant implementation turn-prompt bucket shares, magnitudes in characters, and counts.}
+  \label{tab:proc-implementation-buckets-by-participant}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr r}
     \toprule
-    & \multicolumn{4}{c}{APM} & \multicolumn{4}{c}{Spec-kit} \\
-    \cmidrule(lr){2-5} \cmidrule(lr){6-9}
-    Participant & Prot. & Short & Std. & $n$ & Prot. & Short & Std. & $n$ \\
+    & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} & \\
+    \cmidrule(lr){3-5} \cmidrule(lr){6-8}
+    Participant & Framework & Prot. & Short & Std. & Prot. & Short & Std. & $n$ \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-implementation-buckets-composition-by-participant.tex}
+    \InputTableRows{analysis/generated/tables/proc-implementation-buckets-by-participant.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P006 did not invoke the implementation command; see note~[c] of Table~\ref{tab:proc-duration-levels}.
-  \end{tablenotes}
-  \end{threeparttable}
-\end{table}
-
-\begin{table}[H]
-  \centering
-  \small
-  \caption{Per-participant turn-prompt magnitude per bucket in the planning phase, in characters. A zero marks a bucket with no prompt in that session.}
-  \label{tab:proc-planning-bucket-magnitude-sessions-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
-    \toprule
-    & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
-    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
-    Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-planning-bucket-magnitude-sessions-by-participant.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
-
-\begin{table}[H]
-  \centering
-  \small
-  \begin{threeparttable}
-  \caption{Per-participant turn-prompt magnitude per bucket in the implementation phase, in characters. A zero marks a bucket with no prompt in that session.}
-  \label{tab:proc-implementation-bucket-magnitude-sessions-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l rrr rrr}
-    \toprule
-    & \multicolumn{3}{c}{APM} & \multicolumn{3}{c}{Spec-kit} \\
-    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
-    Participant & Prot. & Short & Std. & Prot. & Short & Std. \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-implementation-bucket-magnitude-sessions-by-participant.tex}
-    \bottomrule
-  \end{tabular*}
-  \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-prompt magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
+    \item A session with no implementation turn prompt has no shares.
+    \item[a] P002's high standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
     \item[b] P006 did not invoke the implementation command; see note~[c] of Table~\ref{tab:proc-duration-levels}.
   \end{tablenotes}
   \end{threeparttable}
@@ -179,20 +145,41 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket s
   \label{tab:proc-buckets-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
     \toprule
-    Model & Phase & Framework & Bucket & Median & HL & Mean \\
+    Group & Phase & Framework & Bucket & Median & HL & Mean \\
     \midrule
     \InputTableRows{analysis/generated/tables/proc-buckets-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket shares and magnitude per bucket for each APM agent role, pooled over the role's agents across the sessions.
+Table~\ref{tab:proc-bucket-magnitudes-by-model} gives the corresponding turn-prompt character counts within each model group.
 
 \begin{table}[H]
   \centering
   \small
   \begin{threeparttable}
-  \caption{Per-role turn-prompt bucket shares and magnitude per bucket across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
+  \caption{Turn-prompt bucket character counts within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
+  \label{tab:proc-bucket-magnitudes-by-model}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
+    \toprule
+    Group & Phase & Framework & Bucket & Median & HL & Mean \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/proc-bucket-magnitudes-by-model.tex}
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] P002's high APM implementation standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket shares and character counts for each APM agent role, pooled over the role's agents across the sessions.
+
+\begin{table}[H]
+  \centering
+  \small
+  \begin{threeparttable}
+  \caption{Per-role turn-prompt bucket shares and character counts across the twelve APM sessions, pooled over each role's agents. Descriptive and APM only, since Spec-kit has no agent roles to separate.}
   \label{tab:proc-buckets-composition-by-role}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr}
     \toprule
@@ -204,7 +191,7 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket sh
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P002's high standard-prompt magnitude is explained in note~[a] of Table~\ref{tab:proc-buckets-composition}.
+    \item[a] P002's high standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -222,21 +209,6 @@ Table~\ref{tab:proc-steers-by-participant} gives each session's steers, separati
     Participant & Delivered & Not delivered & Delivered & Not delivered \\
     \midrule
     \InputTableRows{analysis/generated/tables/proc-steers-by-participant.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
-
-Table~\ref{tab:proc-turns-paired-by-order} gives the session turn-prompt difference by realised session order.
-
-\begin{table}[H]
-  \centering
-  \caption{Paired turn-prompt count differences by realised session order, APM minus Spec-kit, at 95.3\% coverage for the $n = 7$ row and 93.8\% for $n = 5$.}
-  \label{tab:proc-turns-paired-by-order}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
-    \toprule
-    Order & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-turns-paired-by-order.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
