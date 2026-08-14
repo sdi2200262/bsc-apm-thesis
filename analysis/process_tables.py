@@ -30,6 +30,7 @@ from analysis.latex import level_row, number, paired_row, percent, write_fragmen
 from analysis.stats import level_summary, paired_summary
 
 PHASES = {"planning": "Planning", "implementation": "Implementation"}
+TIME_SCOPES = {"session": "Session", **PHASES}
 TIME_MEASURES = {
     "duration": "Duration",
     "turn_time": "Turn time",
@@ -88,12 +89,8 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
         output_dir: Destination directory for the row-fragment files.
     """
     write_fragment(output_dir / "proc-duration-levels.tex", _duration_levels(pairs))
-    write_fragment(output_dir / "proc-time-paired.tex", _time_paired(pairs))
+    write_fragment(output_dir / "proc-time-paired-by-scope.tex", _time_paired_by_scope(pairs))
     write_fragment(output_dir / "proc-time-paired-by-model.tex", _time_paired_by_model(pairs))
-    write_fragment(output_dir / "proc-phase-paired.tex", _phase_time_paired(pairs))
-    write_fragment(
-        output_dir / "proc-phase-paired-by-model.tex", _phase_time_paired_by_model(pairs)
-    )
     write_fragment(
         output_dir / "proc-duration-paired-by-order.tex", _duration_paired_by_order(pairs)
     )
@@ -230,96 +227,59 @@ def _level_rows_for_scope(
     return rows
 
 
-def _time_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return pooled paired session-time rows.
+def _time_paired_by_scope(pairs: list[ParticipantPair]) -> list[str]:
+    """Return pooled paired time rows at session and phase scope.
 
     Args:
         pairs: Cohort participant pairs.
 
     Returns:
-        One LaTeX row per time measure.
+        One LaTeX row per time measure and scope.
     """
-    rows: list[str] = []
-    for key, label in TIME_MEASURES.items():
-        if key == "duration":
-            label = "Session duration"
-        apm = [session_scope(pair.apm, "metrics")[key] for pair in pairs]
-        speckit = [session_scope(pair.speckit, "metrics")[key] for pair in pairs]
-        rows.append(paired_row([label], paired_summary(apm, speckit), 1))
-    return rows
+    return _time_rows(pairs)
 
 
 def _time_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return session-time paired rows by model."""
+    """Return paired time rows at session and phase scope by model group."""
     rows: list[str] = []
     for model in ("opus", "sonnet"):
         if rows:
             rows.append(r"\midrule")
         subset = [pair for pair in pairs if model_band(pair.apm) == model]
+        rows.extend(_time_rows(subset, group_label=model.title()))
+    return rows
+
+
+def _time_rows(pairs: list[ParticipantPair], group_label: str | None = None) -> list[str]:
+    """Return paired time rows at every scope for one participant group.
+
+    Args:
+        pairs: Participant pairs in the group to summarise.
+        group_label: Optional label for the first row of a model-group block.
+
+    Returns:
+        One LaTeX row per scope and time measure.
+    """
+    rows: list[str] = []
+    for scope_key, scope_label in TIME_SCOPES.items():
+        if rows:
+            start_column = 2 if group_label is not None else 1
+            end_column = 9 if group_label is not None else 8
+            rows.append(rf"\cmidrule(lr){{{start_column}-{end_column}}}")
         for key, label in TIME_MEASURES.items():
-            measure = "Session duration" if key == "duration" else label
+            cells = [scope_label if key == "duration" else "", label]
+            if group_label is not None:
+                cells.insert(0, group_label if not rows else "")
             rows.append(
                 paired_row(
-                    [model.title() if key == "duration" else "", measure],
+                    cells,
                     paired_summary(
-                        [session_scope(pair.apm, "metrics")[key] for pair in subset],
-                        [session_scope(pair.speckit, "metrics")[key] for pair in subset],
+                        [_time_value(pair.apm, scope_key, key) for pair in pairs],
+                        [_time_value(pair.speckit, scope_key, key) for pair in pairs],
                     ),
                     1,
                 )
             )
-    return rows
-
-
-def _phase_time_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return pooled paired phase-time rows.
-
-    Args:
-        pairs: Cohort participant pairs.
-
-    Returns:
-        One LaTeX row per phase and time measure.
-    """
-    rows: list[str] = []
-    for phase_key, phase_label in PHASES.items():
-        if rows:
-            rows.append(r"\midrule")
-        for key, label in TIME_MEASURES.items():
-            phase_cell = phase_label if key == "duration" else ""
-            apm = [phase_scope(pair.apm, "metrics", phase_key)[key] for pair in pairs]
-            speckit = [phase_scope(pair.speckit, "metrics", phase_key)[key] for pair in pairs]
-            rows.append(paired_row([phase_cell, label], paired_summary(apm, speckit), 1))
-    return rows
-
-
-def _phase_time_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return phase-time paired rows by model."""
-    rows: list[str] = []
-    for model in ("opus", "sonnet"):
-        if rows:
-            rows.append(r"\midrule")
-        subset = [pair for pair in pairs if model_band(pair.apm) == model]
-        for phase_key, phase_label in PHASES.items():
-            if phase_key == "implementation":
-                rows.append(r"\cmidrule(lr){2-9}")
-            for key, label in TIME_MEASURES.items():
-                rows.append(
-                    paired_row(
-                        [
-                            model.title() if phase_key == "planning" and key == "duration" else "",
-                            phase_label if key == "duration" else "",
-                            label,
-                        ],
-                        paired_summary(
-                            [phase_scope(pair.apm, "metrics", phase_key)[key] for pair in subset],
-                            [
-                                phase_scope(pair.speckit, "metrics", phase_key)[key]
-                                for pair in subset
-                            ],
-                        ),
-                        1,
-                    )
-                )
     return rows
 
 
@@ -723,6 +683,22 @@ def _duration_value(session: SessionArtefacts, scope: str) -> float:
     if scope == "session":
         return float(session_scope(session, "metrics")["duration"])
     return float(phase_scope(session, "metrics", scope)["duration"])
+
+
+def _time_value(session: SessionArtefacts, scope: str, measure: str) -> float:
+    """Return one time measure at session or phase scope.
+
+    Args:
+        session: Session artefacts containing the recorded measurements.
+        scope: Session, planning, or implementation scope.
+        measure: Duration, turn-time, or inter-turn-time metric key.
+
+    Returns:
+        Recorded time in seconds.
+    """
+    if scope == "session":
+        return float(session_scope(session, "metrics")[measure])
+    return float(phase_scope(session, "metrics", scope)[measure])
 
 
 def _turn_value(session: SessionArtefacts, scope: str) -> float:

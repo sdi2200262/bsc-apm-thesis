@@ -123,7 +123,7 @@ Two sections in Chapter~\ref{chap:discussions} read these differences further. S
 \section{Process}
 \label{sec:results-process}
 
-The process comparison reads how the time each task took and the effort it asked of the user differed between the two frameworks. The session's temporal shape is reported first, its interaction shape second.
+The process comparison reads how the time each task took and the recorded interaction differed between the two frameworks. The session's temporal shape is reported first, its interaction shape second.
 
 \subsection{Temporal Shape}
 \label{sec:results-process-time}
@@ -145,49 +145,36 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P010's APM session ran about ten minutes past the three-hour cap and is measured to it, so that tail lies outside every summary in this row. The excluded records carry verification runs, version-control work, and framework bookkeeping, and no part of the submitted solution was written in them.
     \item[b] P004's merged APM Planner/Manager conversation raises the APM planning-duration summary. Without P004 the APM planning median, Hodges-Lehmann estimate, and mean are $1850.6$, $2129.2$, and $2181.7$ seconds, rather than $2153.4$, $2179.3$, and $2298.9$.
-    \item[c] P006's Spec-kit agent carried out the implementation without invoking the framework's implementation command, so that work is recorded under planning and the implementation phase shows no duration for the session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
+    \item[c] P006's Spec-kit agent carried out the implementation without reaching \texttt{/speckit-implement}, which marks the workflow's implementation phase for this study, so all its measurements were allocated to planning. The implementation phase therefore has no duration for that session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-APM was the longer session for every participant, as Table~\ref{tab:proc-time-paired} reports. Paired within each participant, the difference came to a median of about 36 minutes, close to its Hodges-Lehmann estimate, and its confidence interval excludes zero. The session duration divides into the active turn time, when at least one agent was working, and the inter-turn idle between turns, and both were higher under APM in eleven of the twelve pairs.
+APM was the longer session for every participant. Paired within each participant, the difference came to a median of about 36 minutes, close to its Hodges-Lehmann estimate, and its confidence interval excludes zero. The session duration divides into the active turn time, when at least one agent was working, and the inter-turn idle between turns. Both were higher under APM in eleven of the twelve pairs.
 
-\begin{table}[H]
-  \centering
-  \caption{Paired session-time differences across the cohort, APM minus Spec-kit, in seconds, at 95.8\% coverage. The turn time is the active span, and the inter-turn idle is the residual to the session duration.}
-  \label{tab:proc-time-paired}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
-    \toprule
-    Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-time-paired.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
+The two phases did not share that difference equally. The implementation phase was longer under APM in every pair, with most of the extra time spent in active work, and it set the direction of the whole-session difference. The planning difference was mixed across participants with an interval spanning zero. Its active time and its idle time between turns divided the same way, each mixed in sign with an interval spanning zero, so neither separates the frameworks within the phase.
 
-The session duration difference held under both models and was wider under Opus than Sonnet. Its active and idle components ran the same way in each group, each higher under APM in five or six of the six pairs, with the active-time gap the wider under Opus. One pair reversed in each group, on the idle time under Opus and on the active time under Sonnet, and at six pairs a single reversal carries the interval across zero, so neither of those two separates the frameworks. Table~\ref{tab:proc-time-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} details the per-model split.
-
-The two phases did not share that difference equally, as Table~\ref{tab:proc-phase-paired} sets out. The implementation phase was longer under APM in every pair, with most of the extra time spent in active work, and it set the direction of the whole-session difference. The planning difference was mixed across participants with an interval spanning zero. Its active time and its idle time between turns divided the same way, each mixed in sign with an interval spanning zero, so neither separates the frameworks within the phase.
+Table~\ref{tab:proc-time-paired-by-scope} gives the cohort's paired time differences at session and phase scope.
 
 \begin{table}[H]
   \centering
   \small
-  \caption{Paired phase-time differences, APM minus Spec-kit, in seconds, at 95.8\% coverage. Each phase's duration divides into the active turn time and the inter-turn idle.}
-  \label{tab:proc-phase-paired}
+  \caption{Paired time differences by scope across the cohort, APM minus Spec-kit, in seconds, at 95.8\% coverage. The turn time is the active span, and the inter-turn idle is the residual to the duration.}
+  \label{tab:proc-time-paired-by-scope}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
     \toprule
-    Phase & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    Scope & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-phase-paired.tex}
+    \InputTableRows{analysis/generated/tables/proc-time-paired-by-scope.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Splitting the two phase differences by model changed neither result, as Table~\ref{tab:proc-phase-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} sets out.
+The same session and phase patterns held within both model groups; Table~\ref{tab:proc-time-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} gives the model-specific estimates.
 
-Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as Table~\ref{tab:proc-duration-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore tracks the framework rather than the order of the sessions.
+Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as Table~\ref{tab:proc-duration-paired-by-order} of Appendix~\ref{app:results-process-breakdowns} reports. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore appears to track the framework rather than the order of the sessions.
 
-Within the active time APM could have two or more of its agents working at once, which Spec-kit's single conversation cannot. The sessions used concurrent work sparingly. Two had no concurrent span, and it stayed below a sixth of active time in all but P009, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
+Within the active time APM could have two or more of its agents working at once, but participants used concurrent work sparingly. In five sessions it made up less than 2\% of active time; across the cohort it remained below a sixth of active time in all but one, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
 
 Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as paired bars. The filled lower part of each bar is the active time and the open upper part the idle time, so the full height is the session duration. APM's bars stand taller across the cohort, with its active time consistently larger than its Spec-kit pair.
 
@@ -195,7 +182,7 @@ Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as
   \centering
   \includegraphics[width=\textwidth]{figures/process/temporal.pdf}
   \caption{Per-participant session temporal shape. Each participant has two bars, APM and Spec-kit; the filled lower segment is the active time, the open upper segment the inter-turn idle, and the full height the session duration.}
-  \label{fig:proc-temporal-sessions}
+\label{fig:proc-temporal-sessions}
 \end{figure}
 
 \subsection{Interaction Shape}
