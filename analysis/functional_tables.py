@@ -56,7 +56,6 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     """
     write_fragment(output_dir / "func-score-levels.tex", _score_levels(pairs))
     write_fragment(output_dir / "func-score-paired.tex", _score_paired(pairs))
-    write_fragment(output_dir / "func-score-paired-by-model.tex", _score_paired_by_model(pairs))
     write_fragment(output_dir / "func-score-paired-by-section.tex", _score_paired_by_section(pairs))
     write_fragment(output_dir / "func-score-sessions.tex", _score_sessions(pairs))
     write_fragment(output_dir / "func-score-paired-by-order.tex", _score_paired_by_order(pairs))
@@ -83,10 +82,10 @@ def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
             rows.append(r"\midrule")
         for framework in ("apm", "speckit"):
             values = [_score(getattr(pair, framework), "total") for pair in subset]
-            scope_cell = label if framework == "apm" else ""
+            group_cell = label if framework == "apm" else ""
             rows.append(
                 level_row(
-                    [scope_cell, "APM" if framework == "apm" else "Spec-kit"],
+                    [group_cell, "APM" if framework == "apm" else "Spec-kit"],
                     level_summary(values),
                     1,
                 )
@@ -95,42 +94,25 @@ def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
 
 
 def _score_paired(pairs: list[ParticipantPair]) -> list[str]:
-    """Return pooled paired total-score row.
+    """Return cohort and model-group paired total-score rows.
 
     Args:
         pairs: Cohort participant pairs.
 
     Returns:
-        A single-row list with the pooled paired summary.
-    """
-    return [
-        paired_row(
-            [],
-            paired_summary(
-                [_score(pair.apm, "total") for pair in pairs],
-                [_score(pair.speckit, "total") for pair in pairs],
-            ),
-            1,
-            include_zero=True,
-        )
-    ]
-
-
-def _score_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
-    """Return model-split paired total-score rows.
-
-    Args:
-        pairs: Cohort participant pairs.
-
-    Returns:
-        One LaTeX row per model.
+        One LaTeX row per participant group.
     """
     rows: list[str] = []
-    for model in ("opus", "sonnet"):
-        subset = [pair for pair in pairs if model_band(pair.apm) == model]
+    for label, subset in [
+        ("Cohort", pairs),
+        ("Opus", [pair for pair in pairs if model_band(pair.apm) == "opus"]),
+        ("Sonnet", [pair for pair in pairs if model_band(pair.apm) == "sonnet"]),
+    ]:
+        if rows:
+            rows.append(r"\midrule")
         rows.append(
             paired_row(
-                [model.title()],
+                [label],
                 paired_summary(
                     [_score(pair.apm, "total") for pair in subset],
                     [_score(pair.speckit, "total") for pair in subset],
@@ -143,27 +125,36 @@ def _score_paired_by_model(pairs: list[ParticipantPair]) -> list[str]:
 
 
 def _score_paired_by_section(pairs: list[ParticipantPair]) -> list[str]:
-    """Return paired score rows for the Python and C rubric sections.
+    """Return paired score rows by participant group and rubric section.
 
     Args:
         pairs: Cohort participant pairs.
 
     Returns:
-        One LaTeX row per rubric section.
+        One LaTeX row per participant group and rubric section.
     """
     rows: list[str] = []
-    for key, label in (("python", "Python extension"), ("c", "C replica")):
-        rows.append(
-            paired_row(
-                [label],
-                paired_summary(
-                    [_score(pair.apm, key) for pair in pairs],
-                    [_score(pair.speckit, key) for pair in pairs],
-                ),
-                1,
-                include_zero=True,
+    for group_label, subset in [
+        ("Cohort", pairs),
+        ("Opus", [pair for pair in pairs if model_band(pair.apm) == "opus"]),
+        ("Sonnet", [pair for pair in pairs if model_band(pair.apm) == "sonnet"]),
+    ]:
+        if rows:
+            rows.append(r"\midrule")
+        for index, (key, section_label) in enumerate(
+            (("python", "Python extension"), ("c", "C replica"))
+        ):
+            rows.append(
+                paired_row(
+                    [group_label if index == 0 else "", section_label],
+                    paired_summary(
+                        [_score(pair.apm, key) for pair in subset],
+                        [_score(pair.speckit, key) for pair in subset],
+                    ),
+                    1,
+                    include_zero=True,
+                )
             )
-        )
     return rows
 
 

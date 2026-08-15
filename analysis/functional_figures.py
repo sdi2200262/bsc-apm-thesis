@@ -61,13 +61,12 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def render_all(pairs: list[ParticipantPair], output_dir: Path) -> None:
-    """Render pooled and model-split score figures.
+    """Render model-split score figures.
 
     Args:
         pairs: Cohort participant pairs.
         output_dir: Destination directory.
     """
-    render_dumbbell(pairs, output_dir / "functional_dumbbell_pooled.pdf", width_in=6.8)
     render_dumbbell(
         [pair for pair in pairs if model_band(pair.apm) == "opus"],
         output_dir / "functional_dumbbell_opus.pdf",
