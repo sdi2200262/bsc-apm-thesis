@@ -283,59 +283,43 @@ Chapter~\ref{chap:discussions} interprets the added time and recorded interactio
 \section{Functional}
 \label{sec:results-functional}
 
-Most sessions scored near the rubric's hundred-point ceiling. APM's twelve sessions had a median total of 95.7 points against Spec-kit's 96.5, as Table~\ref{tab:func-score-levels} reports, so each framework's typical score sat close to the other's and close to full marks. APM's mean of 86.2 and Spec-kit's of 78.8 both fell below their medians, pulled down by a few low sessions rather than by a broad spread. Ten of APM's twelve sessions scored at or above 88 against seven of Spec-kit's, and APM's two below that mark both scored 34. APM's mean and Hodges-Lehmann estimate sat at or above Spec-kit's across the cohort and both model groups. The only exception was the Opus group's Hodges-Lehmann estimate, where the two were within a point. At the cohort level, the medians were close, so the pooled gap between the frameworks lay in the low tail rather than in the typical score. This pooled pattern largely reflects the high, similar scores in the Opus group. In that group, the medians were 99.0 for APM and 98.5 for Spec-kit. Under Sonnet, however, the medians diverged, at 92.0 for APM and 62.1 for Spec-kit. APM's two sessions at 34 pull the rest of its Sonnet summaries well below that median, to a Hodges-Lehmann estimate of 66.0 and a mean of 74.4, so on the Hodges-Lehmann estimate the two frameworks lie within three points of each other rather than the thirty their medians show. Spec-kit's Sonnet sessions divided most sharply, with three scoring below 41 and three above 84. That split left all three of the cell's summaries low. Figure~\ref{fig:func-score-paired} plots each participant's two scores.
+Most sessions scored near the rubric's hundred-point ceiling. The cohort medians were close, at 95.7 points under APM and 96.5 under Spec-kit. Lower scores pulled the mean below the median for both frameworks, but the larger separation among Spec-kit's median, Hodges-Lehmann estimate, and mean shows that they affected its score distribution more strongly.
+
+The model split changes that reading. Under Opus, all three summaries for both frameworks remained near the ceiling. Under Sonnet, APM's median sat well above its Hodges-Lehmann estimate and mean because two sessions scored 34.0 points while the other four scored from 91.0 to 98.0. Spec-kit split into three scores from 29.6 to 40.0 and three from 84.2 to 97.0, placing its median between those clusters and much closer to its other two summaries. Table~\ref{tab:func-score-levels} gives the cohort and model-group summaries, and Table~\ref{tab:func-score-sessions} of Appendix~\ref{app:results-functional-breakdowns} lists the individual sessions.
 
 \begin{table}[H]
   \centering
-  \caption{Per-framework total score, in points, across each framework's twelve sessions, for the cohort and within each model group.}
+  \caption{Per-framework total score, in points, for the cohort and within each model group.}
   \label{tab:func-score-levels}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr}
     \toprule
-    Scope & Framework & Median & HL & Mean \\
+    Group & Framework & Median & HL & Mean \\
     \midrule
     \InputTableRows{analysis/generated/tables/func-score-levels.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/functional/functional_dumbbell_pooled.pdf}
-  \caption{Per-participant total score. Each participant has an APM circle and a Spec-kit diamond joined by a line, so the marker heights give the two scores and the line gives the gap between them.}
-  \label{fig:func-score-paired}
-\end{figure}
+Paired within each participant, the scores were close. APM scored higher than Spec-kit for six participants; Spec-kit scored higher for only two, and four pairs tied. The cohort median difference was about half a point, its Hodges-Lehmann estimate about 2 points, and its mean about 7 points. These summaries point to a small positive cohort difference, although the cohort interval includes zero and carries no firm score difference.
 
-Some of the low scores come from submissions the grader penalises in full for a single fault rather than for broadly unfinished work. The grader judges only the running program's observable behaviour, so one blocking fault can sink an otherwise complete implementation. Section~\ref{sec:discussions-grading-blackbox} reads these sessions under a re-grade that isolates such cases.
+The model-group split locates the cohort's positive score pattern under Sonnet. Under Opus, both frameworks' summary values remained near the ceiling, and three paired comparisons tied; the paired median and Hodges-Lehmann estimate were zero, while one $+23.4$-point APM difference kept the mean positive. Under Sonnet, APM's values were higher on all three summaries, and four pairs favoured APM, one favoured Spec-kit, and one was tied.
 
-Paired within each participant, the two frameworks' scores were close, as Table~\ref{tab:func-score-paired} reports. APM scored higher than Spec-kit for six of the twelve participants and lower for two, with four pairs tied at identical totals. The median paired difference was half a point and the interval spans zero, so the cohort shows no score advantage either way. The mean difference of 7.3 points sits well above the median, raised by two participants for whom APM scored far higher. The score divided across the task's two parts was much the same, with the framework difference being small on both the Python extension and the C replica; Table~\ref{tab:func-score-paired-by-section} of Appendix~\ref{app:results-functional-breakdowns} gives the per-section difference.
+Table~\ref{tab:func-score-paired} gives the cohort and model-group differences.
 
 \begin{table}[H]
   \centering
-  \caption{Paired total-score difference across the cohort, APM minus Spec-kit, in points, at 95.8\% coverage.}
+  \caption{Paired total-score difference by participant group, APM minus Spec-kit, in points, at 95.8\% coverage for the cohort and 96.9\% within each model group.}
   \label{tab:func-score-paired}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rrrrrr}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
-    $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    Group & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
     \InputTableRows{analysis/generated/tables/func-score-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
 
-Split by model, the two groups behaved differently, as Table~\ref{tab:func-score-paired-by-model} sets out and Figure~\ref{fig:func-score-paired-by-model} plots. Under Opus the scores converged. Five of the six pairs fell within a couple of points, and the sixth was the one participant whose APM session, taken first, scored above their later Spec-kit session. Under Sonnet APM scored higher in four of the six pairs, by a wider and more variable margin.
-
-\begin{table}[H]
-  \centering
-  \caption{Paired total-score difference within each model group, APM minus Spec-kit, in points, at 96.9\% coverage.}
-  \label{tab:func-score-paired-by-model}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
-    \toprule
-    Model & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/func-score-paired-by-model.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
+Figure~\ref{fig:func-score-paired-by-model} makes this contrast visible. Apart from one wide gap, the Opus pairs cluster at the same score, whereas the Sonnet pairs have a broader range of gaps, mostly favouring APM.
 
 \begin{figure}[H]
   \centering
@@ -345,11 +329,27 @@ Split by model, the two groups behaved differently, as Table~\ref{tab:func-score
   \label{fig:func-score-paired-by-model}
 \end{figure}
 
-The total folds in partial credit, the fractional points the grader awards a near-miss. It was small, and neither framework earned more of it. The paired difference was zero for eight of the twelve participants and no more than about six points either way for the rest, so its median was zero and the score comparison is unchanged by it. Table~\ref{tab:func-score-sessions} of Appendix~\ref{app:results-functional-breakdowns} gives the partial part of every session.
+Across the cohort, both task sections had a zero median difference but positive Hodges-Lehmann estimates and means. This pattern also concentrated under Sonnet, where both sections had positive medians, Hodges-Lehmann estimates, and means. Under Opus, both section medians were zero, with a zero Hodges-Lehmann estimate for the Python extension and only $+0.5$ points for the C replica. Table~\ref{tab:func-score-paired-by-section} gives the paired section differences for the cohort and each model group.
 
-Session order did not reverse the result. Neither order showed a clear score difference, as Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} reports.
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Paired per-section score difference by participant group, APM minus Spec-kit, in points, at 95.8\% coverage for the cohort and 96.9\% within each model group.}
+  \label{tab:func-score-paired-by-section}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr}
+    \toprule
+    Group & Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/func-score-paired-by-section.tex}
+    \bottomrule
+  \end{tabular*}
+\end{table}
 
-Section~\ref{sec:discussions-sdd} reads these outcomes against how each framework planned, by the size and the kind of the sessions that fell short. Section~\ref{sec:discussions-cost-score} weighs them against what each framework cost.
+Partial credit played no material role in the score comparison as it was identical in eight pairs and differed by no more than about six points in the other four. Table~\ref{tab:func-score-sessions} of Appendix~\ref{app:results-functional-breakdowns} gives the partial part of every session.
+
+Session order did not reverse the overall score pattern. The median, Hodges-Lehmann estimate, and mean were non-negative in both order groups. At seven and five participants the intervals are wide and the groups cannot be told apart, so the small positive difference appears to track the framework rather than the order of the sessions. Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} gives the order rows.
+
+Chapter~\ref{chap:discussions} reads these score outcomes further. Section~\ref{sec:discussions-sdd} reads the size and kind of the sessions that fell short against how each framework planned. Section~\ref{sec:discussions-grading-blackbox} reads the low scores under a diagnostic re-grade, and Section~\ref{sec:discussions-cost-score} weighs the score difference against what each framework cost.
 
 \section{Perception}
 \label{sec:results-perception}

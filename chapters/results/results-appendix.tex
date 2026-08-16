@@ -217,9 +217,9 @@ Table~\ref{tab:proc-steers-by-participant} gives each session's steers, separati
 \section{Functional Breakdowns}
 \label{app:results-functional-breakdowns}
 
-These tables give the per-session scores, the per-section difference, and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
+These tables give the per-session scores and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
 
-Table~\ref{tab:func-score-sessions} gives every session's score: the strict and partial parts of the total, and the Python and C section totals behind it.
+Table~\ref{tab:func-score-sessions} gives every session's strict and partial score parts, total score, and Python and C section totals.
 
 \begin{table}[H]
   \centering
@@ -234,22 +234,7 @@ Table~\ref{tab:func-score-sessions} gives every session's score: the strict and 
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-score-paired-by-section} reports the paired score difference within each implementation. The framework difference is small in both sections, with six Python pairs and five C pairs tied.
-
-\begin{table}[H]
-  \centering
-  \caption{Paired per-section score difference across the cohort, APM minus Spec-kit, in points, at 95.8\% coverage.}
-  \label{tab:func-score-paired-by-section}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
-    \toprule
-    Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/func-score-paired-by-section.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
-
-Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by realised session order. Neither order reverses the on-par result.
+Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by realised session order.
 
 \begin{table}[H]
   \centering
