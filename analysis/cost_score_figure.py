@@ -27,7 +27,7 @@ from analysis.cohort import (
 from analysis.config import ConfigError, load_records
 from analysis.style import APM_COLOR, SPECKIT_FACECOLOR, apply_grid, new_figure, report_extremes
 
-LABELLED = {"P001", "P002", "P004", "P009", "P012"}
+LABELLED = {"P001", "P002", "P012"}
 
 
 @dataclass(frozen=True)
