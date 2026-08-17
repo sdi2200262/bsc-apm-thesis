@@ -1,169 +1,236 @@
-% Bibliography database for the BSc APM thesis (unsrt numeric style).
+% Bibliography database for the BSc APM thesis (biblatex, IEEE style, biber).
+%
+% Every entry carries the locators a reader needs to find the source: the venue,
+% the volume and issue where the journal assigns them, the month and year, and
+% an identifier in its own field. The style prints DOIs, ISBNs, and arXiv
+% numbers as plain text. Web pages and tools are cited in footnotes.
 
 @book{russell2021aima,
-  author    = {Russell, Stuart J. and Norvig, Peter},
-  title     = {Artificial Intelligence: A Modern Approach},
-  edition   = {4th},
-  publisher = {Pearson},
-  year      = {2021},
-  note      = {\url{https://aima.cs.berkeley.edu/}}
+    author = {Russell, Stuart J. and Norvig, Peter},
+    title = {Artificial Intelligence: A Modern Approach},
+    edition = {4},
+    publisher = {Pearson},
+    year = {2021},
+    isbn = {978-1-292-40113-3},
 }
 
 @article{liu2024llmagents,
-  author  = {Liu, Junwei and Wang, Kaixin and Chen, Yixuan and Peng, Xin and
-             Chen, Zhenpeng and Zhang, Lingming and Lou, Yiling},
-  title   = {Large Language Model-Based Agents for Software Engineering: A Survey},
-  journal = {ACM Transactions on Software Engineering and Methodology},
-  year    = {2024},
-  note    = {\url{https://doi.org/10.1145/3796507}}
+    author = {Liu, Junwei and Wang, Kaixin and Chen, Yixuan and Peng, Xin and
+              Chen, Zhenpeng and Zhang, Lingming and Lou, Yiling},
+    title = {Large Language Model-Based Agents for Software Engineering: A
+             Survey},
+    journal = {ACM Transactions on Software Engineering and Methodology},
+    month = mar,
+    year = {2026},
+    doi = {10.1145/3796507},
 }
 
 @inproceedings{yao2023react,
-  author    = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and others},
-  title     = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
-  booktitle = {International Conference on Learning Representations ({ICLR} 2023)},
-  year      = {2023},
-  note      = {\url{https://doi.org/10.48550/arXiv.2210.03629}}
+    author = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan and Shafran
+              , Izhak and Narasimhan, Karthik and Cao, Yuan},
+    title = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
+    booktitle = {International Conference on Learning Representations ({ICLR}
+                 2023)},
+    month = may,
+    year = {2023},
+    eprint = {2210.03629},
+    eprinttype = {arxiv},
+    eprintclass = {cs.CL},
 }
 
 @article{cui2026genai,
-  author  = {Cui, Kevin Zheyuan and Demirer, Mert and Jaffe, Sonia and
-             Musolff, Leon and Peng, Sida and Salz, Tobias},
-  title   = {The Effects of Generative {AI} on High-Skilled Work: Evidence
-             from Three Field Experiments with Software Developers},
-  journal = {Management Science},
-  year    = {2026},
-  note    = {\url{https://doi.org/10.1287/mnsc.2025.00535}}
+    author = {Cui, Kevin Zheyuan and Demirer, Mert and Jaffe, Sonia and Musolff,
+              Leon and Peng, Sida and Salz, Tobias},
+    title = {The Effects of Generative {AI} on High-Skilled Work: Evidence from
+             Three Field Experiments with Software Developers},
+    journal = {Management Science},
+    month = feb,
+    year = {2026},
+    doi = {10.1287/mnsc.2025.00535},
 }
 
-@misc{becker2025metr,
-  author       = {Becker, Joel and Rush, Nate and Barnes, Elizabeth and Rein, David},
-  title        = {Measuring the Impact of Early-2025 {AI} on Experienced
-                  Open-Source Developer Productivity},
-  howpublished = {arXiv},
-  year         = {2025},
-  note         = {\url{https://doi.org/10.48550/arXiv.2507.09089}}
+@online{becker2025metr,
+    author = {Becker, Joel and Rush, Nate and Barnes, Elizabeth and Rein, David},
+    title = {Measuring the Impact of Early-2025 {AI} on Experienced Open-Source
+             Developer Productivity},
+    month = jul,
+    year = {2025},
+    eprint = {2507.09089},
+    eprinttype = {arxiv},
+    eprintclass = {cs.AI},
+    pubstate = {prepublished},
 }
 
 @article{nliu2023lostmiddle,
-  author  = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and
-             Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
-  title   = {Lost in the Middle: How Language Models Use Long Contexts},
-  journal = {Transactions of the Association for Computational Linguistics},
-  year    = {2023},
-  note    = {\url{https://doi.org/10.1162/tacl_a_00638}}
+    author = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape,
+              Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
+    title = {Lost in the Middle: How Language Models Use Long Contexts},
+    journal = {Transactions of the Association for Computational Linguistics},
+    volume = {12},
+    year = {2024},
+    doi = {10.1162/tacl_a_00638},
 }
 
-@misc{gao2025turncontrol,
-  author       = {Gao, Pengfei and Peng, Chao},
-  title        = {More with Less: An Empirical Study of Turn-Control Strategies
-                  for Efficient Coding Agents},
-  howpublished = {arXiv},
-  year         = {2025},
-  note         = {\url{https://doi.org/10.48550/arXiv.2510.16786}}
+@online{gao2025turncontrol,
+    author = {Gao, Pengfei and Peng, Chao},
+    title = {More with Less: An Empirical Study of Turn-Control Strategies for
+             Efficient Coding Agents},
+    month = oct,
+    year = {2025},
+    eprint = {2510.16786},
+    eprinttype = {arxiv},
+    eprintclass = {cs.SE},
+    pubstate = {prepublished},
 }
 
 @article{meyer1992dbc,
-  author  = {Meyer, Bertrand},
-  title   = {Applying ``Design by Contract''},
-  journal = {Computer},
-  year    = {1992},
-  note    = {\url{https://doi.org/10.1109/2.161279}}
+    author = {Meyer, Bertrand},
+    title = {Applying {`Design by Contract'}},
+    journal = {Computer},
+    volume = {25},
+    number = {10},
+    month = oct,
+    year = {1992},
+    doi = {10.1109/2.161279},
 }
 
 @inproceedings{ostroff2004specdriven,
-  author    = {Ostroff, Jonathan S. and Makalsky, David and Paige, Richard F.},
-  title     = {Agile Specification-Driven Development},
-  booktitle = {Extreme Programming and Agile Processes in Software
-               Engineering (XP 2004)},
-  publisher = {Springer},
-  year      = {2004},
-  note      = {\url{https://doi.org/10.1007/978-3-540-24853-8_12}}
+    author = {Ostroff, Jonathan S. and Makalsky, David and Paige, Richard F.},
+    title = {Agile Specification-Driven Development},
+    booktitle = {Extreme Programming and Agile Processes in Software Engineering
+                 ({XP} 2004)},
+    series = {Lecture Notes in Computer Science},
+    publisher = {Springer},
+    location = {Berlin, Heidelberg},
+    year = {2004},
+    doi = {10.1007/978-3-540-24853-8_12},
 }
 
 @book{beck2002tdd,
-  author    = {Beck, Kent},
-  title     = {Test-Driven Development: By Example},
-  publisher = {Addison-Wesley Professional},
-  year      = {2002},
-  note      = {\url{https://openlibrary.org/isbn/9780321146533}}
+    author = {Beck, Kent},
+    title = {Test-Driven Development: By Example},
+    publisher = {Addison-Wesley},
+    location = {Boston, MA},
+    year = {2002},
+    isbn = {978-0-321-14653-3},
 }
 
 @inproceedings{li2023camel,
-  author    = {Li, Guohao and Hammoud, Hasan Abed Al Kader and Itani, Hani and
-               Khizbullin, Dmitrii and Ghanem, Bernard},
-  title     = {{CAMEL}: Communicative Agents for ``Mind'' Exploration of Large
-               Language Model Society},
-  booktitle = {Advances in Neural Information Processing Systems 36 ({NeurIPS} 2023)},
-  year      = {2023},
-  note      = {\url{https://doi.org/10.48550/arXiv.2303.17760}}
+    author = {Li, Guohao and Hammoud, Hasan Abed Al Kader and Itani, Hani and
+              Khizbullin, Dmitrii and Ghanem, Bernard},
+    title = {{CAMEL}: Communicative Agents for {`Mind'} Exploration of Large
+             Language Model Society},
+    booktitle = {Advances in Neural Information Processing Systems 36 ({NeurIPS}
+                 2023)},
+    month = dec,
+    year = {2023},
+    doi = {10.52202/075280-2264},
 }
 
 @inproceedings{qian2024chatdev,
-  author    = {Qian, Chen and Liu, Wei and Liu, Hongzhang and others},
-  title     = {{ChatDev}: Communicative Agents for Software Development},
-  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for
-               Computational Linguistics ({ACL} 2024)},
-  year      = {2024},
-  note      = {\url{https://doi.org/10.48550/arXiv.2307.07924}}
+    author = {Qian, Chen and Liu, Wei and Liu, Hongzhang and Chen, Nuo and Dang,
+              Yufan and Li, Jiahao and Yang, Cheng and Chen, Weize and Su,
+              Yusheng and Cong, Xin and Xu, Juyuan and Li, Dahai and Liu, Zhiyuan
+              and Sun, Maosong},
+    title = {{ChatDev}: Communicative Agents for Software Development},
+    booktitle = {Proceedings of the 62nd Annual Meeting of the Association for
+                 Computational Linguistics ({ACL} 2024)},
+    publisher = {Association for Computational Linguistics},
+    month = aug,
+    year = {2024},
+    doi = {10.18653/v1/2024.acl-long.810},
 }
 
 @inproceedings{hong2024metagpt,
-  author    = {Hong, Sirui and Zhuge, Mingchen and Chen, Jiaqi and others},
-  title     = {{MetaGPT}: Meta Programming for a Multi-Agent Collaborative Framework},
-  booktitle = {International Conference on Learning Representations ({ICLR} 2024)},
-  year      = {2024},
-  note      = {\url{https://doi.org/10.48550/arXiv.2308.00352}}
+    author = {Hong, Sirui and Zhuge, Mingchen and Chen, Jiaqi and Zheng, Xiawu
+              and Cheng, Yuheng and Zhang, Ceyao and Wang, Jinlin and Wang, Zili
+              and Yau, Steven Ka Shing and Lin, Zijuan and Zhou, Liyang and Ran,
+              Chenyu and Xiao, Lingfeng and Wu, Chenglin and Schmidhuber, Jürgen},
+    title = {{MetaGPT}: Meta Programming for a Multi-Agent Collaborative
+             Framework},
+    booktitle = {International Conference on Learning Representations ({ICLR}
+                 2024)},
+    month = may,
+    year = {2024},
+    eprint = {2308.00352},
+    eprinttype = {arxiv},
+    eprintclass = {cs.AI},
 }
 
 @inproceedings{wu2024autogen,
-  author    = {Wu, Qingyun and Bansal, Gagan and Zhang, Jieyu and others},
-  title     = {{AutoGen}: Enabling Next-Gen {LLM} Applications via Multi-Agent
-               Conversation},
-  booktitle = {Conference on Language Modeling ({COLM} 2024)},
-  year      = {2024},
-  note      = {\url{https://doi.org/10.48550/arXiv.2308.08155}}
+    author = {Wu, Qingyun and Bansal, Gagan and Zhang, Jieyu and Wu, Yiran and
+              Li, Beibin and Zhu, Erkang and Jiang, Li and Zhang, Xiaoyun and
+              Zhang, Shaokun and Liu, Jiale and Awadallah, Ahmed Hassan and White
+              , Ryen W. and Burger, Doug and Wang, Chi},
+    title = {{AutoGen}: Enabling Next-Gen {LLM} Applications via Multi-Agent
+             Conversation},
+    booktitle = {Conference on Language Modeling ({COLM} 2024)},
+    month = oct,
+    year = {2024},
+    eprint = {2308.08155},
+    eprinttype = {arxiv},
+    eprintclass = {cs.AI},
 }
 
 @inproceedings{cemri2025masfail,
-  author    = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and others},
-  title     = {Why Do Multi-Agent {LLM} Systems Fail?},
-  booktitle = {Advances in Neural Information Processing Systems 38 ({NeurIPS}
-               2025), Datasets and Benchmarks Track},
-  year      = {2025},
-  note      = {\url{https://doi.org/10.48550/arXiv.2503.13657}}
+    author = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and Agrawal,
+              Lakshya A. and Chopra, Bhavya and Tiwari, Rishabh and Keutzer, Kurt
+              and Parameswaran, Aditya and Klein, Dan and Ramchandran, Kannan and
+              Zaharia, Matei and Gonzalez, Joseph E. and Stoica, Ion},
+    title = {Why Do Multi-Agent {LLM} Systems Fail?},
+    booktitle = {Advances in Neural Information Processing Systems 38 ({NeurIPS}
+                 2025), Datasets and Benchmarks Track},
+    month = dec,
+    year = {2025},
+    eprint = {2503.13657},
+    eprinttype = {arxiv},
+    eprintclass = {cs.AI},
 }
 
-@misc{gao2025singlemulti,
-  author       = {Gao, Mingyan and Li, Yanzi and Liu, Banruo and others},
-  title        = {Single-Agent or Multi-Agent Systems? Why Not Both?},
-  howpublished = {arXiv},
-  year         = {2025},
-  note         = {\url{https://doi.org/10.48550/arXiv.2505.18286}}
+@online{gao2025singlemulti,
+    author = {Gao, Mingyan and Li, Yanzi and Liu, Banruo and Yu, Yifan and Wang,
+              Phillip and Lin, Ching-Yu and Lai, Fan},
+    title = {Single-Agent or Multi-Agent Systems? Why Not Both?},
+    month = may,
+    year = {2025},
+    eprint = {2505.18286},
+    eprinttype = {arxiv},
+    eprintclass = {cs.MA},
+    pubstate = {prepublished},
 }
 
-@misc{chen2025codewith,
-  author       = {Chen, Valerie and others},
-  title        = {Code with Me or for Me? How Increasing {AI} Automation
-                  Transforms Developer Workflows},
-  howpublished = {arXiv},
-  year         = {2025},
-  note         = {\url{https://doi.org/10.48550/arXiv.2507.08149}}
+@inproceedings{chen2025codewith,
+    author = {Chen, Valerie and Talwalkar, Ameet and Brennan, Robert and Neubig,
+              Graham},
+    title = {Code with Me or for Me? How Increasing {AI} Automation Transforms
+             Developer Workflows},
+    booktitle = {Proceedings of the 2026 {CHI} Conference on Human Factors in
+                 Computing Systems},
+    publisher = {ACM},
+    month = apr,
+    year = {2026},
+    doi = {10.1145/3772318.3790850},
 }
 
 @article{hodges1963location,
-  author  = {Hodges, J. L. and Lehmann, E. L.},
-  title   = {Estimates of Location Based on Rank Tests},
-  journal = {The Annals of Mathematical Statistics},
-  year    = {1963},
-  note    = {\url{https://doi.org/10.1214/aoms/1177704172}}
+    author = {Hodges, J. L. and Lehmann, E. L.},
+    title = {Estimates of Location Based on Rank Tests},
+    journal = {The Annals of Mathematical Statistics},
+    volume = {34},
+    number = {2},
+    month = jun,
+    year = {1963},
+    doi = {10.1214/aoms/1177704172},
 }
 
 @article{wilcoxon1945signedrank,
-  author  = {Wilcoxon, Frank},
-  title   = {Individual Comparisons by Ranking Methods},
-  journal = {Biometrics Bulletin},
-  year    = {1945},
-  note    = {\url{https://doi.org/10.2307/3001968}}
+    author = {Wilcoxon, Frank},
+    title = {Individual Comparisons by Ranking Methods},
+    journal = {Biometrics Bulletin},
+    volume = {1},
+    number = {6},
+    month = dec,
+    year = {1945},
+    doi = {10.2307/3001968},
 }
 

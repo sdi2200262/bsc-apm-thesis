@@ -45,6 +45,10 @@
 %
 % Maintained for the BSc APM Case Study 2025-2026.
 %
+% Deviation from the upstream template: the list-of-publications option and its
+% multibib dependency are dropped. The page was never emitted, and multibib
+% cannot coexist with biblatex.
+%
 % -----------------------------------------------------------------------------
 % Class options
 % -----------------------------------------------------------------------------
@@ -52,7 +56,6 @@
 %   ack       Print an acknowledgements page; content via \acksEn.
 %   preface   Print a preface page before the first chapter; content via
 %             \prefaceEn.
-%   lop       Print a list-of-publications page (PhD only; unused for BSc).
 %   dualpage  Centre the page number in the footer for double-sided printing.
 %   arial     Use a system-installed Arial instead of the vendored Arimo.
 
@@ -67,7 +70,6 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 % Optional front-matter pages, toggled by class options.
 \newif\ifinscriptionpage   \inscriptionpagefalse
 \newif\ifackpage           \ackpagefalse
-\newif\ifloppage           \loppagefalse
 \newif\ifprefacepage       \prefacepagefalse
 
 % Footer layout: centred page number for double-sided printing.
@@ -85,7 +87,6 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 \DeclareOption{inscr}{\inscriptionpagetrue}
 \DeclareOption{ack}{\ackpagetrue}
 \DeclareOption{preface}{\prefacepagetrue}
-\DeclareOption{lop}{\loppagetrue}
 \DeclareOption{dualpage}{\dualpagetrue}
 \DeclareOption{arial}{\systemarialtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
@@ -107,7 +108,6 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 \RequirePackage[final]{graphicx}
 \RequirePackage{sectsty}              % chapter / section heading fonts
 \RequirePackage{textcase}             % case-correct uppercasing in headings
-\RequirePackage[resetlabels]{multibib}
 \RequirePackage{etoolbox}
 \RequirePackage{tabularx}
 \RequirePackage{longtable}            % abbreviations table spanning pages
@@ -245,10 +245,6 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 \providecommand{\subjectAreaEn}[1]{\gdef\@subjectAreaEn{#1}}
 \providecommand{\keywordsGr}[1]{\gdef\@keywordsGr{#1}}
 \providecommand{\keywordsEn}[1]{\gdef\@keywordsEn{#1}}
-
-% List-of-publications source file (PhD only; unused for BSc).
-\providecommand{\lopfile}[1]{%
-  \newcites{lop}{List of publications}\gdef\@lopfileinternal{#1}}
 
 % Unnumbered, ToC-listed chapter that holds the abbreviations table. The user
 % supplies the table body after calling \abbreviations.
@@ -420,13 +416,6 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
   \chapter*{Preface}
   \thispagestyle{empty}
   \@prefaceEn{}
-  \clearpage
-}
-
-\def\@listofpubs{%
-  \bibliographystylelop{unsrt}
-  \bibliographylop{\@lopfileinternal}
-  \thispagestyle{empty}
   \clearpage
 }
 
