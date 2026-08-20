@@ -61,16 +61,9 @@ The two model groups did not bear this cost in the same way, and the difference 
 
 The Sonnet 4.6 model used in our study had a two-hundred-thousand-token context window. Conversations often grew near its ceiling and reset, either auto-compacted by the platform or compacted manually by the participant. A Sonnet conversation that compacted therefore used more than one context window, clearing its cache and building its context anew. Opus 4.7, by contrast, had a one-million-token context window, large enough to hold the entire task from start to finish.
 
-Figure~\ref{fig:disc-occupancy-sessions} plots the peak each context window reached across the cohort. A conversation that compacted twice, for example, resolves to three peaks, one for each context window it used. The highest markers are Spec-kit conversations that grew long without a reset. APM's conversations generally sit below them, most in a dense low cluster, since dividing the work leaves each agent with less context to accumulate.
+Figures~\ref{fig:disc-occupancy-sessions-opus} and~\ref{fig:disc-occupancy-sessions-sonnet} plot the peak each context window reached within the two model groups. A conversation that compacted twice, for example, resolves to three peaks, one for each context window it used. The highest markers are Spec-kit conversations that grew long without a reset. APM's conversations generally sit below them, most in a dense low cluster, since dividing the work leaves each agent with less context to accumulate.
 
 A few APM markers nonetheless reach the high ranges, one even passing the Spec-kit conversation it is paired with. These are all APM Workers. They accumulate the most context of any agent role in an APM session, and consequently account for the largest part of what the session cost, as Table~\ref{tab:cost-session-levels-by-role} details.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/discussions/occupancy_pooled.pdf}
-  \caption{Peaks of context windows per session, in thousands of tokens, across all twelve participants. One marker per peak of a context window used; a conversation might have multiple if it compacted. Reference lines mark the Sonnet auto-compaction ceiling and the context window at two hundred thousand tokens.}
-  \label{fig:disc-occupancy-sessions}
-\end{figure}
 
 Under Opus no conversation reset, so each used only one context window, growing from the start of the task to its end. Each call is charged for the whole context before it, and APM's conversations together held more accumulated context than Spec-kit's one. Under Opus, all three paired summaries were positive for output and both cache-write categories, as the Opus rows of Table~\ref{tab:cost-token-paired-by-category} report. Input was negligible, while the cache-read summaries were positive despite one negative pair. The cache-write differences were positive in every pair, while output and cache-read differences were positive in five of six. The wide gaps of Figure~\ref{fig:disc-occupancy-sessions-opus} show the accumulation behind those differences, with Spec-kit holding a few lone high markers and APM a spread that reaches toward them.
 
@@ -140,8 +133,6 @@ Because APM has several agents carry out its implementation where Spec-kit has o
     \bottomrule
   \end{tabular*}
 \end{table}
-
-APM's added demand is therefore coordination, not deliberation.
 
 \section{Behind the Functional Score}
 \label{sec:discussions-blackbox}
