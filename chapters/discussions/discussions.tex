@@ -115,12 +115,14 @@ The issue does not overturn the cost reading, but what it adds is not incidental
   \end{threeparttable}
 \end{table}
 
+APM's cost premium therefore depended on the model. Under Opus, its several conversations cost more than Spec-kit's single conversation. Under Sonnet, Spec-kit's conversation repeatedly reached its smaller context window and reset, bringing the two frameworks' costs close.
+
 \subsection{The Demands on the User}
 \label{sec:discussions-demands}
 
-APM asks more of the user by routing the work through them, keeping them in control of planning and implementation and maintaining their authority over what is built. Spec-kit leaves more of that authority with its agent, whose planning autonomy extends into implementation as it works through the task list largely on its own.
+APM routes planning and implementation through the user, while Spec-kit leaves more of both to its agent. Spec-kit's planning autonomy extends into implementation as it works through the task list largely on its own.
 
-That difference appears in the user's input. Table~\ref{tab:proc-turns-levels} reports far more turn prompts under APM than under Spec-kit. In implementation, Table~\ref{tab:proc-buckets-composition} shows that most of APM's prompts are protocol. These protocol prompts are the per-cycle relay APM's design places in the user's hands, each being a dispatch out or a report back rather than an instruction. Standard prompts are few under both frameworks. Table~\ref{tab:proc-buckets-composition-by-role} in Appendix~\ref{app:results-process-breakdowns} reports that APM's few standard prompts reach the Manager rather than the Workers. APM's added demand is therefore coordination, not deliberation.
+That difference appears in the user's input. Table~\ref{tab:proc-turns-levels} reports far more turn prompts under APM than under Spec-kit. In implementation, Table~\ref{tab:proc-buckets-composition} shows that most of APM's prompts are protocol. These protocol prompts are the per-cycle relay APM's design places in the user's hands, each being a dispatch out or a report back rather than an instruction. Standard prompts are few under both frameworks. Table~\ref{tab:proc-buckets-composition-by-role} in Appendix~\ref{app:results-process-breakdowns} reports that APM's few standard prompts reach the Manager rather than the Workers. Together, the turn-prompt and role data show that participants passed through APM's coordination points. They demonstrate the mechanism operating, though prompt counts alone cannot tell how much control participants exercised through it.
 
 Spec-kit asks much less. Its few turns are the protocol command that launches the implementation and an occasional short or standard follow-up, too few to read as a settled composition. The agent proceeds largely on its own, and the user has little to do until the build is done.
 
@@ -139,7 +141,7 @@ Because APM has several agents carry out its implementation where Spec-kit has o
   \end{tabular*}
 \end{table}
 
-Working across several agents is what makes APM cost more under per-token pricing. Coordinating those agents through the user is what makes it ask more of the user's time and engagement. The cost is a by-product of the design, while the demand is its aim, keeping the user in control of the build where Spec-kit leaves it mostly to the agent.
+APM's added demand is therefore coordination, not deliberation.
 
 \section{Behind the Functional Score}
 \label{sec:discussions-blackbox}
@@ -191,14 +193,12 @@ The same plot shows three participant pairs that depart from that pattern. In ea
   \label{fig:disc-cost-score-comparison}
 \end{figure}
 
-What APM's added cost accompanied was its more structured workflow and the user's control over the build, neither of which the total score reads directly. As it turned out, the task was bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether that underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how our grader would read its work.
-
-APM's heavier structure therefore had little measured total-score gap to close. Whether that structure earns its cost is beyond what a task of this size can show. Its value may lie in what the study cannot measure here: the control the user keeps over the build, the authority they retain over the software produced, and the demands of work larger or longer than the one tested.
+What APM's added cost accompanied was its more structured workflow, which the total score does not read directly. As it turned out, the task was bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether that underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how our grader would read its work. APM's heavier structure therefore had little measured total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
 
 \section{Perceived Versus Measured Behaviour}
 \label{sec:discussions-perception}
 
-Section~\ref{sec:results-perception} reports each questionnaire rating. We compare those ratings with recorded behaviour to identify agreement, divergence, and what the recorded measurements cannot show. The control participants keep over the build is one such value, which Section~\ref{sec:discussions-cost-score} considered alongside cost and score.
+Section~\ref{sec:results-perception} reports each questionnaire rating. We compare those ratings with recorded behaviour to identify agreement, divergence, and what the recorded behaviour alone cannot show. The control participants experienced over the build is one such value.
 
 Effectiveness and confidence favour APM far more strongly than the total-score comparison does. No participant rated Spec-kit higher on either, as Table~\ref{tab:perc-ratings-paired} reports. The preference appears genuine. Yet the paired total-score comparison carries no firm difference across the cohort, so higher scores alone do not explain it. The accounts that follow point instead to participants' role in the process and the control they retained over the build.
 
@@ -209,6 +209,17 @@ Effort is the one item where APM is behind. It was the more effortful framework 
 Steering confirms the same reading. Delivered steers stayed near zero under both frameworks, as Section~\ref{sec:results-process-interaction} reports. Frustration also points the same way. APM was still rated the less frustrating framework, as Table~\ref{tab:perc-ratings-paired} reports, despite the added time and turns, so the added burden did not compound into felt friction.
 
 Mental demand and the effort spent checking the AI's output have no measured counterpart. That absence is a deliberate finding. Some of the cognitive work that AI-assisted development demands leaves almost no trace in the instrument set. Self-reporting attempts to fill that gap. One participant's account of a Spec-kit session is the clearest instance. They wrote, ``I didn't have a way to validate the results of the session despite taking the agents word which run tests with the mock instance''. They added, ``I didn't do my due diligence in reviewing the code output''. That session's total score is the lowest in the cohort, so here the participant's own doubt and the measured outcome point the same way.
+
+\section{APM's Value Across the Findings}
+\label{sec:discussions-structure-tradeoff}
+
+Across the cohort, APM performed on par with GitHub's Spec-kit on total score. Its median, Hodges-Lehmann estimate, and mean all favoured APM, although the cohort interval includes zero. This positive pattern concentrated under Sonnet, while both frameworks' Opus scores remained near the ceiling. With six pairs in each model group, the split describes where the cohort pattern appeared rather than establishing a model-specific effect.
+
+APM achieved that functional outcome with longer sessions in every pair and a higher cost across the cohort. The task appeared bounded and self-contained, but still technically demanding; however APM's structure may have supplied more coordination than work of this scale required. Larger codebases, harder tasks, and longer development periods would give its separation of planning, implementation, and context more room to prove useful, though this study could not test that setting.
+
+The cost trade-off itself changed with the model. Under Opus, APM's several conversations accumulated more context at the model's higher rate and larger context window, while both frameworks scored close to full marks. Under Sonnet, APM's paired score summaries were more positive and the two frameworks cost about the same. Spec-kit's single conversation repeatedly reached the smaller context window limit and reset, while APM kept most conversations smaller. This pattern suggests that APM's file-based division may carry less economic overhead with models that have smaller context windows.
+
+The process and perception findings give that structure value beyond the total score. The recorded interaction shows that participants remained involved in APM's planning and implementation. Ratings and accounts favour APM on effectiveness and confidence, while participants describe a stronger sense of control. For users who want that role in AI-assisted development, APM preserves their involvement in the work and their authority over the software produced.
 
 \section{Learning Effects}
 \label{sec:discussions-learning-effects}
