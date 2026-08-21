@@ -63,6 +63,15 @@ Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope an
   \end{threeparttable}
 \end{table}
 
+Figure~\ref{fig:cost-paired-by-scope-by-participant} decomposes each participant's session difference into its two phases. The implementation difference is the larger of the two in eight of the twelve pairs.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/economic/cost_difference_by_scope.pdf}
+  \caption{Per-participant paired cost difference by scope, APM minus Spec-kit, in US dollars. The bar gives the session difference and the markers the planning and implementation differences within it. The reference line marks no difference. P004 and P006 carry the phase-attribution caveats of notes~[a] and~[b] of Table~\ref{tab:cost-paired-by-scope}.}
+  \label{fig:cost-paired-by-scope-by-participant}
+\end{figure}
+
 Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
 
 \begin{table}[H]
@@ -227,11 +236,13 @@ Paired within each participant, the added turns under APM fell almost entirely i
 
 The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
-In planning, APM's turn prompts were mostly short or standard text. Their mean character counts were 19 and 146, respectively. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
+In planning APM's turn prompts were mostly short or standard text, at mean character counts of 19 and 146. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
 
-In implementation the APM mix reversed. The protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation had very few turn prompts of any kind, so its bucket shares there rest on one to a few prompts per session and are too sparse to read as a typical mix.
+In implementation the APM mix reversed, and the protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried very few turn prompts of any kind. Both its shares and its character counts there rest on one to a few prompts per session, too sparse to read as a typical mix.
 
-Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count.
+The two frameworks also differed in how steady those mixes were. APM's planning shares clustered across participants while Spec-kit's spread across the range, and both varied in implementation.
+
+Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count, and Figure~\ref{fig:proc-buckets-sessions} plots the shares each session carried.
 
 \begin{table}[H]
   \centering
@@ -255,7 +266,12 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
   \end{threeparttable}
 \end{table}
 
-APM held close to the same turn-prompt bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Both frameworks' short and standard-prompt character counts varied across participants. Spec-kit's smaller implementation turn-prompt counts make those summaries particularly sensitive to a single prompt. Tables~\ref{tab:proc-planning-buckets-by-participant} and~\ref{tab:proc-implementation-buckets-by-participant} of Appendix~\ref{app:results-process-breakdowns} give each participant's shares, character counts, and turn-prompt counts by phase.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/process/bucket_shares.pdf}
+  \caption{Per-session turn-prompt bucket shares by phase, with APM on the left and Spec-kit on the right of each participant's slot. The stacked segments run from the framework's protocol commands through short prompts to standard ones. A dashed outline marks a session that carried no turn prompt in the phase and so has no shares.}
+  \label{fig:proc-buckets-sessions}
+\end{figure}
 
 The share composition held under both models. The visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. The character-count summaries were otherwise aligned across models, apart from APM's Sonnet implementation standard bucket, whose mean was higher. Tables~\ref{tab:proc-buckets-composition-by-model} and~\ref{tab:proc-bucket-magnitudes-by-model} of Appendix~\ref{app:results-process-breakdowns} give the shares and character counts by model.
 

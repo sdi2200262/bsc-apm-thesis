@@ -22,19 +22,29 @@ from analysis.cohort import (
     load_sessions,
     model_band,
     pair_by_participant,
+    phase_scope,
+    session_scope,
 )
 from analysis.config import ConfigError, load_records
 from analysis.style import (
     APM_COLOR,
     APM_LABEL,
     APM_MARKER,
+    CONTRAST_MARKER,
+    FILLED,
+    OPEN,
     SPECKIT_FACECOLOR,
     SPECKIT_LABEL,
     SPECKIT_MARKER,
     apply_grid,
     label_extremes,
     new_figure,
+    report_extremes,
 )
+
+PHASE_FACE = {"planning": FILLED, "implementation": OPEN}
+PHASE_LABELS = {"planning": "Planning", "implementation": "Implementation"}
+DIFFERENCE_BAR_WIDTH = 0.52
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -78,6 +88,53 @@ def render_all(pairs: list[ParticipantPair], output_dir: Path) -> None:
         width_in=3.3,
         x_label="Sonnet",
     )
+    render_cost_difference_by_scope(pairs, output_dir / "cost_difference_by_scope.pdf")
+
+
+def render_cost_difference_by_scope(pairs: list[ParticipantPair], output: Path) -> None:
+    """Render each participant's session cost difference and its two phase parts.
+
+    Args:
+        pairs: Cohort participant pairs.
+        output: Destination PDF path.
+    """
+    fig, ax = new_figure(width_in=6.8, height_in=4.0)
+    xs = list(range(len(pairs)))
+    session = [_difference(pair, "session") for pair in pairs]
+    ax.bar(
+        xs,
+        session,
+        width=DIFFERENCE_BAR_WIDTH,
+        facecolor="#e8e8e8",
+        edgecolor="#000000",
+        linewidth=0.8,
+        zorder=2,
+    )
+    for phase, face in PHASE_FACE.items():
+        values = [_difference(pair, phase) for pair in pairs]
+        ax.plot(
+            xs,
+            values,
+            linestyle="none",
+            marker=CONTRAST_MARKER,
+            markersize=5,
+            markerfacecolor=face,
+            markeredgecolor="#000000",
+            zorder=3,
+        )
+        report_extremes(f"cost-difference/{phase}", values, precision=2)
+    report_extremes("cost-difference/session", session, precision=2)
+    ax.axhline(0.0, color="#000000", linewidth=0.8, zorder=1)
+    ax.set_xticks(xs)
+    ax.set_xticklabels([pair.pid for pair in pairs], fontsize=8, rotation=45, ha="right")
+    ax.set_xlim(-0.7, len(pairs) - 0.3)
+    ax.set_ylabel("Cost difference (USD)", fontsize=9)
+    apply_grid(ax, axis="y")
+    _difference_key(ax)
+    fig.tight_layout()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(output)
+    plt.close(fig)
 
 
 def render_cost_levels(
@@ -192,6 +249,51 @@ def _model_pairs(pairs: list[ParticipantPair], model: str) -> list[ParticipantPa
 def _cost(session: SessionArtefacts) -> float:
     """Return the parser session cost for one loaded session."""
     return float(session.parser_metrics["scopes"]["session"]["cost_usd"])
+
+
+def _difference(pair: ParticipantPair, scope: str) -> float:
+    """Return one participant's APM-minus-Spec-kit cost difference at one scope.
+
+    Args:
+        pair: Participant pair.
+        scope: ``session``, ``planning``, or ``implementation``.
+
+    Returns:
+        The signed cost difference in dollars.
+    """
+    return _scope_cost(pair.apm, scope) - _scope_cost(pair.speckit, scope)
+
+
+def _scope_cost(session: SessionArtefacts, scope: str) -> float:
+    """Return one session's cost at a session or phase scope."""
+    if scope == "session":
+        return float(session_scope(session, "metrics")["cost_usd"])
+    return float(phase_scope(session, "metrics", scope)["cost_usd"])
+
+
+def _difference_key(ax: Axes) -> None:
+    """Place a frameless phase-marker key below the axes."""
+    handles = [
+        Line2D(
+            [],
+            [],
+            linestyle="none",
+            marker=CONTRAST_MARKER,
+            markersize=5,
+            markerfacecolor=PHASE_FACE[phase],
+            markeredgecolor="#000000",
+            label=PHASE_LABELS[phase],
+        )
+        for phase in PHASE_FACE
+    ]
+    ax.legend(
+        handles=handles,
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.16),
+        ncol=len(handles),
+        fontsize=8,
+    )
 
 
 if __name__ == "__main__":
