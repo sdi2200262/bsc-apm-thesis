@@ -23,7 +23,7 @@ Chapter~\ref{chap:framework-design} described APM v1 in full.\footnote{Forthcomi
 
 Spec-kit is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
-The Spec-kit sessions ran versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target, so we audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. We hold the audit to them, since the rest of either framework's source sits outside what the coding agent reads and interacts with, not affecting our comparison. The change across the eight release steps is minimal, and the sessions are therefore read as running one workflow. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
+The Spec-kit sessions ran versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target. We audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. We hold the audit to them, since the rest of either framework's source sits outside what the coding agent reads and interacts with, not affecting our comparison. The change across the eight release steps is minimal; the sessions are read as running one workflow. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
 
 Spec-kit's workflow is driven by a set of slash commands that the developer triggers, or the agent autonomously invokes, each a bundle of instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artefacts:
 
@@ -115,7 +115,7 @@ Unlike the temporal measures, the turn-prompt measures are also reported at role
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
 
-The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a 100-point total.
+The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a hundred-point total.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
@@ -143,7 +143,7 @@ The typical difference is reported through the median, the Hodges-Lehmann estima
 \]
 The Hodges-Lehmann estimate reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
 
-The uncertainty around that typical difference is a confidence interval for it, built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location}. Unlike the sign count, this statistic uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
+A confidence interval built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location} carries the uncertainty around that typical difference. Unlike the sign count, this statistic uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]

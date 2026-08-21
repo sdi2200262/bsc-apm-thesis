@@ -45,7 +45,7 @@ Table~\ref{tab:proc-time-paired-by-model} gives the model-specific paired time d
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-paired-by-order} gives the session-duration and turn-prompt differences within each realised session order. Neither order reverses either result; the central differences are comparable across the two groups.
+Table~\ref{tab:proc-paired-by-order} lists the session-duration and turn-prompt differences within each realised session order. Neither order reverses either result; the central differences are comparable across the two groups.
 
 \begin{table}[H]
   \centering
@@ -77,7 +77,7 @@ Table~\ref{tab:proc-concurrency-sessions} details each APM session's turn-time c
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
+Table~\ref{tab:proc-turns-paired-by-model} details the turn-prompt difference by scope within each model group. The implementation difference set the session difference under both models and planning stayed level, with the gap clearer under Sonnet, where all six pairs favoured APM at the session and implementation scopes.
 
 \begin{table}[H]
   \centering
@@ -98,6 +98,7 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket s
 \begin{table}[H]
   \centering
   \small
+  \begin{threeparttable}
   \caption{Turn-prompt bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
   \label{tab:proc-buckets-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
@@ -107,9 +108,13 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket s
     \InputTableRows{analysis/generated/tables/proc-buckets-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] The three buckets are summarised independently, so their summaries need not sum to one; see note~[a] of Table~\ref{tab:proc-buckets-composition}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-bucket-magnitudes-by-model} gives the corresponding turn-prompt character counts within each model group.
+Table~\ref{tab:proc-bucket-magnitudes-by-model} lists the corresponding turn-prompt character counts within each model group.
 
 \begin{table}[H]
   \centering
@@ -130,7 +135,7 @@ Table~\ref{tab:proc-bucket-magnitudes-by-model} gives the corresponding turn-pro
   \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket shares and character counts for each APM agent role, pooled over the role's agents across the sessions.
+Table~\ref{tab:proc-buckets-composition-by-role} details the turn-prompt bucket shares and character counts for each APM agent role, pooled over the role's agents across the sessions.
 
 \begin{table}[H]
   \centering
@@ -149,6 +154,7 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket sh
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P002's high standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
+    \item[b] The three buckets are summarised independently, so their summaries need not sum to one; see note~[a] of Table~\ref{tab:proc-buckets-composition}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
