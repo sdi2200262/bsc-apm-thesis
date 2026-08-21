@@ -57,8 +57,8 @@ Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope an
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's APM Planner and Manager ran in one conversation, so the Manager's work is recorded under the planning phase, and under the Planner role wherever a measure separates the roles. This makes the cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-1.10$, $-1.77$, and $-2.02$, rather than $-0.84$, $-1.27$, and $-1.07$.
-    \item[b] P006's Spec-kit implementation work is recorded under planning; see note~[c] of Table~\ref{tab:proc-duration-levels}. That session's implementation phase therefore shows no cost. This raises the cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
-    \item[c] P009 is the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three cohort implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$, rather than $+6.52$, $+6.52$, and $+8.08$.
+    \item[b] P006's Spec-kit implementation work is recorded under planning; see note~[c] of Table~\ref{tab:proc-duration-levels}. That session's implementation phase therefore shows no cost. This raises the cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$. The cohort values are $+6.52$, $+6.52$, and $+8.08$.
+    \item[c] P009 is the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three cohort implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$. The cohort values are $+6.52$, $+6.52$, and $+8.08$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -72,7 +72,7 @@ Figure~\ref{fig:cost-paired-by-scope-by-participant} plots each participant's se
   \label{fig:cost-paired-by-scope-by-participant}
 \end{figure}
 
-Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
+Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and Manager plan and coordinate the work. The Workers carry it out. The first two roles cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
 
 \begin{table}[H]
   \centering
@@ -87,7 +87,7 @@ Within an APM session the cost divided across the three agent roles in the same 
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, shifts the Opus Planner and Manager row summaries in opposite directions. Without P004 the Opus Planner median, Hodges-Lehmann estimate, and mean are $4.76$, $4.76$, and $4.84$ rather than $5.50$, $5.85$, and $6.53$, and the Opus Manager values are $7.86$, $7.86$, and $8.37$ rather than $7.35$, $7.31$, and $6.97$.
+    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, shifts the Opus Planner and Manager row summaries in opposite directions. Without P004 the Opus Planner median, Hodges-Lehmann estimate, and mean are $4.76$, $4.76$, and $4.84$; the cohort values are $5.50$, $5.85$, and $6.53$. The Opus Manager values are $7.86$, $7.86$, and $8.37$ without P004 and $7.35$, $7.31$, and $6.97$ for the cohort.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -125,7 +125,7 @@ Two of the three categories drove the difference: output and the one-hour writes
   \end{tabular*}
 \end{table}
 
-All three summaries were positive in both order groups, with four of the seven APM-first pairs and all five APM-second pairs positive, as Table~\ref{tab:cost-session-paired-by-order} of Appendix~\ref{app:results-cost-breakdowns} reports. They ran larger and more consistent when participants met APM second. At seven and five participants the intervals are wide and the two order groups cannot be told apart, so the difference appears to track the framework rather than the order of the sessions.
+All three summaries were positive in both order groups, with four of the seven APM-first pairs and all five APM-second pairs positive, as Table~\ref{tab:cost-session-paired-by-order} of Appendix~\ref{app:results-cost-breakdowns} reports. They ran larger and more consistent when participants met APM second. At seven and five participants the intervals are wide and the two order groups cannot be told apart. The cohort cost difference held across the order split.
 
 Chapter~\ref{chap:discussions} reads these differences further. Section~\ref{sec:discussions-sdd} traces the planning-phase divergence to how the two frameworks carry out spec-driven planning. Section~\ref{sec:discussions-cost-mechanics} reads the implementation cost, showing how working across several agents shapes where the cost falls and why the two model groups diverge.
 
@@ -154,7 +154,7 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P010's APM session ran about ten minutes past the three-hour cap and is measured to it, so that tail lies outside every summary in this row. The excluded records carry verification runs, version-control work, and framework bookkeeping, and no part of the submitted solution was written in them.
     \item[b] P004's merged APM Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, raises the APM planning-duration summary. Without P004 the APM planning median, Hodges-Lehmann estimate, and mean are $1850.6$, $2129.2$, and $2181.7$ seconds, rather than $2153.4$, $2179.3$, and $2298.9$.
-    \item[c] P006's Spec-kit agent carried out the implementation without reaching \texttt{/speckit-implement}, which marks the workflow's implementation phase for this study, so all its measurements were allocated to planning. The implementation phase therefore has no duration for that session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds, rather than $2196.2$, $2228.5$, and $2439.1$.
+    \item[c] P006's Spec-kit agent carried out the implementation without reaching \texttt{/speckit-implement}, which marks the workflow's implementation phase for this study, so all its measurements were allocated to planning. The implementation phase therefore has no duration for that session. This lowers the Spec-kit implementation-duration summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $2210.7$, $2283.4$, and $2660.8$ seconds. The cohort values are $2196.2$, $2228.5$, and $2439.1$ seconds.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -181,7 +181,7 @@ Table~\ref{tab:proc-time-paired-by-scope} gives the cohort's paired time differe
 
 The same session and phase patterns held within both model groups; Table~\ref{tab:proc-time-paired-by-model} of Appendix~\ref{app:results-process-breakdowns} gives the model-specific estimates.
 
-Session order did not reverse the duration difference. APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as the duration rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration difference therefore points to the framework rather than the order of the sessions.
+APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as the duration rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration pattern leaves session order an unlikely account of APM's longer sessions.
 
 Within the turn time APM could have two or more of its agents working at once, but participants used concurrent work sparingly. In five sessions it made up less than 2\% of turn time; across the cohort it remained below a sixth of turn time in all but one, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
 
@@ -212,8 +212,8 @@ An APM session had a median of about 22 turn prompts against Spec-kit's 13, as T
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, raises the APM planning turn-prompt count. Without P004 the APM planning turn-prompt count median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turn prompts, rather than $9.5$, $9.5$, and $9.7$.
-    \item[b] P006's Spec-kit session opens no implementation turn prompt, for the reason given in Table~\ref{tab:proc-duration-levels} note~[c]. This lowers the Spec-kit implementation turn-prompt count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turn prompts, rather than $3.0$, $3.5$, and $3.3$.
+    \item[a] P004's merged Planner/Manager conversation, explained in note~[a] of Table~\ref{tab:cost-paired-by-scope}, raises the APM planning turn-prompt count. Without P004 the APM planning turn-prompt count median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turn prompts. The cohort values are $9.5$, $9.5$, and $9.7$.
+    \item[b] P006's Spec-kit session opens no implementation turn prompt, for the reason given in Table~\ref{tab:proc-duration-levels} note~[c]. This lowers the Spec-kit implementation turn-prompt count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turn prompts. The cohort values are $3.0$, $3.5$, and $3.3$.
     \item[c] P007 and P009 started implementation within a planning turn of their Spec-kit sessions, so that turn remains planning and each had one subsequent implementation turn.
   \end{tablenotes}
   \end{threeparttable}
@@ -261,7 +261,7 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] Each bucket is summarised independently across the sessions, so neither the three medians nor the three Hodges-Lehmann estimates need sum to one. The three mean shares sum to one unless a session has no turn prompt in the phase and contributes three zeros.
-    \item[b] P002 has the largest APM implementation standard-prompt character count in the cohort by a substantial margin, from a single prompt in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters, rather than $79$, $102$, and $184$.
+    \item[b] P002 has the largest APM implementation standard-prompt character count in the cohort by a substantial margin, from a single prompt in which the participant manually pasted handoff content. This raises all three row summaries. Without P002 the median, Hodges-Lehmann estimate, and mean are $69$, $83.5$, and $96$ characters. The cohort values are $79$, $102$, and $184$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -363,7 +363,7 @@ Across the cohort, both task sections had a zero median difference but positive 
 
 Partial credit played no material role in the score comparison as it was identical in eight pairs and differed by no more than about six points in the other four. Table~\ref{tab:func-score-sessions} of Appendix~\ref{app:results-functional-breakdowns} gives the partial part of every session.
 
-The median, Hodges-Lehmann estimate, and mean were non-negative in both order groups, as Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} reports. At seven and five participants the intervals are wide and the groups cannot be told apart, so the small positive difference reads as following the framework rather than the session order.
+The median, Hodges-Lehmann estimate, and mean were non-negative in both order groups, as Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} reports. At seven and five participants the intervals are wide and the groups cannot be told apart. The small positive difference reads as following the framework rather than the session order.
 
 Chapter~\ref{chap:discussions} takes up these score outcomes. Section~\ref{sec:discussions-sdd} sets the size and kind of the sessions that fell short against how each framework planned. Section~\ref{sec:discussions-grading-blackbox} reads the low scores under a diagnostic re-grade, and Section~\ref{sec:discussions-cost-score} weighs the score difference against what each framework cost.
 
