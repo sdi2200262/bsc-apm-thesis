@@ -30,7 +30,7 @@ That difference in authority does not reach the size of the planning phase, whic
   \end{threeparttable}
 \end{table}
 
-Both frameworks had sessions that fell well short. Five across the cohort scored below fifty, two under APM and three under Spec-kit, as Table~\ref{tab:func-score-sessions} details, so the shortfall was not one framework's alone. They did not all fail in the same way. The re-grade of Section~\ref{sec:discussions-grading-blackbox} lifts a fault that occurred under both frameworks, leaving two Spec-kit sessions below fifty.
+Five sessions across the cohort fell well short. Two scored below fifty under APM and three under Spec-kit, as Table~\ref{tab:func-score-sessions} details, so the shortfall was not one framework's alone. They did not all fail in the same way. The re-grade of Section~\ref{sec:discussions-grading-blackbox} lifts a fault that occurred under both frameworks, leaving two Spec-kit sessions below fifty.
 
 In Spec-kit's largely autonomous planning, a step that settles an open question without the user can do so wrongly, and the build then rests on that decision. APM puts its open questions to the user in the Planner's question rounds and holds each planning document at a review gate. A wrong assumption therefore meets the user before the build inherits it. The two remaining low-score sessions align with that difference in planning authority, but they do not establish that it produced them.
 
@@ -170,7 +170,7 @@ Each scored 34.0 points, with the Python part complete and almost all of the C p
   \end{tabular*}
 \end{table}
 
-The re-grade recovers three of the five sessions below fifty, both APM sessions and one Spec-kit session. The two scores it does not lift remain indeterminate. They may conceal sound work beyond the re-grade's reach, or they may be genuine shortfalls. The three recovered sessions belong to two participant pairs. In one, both framework sessions carried the defect, so compact input moves the APM-minus-Spec-kit difference from 0.0 to $+5.0$ points. In the other, only the APM session was affected, moving the difference from $+4.4$ to $+64.3$ points. Across all six Sonnet pairs, the compact-input diagnostic favours APM in five. Its median difference is about $+8.7$ points, while the Hodges-Lehmann estimate and mean are $+23.5$ and $+21.8$, raised by the two large gaps. The interval spans zero, as Table~\ref{tab:disc-grading-compact-paired} reports.
+The re-grade recovers three of the five sessions below fifty, both APM sessions and one Spec-kit session. The two scores it does not lift remain indeterminate. They may conceal sound work beyond the re-grade's reach, or they may be genuine shortfalls. The three recovered sessions belong to two participant pairs. In one, both framework sessions carried the defect, so compact input moves the APM-minus-Spec-kit difference from 0.0 to $+5.0$ points. In the other, only the APM session was affected, moving the difference from $+4.4$ to $+64.3$ points. Across all six Sonnet pairs, the compact-input diagnostic favours APM in five. Its median difference is about $+8.7$ points, while the Hodges-Lehmann estimate and mean are $+23.5$ and $+21.8$, raised by the two large gaps, as Table~\ref{tab:disc-grading-compact-paired} reports.
 
 \begin{table}[H]
   \centering
@@ -185,7 +185,7 @@ The re-grade recovers three of the five sessions below fifty, both APM sessions 
   \end{tabular*}
 \end{table}
 
-This diagnostic re-grade helps interpret some low scores as hiding otherwise sound implementations and leaves APM with the stronger Sonnet pattern.
+This diagnostic re-grade helps interpret some low scores as hiding otherwise sound implementations and gives APM the more favourable Sonnet pattern. The standard total scores remain the basis of the framework comparison because the re-grade tests only this fault class.
 
 \subsection{Cost versus Score}
 \label{sec:discussions-cost-score}
@@ -201,7 +201,7 @@ The same plot shows three participant pairs that depart from that pattern. In ea
   \label{fig:disc-cost-score-comparison}
 \end{figure}
 
-At the cohort level, APM reached a total score comparable to Spec-kit's while costing more. Its positive score summaries leave open an APM benefit, but the interval leaves its size unsettled.
+The individual exceptions do not change the cohort reading: APM's higher cost accompanied a comparable total score, with the size of any score benefit left unsettled.
 
 APM's added cost accompanied its more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether the underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
 
