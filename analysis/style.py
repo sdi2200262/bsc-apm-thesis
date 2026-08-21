@@ -28,15 +28,23 @@ _LM_FACES = (
 # family to whichever tying face it scanned first.
 _LM_FAMILY = "LM Roman 10 (thesis figures)"
 
-APM_COLOR = "#000000"
+# Shape names which contrast a figure draws and fill names which side of it. The diamond is
+# reserved for APM against Spec-kit; every other two-way contrast takes the circle and is named
+# by that figure's own key, since no figure draws more than one of them.
+FILLED = "#000000"
+OPEN = "#ffffff"
+FRAMEWORK_MARKER = "D"
+CONTRAST_MARKER = "o"
+
+APM_COLOR = FILLED
 APM_LABEL = "APM"
-APM_MARKER = "o"
+APM_MARKER = FRAMEWORK_MARKER
 
 SPECKIT_COLOR = "#000000"
-SPECKIT_FACECOLOR = "#ffffff"
+SPECKIT_FACECOLOR = OPEN
 SPECKIT_HATCH = "///"
 SPECKIT_LABEL = "Spec-kit"
-SPECKIT_MARKER = "D"
+SPECKIT_MARKER = FRAMEWORK_MARKER
 
 GRID_ALPHA = 0.4
 

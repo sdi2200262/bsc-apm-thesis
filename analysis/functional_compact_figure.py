@@ -25,7 +25,7 @@ from analysis.cohort import (
     pair_by_participant,
 )
 from analysis.config import ConfigError, load_records
-from analysis.style import APM_COLOR, SPECKIT_FACECOLOR, apply_grid, new_figure
+from analysis.style import CONTRAST_MARKER, FILLED, OPEN, apply_grid, new_figure
 
 
 @dataclass(frozen=True)
@@ -80,8 +80,8 @@ def render(sessions: list[CompactSession], output: Path) -> None:
             ax.plot(
                 x,
                 session.compact,
-                marker="o",
-                markerfacecolor=SPECKIT_FACECOLOR,
+                marker=CONTRAST_MARKER,
+                markerfacecolor=OPEN,
                 markeredgecolor="#000000",
                 markersize=6,
                 zorder=3,
@@ -89,8 +89,8 @@ def render(sessions: list[CompactSession], output: Path) -> None:
         ax.plot(
             x,
             session.standard,
-            marker="o",
-            markerfacecolor=APM_COLOR,
+            marker=CONTRAST_MARKER,
+            markerfacecolor=FILLED,
             markeredgecolor="#000000",
             markersize=6,
             zorder=3,
@@ -151,9 +151,9 @@ def _form_key(ax: Axes) -> None:
     standard = Line2D(
         [],
         [],
-        marker="o",
+        marker=CONTRAST_MARKER,
         linestyle="none",
-        markerfacecolor=APM_COLOR,
+        markerfacecolor=FILLED,
         markeredgecolor="#000000",
         markersize=6,
         label="Standard JSON total",
@@ -161,9 +161,9 @@ def _form_key(ax: Axes) -> None:
     compact = Line2D(
         [],
         [],
-        marker="o",
+        marker=CONTRAST_MARKER,
         linestyle="none",
-        markerfacecolor=SPECKIT_FACECOLOR,
+        markerfacecolor=OPEN,
         markeredgecolor="#000000",
         markersize=6,
         label="Compact JSON total",
