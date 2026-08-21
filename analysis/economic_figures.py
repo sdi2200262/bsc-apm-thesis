@@ -252,15 +252,7 @@ def _cost(session: SessionArtefacts) -> float:
 
 
 def _difference(pair: ParticipantPair, scope: str) -> float:
-    """Return one participant's APM-minus-Spec-kit cost difference at one scope.
-
-    Args:
-        pair: Participant pair.
-        scope: ``session``, ``planning``, or ``implementation``.
-
-    Returns:
-        The signed cost difference in dollars.
-    """
+    """Return one participant's signed APM-minus-Spec-kit cost difference at one scope."""
     return _scope_cost(pair.apm, scope) - _scope_cost(pair.speckit, scope)
 
 
