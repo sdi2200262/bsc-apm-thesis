@@ -98,6 +98,7 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket s
 \begin{table}[H]
   \centering
   \small
+  \begin{threeparttable}
   \caption{Turn-prompt bucket shares within each model group, by phase and framework, each bucket by its median, Hodges-Lehmann estimate, and mean.}
   \label{tab:proc-buckets-composition-by-model}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll rrr}
@@ -107,6 +108,10 @@ Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket s
     \InputTableRows{analysis/generated/tables/proc-buckets-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] The three buckets are summarised independently, so their summaries need not sum to one; see note~[a] of Table~\ref{tab:proc-buckets-composition}.
+  \end{tablenotes}
+  \end{threeparttable}
 \end{table}
 
 Table~\ref{tab:proc-bucket-magnitudes-by-model} gives the corresponding turn-prompt character counts within each model group.
@@ -149,6 +154,7 @@ Table~\ref{tab:proc-buckets-composition-by-role} gives the turn-prompt bucket sh
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P002's high standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
+    \item[b] The three buckets are summarised independently, so their summaries need not sum to one; see note~[a] of Table~\ref{tab:proc-buckets-composition}.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
