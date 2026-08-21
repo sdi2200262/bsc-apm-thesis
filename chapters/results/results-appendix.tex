@@ -5,9 +5,9 @@
 \section{Economic Cost Breakdowns}
 \label{app:results-cost-breakdowns}
 
-This table gives the per-order detail behind the order reading in the Economic results (Section~\ref{sec:results-economic}).
+This table gives the per-order detail for the Economic results in Section~\ref{sec:results-economic}.
 
-Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by realised session order, with each order group's own summaries and interval.
+Table~\ref{tab:cost-session-paired-by-order} gives the cost difference by realised session order, with each order group's own summaries and interval.
 
 \begin{table}[H]
   \centering
@@ -26,9 +26,9 @@ Table~\ref{tab:cost-session-paired-by-order} splits the cost difference by reali
 \section{Process Breakdowns}
 \label{app:results-process-breakdowns}
 
-These tables give the per-model and per-order breakdowns, and the per-session active-time composition, behind claims in the Process results of Section~\ref{sec:results-process}.
+These tables give the per-model and per-order breakdowns, and the per-session turn-time composition, behind claims in the Process results of Section~\ref{sec:results-process}.
 
-Table~\ref{tab:proc-time-paired-by-model} gives the model-specific paired time differences at session and phase scope. At session scope, APM was longer in all six pairs under each model, with a wider duration gap under Opus. Its active and idle components were higher in at least five of the six pairs in each group. At phase scope, the implementation phase was longer under APM in all six pairs of each model, with close median differences. For implementation duration, the Sonnet group had the higher Hodges-Lehmann estimate and mean. Planning remained mixed in sign under both models.
+Table~\ref{tab:proc-time-paired-by-model} gives the model-specific paired time differences at session and phase scope. At session scope, APM was longer in all six pairs under each model, with a wider duration gap under Opus. Its turn-time and inter-turn-time components were higher in at least five of the six pairs in each group. At phase scope, the implementation phase was longer under APM in all six pairs of each model, with close median differences. For implementation duration, the Sonnet group had the higher Hodges-Lehmann estimate and mean. Planning remained mixed in sign under both models.
 
 \begin{table}[H]
   \centering
@@ -62,11 +62,11 @@ Table~\ref{tab:proc-paired-by-order} gives the session-duration and turn-prompt 
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:proc-concurrency-sessions} sets out each APM session's active-time composition, including its solo and concurrent spans. It supports the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent share was below 2\% in five sessions and below a sixth in all but one.
+Table~\ref{tab:proc-concurrency-sessions} details each APM session's turn-time composition, including its solo and concurrent spans. It supports the concurrency reading in Section~\ref{sec:results-process-time}. The concurrent share was below 2\% in five sessions and below a sixth in all but one.
 
 \begin{table}[H]
   \centering
-  \caption{Active-time composition of the APM sessions, in seconds, with the concurrent span as a share of the active time. Descriptive and APM only, since Spec-kit's single conversation has no concurrent span.}
+  \caption{Turn-time composition of the APM sessions, in seconds, with the concurrent span as a share of the turn time. Descriptive and APM only, since Spec-kit's single conversation has no concurrent span.}
   \label{tab:proc-concurrency-sessions}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrr}
     \toprule
@@ -217,7 +217,7 @@ Table~\ref{tab:proc-steers-by-participant} gives each session's steers, separati
 \section{Functional Breakdowns}
 \label{app:results-functional-breakdowns}
 
-These tables give the per-session scores and the per-order difference behind the Functional results (Section~\ref{sec:results-functional}).
+These tables give the per-session scores and the per-order difference for the Functional results in Section~\ref{sec:results-functional}.
 
 Table~\ref{tab:func-score-sessions} gives every session's strict and partial score parts, total score, and Python and C section totals.
 
@@ -234,7 +234,7 @@ Table~\ref{tab:func-score-sessions} gives every session's strict and partial sco
   \end{tabular*}
 \end{table}
 
-Table~\ref{tab:func-score-paired-by-order} splits the total-score difference by realised session order.
+Table~\ref{tab:func-score-paired-by-order} gives the total-score difference by realised session order.
 
 \begin{table}[H]
   \centering

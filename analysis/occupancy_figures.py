@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) BSc APM Case Study 2025-2026
-"""Generate context-occupancy PDF figures from parser artefacts.
+"""Generate model-group context-occupancy PDF figures from parser artefacts.
 
-Renders three panels (pooled, Opus-only, Sonnet-only) from the ``context_segments[]``
-field the parser writes per session. Each participant occupies one column carrying
-every context-segment peak from both frameworks (APM solid circles, Spec-kit open
-diamonds) bound by a faint stem, with reference lines for the nominal 200k Sonnet
-context window and the ~167k auto-compaction ceiling it empirically reaches. The
-visual register (Latin Modern serif, faint grid, black-ink markers) mirrors the
-house style used by every other Evaluation-chapter figure in this thesis.
+Renders Opus and Sonnet panels from the ``context_segments[]`` field the parser writes
+per session. Each participant occupies one column carrying every context-segment peak
+from both frameworks (APM solid circles, Spec-kit open diamonds) bound by a faint stem,
+with reference lines for the nominal 200k Sonnet context window and the ~167k
+auto-compaction ceiling it empirically reaches. The visual register (Latin Modern serif,
+faint grid, black-ink markers) mirrors the house style used by every other
+Evaluation-chapter figure in this thesis.
 """
 
 from __future__ import annotations
@@ -68,7 +68,6 @@ def main(argv: list[str] | None = None) -> int:
         pairs = pair_by_participant(load_sessions(load_records(args.config)))
         opus_pairs = [pair for pair in pairs if model_band(pair.apm) == "opus"]
         sonnet_pairs = [pair for pair in pairs if model_band(pair.apm) == "sonnet"]
-        render(pairs, args.output_dir / "occupancy_pooled.pdf", plot_w_in=6.07)
         render(
             opus_pairs,
             args.output_dir / "occupancy_opus.pdf",
