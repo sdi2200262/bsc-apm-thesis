@@ -115,7 +115,7 @@ Unlike the temporal measures, the turn-prompt measures are also reported at role
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
 
-The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a 100-point total.
+The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a hundred-point total.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
