@@ -98,14 +98,6 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(output_dir / "proc-turns-paired-by-model.tex", _turn_paired_by_model(pairs))
     write_fragment(output_dir / "proc-buckets-composition.tex", _bucket_composition(pairs))
     write_fragment(
-        output_dir / "proc-planning-buckets-by-participant.tex",
-        _bucket_sessions(pairs, "planning"),
-    )
-    write_fragment(
-        output_dir / "proc-implementation-buckets-by-participant.tex",
-        _bucket_sessions(pairs, "implementation"),
-    )
-    write_fragment(
         output_dir / "proc-buckets-composition-by-model.tex", _bucket_composition_by_model(pairs)
     )
     write_fragment(
@@ -422,49 +414,6 @@ def _bucket_composition(pairs: list[ParticipantPair]) -> list[str]:
                         [_bucket_magnitude(session, phase_key, bucket) for session in sessions],
                     )
                 )
-    return rows
-
-
-def _bucket_sessions(pairs: list[ParticipantPair], phase: str, measure: str = "both") -> list[str]:
-    """Return per-participant bucket values and counts for one phase and measure."""
-    rows: list[str] = []
-    for pair in pairs:
-        for framework in ("apm", "speckit"):
-            session = getattr(pair, framework)
-            label = pair.pid if framework == "apm" else ""
-            if (
-                phase == "implementation"
-                and measure in ("both", "magnitudes")
-                and framework == "apm"
-                and pair.pid == "P002"
-            ):
-                label += r"\tnote{a}"
-            if (
-                phase == "implementation"
-                and measure in ("both", "shares")
-                and framework == "apm"
-                and pair.pid == "P006"
-            ):
-                label += r"\tnote{b}"
-            count = int(_turn_value(session, phase))
-            shares = (
-                ["--", "--", "--"]
-                if count == 0
-                else [
-                    f"{_bucket_share(session, phase, bucket):.2f}"
-                    for bucket in ("protocol", "short", "standard")
-                ]
-            )
-            cells = [label, "APM" if framework == "apm" else "Spec-kit"]
-            if measure in ("both", "shares"):
-                cells.extend(shares)
-            if measure in ("both", "magnitudes"):
-                cells.extend(
-                    _plain_intish(_bucket_magnitude(session, phase, bucket))
-                    for bucket in ("protocol", "short", "standard")
-                )
-            cells.append(str(count))
-            rows.append(" & ".join(cells) + r" \\")
     return rows
 
 

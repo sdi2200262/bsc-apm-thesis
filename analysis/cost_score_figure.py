@@ -25,7 +25,9 @@ from analysis.cohort import (
     pair_by_participant,
 )
 from analysis.config import ConfigError, load_records
-from analysis.style import APM_COLOR, SPECKIT_FACECOLOR, apply_grid, new_figure, report_extremes
+from analysis.style import CONTRAST_MARKER, FILLED, OPEN, apply_grid, new_figure, report_extremes
+
+MODEL_FACE = {"opus": FILLED, "sonnet": OPEN}
 
 LABELLED = {"P001", "P002", "P012"}
 
@@ -119,23 +121,11 @@ def _plot_model_marker(ax: Axes, x: float, y: float, model: str) -> None:
         y: Score-difference coordinate.
         model: ``"opus"`` or ``"sonnet"``.
     """
-    if model == "opus":
-        ax.plot(
-            x,
-            y,
-            marker="o",
-            markerfacecolor=APM_COLOR,
-            markeredgecolor="#000000",
-            markersize=6,
-            linestyle="none",
-            zorder=3,
-        )
-        return
     ax.plot(
         x,
         y,
-        marker="D",
-        markerfacecolor=SPECKIT_FACECOLOR,
+        marker=CONTRAST_MARKER,
+        markerfacecolor=MODEL_FACE[model],
         markeredgecolor="#000000",
         markersize=6,
         linestyle="none",
@@ -145,28 +135,21 @@ def _plot_model_marker(ax: Axes, x: float, y: float, model: str) -> None:
 
 def _form_key(ax: Axes) -> None:
     """Place a frameless model marker key below the axes."""
-    opus = Line2D(
-        [],
-        [],
-        marker="o",
-        linestyle="none",
-        markerfacecolor=APM_COLOR,
-        markeredgecolor="#000000",
-        markersize=6,
-        label="Opus",
-    )
-    sonnet = Line2D(
-        [],
-        [],
-        marker="D",
-        linestyle="none",
-        markerfacecolor=SPECKIT_FACECOLOR,
-        markeredgecolor="#000000",
-        markersize=6,
-        label="Sonnet",
-    )
+    handles = [
+        Line2D(
+            [],
+            [],
+            marker=CONTRAST_MARKER,
+            linestyle="none",
+            markerfacecolor=MODEL_FACE[model],
+            markeredgecolor="#000000",
+            markersize=6,
+            label=label,
+        )
+        for model, label in (("opus", "Opus"), ("sonnet", "Sonnet"))
+    ]
     ax.legend(
-        handles=[opus, sonnet],
+        handles=handles,
         frameon=False,
         loc="upper center",
         bbox_to_anchor=(0.5, -0.12),

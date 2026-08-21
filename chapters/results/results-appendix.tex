@@ -93,49 +93,6 @@ Table~\ref{tab:proc-turns-paired-by-model} gives the turn-prompt difference by s
   \end{tabular*}
 \end{table}
 
-Tables~\ref{tab:proc-planning-buckets-by-participant} and~\ref{tab:proc-implementation-buckets-by-participant} give the per-participant turn-prompt bucket shares, magnitudes, and counts in the two phases.
-
-\begin{table}[H]
-  \centering
-  \small
-  \caption{Per-participant planning turn-prompt bucket shares, magnitudes in characters, and counts.}
-  \label{tab:proc-planning-buckets-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr r}
-    \toprule
-    & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} & \\
-    \cmidrule(lr){3-5} \cmidrule(lr){6-8}
-    Participant & Framework & Prot. & Short & Std. & Prot. & Short & Std. & $n$ \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-planning-buckets-by-participant.tex}
-    \bottomrule
-  \end{tabular*}
-\end{table}
-
-\newpage % Temporary: keep the full implementation table on a fresh appendix page.
-
-\begin{table}[H]
-  \centering
-  \small
-  \begin{threeparttable}
-  \caption{Per-participant implementation turn-prompt bucket shares, magnitudes in characters, and counts.}
-  \label{tab:proc-implementation-buckets-by-participant}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll rrr rrr r}
-    \toprule
-    & & \multicolumn{3}{c}{Bucket share} & \multicolumn{3}{c}{Magnitude (chars)} & \\
-    \cmidrule(lr){3-5} \cmidrule(lr){6-8}
-    Participant & Framework & Prot. & Short & Std. & Prot. & Short & Std. & $n$ \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/proc-implementation-buckets-by-participant.tex}
-    \bottomrule
-  \end{tabular*}
-  \begin{tablenotes}[flushleft]\footnotesize
-    \item A session with no implementation turn prompt has no shares.
-    \item[a] P002's high standard-prompt character count is explained in note~[b] of Table~\ref{tab:proc-buckets-composition}.
-    \item[b] P006 did not invoke the implementation command; see note~[c] of Table~\ref{tab:proc-duration-levels}.
-  \end{tablenotes}
-  \end{threeparttable}
-\end{table}
-
 Table~\ref{tab:proc-buckets-composition-by-model} gives the turn-prompt bucket shares within each model group, each bucket by its median, Hodges-Lehmann estimate, and mean.
 
 \begin{table}[H]

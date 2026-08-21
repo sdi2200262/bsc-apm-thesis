@@ -31,7 +31,7 @@ Figure~\ref{fig:cost-session-levels-by-model} plots each participant's two sessi
   \centering
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_opus.pdf}\hfill
   \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_sonnet.pdf}
-  \caption{Per-participant session cost within each model, Opus on the left and Sonnet on the right. Each participant has an APM circle and a Spec-kit diamond joined by a line, and each panel carries its own scale. Each framework's cheapest and most expensive session carries its value.}
+  \caption{Per-participant session cost within each model, Opus on the left and Sonnet on the right. Each participant has a filled APM diamond and an open Spec-kit diamond joined by a line, and each panel carries its own scale. Each framework's cheapest and most expensive session carries its value.}
   \label{fig:cost-session-levels-by-model}
 \end{figure}
 
@@ -57,11 +57,20 @@ Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope an
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's APM Planner and Manager ran in one conversation, so Manager work is included in planning-phase cost. This makes the cohort planning difference less negative. Without P004 the median, Hodges-Lehmann estimate, and mean are $-1.10$, $-1.77$, and $-2.02$, rather than $-0.84$, $-1.27$, and $-1.07$.
-    \item[b] P006's implementation work is recorded under planning; see note~[c] of Table~\ref{tab:proc-duration-levels}. Its implementation phase therefore shows no cost for the session. This raises the cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
+    \item[b] P006's Spec-kit implementation work is recorded under planning; see note~[c] of Table~\ref{tab:proc-duration-levels}. That session's implementation phase therefore shows no cost. This raises the cohort implementation difference. Without P006 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.86$, and $+7.61$, rather than $+6.52$, $+6.52$, and $+8.08$.
     \item[c] P009 is the mixed-model cost case described in Table~\ref{tab:cost-session-levels-by-model}. It shifts all three cohort implementation row summaries, most visibly the mean. Without P009 the median, Hodges-Lehmann estimate, and mean are $+5.99$, $+5.69$, and $+5.63$, rather than $+6.52$, $+6.52$, and $+8.08$.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
+
+Figure~\ref{fig:cost-paired-by-scope-by-participant} plots each participant's session difference beside its two phase parts. The implementation difference sits above the planning difference in eight of the twelve pairs.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/economic/cost_difference_by_scope.pdf}
+  \caption{Per-participant paired cost difference by scope, APM minus Spec-kit, in US dollars. The bar gives the session difference and the markers the planning and implementation differences within it. The reference line marks no difference. P004 and P006 carry the phase-attribution caveats of notes~[a] and~[b] of Table~\ref{tab:cost-paired-by-scope}.}
+  \label{fig:cost-paired-by-scope-by-participant}
+\end{figure}
 
 Within an APM session the cost divided across the three agent roles in the same shape under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and the Manager, the roles that plan the work and coordinate it rather than carry it out, cost on the same order as each other, each a fraction of the Worker's. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
 
@@ -188,7 +197,7 @@ Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as
 \subsection{Interaction Shape}
 \label{sec:results-process-interaction}
 
-An APM session had a median of about 22 turn prompts against Spec-kit's 13, as Table~\ref{tab:proc-turns-levels} reports, with the Hodges-Lehmann estimate and mean close to each median. That total was not shared evenly between the two phases. In planning the median counts were about 10 under both frameworks, while in implementation APM had about 11 against Spec-kit's 3.
+An APM session had a median of about 22 turn prompts against Spec-kit's 13, as Table~\ref{tab:proc-turns-levels} reports, with the Hodges-Lehmann estimate and mean close to each median. That total was not shared evenly between the two phases. In planning, the median counts were about 10 under both frameworks, while in implementation APM had about 11 against Spec-kit's 3.
 
 \begin{table}[H]
   \centering
@@ -205,7 +214,7 @@ An APM session had a median of about 22 turn prompts against Spec-kit's 13, as T
   \begin{tablenotes}[flushleft]\footnotesize
     \item[a] P004's merged Planner/Manager conversation raises the APM planning turn-prompt count. Without P004 the APM planning turn-prompt count median, Hodges-Lehmann estimate, and mean are $9.0$, $9.0$, and $8.7$ turn prompts, rather than $9.5$, $9.5$, and $9.7$.
     \item[b] P006's Spec-kit session opens no implementation turn prompt, for the reason given in Table~\ref{tab:proc-duration-levels} note~[c]. This lowers the Spec-kit implementation turn-prompt count summary. Without P006 the Spec-kit implementation median, Hodges-Lehmann estimate, and mean are $4.0$, $3.5$, and $3.6$ turn prompts, rather than $3.0$, $3.5$, and $3.3$.
-    \item[c] P007 and P009 started implementation within a planning turn, so that turn remains planning and each had one subsequent implementation turn.
+    \item[c] P007 and P009 started implementation within a planning turn of their Spec-kit sessions, so that turn remains planning and each had one subsequent implementation turn.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
@@ -227,11 +236,13 @@ Paired within each participant, the added turns under APM fell almost entirely i
 
 The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
-In planning, APM's turn prompts were mostly short or standard text. Their mean character counts were 19 and 146, respectively. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
+In planning, APM's turn prompts were mostly short or standard text, at mean character counts of 19 and 146. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
 
-In implementation the APM mix reversed. The protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation had very few turn prompts of any kind, so its bucket shares there rest on one to a few prompts per session and are too sparse to read as a typical mix.
+In implementation the APM mix reversed, and the protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried very few turn prompts of any kind, and one session opened none. Both its shares and its character counts there rest on those few prompts, too sparse to read as a typical mix.
 
-Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count.
+APM's planning shares clustered across participants while Spec-kit's spread across the range. Both frameworks varied in implementation.
+
+Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count, and Figure~\ref{fig:proc-buckets-sessions} plots the shares each session carried.
 
 \begin{table}[H]
   \centering
@@ -255,7 +266,12 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
   \end{threeparttable}
 \end{table}
 
-APM held close to the same turn-prompt bucket shares across its sessions, while Spec-kit's varied more widely between participants, most of all in implementation. Both frameworks' short and standard-prompt character counts varied across participants. Spec-kit's smaller implementation turn-prompt counts make those summaries particularly sensitive to a single prompt. Tables~\ref{tab:proc-planning-buckets-by-participant} and~\ref{tab:proc-implementation-buckets-by-participant} of Appendix~\ref{app:results-process-breakdowns} give each participant's shares, character counts, and turn-prompt counts by phase.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/process/bucket_shares.pdf}
+  \caption{Per-session turn-prompt bucket shares by phase, with APM on the left and Spec-kit on the right of each participant's slot. The stacked segments run from the framework's protocol commands through short prompts to standard ones. A dashed outline marks a session that carried no turn prompt in the phase and so has no shares.}
+  \label{fig:proc-buckets-sessions}
+\end{figure}
 
 The share composition held under both models. The visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. The character-count summaries were otherwise aligned across models, apart from APM's Sonnet implementation standard bucket, whose mean was higher. Tables~\ref{tab:proc-buckets-composition-by-model} and~\ref{tab:proc-bucket-magnitudes-by-model} of Appendix~\ref{app:results-process-breakdowns} give the shares and character counts by model.
 
@@ -325,7 +341,7 @@ Figure~\ref{fig:func-score-paired-by-model} plots this contrast. Apart from one 
   \centering
   \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_opus.pdf}\hfill
   \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_sonnet.pdf}
-  \caption{Per-participant total score within each model, Opus on the left and Sonnet on the right. Each participant has an APM circle and a Spec-kit diamond joined by a line.}
+  \caption{Per-participant total score within each model, Opus on the left and Sonnet on the right. Each participant has a filled APM diamond and an open Spec-kit diamond joined by a line.}
   \label{fig:func-score-paired-by-model}
 \end{figure}
 
