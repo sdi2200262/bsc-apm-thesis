@@ -112,8 +112,8 @@ def render_bucket_shares(pairs: list[ParticipantPair], output: Path) -> None:
     for ax, (phase, phase_label) in zip(axes, PHASE_PANELS, strict=True):
         for centre, pair in zip(centres, pairs, strict=True):
             offset = SHARE_BAR_WIDTH / 2 + SHARE_BAR_GAP
-            _draw_share_bar(ax, centre - offset, pair.apm, phase)
-            _draw_share_bar(ax, centre + offset, pair.speckit, phase)
+            _draw_share_bar(ax, centre - offset, pair.apm, phase, hatch=None)
+            _draw_share_bar(ax, centre + offset, pair.speckit, phase, hatch=SPECKIT_HATCH)
         ax.set_ylabel(f"{phase_label} bucket share", fontsize=9)
         ax.set_ylim(0, 1)
         ax.set_xlim(-0.7, len(pairs) - 0.3)
@@ -122,6 +122,7 @@ def render_bucket_shares(pairs: list[ParticipantPair], output: Path) -> None:
     axes[-1].set_xticks(centres)
     axes[-1].set_xticklabels([pair.pid for pair in pairs], fontsize=8, rotation=45, ha="right")
     _bucket_key(axes[-1])
+    _framework_hatch_key(axes[-1])
     fig.tight_layout()
     output.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output)
@@ -183,7 +184,9 @@ def _form_key(ax: Axes) -> None:
     )
 
 
-def _draw_share_bar(ax: Axes, x: float, session: SessionArtefacts, phase: str) -> None:
+def _draw_share_bar(
+    ax: Axes, x: float, session: SessionArtefacts, phase: str, *, hatch: str | None
+) -> None:
     """Draw one session's stacked bucket shares for one phase.
 
     Args:
@@ -191,6 +194,7 @@ def _draw_share_bar(ax: Axes, x: float, session: SessionArtefacts, phase: str) -
         x: Centre x position.
         session: Session artefacts.
         phase: Phase key, ``planning`` or ``implementation``.
+        hatch: Hatch for the Spec-kit stack, or ``None`` for APM.
     """
     shares = _bucket_shares(session, phase)
     if shares is None:
@@ -219,6 +223,20 @@ def _draw_share_bar(ax: Axes, x: float, session: SessionArtefacts, phase: str) -
             linewidth=0.7,
             zorder=2,
         )
+        if hatch is not None:
+            # Overlaid in a colour that stays visible against this segment's own fill.
+            hatch_color = OPEN if bucket == "protocol" else FILLED
+            ax.bar(
+                x,
+                height,
+                width=SHARE_BAR_WIDTH,
+                bottom=bottom,
+                facecolor="none",
+                edgecolor=hatch_color,
+                linewidth=0,
+                hatch=hatch,
+                zorder=3,
+            )
         bottom += height
 
 
@@ -253,7 +271,7 @@ def _report_share_extremes(pairs: list[ParticipantPair], phase: str) -> None:
 
 
 def _bucket_key(ax: Axes) -> None:
-    """Place a frameless bucket key below the lower panel."""
+    """Place a frameless bucket-colour key below the lower panel."""
     handles = [
         Patch(
             facecolor=BUCKET_FILL[bucket],
@@ -263,14 +281,44 @@ def _bucket_key(ax: Axes) -> None:
         )
         for bucket in BUCKET_ORDER
     ]
-    ax.legend(
+    legend = ax.legend(
         handles=handles,
         frameon=False,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.22),
+        bbox_to_anchor=(0.5, -0.20),
         ncol=len(BUCKET_ORDER),
         fontsize=8,
+        title="Bucket",
+        title_fontsize=8,
     )
+    ax.add_artist(legend)
+
+
+def _framework_hatch_key(ax: Axes) -> None:
+    """Place a frameless framework-hatch key beneath the bucket-colour key."""
+    fill = BUCKET_FILL["short"]
+    handles = [
+        Patch(facecolor=fill, edgecolor="#000000", linewidth=0.7, hatch=None, label=APM_LABEL),
+        Patch(
+            facecolor=fill,
+            edgecolor="#000000",
+            linewidth=0.7,
+            hatch=SPECKIT_HATCH,
+            label=SPECKIT_LABEL,
+        ),
+    ]
+    legend = ax.legend(
+        handles=handles,
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.38),
+        ncol=2,
+        fontsize=8,
+        title="Framework",
+        title_fontsize=8,
+        labelspacing=1.4,
+    )
+    legend.get_title().set_y(-6)
 
 
 if __name__ == "__main__":
