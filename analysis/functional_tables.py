@@ -61,6 +61,7 @@ def _write_outputs(pairs: list[ParticipantPair], output_dir: Path) -> None:
     write_fragment(output_dir / "func-score-paired-by-order.tex", _score_paired_by_order(pairs))
     write_fragment(output_dir / "disc-learning-by-participant.tex", _learning_by_participant(pairs))
     write_fragment(output_dir / "disc-compact-regrade.tex", _compact_regrade_sessions(pairs))
+    write_fragment(output_dir / "disc-compact-regrade-paired.tex", _compact_regrade_paired(pairs))
 
 
 def _score_levels(pairs: list[ParticipantPair]) -> list[str]:
@@ -239,14 +240,8 @@ def _compact_regrade_sessions(pairs: list[ParticipantPair]) -> list[str]:
         for session in (pair.apm, pair.speckit):
             if model_band(session) != "sonnet":
                 continue
-            compact = session.compact_grader_results
-            if compact is None:
-                raise ValueError(
-                    f"{pair.pid} {session.record.session} {session.record.framework}: "
-                    "missing compact_grader_results in config"
-                )
             standard_score = _score(session, "total")
-            diagnostic_score = float(compact["scores"]["total"])
+            diagnostic_score = _compact_score(session)
             if abs(diagnostic_score - standard_score) <= 0.01:
                 continue
             rows.append(
@@ -260,6 +255,28 @@ def _compact_regrade_sessions(pairs: list[ParticipantPair]) -> list[str]:
                 + r" \\"
             )
     return rows
+
+
+def _compact_regrade_paired(pairs: list[ParticipantPair]) -> list[str]:
+    """Return the paired compact-input diagnostic row within the Sonnet group.
+
+    Args:
+        pairs: Cohort participant pairs.
+
+    Returns:
+        The Sonnet paired diagnostic-score summary.
+    """
+    sonnet_pairs = [pair for pair in pairs if model_band(pair.apm) == "sonnet"]
+    return [
+        paired_row(
+            ["Sonnet"],
+            paired_summary(
+                [_compact_score(pair.apm) for pair in sonnet_pairs],
+                [_compact_score(pair.speckit) for pair in sonnet_pairs],
+            ),
+            1,
+        )
+    ]
 
 
 def _score(session: SessionArtefacts, key: str) -> float:
@@ -276,6 +293,27 @@ def _score(session: SessionArtefacts, key: str) -> float:
     if key == "total":
         return float(scores["total"])
     return float(scores[key]["total"])
+
+
+def _compact_score(session: SessionArtefacts) -> float:
+    """Return one session's compact-input diagnostic score.
+
+    Args:
+        session: One Sonnet session with compact-input grading results.
+
+    Returns:
+        The compact-input total score.
+
+    Raises:
+        ValueError: If the session omits compact-input grading results.
+    """
+    compact = session.compact_grader_results
+    if compact is None:
+        raise ValueError(
+            f"{session.record.pid} {session.record.session} {session.record.framework}: "
+            "missing compact_grader_results in config"
+        )
+    return float(compact["scores"]["total"])
 
 
 def _ordered_sessions(pair: ParticipantPair) -> tuple[SessionArtefacts, SessionArtefacts]:

@@ -134,6 +134,8 @@ Because APM has several agents carry out its implementation where Spec-kit has o
   \end{tabular*}
 \end{table}
 
+APM's implementation therefore involved more activity on both sides of the conversation: its agents made more requests and tool calls, and its users interacted with them more often.
+
 \section{Behind the Functional Score}
 \label{sec:discussions-blackbox}
 
@@ -168,7 +170,22 @@ Each scored 34.0 points, with the Python part complete and almost all of the C p
   \end{tabular*}
 \end{table}
 
-The re-grade recovers three of the five sessions below fifty, both APM sessions and one Spec-kit session. The two scores it does not lift remain indeterminate. They may conceal sound work beyond the re-grade's reach, or they may be genuine shortfalls. The three recovered sessions belong to two participant pairs. In one, both framework sessions carried the defect, so compact input moves the APM-minus-Spec-kit difference from 0.0 to $+5.0$ points. In the other, only the APM session was affected, moving the difference from $+4.4$ to $+64.3$ points. The diagnostic pairs would make the cohort score pattern more favourable to APM, but they do not replace the standard total-score summaries.
+The re-grade recovers three of the five sessions below fifty, both APM sessions and one Spec-kit session. The two scores it does not lift remain indeterminate. They may conceal sound work beyond the re-grade's reach, or they may be genuine shortfalls. The three recovered sessions belong to two participant pairs. In one, both framework sessions carried the defect, so compact input moves the APM-minus-Spec-kit difference from 0.0 to $+5.0$ points. In the other, only the APM session was affected, moving the difference from $+4.4$ to $+64.3$ points. Across all six Sonnet pairs, the compact-input diagnostic favours APM in five. Its median difference is about $+8.7$ points, while the Hodges-Lehmann estimate and mean are $+23.5$ and $+21.8$, raised by the two large gaps. The interval spans zero, as Table~\ref{tab:disc-grading-compact-paired} reports.
+
+\begin{table}[H]
+  \centering
+  \caption{Paired compact-input diagnostic total-score difference within the Sonnet group, APM minus Spec-kit, at 96.9\% coverage. This diagnostic does not replace the framework comparison.}
+  \label{tab:disc-grading-compact-paired}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
+    \toprule
+    Group & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/disc-compact-regrade-paired.tex}
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+This diagnostic re-grade helps interpret some low scores as hiding otherwise sound implementations and leaves APM with the stronger Sonnet pattern.
 
 \subsection{Cost versus Score}
 \label{sec:discussions-cost-score}
@@ -184,7 +201,9 @@ The same plot shows three participant pairs that depart from that pattern. In ea
   \label{fig:disc-cost-score-comparison}
 \end{figure}
 
-What APM's added cost accompanied was its more structured workflow, which the total score does not read directly. As it turned out, the task was bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether that underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how our grader would read its work. APM's heavier structure therefore had little measured total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
+At the cohort level, APM reached a total score comparable to Spec-kit's while costing more. Its positive score summaries leave open an APM benefit, but the interval leaves its size unsettled.
+
+APM's added cost accompanied its more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether the underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
 
 \section{Perceived Versus Measured Behaviour}
 \label{sec:discussions-perception}
