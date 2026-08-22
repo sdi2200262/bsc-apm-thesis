@@ -87,30 +87,9 @@ APM instead kept most of the context windows of its several conversations smalle
 
 A platform issue complicates the Sonnet reading. In four Spec-kit sessions, the conversation continued beyond the model's context window limit without automatic compaction and Claude Code reported its context window consumption indicator passed full. These sessions form the highest points of Figure~\ref{fig:disc-occupancy-sessions-sonnet} and appear to have been served by a larger variant that the platform did not identify. The additional accumulation therefore plausibly lifted Spec-kit's cache reads.
 
-The extra context enters the cache-read category, the largest part of a session's cost under either framework, as Table~\ref{tab:cost-token-composition-by-model} reports. Table~\ref{tab:disc-above-threshold-cost} gives the cost of cache reads above the 171k observed automatic-compaction bound, from \$0.28 to \$1.81. Section~\ref{sec:discussions-threats} treats this as a threat to validity.
+Section~\ref{sec:discussions-threats} prices the observed excess and treats the anomaly as a threat to validity.
 
-\begin{table}[H]
-  \centering
-  \begin{threeparttable}
-  \caption{Cache reading above the 171k observed automatic-compaction bound in the four Sonnet conversations served past their stated context window limit, in thousands of tokens, with its corresponding session cost.}
-  \label{tab:disc-above-threshold-cost}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
-    \toprule
-    Participant & Cache read\tnote{a} & Above bound\tnote{b} & Cost & Session cost \\
-    \midrule
-    \InputTableRows{analysis/generated/tables/disc-above-ceiling-cost.tex}
-    \bottomrule
-  \end{tabular*}
-  \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] All cache-read tokens, including those accumulated below the 171k observed automatic-compaction bound.
-    \item[b] Summed over every call whose context stood above the bound, the part standing above it, priced at that call's own cache-read rate and capped at the reads the call made.
-  \end{tablenotes}
-  \end{threeparttable}
-\end{table}
-
-Earlier compaction would have changed the context available to the agent and could have altered its subsequent behaviour. The table reports only the observed excess; any cost assigned to an earlier-compaction counterfactual would be hypothetical.
-
-The cost result therefore appears to depend on how much of a task fits within the model's context window limit. Under Opus, the whole task fit and the aggregate cost of APM's several conversations dominated. Under Sonnet, the same task repeatedly pressed Spec-kit's conversation towards the auto-compaction threshold, bringing the two frameworks' costs close. A larger task that similarly pushes an Opus conversation towards its auto-compaction threshold could plausibly narrow APM's cost premium. On such tasks however, users might also try to limit context accumulation and its cost through manual compaction, making participant-controlled reset timing another influence on cost.
+The cost result therefore appears to depend on how much of a task fits within the model's context window limit. Under Opus, the whole task fit and the aggregate cost of APM's several conversations dominated. Under Sonnet, the same task repeatedly pressed Spec-kit's conversation towards the auto-compaction threshold, bringing the two frameworks' costs close. A larger task that similarly pushes an Opus conversation towards its auto-compaction threshold could plausibly narrow APM's cost premium. On such tasks, however, users might also try to limit context accumulation and its cost through manual compaction, making participant-controlled reset timing another influence on cost.
 
 \subsection{The Demands on the User}
 \label{sec:discussions-demands}
@@ -192,7 +171,7 @@ This diagnostic re-grade helps interpret some low scores as hiding otherwise sou
 \subsection{Cost versus Score}
 \label{sec:discussions-cost-score}
 
-Across the cohort, APM cost more, while its total-score median, Hodges-Lehmann estimate, and mean were positive. The cohort score interval includes zero, so the paired score comparison carries no firm difference, as Sections~\ref{sec:results-economic} and~\ref{sec:results-functional} report. Figure~\ref{fig:disc-cost-score-comparison} places the paired values together. Most participants had an APM cost premium with a score gap at or near zero. Under Opus, the larger cost premium came with both sessions in most pairs close to the score ceiling. Under Sonnet, costs were close and APM's paired score summaries were more positive.
+Across the cohort, APM cost more, while its total-score median, Hodges-Lehmann estimate, and mean were positive. The score interval includes zero, so the paired comparison carries no firm difference, as Sections~\ref{sec:results-economic} and~\ref{sec:results-functional} report. Figure~\ref{fig:disc-cost-score-comparison} places the paired values together. Most participants had an APM cost premium with a score gap at or near zero. Under Opus, the larger premium came with both sessions close to the score ceiling. Under Sonnet, costs were close and APM's paired score summaries were more positive.
 
 The same plot shows three participant pairs that depart from that pattern. In each, APM scored clearly higher while costing about the same or less. These are individual observations, not a cohort result.
 
@@ -205,9 +184,9 @@ The same plot shows three participant pairs that depart from that pattern. In ea
 
 The individual exceptions do not change the cohort reading: APM's higher cost accompanied a comparable total score, with the size of any score benefit left unsettled.
 
-The comparison prices software production. APM cost more for a functionally comparable outcome, but software also incurs corrective and maintenance costs after delivery. A more expensive session could still yield a lower lifecycle cost if it leaves software easier to understand, change, and repair. Those qualities depend on the maintainer and their expertise, the scope and nature of later changes, and other conditions that vary across projects and over time. This study therefore confines the comparison to production cost and functional behaviour.
+The comparison prices software production. APM cost more for a functionally comparable outcome, but software also incurs corrective and maintenance costs after delivery. A more expensive session could still yield a lower lifecycle cost if it leaves software easier to understand, change, and repair. Those qualities depend on the maintainer, later changes, and other conditions that vary across projects and over time. This study therefore confines the comparison to production cost and functional behaviour.
 
-APM's added cost accompanied its more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model used in this study and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether the underlying coding agent would achieve total scores comparable to the framework-guided sessions, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
+APM's added cost accompanied a more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while dispatching subagents where needed. The study did not test that counterfactual, so it leaves open whether the underlying coding agent would achieve comparable total scores, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
 
 \section{Perceived Versus Measured Behaviour}
 \label{sec:discussions-perception}
@@ -238,9 +217,9 @@ The process and perception findings give APM's structure value beyond the total 
 
 The within-subjects design has each participant carry out the same task twice, with the environment reset between the two sessions so that no code, workspace state, or assistant context passes from the first into the second. Anything a participant took from their first attempt could then lift their second, and left unaccounted it would be indistinguishable from an effect of the framework used. Reading the cohort for such an effect holds to the same reproducible standard as the rest of the chapter, and sets transcript reading aside.
 
-That standard fixes what evidence the question can draw on. The chapter measures each session along four dimensions, and the score is not the only one that could in principle bear on learning. How a participant interacted with the framework and its agents, the interaction measures of Section~\ref{sec:results-process-interaction}, might shift as the task grew familiar. The obstacle is that the comparison here is within participant, between two sessions that used different frameworks. The two demand such different interaction that the difference between a participant's two sessions is already large from the change of framework alone. A learning-driven change could merge into those framework differences in the interaction measures, session cost, and session duration. The score is the task's graded outcome on one rubric. A within-participant difference in score is therefore a common measure a practised participant should raise. We therefore read the score alone to investigate learning effects.
+That standard fixes what evidence the question can draw on. The chapter measures each session along four dimensions, and the score is not the only measure that could in principle bear on learning. The interaction measures of Section~\ref{sec:results-process-interaction} might shift as the task grew familiar. The obstacle is that the comparison is within participant, between two sessions that used different frameworks. The two demand such different interaction that the difference between a participant's sessions is already large from the framework change alone. A learning-driven change could merge into those framework differences in the interaction measures, session cost, and session duration. The score is the task's graded outcome on one rubric. A within-participant score difference is therefore a common measure a practised participant should raise. We therefore read score alone to investigate learning effects.
 
-One limit still bounds what the score can show of a learning effect: the rubric's hundred-point ceiling. Most sessions scored near it, as Table~\ref{tab:func-score-levels} reports. Table~\ref{tab:func-score-sessions} details the nine of twelve participants who already scored above ninety in their first session. A practised second session had almost no room to register a gain, and only three participants entered their second with substantial ground to recover.
+One limit bounds what the score can show of a learning effect: the rubric's hundred-point ceiling. Most sessions scored near it, as Table~\ref{tab:func-score-levels} reports. Table~\ref{tab:func-score-sessions} details the nine of twelve participants who already scored above ninety in their first session. A practised second session had little room to register a gain, and only three participants entered their second with substantial ground to recover.
 
 The individual changes have no common direction. Four participants scored higher in their second session, four scored lower, and four had the same score, as Table~\ref{tab:disc-learning-by-participant} sets out. Nine changes lay between a two-point loss and a six-point gain. Of the three larger movements, P002 gained 53 points while P001 and P012 lost 23.4 and 12.3 points. These movements all favour APM regardless of its position, so they cannot separate a practice effect from the framework or from session-to-session variation.
 
@@ -262,11 +241,11 @@ The individual changes have no common direction. Four participants scored higher
   \end{threeparttable}
 \end{table}
 
-The diagnostic re-grade changes the strength of only one participant's second-session gain. P010's first-session diagnostic score remains $29.6$ while the second rises to $93.9$, widening the change from $4.4$ to $64.3$ points. The re-grade reaches only one fault class and may recover the second implementation while leaving a different fault hidden in the first. One such change in this cohort does not establish learning, and the diagnostic difference still cannot separate it from the change of framework.
+P010 has a different reading under the diagnostic re-grade of Section~\ref{sec:discussions-grading-blackbox}. Its first-session diagnostic score remains $29.6$ while the second rises to $93.9$, widening the difference from $4.4$ to $64.3$ points. The re-grade recovers a strong second implementation but reaches only one fault class; the unchanged first-session score cannot establish certainty of the first implementation being unsound. The diagnostic difference still cannot separate learning from the framework change.
 
 The order split supports the same cautious reading. Table~\ref{tab:func-score-paired-by-order} of Appendix~\ref{app:results-functional-breakdowns} separates the paired total-score difference by which framework each participant met first, and both confidence intervals span zero. Counterbalancing distributed first exposure across the frameworks, although the realised seven-to-five allocation was not perfectly even.
 
-The total scores therefore offer no clear cohort-wide learning direction. The individual changes are mixed, and the score ceiling limits what improvement could appear. The slightly uneven order allocation adds a secondary qualification. These results cannot confirm or measure a learning effect for any one participant.
+The total scores have no cohort-wide learning direction. Mixed changes, the score ceiling, and the uneven order allocation prevent them from identifying a learning effect.
 
 \section{Threats to Validity}
 \label{sec:discussions-threats}
@@ -291,7 +270,26 @@ Each participant carried out the same task twice, so familiarity gained in the f
 
 The framework comparison is paired within each participant, and the model comparison is not. Each participant kept one model across both sessions, so a difference between the Opus and the Sonnet group is a difference between six participants and six others, and it carries their skill and working style along with the model. Section~\ref{sec:evaluation-analysis-plan} therefore reads every statement between the model groups descriptively.
 
-Neither Claude Code nor the comparison framework was version-locked across the study window. Spec-kit sessions used a range of releases, which we audited release by release over the instructions installed into the project. One release changed what the agent is told, and that by a single line, as Section~\ref{sec:evaluation-comparison-framework} records and Appendix~\ref{app:evaluation-speckit-audit} reports. What the audit establishes is that the cohort met one workflow throughout, while whether that single line shifted the sessions meeting it lies beyond its reach. Claude Code itself was updated repeatedly over the same period, so some participants' two sessions ran on different versions of it. One instance of that drift left a mark on the measures. In four Spec-kit sessions using Sonnet, the conversation accumulated context beyond a bound the other sessions could not exceed, for the reason Section~\ref{sec:discussions-cost-mechanics} sets out. We could not establish the cause beyond the surmise that section records, nor has Anthropic addressed it publicly to our knowledge. Table~\ref{tab:disc-above-threshold-cost} prices the observed excess, but earlier compaction could have altered the agent's subsequent behaviour, making any counterfactual session cost hypothetical.
+Neither Claude Code nor the comparison framework was version-locked across the study window. Spec-kit sessions used a range of releases, which we audited release by release over the instructions installed into the project. One release changed what the agent is told, and that by a single line, as Section~\ref{sec:evaluation-comparison-framework} records and Appendix~\ref{app:evaluation-speckit-audit} reports. What the audit establishes is that the cohort met one workflow throughout, while whether that single line shifted the sessions meeting it lies beyond its reach. Claude Code itself was updated repeatedly over the same period, so some participants' two sessions ran on different versions of it. One instance of that drift left a mark on the measures. In four Sonnet Spec-kit sessions, the conversation continued past its reported context window limit without automatic compaction. Claude Code continued to identify the model as Sonnet 4.6 after its context window consumption indicator passed full. The sessions appear to have been served by a larger variant that the platform did not identify. Table~\ref{tab:disc-above-threshold-cost} prices the resulting cache-read excess. Earlier compaction could have altered the agent's subsequent behaviour, making any counterfactual session cost hypothetical.
+
+\begin{table}[H]
+  \centering
+  \begin{threeparttable}
+  \caption{Cache reading above the 171k observed automatic-compaction bound in the four Sonnet conversations served past their stated context window limit, in thousands of tokens, with its corresponding session cost.}
+  \label{tab:disc-above-threshold-cost}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+    \toprule
+    Participant & Cache read\tnote{a} & Above bound\tnote{b} & Cost & Session cost \\
+    \midrule
+    \InputTableRows{analysis/generated/tables/disc-above-ceiling-cost.tex}
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] All cache-read tokens, including those accumulated below the 171k observed automatic-compaction bound.
+    \item[b] Summed over every call whose context stood above the bound, the part standing above it, priced at that call's own cache-read rate and capped at the reads the call made.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
 
 Resetting a conversation was partly a participant decision. The platform is expected to compact automatically as a conversation nears the auto-compaction threshold, but the anomaly above shows that a reset was not guaranteed. Participants could compact manually at any point. Spec-kit conversations under Sonnet reset both automatically and manually, as Table~\ref{tab:disc-compaction-incidence-by-model} reports. A reset changes what every later call is charged for, so where the participant chose the timing, subsequent cost reflects their judgement alongside the agent's and framework's behaviour. The two cannot be separated: the same accumulated context is both a product of work under the framework and a reason for the participant to reset it.
 
