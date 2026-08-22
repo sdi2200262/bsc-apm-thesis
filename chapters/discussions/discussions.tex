@@ -42,9 +42,24 @@ Both frameworks build against their planning documents and revise them as findin
 \subsection{The Cost of Several Agents}
 \label{sec:discussions-cost-mechanics}
 
-Under per-token pricing, each of APM's added conversations built its own cache, produced its own output, and accumulated its own context. APM's spending therefore exceeded Spec-kit's in the output and cache-write categories, as the cohort rows of Table~\ref{tab:cost-token-paired-by-category} detail. The rate card in Appendix~\ref{app:evaluation-rate-card} lists output and one-hour cache writes as the two most expensive of the five token categories, which puts most of APM's excess on the costliest tokens. APM's higher overall cost rests on this implementation excess alone, since the planning phase carries no firm cost difference, as the phase rows of Table~\ref{tab:cost-paired-by-scope} report.
+Working across several agents changes where the context accumulation described in Section~\ref{sec:background-context-windows-and-context-decay} occurs. Each APM conversation accumulates context just like Spec-kit's, but handles only part of the work. At session scope, however, their costs add together: each builds its own cache and produces its own output. APM thus exchanges concentrated accumulation in one conversation for the aggregate cost of several smaller ones.
 
-The two model groups did not bear this cost in the same way. The difference lies in the size of each model's context window and how the platform handles a conversation that reaches its limit. As Section~\ref{sec:background-context-windows-and-context-decay} describes, each call costs more than the last as the context grows, and a compaction resets it to a low starting point. In Claude Code, compactions happen automatically as a conversation nears its limit, and the user may also trigger one manually. APM has its own form of this reset, the Handoff described in Chapter~\ref{chap:framework-design}, which in cost terms works the same way as a compaction.\footnote{Forthcoming. Framework Design will define APM's design principles, roles, phases, Message Bus, memory, Handoff, and distribution.} As Table~\ref{tab:disc-compaction-incidence-by-model} reports, such resets happened in only one of the two model groups.
+The observed balance differed with each model's context window limit and the resets that interrupted accumulation. Claude Code is expected to compact automatically at the lower auto-compaction threshold, and the user may compact manually. APM also supports Handoff, which opens a new conversation and context window.\footnote{Forthcoming. Framework Design will define APM's design principles, roles, phases, Message Bus, memory, Handoff, and distribution.} We refer to all three transitions as resets. After each reset, context begins from a smaller starting point, accumulates, and enters the cache again.
+
+Opus 4.7 had a one-million-token context window limit, large enough to hold the task from start to finish. Sonnet 4.6 had a two-hundred-thousand-token limit, and conversations often approached its auto-compaction threshold.
+
+Figures~\ref{fig:disc-occupancy-sessions-opus} and~\ref{fig:disc-occupancy-sessions-sonnet} plot the peak of each context window. A conversation that compacts twice therefore uses three consecutive context windows and contributes three peaks. The highest markers are Spec-kit conversations that grew long without a reset. Most APM peaks form a low cluster, but a few APM markers reach the high ranges, one even passing the Spec-kit conversation it is paired with. These are all APM Workers. They accumulate the most context of any agent role in an APM session, and account for the largest part of what the session cost, as Table~\ref{tab:cost-session-levels-by-role} details.
+
+No conversation reset under Opus. APM's several conversations together produced more output and cache writes than Spec-kit's one, while its cache-read summaries were also higher despite one pair in the other direction, as the Opus rows of Table~\ref{tab:cost-token-paired-by-category} report. Figure~\ref{fig:disc-occupancy-sessions-opus} gives the pattern behind those differences: Spec-kit has a few lone high markers, while APM has a wider spread reaching towards them. With neither framework needing to reset context and no participant resetting manually, distributing the work did not offset the aggregate cost of APM's several conversations.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/discussions/occupancy_opus.pdf}
+  \caption{Peaks of context windows per session, in thousands of tokens, across Opus model group participants.}
+  \label{fig:disc-occupancy-sessions-opus}
+\end{figure}
+
+Under Sonnet, five of the six Spec-kit conversations compacted, three more than once, as Table~\ref{tab:disc-compaction-incidence-by-model} reports. Four APM sessions compacted automatically. The other two used Handoff instead, so every APM session reset once. Each APM reset occurred in the Worker assigned the C part of the task, the heaviest work in the build.
 
 \begin{table}[H]
   \centering
@@ -59,56 +74,43 @@ The two model groups did not bear this cost in the same way. The difference lies
   \end{tabular*}
 \end{table}
 
-The Sonnet 4.6 model used in our study had a two-hundred-thousand-token context window. Conversations often grew near its ceiling and reset, either auto-compacted by the platform or compacted manually by the participant. A Sonnet conversation that compacted therefore used more than one context window, clearing its cache and building its context anew. Opus 4.7, by contrast, had a one-million-token context window, large enough to hold the entire task from start to finish.
+Spec-kit's single conversation moved through consecutive context windows as it compacted. Before each reset, it grew close to the auto-compaction threshold, so later calls reread a large accumulated cache. Its cache-read cost exceeded APM's, reversing the Opus group's direction and offsetting APM's output and one-hour cache-write excess, as the Sonnet rows of Table~\ref{tab:cost-token-paired-by-category} report.
 
-Figures~\ref{fig:disc-occupancy-sessions-opus} and~\ref{fig:disc-occupancy-sessions-sonnet} plot the peak each context window reached within the two model groups. A conversation that compacted twice, for example, resolves to three peaks, one for each context window it used. The highest markers are Spec-kit conversations that grew long without a reset. APM's conversations generally sit below them, most in a dense low cluster, since dividing the work leaves each agent with less context to accumulate.
-
-A few APM markers nonetheless reach the high ranges, one even passing the Spec-kit conversation it is paired with. These are all APM Workers. They accumulate the most context of any agent role in an APM session, and account for the largest part of what the session cost, as Table~\ref{tab:cost-session-levels-by-role} details.
-
-Under Opus no conversation reset, so each used only one context window, growing from the start of the task to its end. Each call is charged for the whole context before it, and APM's conversations together held more accumulated context than Spec-kit's one. All three paired summaries were positive for output and both cache-write categories, as the Opus rows of Table~\ref{tab:cost-token-paired-by-category} report. Input was negligible, while the cache-read summaries were positive despite one negative pair. The cache-write differences were positive in every pair, while output and cache-read differences were positive in five of six. The wide gaps of Figure~\ref{fig:disc-occupancy-sessions-opus} show the accumulation behind those differences, with Spec-kit holding a few lone high markers and APM a spread that reaches toward them.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/discussions/occupancy_opus.pdf}
-  \caption{Peaks of context windows per session, in thousands of tokens, across Opus model group participants.}
-  \label{fig:disc-occupancy-sessions-opus}
-\end{figure}
-
-Under Sonnet, both frameworks faced the tighter window's pressure. Spec-kit's conversation reached the limit and compacted in five of its six sessions, more than once in three. Every APM session had one reset as well, always in the Worker assigned the C part of the task, the heaviest work in the build. Four auto-compacted, as Table~\ref{tab:disc-compaction-incidence-by-model} reports, and the other two reset through a Worker Handoff instead, which the table's compaction tally does not capture.
-
-In cost terms a Spec-kit conversation that compacted behaved as a succession of agents starting over each time, building cache and accumulating context again in a fresh context window. Under Sonnet that pattern brought Spec-kit's cost closer to APM's. This shows in the cache reading. Spec-kit read more from the cache than APM, the reverse of the Opus case, as the Sonnet cache-read row of Table~\ref{tab:cost-token-paired-by-category} reports. Figure~\ref{fig:disc-occupancy-sessions-sonnet} shows why. Spec-kit drove one conversation up to the compaction ceiling and back, paying for a large context on every request as it climbed. APM held most of its conversations well below the ceiling, where each call had to reread less.
+APM instead kept most of the context windows of its several conversations smaller, so their calls reread less accumulated context. Figure~\ref{fig:disc-occupancy-sessions-sonnet} shows the difference: Spec-kit contributes repeated peaks near the auto-compaction threshold within individual sessions, while most APM context windows peak well below it.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/discussions/occupancy_sonnet.pdf}
-  \caption{Peaks of context windows per session, in thousands of tokens, across Sonnet model group participants. Reference lines mark the Sonnet auto-compaction ceiling and the context window at two hundred thousand tokens.}
+  \caption{Peaks of context windows per session, in thousands of tokens, across Sonnet model group participants. Reference lines mark the 171k observed automatic-compaction bound (dotted) and the two-hundred-thousand-token context window limit (dashed).}
   \label{fig:disc-occupancy-sessions-sonnet}
 \end{figure}
 
-A platform issue we observed during the study complicates the Sonnet reading. A model cannot serve a request past its context window, and Claude Code auto-compacts near the limit to prevent reaching it. In four Spec-kit sessions the conversation passed the auto-compaction ceiling without resetting and went on serving requests past it, which shows in the highest points of Figure~\ref{fig:disc-occupancy-sessions-sonnet}. Claude Code reported Sonnet and its two-hundred-thousand-token window throughout, and eventually its context window consumption reading went past full. These sessions appear to have been served by a larger variant the platform never surfaced. The accumulation shows only in Spec-kit, since no APM session passed the window, and it plausibly lifted Spec-kit's Sonnet cache reads.
+A platform issue complicates the Sonnet reading. In four Spec-kit sessions, the conversation continued beyond the model's context window limit without automatic compaction and Claude Code reported its context window consumption indicator passed full. These sessions form the highest points of Figure~\ref{fig:disc-occupancy-sessions-sonnet} and appear to have been served by a larger variant that the platform did not identify. The additional accumulation therefore plausibly lifted Spec-kit's cache reads.
 
-The issue does not overturn the cost reading, but what it adds is not incidental. The extra context is charged as cache reading, which is the cheapest category per token and at the same time the largest part of what a session cost under either framework, as Table~\ref{tab:cost-token-composition-by-model} reports. Table~\ref{tab:disc-above-ceiling-cost} gives the cost of what these four conversations read from cache above the auto-compaction ceiling, from \$0.33 to \$1.96. Section~\ref{sec:discussions-threats} treats this as a threat to validity.
+The extra context enters the cache-read category, the largest part of a session's cost under either framework, as Table~\ref{tab:cost-token-composition-by-model} reports. Table~\ref{tab:disc-above-threshold-cost} gives the cost of cache reads above the 171k observed automatic-compaction bound, from \$0.28 to \$1.81. Section~\ref{sec:discussions-threats} treats this as a threat to validity.
 
 \begin{table}[H]
   \centering
   \begin{threeparttable}
-  \caption{Cache reading above the auto-compaction ceiling in the four Sonnet conversations served past their context window, in thousands of tokens, with its cost against the session's own.}
-  \label{tab:disc-above-ceiling-cost}
+  \caption{Cache reading above the 171k observed automatic-compaction bound in the four Sonnet conversations served past their stated context window limit, in thousands of tokens, with its corresponding session cost.}
+  \label{tab:disc-above-threshold-cost}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
     \toprule
-    Participant & Cache read\tnote{a} & Above ceiling\tnote{b} & Cost & Session cost \\
+    Participant & Cache read\tnote{a} & Above bound\tnote{b} & Cost & Session cost \\
     \midrule
     \InputTableRows{analysis/generated/tables/disc-above-ceiling-cost.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
-    \item[a] All tokens the session read from the cache, including any stretch of it that never approached the ceiling.
-    \item[b] Summed over every call whose context stood above the ceiling, the part standing above it, priced at that call's own cache-read rate and capped at the reads the call made.
+    \item[a] All cache-read tokens, including those accumulated below the 171k observed automatic-compaction bound.
+    \item[b] Summed over every call whose context stood above the bound, the part standing above it, priced at that call's own cache-read rate and capped at the reads the call made.
   \end{tablenotes}
   \end{threeparttable}
 \end{table}
 
-APM's cost premium therefore depended on the model. Under Opus, its several conversations cost more than Spec-kit's single conversation. Under Sonnet, Spec-kit's conversation repeatedly reached its smaller context window and reset, bringing the two frameworks' costs close.
+Earlier compaction would have changed the context available to the agent and could have altered its subsequent behaviour. The table reports only the observed excess; any cost assigned to an earlier-compaction counterfactual would be hypothetical.
+
+The cost result therefore appears to depend on how much of a task fits within the model's context window limit. Under Opus, the whole task fit and the aggregate cost of APM's several conversations dominated. Under Sonnet, the same task repeatedly pressed Spec-kit's conversation towards the auto-compaction threshold, bringing the two frameworks' costs close. A larger task that similarly pushes an Opus conversation towards its auto-compaction threshold could plausibly narrow APM's cost premium. On such tasks however, users might also try to limit context accumulation and its cost through manual compaction, making participant-controlled reset timing another influence on cost.
 
 \subsection{The Demands on the User}
 \label{sec:discussions-demands}

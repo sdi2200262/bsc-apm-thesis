@@ -6,10 +6,10 @@
 Renders Opus and Sonnet panels from the ``context_segments[]`` field the parser writes
 per session. Each participant occupies one column carrying every context-segment peak
 from both frameworks (APM solid circles, Spec-kit open diamonds) bound by a faint stem,
-with reference lines for the nominal 200k Sonnet context window and the ~167k
-auto-compaction ceiling it empirically reaches. The visual register (Latin Modern serif,
-faint grid, black-ink markers) mirrors the house style used by every other
-Evaluation-chapter figure in this thesis.
+with reference lines for the nominal 200k Sonnet context window and the 171k upper
+bound of the automatic compaction boundaries observed in the cohort. The visual
+register (Latin Modern serif, faint grid, black-ink markers) mirrors the house style
+used by every other Evaluation-chapter figure in this thesis.
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ from analysis.style import (
 )
 
 SONNET_WINDOW = 200_000
-SONNET_CEILING = 167_000
+SONNET_AUTO_COMPACTION_BOUND = 171_000
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -73,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
             args.output_dir / "occupancy_opus.pdf",
             plot_w_in=5.87,
             show_window=False,
-            show_ceiling=False,
+            show_auto_compaction_bound=False,
         )
         render(sonnet_pairs, args.output_dir / "occupancy_sonnet.pdf", plot_w_in=5.87)
     except (ConfigError, KeyError, ValueError) as error:
@@ -88,7 +88,7 @@ def render(
     *,
     plot_w_in: float,
     show_window: bool = True,
-    show_ceiling: bool = True,
+    show_auto_compaction_bound: bool = True,
 ) -> None:
     """Render one paired occupancy panel and save it to ``output``.
 
@@ -103,7 +103,8 @@ def render(
         plot_w_in: Width of the plotting area (the Axes box) in inches; the two
             model-split panels share one value so their plot areas are pixel-identical.
         show_window: Whether to draw the 200k Sonnet context-window reference line.
-        show_ceiling: Whether to draw the ~167k auto-compaction ceiling reference line.
+        show_auto_compaction_bound: Whether to draw the 171k upper bound of the observed
+            automatic compaction boundaries.
 
     Raises:
         ValueError: If no participant pair has any context-segment peak.
@@ -158,9 +159,9 @@ def render(
         ax.axhline(
             SONNET_WINDOW / 1000, color="#000000", linewidth=0.8, alpha=0.5, linestyle=(0, (5, 3))
         )
-    if show_ceiling:
+    if show_auto_compaction_bound:
         ax.axhline(
-            SONNET_CEILING / 1000,
+            SONNET_AUTO_COMPACTION_BOUND / 1000,
             color="#000000",
             linewidth=0.8,
             alpha=0.5,
