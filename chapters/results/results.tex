@@ -92,9 +92,7 @@ Within an APM session, cost divided among the three agent roles in similar propo
   \end{threeparttable}
 \end{table}
 
-The cost also divides by token category, the kind of token each dollar paid for. As Section~\ref{sec:background-context-windows-and-context-decay} described, each call reprocesses the context accumulated so far, and caching lowers the price of the tokens that repeat. Claude Code cached almost all the context, so uncached input was negligible, a few cents either way. It writes to the one-hour cache for the main agents the user works in and the five-minute cache for the subagents they dispatch. The five-minute writes were negligible too, leaving the framework difference on output, cache-read, and the one-hour writes.
-
-On its own, each framework's cost fell mostly on cache-read, the largest category under both models. Output and the one-hour writes came next, neither reaching \$10 in any cell, as Table~\ref{tab:cost-token-composition-by-model} reports. APM's output and one-hour-write costs were above Spec-kit's under both models, while cache-read was the one category to differ in direction between the models, higher for APM under Opus and slightly lower under Sonnet.
+For both frameworks, cache-read accounted for most cost, followed by output and one-hour writes. Uncached input cost a few cents either way, and five-minute writes were negligible. APM's output and one-hour-write costs exceeded Spec-kit's under both models, while its cache-read cost was higher under Opus and slightly lower under Sonnet, as Table~\ref{tab:cost-token-composition-by-model} reports.
 
 \begin{table}[H]
   \centering
@@ -109,7 +107,7 @@ On its own, each framework's cost fell mostly on cache-read, the largest categor
   \end{tabular*}
 \end{table}
 
-Two of the three categories drove the difference: output and the one-hour writes. Table~\ref{tab:cost-token-paired-by-category} gives the paired difference across all five categories, for the cohort and within each model group. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session. Each difference excludes zero across the cohort and is larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero. The five-minute subagent writes were a small positive difference.
+Output and one-hour cache writes each carried a cohort difference of its own, while cache reading changed direction between the model groups. Table~\ref{tab:cost-token-paired-by-category} gives the paired difference across all five categories, for the cohort and within each model group. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session. Each difference excludes zero across the cohort and is larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero. The five-minute subagent writes were a small positive difference.
 
 \begin{table}[H]
   \centering
