@@ -5,7 +5,7 @@
 \section{Spec-kit Release Audit}
 \label{app:evaluation-speckit-audit}
 
-The audit installs each release of the span as a project and diffs each against the next, since Spec-kit renders its templates as it installs them. The compared files are the slash-command instruction bundles of Section~\ref{sec:evaluation-comparison-framework} together with file templates, scripts, and a context file they instruct the agent to use, each compared byte for byte. What a change amounts to is a matter of interpretation, since one line can carry a great deal of instruction to an agent. The audit therefore ships a unified diff per release step, alongside a manifest hashing every installed file at every release that ties each diff to the release it comes from. Six of the eight steps leave the files identical. Of the other two, v0.8.9 cleans up whitespace in three templates, leaving v0.8.6 as the one release to alter what the agent is told, adding a line that directs the implementing agent to reread the project constitution where one exists. Appendix~\ref{app:evaluation-availability} locates the script and its output, where each change can be read in full.
+The audit installs each release of the span as a project and diffs each against the next, since Spec-kit renders its templates as it installs them. The compared files are the commands of Section~\ref{sec:evaluation-comparison-framework} together with file templates, scripts, and a context file they instruct the agent to use, each compared byte for byte. What a change amounts to is a matter of interpretation, since one line can carry a great deal of instruction to an agent. The audit therefore ships a unified diff per release step, alongside a manifest hashing every installed file at every release that ties each diff to the release it comes from. Six of the eight steps leave the files identical. Of the other two, v0.8.9 cleans up whitespace in three templates, leaving v0.8.6 as the one release to alter what the agent is told, adding a line that directs the implementing agent to reread the project constitution where one exists. Appendix~\ref{app:evaluation-availability} locates the script and its output, where each change can be read in full.
 
 \section{Software and Data Availability}
 \label{app:evaluation-availability}
@@ -39,7 +39,7 @@ The dollar-equivalent cost prices each call's tokens at the rates in Table~\ref{
   \end{tabular*}
 \end{table}
 
-A participant's model-group membership follows the Opus 4.7 or Sonnet 4.6 assignment fixed across the two sessions. Subagents dispatched within those sessions and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The evaluation infrastructure listed in Appendix~\ref{app:evaluation-availability} holds the rates in \texttt{rates.yaml}.
+Subagents dispatched within study sessions and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The evaluation infrastructure listed in Appendix~\ref{app:evaluation-availability} holds the rates in \texttt{rates.yaml}.
 
 \section{Questionnaire Instrument}
 \label{app:evaluation-questionnaire}

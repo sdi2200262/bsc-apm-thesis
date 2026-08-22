@@ -5,98 +5,98 @@
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
 
-We evaluate APM v1 against GitHub Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} through a comparative case study with human participants. Both belong to the class of frameworks operating on top of a coding agent introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}. Within that class, each has its own realisation of the spec-driven development described in Section~\ref{sec:background-spec-driven-development}. They can operate on different coding agents; the study used both with the Claude Code command-line interface from 5 May to 5 June 2026. Pricing, model, and command-set statements refer to that study window.
+We evaluate APM v1 against GitHub Spec-kit\footnote{Documentation available at: \url{https://github.github.io/spec-kit/}} through a comparative case-study with human participants. Both belong to the class of frameworks operating on top of a coding agent introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}. Within that class, each has its own realisation of the spec-driven development described in Section~\ref{sec:background-spec-driven-development}. They can operate on different coding agents; the study used both with the Claude Code command-line interface from 5 May to 5 June 2026. Pricing, model, and command-set statements refer to that study window.
 
-APM coordinates several agents through the user, whereas Spec-kit has one agent go through its workflow. Both may also dispatch subagents through the underlying coding agent. The comparison considers each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
+The comparison considers each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic):} How do APM v1 and Spec-kit differ in the dollar cost of completing the task, and is that difference consistent across models of differing capability?
-    \item \textbf{RQ2 (Process):} How do APM v1 and Spec-kit differ in the time the task takes and in the form and frequency of the user's recorded interactions with the frameworks' agents?
+    \item \textbf{RQ1 (Economic):} How do APM v1 and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ2 (Process):} How do APM v1 and Spec-kit differ in the time the task takes to complete and in the form and frequency of the user's recorded interactions with the frameworks' agents?
     \item \textbf{RQ3 (Functional):} How do APM v1 and Spec-kit differ in functional outcome, including how much of the task each completes and how they fail when they fall short?
-    \item \textbf{RQ4 (Perception):} How do participants' self-reported experiences with APM v1 and Spec-kit relate to the behaviour measured in their sessions?
+    \item \textbf{RQ4 (Perception):} What are the participants' self-reported experiences with each framework and how do they relate to the behaviour measured in their sessions?
 \end{itemize}
 
 \section{Spec-kit, the Comparison Framework}
 \label{sec:evaluation-comparison-framework}
 
-Chapter~\ref{chap:framework-design} described APM v1 in full.\footnote{Forthcoming. Framework Design will define APM's design principles, roles, phases, Message Bus, memory, Handoff, and distribution.} Spec-kit is introduced here so the two frameworks can be read on the same terms.
-
 Spec-kit is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
-The Spec-kit sessions ran versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target. We audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. We hold the audit to them, since the study has each session run its framework from a stock install and follow it as documented, so the rest of either framework's source lies outside what a compliant session could reach. The change across the eight release steps is minimal; the sessions are read as running one workflow. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
+During our study window, participants used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target, so we audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal; so our comparison is read as running against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
 
-Spec-kit's workflow is driven by a set of slash commands that the developer triggers, or the agent autonomously invokes, each a bundle of instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artefacts:
+Spec-kit's workflow is driven by a set of commands that the developer triggers, or the agent autonomously invokes. Each is a pre-written prompt with instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artefacts:
 
 \begin{enumerate}
     \item \texttt{/speckit-specify}: directs the agent to produce a structured specification of requirements, user stories, and acceptance criteria from a feature description.
     \item \texttt{/speckit-plan}: has it turn that specification into a technical implementation plan with architecture decisions, data models, and API contracts.
-    \item \texttt{/speckit-tasks}: prompts it to derive an executable task list from the plan, annotated with dependencies and sequencing constraints.
+    \item \texttt{/speckit-tasks}: instructs it to derive an executable task list from the plan, annotated with dependencies and sequencing constraints.
 \end{enumerate}
 
 Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artefact consistency checking, and custom quality checklists along the way.
 
-Across these steps the workflow is command-driven, and within each step the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the developer only where an ambiguity would change the scope of the work.
+Across these steps the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the developer only where an ambiguity would change the scope of the work.
 
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
 
-The case-study methodology uses a within-participant framework comparison across a cohort of twelve university students and working professionals. Each participant attempts the same task twice, once with each framework. This keeps the participant's skill, prior experience, and working style the same on both sides of the comparison.
+Our case-study's methodology uses a within-participant framework comparison across a cohort of twelve university students and working professionals. Each participant attempts the same task twice, once with each framework. This keeps the participant's skill, prior experience, and working style the same on both sides of the comparison. Each attempt is capped at a three hour window.
 
-Participants are provided with materials that include the task brief, a guide to preparing for and completing both framework attempts, and a portable testing environment. The brief and the environment are detailed in the two subsections that follow, and the materials, with the rest of the study's software and data, are listed in Appendix~\ref{app:evaluation-availability}.
+Participants are provided with materials that include a task brief, a guide to preparing for and completing both framework attempts, and a portable testing environment. The brief and the environment are detailed in the two subsections that follow, and are listed in Appendix~\ref{app:evaluation-availability}.
 
 \subsection{Task Specification}
 \label{sec:evaluation-task-specification}
 
 The task is delivered to each participant as a product requirements document (PRD) that defines its objectives, requirements, and acceptance criteria. It builds on \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} an existing open-source Python Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server that connects to Open eClass,\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} the learning-management platform used across Greek academic institutions. The existing server exposes four MCP tools for authentication and course retrieval. Participants are required to add two tools that retrieve course and platform announcements. This requires investigating the Open eClass PHP codebase to determine how the platform exposes those announcements, then implementing the new retrieval behaviour in the Python server.
 
-Participants are also required to build a standalone native C replica that exposes all six tools and matches the Python server's input schemas, responses, and error behaviour. The Python server receives its MCP and JSON-RPC protocol machinery from MCP's Python SDK; the C replica must implement that layer itself. It may use no external JSON-parsing library, and it must report zero definitely or indirectly lost bytes across the supported tool-session surface. Together, the two deliverables give both frameworks the same end-to-end problem, spanning codebase investigation, application behaviour, and manual protocol implementation across the Python server and its native C replica.
+Participants are also required to build a standalone native C replica that exposes the four existing and the two new tools and matches the Python server's input schemas, responses, and error behaviour. The Python server receives its MCP and JSON-RPC protocol machinery from MCP's Python SDK; the C replica must implement that layer itself. Additional constraints from the PRD prohibit the use of external JSON-parsing libraries, and require the program reporting zero definitely or indirectly lost bytes across the supported tool-session surface. Together, the two deliverables give both frameworks a demanding end-to-end problem, spanning codebase investigation, application behaviour, and manual protocol implementation across the Python server and its native C replica.
 
 \subsection{Task Environment}
 \label{sec:evaluation-task-environment}
 
-Each participant works in a freshly created, dedicated Linux virtual machine. The participant's workspace contains the PRD and an opening prompt alongside two pinned codebases: \texttt{eclass-mcp-server}, which they are required to modify, and Open eClass, which they can investigate as a reference. Installed in its own directory inside the same virtual machine, the portable testing environment runs a containerised instance of the pinned Open eClass release together with a mock single-sign-on service. The instance holds a deterministic mock dataset and is reached over localhost, so participants develop in their workspace and can validate their work against a live platform on the same machine.
+Each participant works in a freshly created, dedicated Linux virtual machine. The participant's workspace contains the PRD and an opening prompt alongside two pinned codebases: \texttt{eclass-mcp-server}, which they are required to modify, and Open eClass, which they can investigate as a reference. Installed in its own directory inside the same virtual machine, the portable testing environment runs a containerised instance of the same Open eClass release together with a mock single-sign-on service. The installed instance holds a deterministic mock dataset and is reached over localhost, so participants are able to develop in their workspace and validate their work against a live platform on the same virtual machine.
 
 \subsection{Sessions and Data}
 \label{sec:evaluation-sessions-data}
 
-A study session is one attempt to complete the task with the assigned framework. It begins with the first task prompt and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. A post-session procedure then has the participant package the solution patch and transcripts and answer a short questionnaire. Between the two sessions the environment is reset to its initial baseline, so that no code, workspace state, or assistant context from the first session carries into the second.
+We call one attempt to complete the task with the assigned framework a study session. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
 
-Participants kept one assigned model across both study sessions, either Claude Opus 4.7 or Claude Sonnet 4.6, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets improvement from growing task familiarity be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
+Participants were assigned one model across both study sessions, either Claude Opus 4.7 or Claude Sonnet 4.6, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets us investigate whether improvement from growing task familiarity can be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
 
-From each session we collect the solution patch written against the pinned \texttt{eclass-mcp-server} baseline, the transcripts recorded for every conversation opened in the command-line interface, and the participant's questionnaire response.
+A post-session procedure has the participants package their solution patch written against the pinned Python codebase and their Claude Code transcripts for every agent conversation they opened. They then submit that package and answer a short questionnaire.
 
 \section{Measures}
 \label{sec:evaluation-measures}
 
-Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic and process measurements are computed from the session transcripts by a parser. The functional measurements are computed from the solution patch by an automated grader, against a fixed scoring rubric. The self-reported perception measurements come from the post-session questionnaire. The parser and grader are part of the evaluation infrastructure listed in Appendix~\ref{app:evaluation-availability}.
+Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic and process measurements are computed from the session transcripts by a parser. The functional measurements are computed from the solution patch by an automated grader. The perception measurements come from the post-session questionnaire. The parser and grader are part of the study's infrastructure listed in Appendix~\ref{app:evaluation-availability}. The questionnaire's rating items are detailed in Appendix~\ref{app:evaluation-questionnaire}
 
-Every transcript-derived measurement covers the capped window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
+Every transcript-derived measurement covers the three hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
 
-Each transcript-derived measurement is computed at one or more scopes. A measurement scope is the level of the recorded workflow over which a value is aggregated. The session scope covers the whole study session and supplies the headline framework comparison. The phase scope gives separate values for planning and implementation. The role scope gives APM-only values for each agent role, since Spec-kit has no roles to separate. A measurement breakdown instead separates a value at one scope into named components.
+Each transcript-derived measurement is computed at one or more scopes. A measurement scope is the level of the recorded workflow over which a value is aggregated. The session scope covers the whole study session. The phase scope gives separate values for planning and implementation. The role scope gives APM-only values for each agent role, since Spec-kit has no roles to separate. A measurement breakdown further separates a value at one scope into named components.
 
-The phase and role scopes follow the frameworks' own workflow as recorded in the transcript, rather than an arbitrary division of the session. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own; APM divides by role, its Planner conversation being planning and its Manager and Worker conversations implementation. Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-call counts follow the individual call, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it. The functional dimension has no phase or role scope; it is reported at session scope and broken down as defined below.
+The phase and role scopes follow the frameworks' own workflow as recorded in the transcript. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own; APM divides by role, its Planner conversation being planning and its Manager and Worker conversations implementation.
+
+Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-requests counts follow the individual record, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it.
 
 \subsection{Economic}
 \label{sec:evaluation-measures-economic}
 
-The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Each request is priced by the model recorded for it, including requests made by subagents. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
+The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
 \subsection{Process}
 \label{sec:evaluation-measures-process}
 
 The process measures describe the session's temporal shape and the user's interaction with the agent.
 
-The temporal shape of the session is captured by the session duration and the two measures that decompose the time within it, the turn time and the inter-turn time, all reported at session and phase scope only:
+The temporal shape of the session is captured by the session duration and the two measures that decompose it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
-    \item \emph{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record.
+    \item \emph{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record within the three hour attempt window.
     \item \emph{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\emph{solo}) from the time covered by two or more intervals (\emph{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
     \item \emph{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
 
 The interaction shape is captured through two forms of user input:
 \begin{itemize}
-    \item A \emph{turn prompt} is a message submitted while the agent is idle, opening a new turn that runs to the agent's idle return.
-    \item A \emph{steer} is an interjection enqueued while the agent is still working.
+    \item A \emph{turn prompt} is a message submitted while the agent is idle, opening a new turn that lasts until the agent's idle return.
+    \item A \emph{steer} is an interjected message submitted while the agent is still working. In Claude Code these are enqueued until the return of the agent's next tool call.
 \end{itemize}
 
 Turn prompts are counted, and each falls into one of three content buckets:
@@ -108,54 +108,54 @@ Turn prompts are counted, and each falls into one of three content buckets:
 
 The turn-prompt breakdown is described by the \emph{bucket-share distribution}, which gives each bucket's share of the prompts, and the \emph{magnitude per bucket}, their mean character count within each bucket. Together with the \emph{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
 
-Steers are reported at session scope only, as two counts: one for those delivered to the working agent and one for those not delivered.
-
 Unlike the temporal measures, the turn-prompt measures are also reported at role scope for APM, attributing each prompt to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
+
+Steers are reported at session scope only, as two counts: one for those delivered to the working agent and one for those not delivered.
 
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
 
-The functional dimension is scored by an automated grader that runs a fixed rubric of behavioural assertions against each submission. The grader observes only the running server's responses and the compiled C binary, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment, the same platform seeded afresh to exercise the behaviours under test. The rubric is a fixed set of ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a hundred-point total.
+The functional dimension is composed by a fixed rubric of behavioural assertions against each submission: ninety atomic checks, each testing one expected behaviour and carrying a calibrated point weight toward a hundred-point total. The grader observes only the running python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check does not match an accepted form exactly but is sufficiently similar to one; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
-The framework comparison uses the \emph{total score}, the points earned across the rubric. Its scoring breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. Its task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \emph{per-section scores} locate where each framework's work lands.
+The \emph{total score} are the points earned across the rubric. Its breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. A task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \emph{per-section scores} locate where each framework's work lands.
 
 \subsection{Perception}
 \label{sec:evaluation-measures-perception}
 
-The perception measures come from the post-session questionnaire, the self-reported counterpart to the measured behaviour. Its core is \emph{eight rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the AI. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
+The perception measures come from the post-session questionnaire, the self-reported counterpart to the measured behaviour. Its core is eight \emph{rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the agent. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
 
-Beyond the rating items, the questionnaire asks a \emph{comparison question} after the second session: whether the task felt easier or harder than with the first framework. It also records the participant's own \emph{completion state} against the three-hour cap. It closes with two free-text prompts, read only as illustration, on what stood out and any closing remarks. The questionnaire items used in the analysis are reproduced in Appendix~\ref{app:evaluation-questionnaire}.
+Beyond the rating items, the questionnaire asks a \emph{comparison question} after the second session: whether the task felt easier or harder than with the first framework. It also records the participant's own \emph{completion state} against the three-hour cap. It closes with two free-text prompts, read only as illustration, on what stood out and any closing remarks.
 
 \section{Analysis Plan}
 \label{sec:evaluation-analysis-plan}
 
-Our findings lead with the measured values for APM and Spec-kit. Where a measure supports a within-participant comparison, these are followed by each participant's APM-minus-Spec-kit difference and summaries of its direction, typical size, and uncertainty. Model-group breakdowns present the paired differences within Opus and Sonnet separately and compare the two groups descriptively.
+Our findings lead with the measured values for APM and Spec-kit. Where a measure supports a within-participant comparison, it is followed by each participant's APM-minus-Spec-kit difference and summaries of its sign, typical size, and uncertainty. Model-group breakdowns present the respective group's paired differences separately and compare them descriptively.
 
-For a measure compared within participant, participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, the value from their APM session minus the value from their Spec-kit session. The cohort analysis uses these $n = 12$ differences, while each model-group breakdown uses the six differences contributed by that group's participants. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
+Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$. The cohort analysis uses these twelve differences, while each model-group breakdown uses the group's six. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
 
-The direction is the sign count, the number of positive against negative differences. A difference of zero contributes to neither count.
+The number of positive against negative differences gives the sign count. A difference of zero contributes to neither count.
 
-The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The median is the middle ordered difference, while the Hodges-Lehmann estimate is the median of the averages of every pair of differences,
+The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
-The Hodges-Lehmann estimate reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
+It reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
 
-A confidence interval built from the Wilcoxon signed-rank statistic~\cite{wilcoxon1945signedrank, hodges1963location} carries the uncertainty around that typical difference. Unlike the sign count, this statistic uses the sizes of the differences and not only their direction, ranking them by absolute size and summing the ranks of the positive ones,
+A confidence interval based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hodges1963location} captures the uncertainty surrounding the typical difference. The procedure ranks the absolute paired differences and sums the ranks of the positive differences,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
-The interval's coverage depends on the number of pairs, and is 95.8\% across the cohort's twelve pairs and 96.9\% within each model group's six pairs. At six pairs its endpoints are the smallest and largest observed differences, so it excludes zero only when all six differences have the same sign.
+Under the null hypothesis, each rank can receive either sign, giving the exact distribution against which $W^+$ is compared. This comparison determines which possible values of the typical difference are compatible with the data; those values, expressed in the original units of the paired differences, form the confidence interval. Its exact coverage depends on the number of pairs: it is 95.8\% across the cohort's twelve pairs and 96.9\% within each model group's six pairs. At six pairs, its endpoints are the smallest and largest observed differences, so it excludes zero only when all six differences have the same sign.
 
-The dollar-equivalent cost, temporal process measures, turn-prompt count, and functional total score are each presented first through the two frameworks' measured values and then through their within-participant paired difference. Because the total score is bounded by the rubric's hundred-point ceiling, its paired comparison leads on the sign count, with the median, Hodges-Lehmann estimate, and mean in support.
+The dollar-equivalent cost, temporal process measures, turn-prompt count, and total score are each presented first through the two frameworks' measured values and then through their within-participant paired difference.
 
 Measurements at phase or role scope, and their component breakdowns, are compared within participant when they give one directly comparable value for each framework. This applies to phase-scope cost, temporal measures, and turn-prompt count, as well as cost by token category and score by task section. Role-scope values and turn-prompt bucket distributions are presented descriptively through their median, Hodges-Lehmann estimate, and mean, without a paired difference or confidence interval. The solo and concurrent breakdown of turn time is shown per participant because concurrent time applies only to APM.
 
 When an irregularity in one participant's data materially shifts a summary, the affected table row identifies it. Alongside these summaries, participant-level values are shown when the individual pattern is needed to read the result or when the events are too sparse for an aggregate summary.
 
-The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count, read with the item's polarity, and each framework's full distribution across the five points. Each rating is also read against the behaviour it should reflect, descriptively at this cohort size, as the pattern of agreement and divergence between the two. Responses to the comparison question and the completion state are presented descriptively as categorical distributions.
+The perception ratings are ordinal, so each item is summarised by order-based statistics. These are its sign count, read with the item's polarity, and each framework's full distribution across the five points. Responses to the comparison question and the completion state are presented descriptively as categorical distributions.
 
 The interpretation in Chapter~\ref{chap:discussions} draws further on supplementary descriptive counts where they support a specific reading. These counts are supporting evidence and not additional measures of the framework comparison, and their presentation follows the question they help interpret.
 
