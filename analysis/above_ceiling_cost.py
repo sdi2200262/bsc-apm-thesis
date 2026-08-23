@@ -29,9 +29,17 @@ from typing import Any
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from analysis.cohort import model_band_from_parser_data
-from analysis.config import ConfigError
+from analysis.cohort import (
+    SessionArtefacts,
+    load_sessions,
+    model_band,
+    model_band_from_parser_data,
+    pair_by_participant,
+    session_scope,
+)
+from analysis.config import ConfigError, load_records
 from analysis.latex import money, write_fragment
+from analysis.stats import PairedSummary, paired_summary
 
 FRAGMENT_NAME = "disc-above-ceiling-cost.tex"
 
@@ -99,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--cohort-config", type=Path)
     args = parser.parse_args(argv)
     try:
         sessions, bands = load_inputs(args.config)
@@ -111,6 +120,8 @@ def main(argv: list[str] | None = None) -> int:
             raise ConfigError("no configured session peaks above its band's window")
         summaries.sort(key=lambda summary: summary.pid)
         write_fragment(args.output_dir / FRAGMENT_NAME, rows(summaries))
+        if args.cohort_config is not None:
+            report_sensitivity(summaries, args.cohort_config)
     except (ConfigError, KeyError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
@@ -229,6 +240,50 @@ def rows(summaries: list[AboveCeiling]) -> list[str]:
         + r" \\"
         for summary in summaries
     ]
+
+
+def report_sensitivity(summaries: list[AboveCeiling], cohort_config: Path) -> None:
+    """Print the Sonnet paired cost summary with each session's excess removed.
+
+    The excess sits on the Spec-kit side of a Sonnet pair, and no config edit can
+    express a cost reduction, so the counterfactual is computed and printed here.
+
+    Args:
+        summaries: The measured sessions.
+        cohort_config: Path to the cohort config.
+
+    Raises:
+        ConfigError: When a measured session has no Sonnet pair in the cohort.
+    """
+    excess = {summary.pid: summary.excess_cost for summary in summaries}
+    pairs = [
+        pair
+        for pair in pair_by_participant(load_sessions(load_records(cohort_config)))
+        if model_band(pair.apm) == "sonnet"
+    ]
+    missing = sorted(excess.keys() - {pair.pid for pair in pairs})
+    if missing:
+        raise ConfigError(f"{cohort_config}: no Sonnet pair for {', '.join(missing)}")
+    apm = [_session_cost(pair.apm) for pair in pairs]
+    speckit = [_session_cost(pair.speckit) for pair in pairs]
+    adjusted = [cost - excess.get(pair.pid, 0.0) for cost, pair in zip(speckit, pairs, strict=True)]
+    _print_summary("observed", paired_summary(apm, speckit))
+    _print_summary("excess removed", paired_summary(apm, adjusted))
+
+
+def _print_summary(label: str, summary: PairedSummary) -> None:
+    """Print one paired summary at the precision the cost tables carry."""
+    print(
+        f"sonnet session cost, {label}: "
+        f"sign=+{summary.positive}/-{summary.negative} "
+        f"median={summary.median:+.2f} hl={summary.hl:+.2f} mean={summary.mean:+.2f} "
+        f"ci=[{summary.ci_low:+.2f}, {summary.ci_high:+.2f}]"
+    )
+
+
+def _session_cost(session: SessionArtefacts) -> float:
+    """Return one session's total dollar cost from its parser metrics."""
+    return float(session_scope(session, "metrics")["cost_usd"])
 
 
 def _bands_from_payload(payload: Any, config_path: Path) -> dict[str, BandThresholds]:
