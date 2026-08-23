@@ -5,7 +5,7 @@
 \section{Economic}
 \label{sec:results-economic}
 
-An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, against Spec-kit's \$24 and \$14, as Table~\ref{tab:cost-session-levels-by-model} reports. APM was the more expensive of the two under both models, by a wide margin under Opus and only slightly under Sonnet. Within a model each framework's median, Hodges-Lehmann estimate, and mean lay close together, so neither framework's typical session cost rests on a few extremes. The two model groups are, however, read apart, since the Opus sessions cost roughly twice the Sonnet ones, due to the model's higher rate. Within each session the two frameworks placed the cost differently across the task's two phases. APM's fell mostly in implementation, at a median close to \$28 under Opus and \$12 under Sonnet, while its planning cost was the smaller of the two and stayed below Spec-kit's.
+An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, against Spec-kit's \$24 and \$14, as Table~\ref{tab:cost-session-levels-by-model} reports. APM was the more expensive of the two under both models, by a wide margin under Opus and only slightly under Sonnet. Within a model each framework's median, Hodges-Lehmann estimate, and mean lay close together, so neither framework's typical session cost rests on a few extremes. The two model groups are read apart, however, since the Opus sessions cost roughly twice the Sonnet ones at that model's higher rate. The two frameworks placed that cost differently across the task's phases. APM's fell mostly in implementation, at a median close to \$28 under Opus and \$12 under Sonnet, while its planning cost was the smaller of the two and stayed below Spec-kit's.
 
 \begin{table}[H]
   \centering
@@ -37,9 +37,9 @@ Figure~\ref{fig:cost-session-levels-by-model} plots each participant's two sessi
 
 Paired within each participant, the APM session incurred the higher dollar-equivalent cost for nine of the twelve, and all three summaries of the difference are positive. The median and the Hodges-Lehmann estimate fall close together and the mean sits somewhat higher, being the mark of a few large values pulling the average up. The Wilcoxon interval excludes zero, so the cohort-level direction holds, though its width leaves the size of the difference imprecise.
 
-The difference behaved very differently in the two model groups. Among the participants who worked with Opus, five of the six APM sessions cost more. The difference was large on all three summaries, with the median and the Hodges-Lehmann estimate close together and the mean a little above. Those differences run from \$3.73 less to \$32.01 more, which at six pairs is the whole observed range and is what the row's wide interval reports. Among the participants who worked with Sonnet, the difference was small on all three summaries and mixed in direction, running from \$2.72 less to \$7.22 more. That range left the two frameworks at about the same cost for that group. Those large Opus values pulled the cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
+The difference behaved differently in the two model groups. Among the participants who worked with Opus, five of the six APM sessions cost more. The difference was large on all three summaries, with the median and the Hodges-Lehmann estimate close together and the mean a little above. Those differences run from \$3.73 less to \$32.01 more, which at six pairs is the whole observed range and is what the row's wide interval reports. Among the participants who worked with Sonnet, the difference was small on all three summaries and mixed in direction, running from \$2.72 less to \$7.22 more. That range left the two frameworks at about the same cost for that group. Those large Opus values pulled the cohort mean up, so the cohort-level cost difference comes mostly from the Opus group.
 
-Only the implementation phase carries a difference of its own.\footnote{Session activity outside either framework's workflow phases accounts for under one percent of cohort cost, and its interval spans zero, so it is omitted.} APM's implementation cost was the higher in nine of the twelve pairs, with an interval excluding zero, and it set the direction of the overall difference. Its planning cost was the lower in eight of the twelve, but its interval spans zero, so the phase carries no firm difference. The implementation excess concentrated within the Opus group, where APM cost more in all six pairs, against three of the six under Sonnet. Planning stayed mixed in both, at three of the six pairs under Opus and one of the six under Sonnet.
+Only the implementation phase carries a cohort difference of its own.\footnote{Session activity outside either framework's workflow phases accounts for under one percent of cohort cost, and its interval spans zero, so it is omitted.} APM's implementation cost was the higher in nine of the twelve pairs, with an interval excluding zero, and it set the direction of the overall difference. Its planning cost was the lower in eight of the twelve, but its interval spans zero, so the phase carries no firm difference. The implementation excess concentrated within the Opus group, where APM cost more in all six pairs, against three of the six under Sonnet. Planning stayed mixed in both, at three of the six pairs under Opus and one of the six under Sonnet.
 
 Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope and in each phase, for the cohort and within each model group.
 
@@ -72,7 +72,7 @@ Figure~\ref{fig:cost-paired-by-scope-by-participant} plots each participant's se
   \label{fig:cost-paired-by-scope-by-participant}
 \end{figure}
 
-Within an APM session, cost divided among the three agent roles in similar proportions under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and Manager cost similar amounts, each a fraction of the Worker cost. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet, while the order and rough proportions stayed the same.
+Within an APM session, cost divided among the three agent roles in similar proportions under both models, as Table~\ref{tab:cost-session-levels-by-role} details. The Planner and Manager cost comparable amounts, each a fraction of the Worker cost. The bulk of an APM session's cost therefore fell on the Workers, where the implementation is done. Every role cost more under Opus than under Sonnet.
 
 \begin{table}[H]
   \centering
@@ -107,7 +107,7 @@ For both frameworks, cache-read accounted for most cost, followed by output and 
   \end{tabular*}
 \end{table}
 
-Output and one-hour cache writes each carried a cohort difference of its own, while cache reading changed direction between the model groups. Table~\ref{tab:cost-token-paired-by-category} gives the paired difference across all five categories, for the cohort and within each model group. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session. Each difference excludes zero across the cohort and is larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero. The five-minute subagent writes were a small positive difference.
+Output and one-hour cache writes each carried a cohort difference of its own, while cache reading changed direction between the model groups. Table~\ref{tab:cost-token-paired-by-category} gives the paired difference across all five categories, for the cohort and within each model group. APM produced more output than Spec-kit in all but one session and wrote more to the one-hour cache in every session. Each difference excludes zero across the cohort and is larger under Opus than under Sonnet. The cache-read difference was mixed, with its interval including zero. The five-minute cache writes carried a small positive difference.
 
 \begin{table}[H]
   \centering
@@ -157,9 +157,9 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
   \end{threeparttable}
 \end{table}
 
-APM was the longer session for every participant. Paired within each participant, the difference came to a median of about 36 minutes, close to its Hodges-Lehmann estimate, and its confidence interval excludes zero. The session duration divides into turn time, when at least one agent was working, and inter-turn time. Both were higher under APM in eleven of the twelve pairs.
+APM was the longer session for every participant, at a median difference of about 36 minutes, close to its Hodges-Lehmann estimate, with a confidence interval excluding zero. The session duration divides into turn time, when at least one agent was working, and inter-turn time. Both were higher under APM in eleven of the twelve pairs.
 
-The two phases did not share that difference equally. The implementation phase was longer under APM in every pair, with most of the extra duration spent in turn time, and it set the direction of the whole-session difference. The planning duration difference was mixed across participants, and its interval spans zero. Its turn time and inter-turn time divided the same way, both mixed in sign, with intervals that include zero, so neither separates the frameworks within the phase.
+The implementation phase was longer under APM in every pair, with most of the extra duration spent in turn time, and it set the direction of the whole-session difference. The planning duration difference was mixed across participants, and its interval spans zero. Its turn time and inter-turn time divided the same way, both mixed in sign, with intervals that include zero.
 
 Table~\ref{tab:proc-time-paired-by-scope} gives the cohort's paired time differences at session and phase scope.
 
@@ -181,9 +181,9 @@ The same session and phase patterns held within both model groups; Table~\ref{ta
 
 APM was the longer session in all seven pairs where participants met it first and all five where they met it second, as the duration rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report. The three summaries are comparable across the two groups; at seven and five participants in each order the intervals are wide and the two orders cannot be told apart. The duration pattern leaves session order an unlikely account of APM's longer sessions.
 
-Within the turn time APM could have two or more of its agents working at once, but participants used concurrent work sparingly. In five sessions it made up less than 2\% of turn time; across the cohort it remained below a sixth of turn time in all but one, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
+Within the turn time APM could have two or more of its agents working at once, but participants used concurrent work sparingly. In five sessions it made up less than 2\% of turn time; across the cohort it remained below a sixth of turn time in all but one session, where it accounted for about a quarter. Table~\ref{tab:proc-concurrency-sessions} in Appendix~\ref{app:results-process-breakdowns} gives the per-session split.
 
-Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as paired bars. The filled lower part of each bar is the turn time and the open upper part the inter-turn time, so the full height is the session duration. APM's bars stand taller across the cohort, with its turn time consistently larger than its Spec-kit pair.
+Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as paired bars, with the filled lower part of each the turn time and the open upper part the inter-turn time. APM's bars stand taller across the cohort, its filled turn-time segment larger than its Spec-kit pair's for nearly every participant.
 
 \begin{figure}[H]
   \centering
@@ -217,7 +217,7 @@ An APM session had a median of about 22 turn prompts against Spec-kit's 13, as T
   \end{threeparttable}
 \end{table}
 
-Paired within each participant, the added turns under APM fell almost entirely in implementation, as Table~\ref{tab:proc-turns-paired} reports. The session difference was a median of eight more turns, positive in eleven of the twelve pairs, with its interval excluding zero. Planning was level, its difference centred on zero with five pairs each way and an interval spanning zero. Implementation added a median of eight turns for APM and had a positive difference in eleven of twelve pairs, setting the direction of the whole-session difference.
+Paired within each participant, the added turns under APM fell almost entirely in implementation, as Table~\ref{tab:proc-turns-paired} reports. The session difference was a median of eight more turns, positive in eleven of the twelve pairs, with its interval excluding zero. Planning was level, with five pairs each way and an interval spanning zero. Implementation added a median of eight turns for APM, with a positive difference in eleven of the twelve pairs, setting the direction of the whole-session difference.
 
 \begin{table}[H]
   \centering
@@ -234,11 +234,9 @@ Paired within each participant, the added turns under APM fell almost entirely i
 
 The same pattern appeared under both models, with the per-model split across the scopes given in Table~\ref{tab:proc-turns-paired-by-model} of Appendix~\ref{app:results-process-breakdowns}.
 
-In planning, APM's turn prompts were mostly short or standard text, at mean character counts of 19 and 146. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user.
+In planning, APM's turn prompts were mostly short or standard text, at mean character counts of 19 and 146 respectively. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user. That division held steady across APM's participants, while Spec-kit's varied widely from one session to the next.
 
-In implementation the APM mix reversed, and the protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried very few turn prompts of any kind, and one session opened none. Both its shares and its character counts there rest on those few prompts, too sparse to read as a typical mix.
-
-APM's planning shares clustered across participants while Spec-kit's spread across the range. Both frameworks varied in implementation.
+In implementation the pattern reversed for APM, and the protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried few turn prompts of any kind, and one session opened none. Both its division and its character counts there rest on those few prompts, too sparse to read as typical.
 
 Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count, and Figure~\ref{fig:proc-buckets-sessions} plots the shares each session carried.
 
@@ -271,7 +269,7 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
   \label{fig:proc-buckets-sessions}
 \end{figure}
 
-The share composition held under both models. The visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. The character-count summaries were otherwise aligned across models, apart from APM's Sonnet implementation standard bucket, whose mean was higher. Tables~\ref{tab:proc-buckets-composition-by-model} and~\ref{tab:proc-bucket-magnitudes-by-model} of Appendix~\ref{app:results-process-breakdowns} give the shares and character counts by model.
+The prompt composition held under both models. The visible difference was in Spec-kit's planning, where the protocol share was lower under Opus than under Sonnet. The character-count summaries were otherwise aligned across models, apart from APM's Sonnet implementation standard bucket, whose mean was higher. Tables~\ref{tab:proc-buckets-composition-by-model} and~\ref{tab:proc-bucket-magnitudes-by-model} of Appendix~\ref{app:results-process-breakdowns} give the shares and character counts by model.
 
 Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-turns-levels-by-role} reports. The Planner's turns were those of the planning phase, while the Manager and the Workers divided the implementation phase between them, at medians of 6.5 and 5.0 turn prompts. The composition of those turns by role is given in Table~\ref{tab:proc-buckets-composition-by-role} of Appendix~\ref{app:results-process-breakdowns}. The Workers were addressed almost entirely through protocol commands, while the Manager's prompts, mostly protocol as well, also included some short and standard text.
 
@@ -288,7 +286,7 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
   \end{tabular*}
 \end{table}
 
-Steering was sparse under both frameworks and confined to a minority of sessions. Seven of the twelve participants steered at all under APM and four did under Spec-kit, most of them once or twice, with four steers the largest count in any session. Across the cohort that came to thirteen steers under APM, three of which reached the working agent, and six under Spec-kit, none of which did. Table~\ref{tab:proc-steers-by-participant} of Appendix~\ref{app:results-process-breakdowns} gives each session's counts.
+Steering was sparse under both frameworks and confined to a minority of sessions. Seven of the twelve participants steered at all under APM and four under Spec-kit, most of them once or twice. No session carried more than four steers. Across the cohort that came to thirteen steers under APM, three of which reached the working agent, and six under Spec-kit, none of which did. Table~\ref{tab:proc-steers-by-participant} of Appendix~\ref{app:results-process-breakdowns} gives each session's counts.
 
 Session order did not reverse the result. The higher turn-prompt count under APM held whether participants met it first or second, as the turn-prompt rows of Table~\ref{tab:proc-paired-by-order} in Appendix~\ref{app:results-process-breakdowns} report.
 
@@ -297,7 +295,7 @@ Chapter~\ref{chap:discussions} interprets the added time and recorded interactio
 \section{Functional}
 \label{sec:results-functional}
 
-Most sessions scored near the rubric's hundred-point ceiling. The cohort medians were close, at 95.7 points under APM and 96.5 under Spec-kit. Lower scores pulled the mean below the median for both frameworks, but the larger separation among Spec-kit's median, Hodges-Lehmann estimate, and mean shows that they affected its score distribution more strongly.
+Most sessions scored near the rubric's hundred-point ceiling. The cohort medians were close, at 95.7 points under APM and 96.5 under Spec-kit. Lower scores pulled the mean below the median for both frameworks, but the larger separation among Spec-kit's median, Hodges-Lehmann estimate, and mean shows that those low scores affected its score distribution more strongly.
 
 The model split changes that reading. Under Opus, all three summaries for both frameworks remained near the ceiling. Under Sonnet, APM's median sat well above its Hodges-Lehmann estimate and mean because two sessions scored 34.0 points while the other four scored from 91.0 to 98.0. Spec-kit split into three scores from 29.6 to 40.0 and three from 84.2 to 97.0, placing its median between those clusters and much closer to its other two summaries. Table~\ref{tab:func-score-levels} gives the cohort and model-group summaries, and Table~\ref{tab:func-score-sessions} of Appendix~\ref{app:results-functional-breakdowns} lists the individual sessions.
 
@@ -314,7 +312,7 @@ The model split changes that reading. Under Opus, all three summaries for both f
   \end{tabular*}
 \end{table}
 
-Paired within each participant, the scores were close. APM scored higher than Spec-kit for six participants; Spec-kit scored higher for only two, and four pairs tied. The cohort median difference was about half a point, its Hodges-Lehmann estimate about 2 points, and its mean about 7 points. These summaries point to a small positive cohort difference. The cohort interval includes zero, so the paired comparison carries no firm score difference.
+Paired within each participant, the scores were close. APM scored higher than Spec-kit for six participants and Spec-kit for only two, with four pairs tied. The cohort median difference was about half a point, its Hodges-Lehmann estimate about 2 points, and its mean about 7 points. These summaries point to a small positive cohort difference, but the cohort interval includes zero, so the paired comparison carries no firm score difference.
 
 The model-group split locates the cohort's positive score pattern under Sonnet. Under Opus, both frameworks' summary values remained near the ceiling, and three paired comparisons tied; the paired median and Hodges-Lehmann estimate were zero, while one $+23.4$-point APM difference kept the mean positive. Under Sonnet, APM's values were higher on all three summaries, and four pairs favoured APM, one favoured Spec-kit, and one was tied.
 
@@ -368,7 +366,7 @@ Chapter~\ref{chap:discussions} takes up these score outcomes. Section~\ref{sec:d
 \section{Perception}
 \label{sec:results-perception}
 
-Each of the eight ratings was given once per session, so every participant rated both frameworks and the two ratings pair within the participant. Table~\ref{tab:perc-ratings-paired} reports, for each item, how many of the twelve rated it higher, lower, or the same under APM, alongside the direction that is the better outcome for that item.
+Some of the eight rating items divided the cohort sharply and others not at all. Table~\ref{tab:perc-ratings-paired} reports, for each item, how many of the twelve participants rated it higher, lower, or the same under APM, alongside the direction that is the better outcome for that item.
 
 \begin{table}[H]
   \centering
@@ -383,7 +381,7 @@ Each of the eight ratings was given once per session, so every participant rated
   \end{tabular*}
 \end{table}
 
-Prior familiarity was low under both frameworks, with the ratings massed at the bottom of the scale for each, so neither framework was the more familiar one at the outset.
+Prior familiarity was low under both frameworks, with the ratings massed at the bottom of the scale for each.
 
 Participants rated APM the more confidence-inspiring framework in nine of the twelve pairs and the more effective in eleven, with no participant rating Spec-kit higher on either item. Under APM the effectiveness ratings clustered at the top of the scale, with every session at four or five and eight of the twelve at the maximum. The Spec-kit ratings formed two clusters, at two and four, with only two at three. The confidence ratings separated almost as far, with ten of APM's twelve at four or five against nine of Spec-kit's at two or three. Table~\ref{tab:perc-ratings-distribution} gives the per-framework distribution behind these readings for every rating.
 
@@ -400,12 +398,10 @@ Participants rated APM the more confidence-inspiring framework in nine of the tw
   \end{tabular*}
 \end{table}
 
-Mental demand leaned towards Spec-kit, with six pairs favouring it, two favouring APM, and four tied. APM was the less frustrating framework in eight of the twelve pairs, with its frustration ratings low and Spec-kit's spread upward across the scale. Set against this, participants reported investing more effort under APM in seven of the twelve pairs and more under Spec-kit in four. Spec-kit's own effort ratings massed low, with half its sessions at the minimum. The effort of checking what the AI produced and the effort of instructing and steering it showed no consistent direction.
+Mental demand leaned towards Spec-kit, with six pairs favouring it, two favouring APM, and four tied. APM was the less frustrating framework in eight of the twelve pairs, with its frustration ratings low and Spec-kit's spread upward across the scale. Set against this, participants reported investing more effort under APM in seven of the twelve pairs and more under Spec-kit in four. Spec-kit's own effort ratings massed low, with half its sessions at the minimum. The effort of checking what the agent produced and the effort of instructing and steering it showed no consistent direction.
 
-The comparison question asked after the second session, grouped by the framework that session used, gave a softer pattern, as Table~\ref{tab:perc-comparative-distribution} of Appendix~\ref{app:results-perception-breakdowns} reports. Among the five whose second framework was APM the verdicts split evenly between easier and harder, with one rating it the same.\footnote{P012 is excluded because their response cannot be assigned to a realised-order group; see footnote~\ref{fn:evaluation-realised-order} in Section~\ref{sec:evaluation-sessions-data}.} Among the six whose second framework was Spec-kit four leaned harder and the other two were divided. The second Spec-kit session leaned towards the harder verdict, though neither group was uniform.
+The comparison question asked after the second session, grouped by the framework that session used, gave a less decided verdict, as Table~\ref{tab:perc-comparative-distribution} of Appendix~\ref{app:results-perception-breakdowns} reports. Among the five whose second framework was APM the verdicts split evenly between easier and harder, with one rating it the same.\footnote{P012 is excluded because their response cannot be assigned to a realised-order group; see footnote~\ref{fn:evaluation-realised-order} in Section~\ref{sec:evaluation-sessions-data}.} Among the six whose second framework was Spec-kit four leaned harder and the other two were divided.
 
-Participants also recorded how their session ended against the three-hour cap. Nineteen of the twenty-four sessions finished comfortably within it and five finished near it, nine against three under APM and ten against two under Spec-kit, as Table~\ref{tab:perc-completion-state} of Appendix~\ref{app:results-perception-breakdowns} reports. No participant reported hitting the cap without completing or stopping early.
-
-The order split the other dimensions report on their headline measure has no counterpart here, since a sign count taken separately for each rating item has no single headline to flip.
+Nineteen of the twenty-four sessions finished comfortably within the three-hour cap and five finished near it, nine against three under APM and ten against two under Spec-kit. No participant reported hitting the cap without completing or stopping early, leaving the other two states in Table~\ref{tab:perc-completion-state} of Appendix~\ref{app:results-perception-breakdowns} empty.
 
 Section~\ref{sec:discussions-perception} reads these ratings against the measured behaviour behind them.
