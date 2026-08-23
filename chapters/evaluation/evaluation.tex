@@ -96,7 +96,7 @@ The temporal shape of the session is captured by the session duration and the tw
 The interaction shape is captured through two forms of user input:
 \begin{itemize}
     \item A \emph{turn prompt} is a message submitted while the agent is idle, opening a new turn that lasts until the agent's idle return.
-    \item A \emph{steer} is an interjected message submitted while the agent is still working. In Claude Code these are enqueued until the return of the agent's next tool call.
+    \item A \emph{steer} is an interjected message submitted while the agent is still working. In Claude Code these are enqueued until the return of the agent's next tool call, which delivers the message to the agent mid-turn unless the participant has removed it from the queue first.
 \end{itemize}
 
 Turn prompts are counted, and each falls into one of three content buckets:
@@ -110,7 +110,7 @@ The turn-prompt breakdown is described by the \emph{bucket-share distribution}, 
 
 Unlike the temporal measures, the turn-prompt measures are also reported at role scope for APM, attributing each prompt to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
 
-Steers are reported at session scope only, as two counts: one for those delivered to the working agent and one for those not delivered.
+Steers are reported at session scope only, as two counts: those \emph{delivered} to the agent and those \emph{not delivered}.
 
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
@@ -126,7 +126,7 @@ The \emph{total score} sums the points earned across the rubric. Its breakdown s
 
 The perception measures come from the post-session questionnaire, the self-reported counterpart to the measured behaviour. Its core is eight \emph{rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the agent. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
 
-Beyond the rating items, the questionnaire asks a \emph{comparison question} after the second session: whether the task felt easier or harder than with the first framework. It also records the participant's own \emph{completion state} against the three-hour cap. It closes with two free-text prompts, read only as illustration, on what stood out and any closing remarks.
+Beyond the rating items, the questionnaire asks a \emph{comparison question} after the second session: whether the task felt easier or harder than with the first framework. It also records the participant's own \emph{completion state} against the three-hour cap. It closes with two free-text prompts, read as the participants' own accounts, on what stood out and any closing remarks.
 
 \section{Analysis Plan}
 \label{sec:evaluation-analysis-plan}
