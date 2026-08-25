@@ -2,8 +2,13 @@
 % Framework Design chapter body. Included by thesis.tex under
 % \chapter{FRAMEWORK DESIGN}.
 
-\placeholder{Forthcoming. The problem the framework targets; its design
-principles (specialization, persistence, continuity, mediation); the three
-roles; the two phases; the file-based Message Bus; file-based memory and
-persistence; Handoff and continuity versus recovery; the context- and
-prompt-engineering rationale; and the maturity and distribution story.}
+\section{Design Goals}
+\label{sec:framework-design-goals}
+
+APM is a MAS intended for substantial, real-world software projects. It limits context accumulation by dividing a project across separate agent conversations. Because this also separates knowledge and decisions, the agents use shared project information to keep their contributions consistent with what they should collectively produce.
+
+APM gives each agent a distinct responsibility. One handles planning, producing a durable account of what to build and how to build it. During implementation, agents carry out bounded parts of it under an agent that coordinates their execution. The coordinating agent maintains the project-wide view, distributes and reviews work, and preserves coherence as implementation proceeds.
+
+Shared files enable this division. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes. Documents authored during planning provide implementation with a durable reference to what the project must produce and how it is organised. Detailed execution history is reduced to records containing the outcomes and observations that coordination requires. These files are shared across conversations and persist beyond any one of them, preserving the knowledge and decisions needed for continuity.
+
+APM deliberately brings human involvement into how the project is developed and how its agents interact. Each agent runs in a conversation directly addressable by the user, who carries the communication between them and holds final authority over project decisions. Review points keep planning, coordination, and execution visible and open to intervention.
