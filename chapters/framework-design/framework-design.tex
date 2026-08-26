@@ -10,3 +10,29 @@ APM is a framework operating on top of a coding agent. It uses several such agen
 That division, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
 
 Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions and carries all communication between conversations. Review points of the workflow keep planning, coordination, and execution visible and open to intervention.
+
+\section{Agent Roles}
+\label{sec:framework-design-agent-roles}
+
+APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools, access permissions, and ability to dispatch subagents. Their specialisation comes from scoping the context that reaches them.
+
+The Planner does research, resolves requirements and design choices with the user, and records the result in three planning documents. The \emph{Spec} defines what to build. The \emph{Plan} divides implementation into bounded units of work called \emph{Tasks}, organised by domain. The \emph{Rules} govern how their execution is carried out. The Planner's participation ends when implementation begins, leaving its conversation's full context window available to develop these documents.
+
+The Manager coordinates implementation at project level. It distributes Tasks to Workers and supplies the context required to execute them. It reviews their results, maintaining the planning documents and project state that form its context alongside Task outcomes. The instructions the Manager receives establish its usual focus, while review or investigation may take it into code or execution detail.
+
+Each Worker is assigned the Tasks of one domain from the Plan, which it executes and validates. For each Task, the Manager provides a self-contained assignment, the \emph{Task Prompt}, containing what was planned and any cross-Worker information required for execution. Workers follow the Rules. Across successive Tasks, accumulated context allows the Worker to develop familiarity with that part of the project. After each Task, the Worker records its outcome and reports it to the Manager.
+
+\begin{table}[H]
+  \centering
+  \caption{APM roles by phase, concurrent conversations, and context scope.}
+  \label{tab:framework-design-agent-roles}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llll}
+    \toprule
+    Role & Phase & Concurrent conversations & Context scope \\
+    \midrule
+    Planner & Planning & One & Project definition and decomposition \\
+    Manager & Implementation & One & Project-level coordination \\
+    Worker & Implementation & One or more & Task execution within one domain \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
