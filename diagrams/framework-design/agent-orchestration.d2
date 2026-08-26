@@ -1,0 +1,198 @@
+direction: right
+
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+    pad: 18
+    center: true
+  }
+}
+
+classes: {
+  role: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#333333"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 19
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  bus: {
+    style: {
+      fill: "#f7f7f7"
+      stroke: "#555555"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 17
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  annotation: {
+    shape: text
+    style: {
+      font-color: "#333333"
+      font-size: 14
+      italic: true
+    }
+  }
+}
+
+exchange: {
+  label: ""
+  grid-rows: 1
+  grid-columns: 3
+  horizontal-gap: 120
+  vertical-gap: 10
+  style: {
+    fill: transparent
+    stroke: transparent
+  }
+
+  manager_column: {
+    label: ""
+    grid-rows: 3
+    grid-columns: 1
+    grid-gap: 0
+    style: {
+      fill: transparent
+      stroke: transparent
+    }
+    spacer_top: {
+      label: ""
+      width: 1
+      height: 91
+      style.opacity: 0
+    }
+    manager: {
+      label: Manager
+      class: role
+      width: 150
+      height: 70
+    }
+    spacer_bottom: {
+      label: ""
+      width: 1
+      height: 91
+      style.opacity: 0
+    }
+  }
+
+  message_bus: {
+    label: Message Bus
+    grid-rows: 3
+    grid-columns: 1
+    vertical-gap: 25
+    style: {
+      fill: "#ffffff"
+      stroke: "#777777"
+      stroke-width: 1
+      font-color: "#000000"
+      font-size: 16
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+
+    task: {
+      label: Task Bus
+      class: bus
+      width: 170
+      height: 62
+    }
+
+    mediation: {
+      label: User mediates exchange
+      shape: rectangle
+      width: 170
+      height: 38
+      style: {
+        fill: transparent
+        stroke: transparent
+        font-color: "#333333"
+        font-size: 14
+        bold: false
+        italic: true
+      }
+    }
+
+    report: {
+      label: Report Bus
+      class: bus
+      width: 170
+      height: 62
+    }
+  }
+
+  worker_column: {
+    label: ""
+    grid-rows: 3
+    grid-columns: 1
+    grid-gap: 0
+    style: {
+      fill: transparent
+      stroke: transparent
+    }
+    spacer_top: {
+      label: ""
+      width: 1
+      height: 86
+      style.opacity: 0
+    }
+    workers: {
+      label: Workers
+      class: role
+      width: 150
+      height: 70
+      style.multiple: true
+    }
+    spacer_bottom: {
+      label: ""
+      width: 1
+      height: 96
+      style.opacity: 0
+    }
+  }
+}
+
+exchange.manager_column.manager -> exchange.message_bus.task: writes {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 14
+  }
+}
+
+exchange.message_bus.task -> exchange.worker_column.workers: read by {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 14
+  }
+}
+
+exchange.worker_column.workers -> exchange.message_bus.report: writes {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 14
+  }
+}
+
+exchange.message_bus.report -> exchange.manager_column.manager: read by {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 14
+  }
+}
