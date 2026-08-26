@@ -40,17 +40,17 @@ Each Worker is assigned the Tasks of one domain from the Plan, which it executes
 \section{Agent Orchestration}
 \label{sec:framework-design-agent-orchestration}
 
-The Planner produces its three planning documents through iteration with the user. Its accumulated context is discarded before implementation; the Manager receives the finished Spec, Plan, and Rules. Workers are instructed to read only the Rules.
+The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while Workers consult only the Rules.
 
-To coordinate implementation, the Manager draws requirements from these documents and constructs a \emph{Task Prompt} that carries everything execution requires. Where a Task depends on work already delivered, the receiving Worker's familiarity sets how much the prompt explains, from a pointer to its earlier output to summaries and reading instructions for another Worker's. The Manager then dispatches it, and the Worker executes and returns a \emph{Task Report} of the outcome and findings that affect subsequent work.
+For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the new Task depends on it. After carrying out the work, each Worker returns a \emph{Task Report} of the outcome and findings that affect subsequent work.
 
-Dependencies among Tasks determine which the Manager can dispatch and how it distributes them. A dispatch may carry one Task, several to one Worker as a batch, or independent Tasks to different Workers concurrently, with the Manager processing Task Reports as they arrive.
+The Manager can distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
 
 These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports, as Figure~\ref{fig:framework-design-message-bus} traces. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/agent-orchestration.pdf}
-  \caption{The Message Bus channels between the Manager and one Worker. A Task Prompt travels outward through the Task Bus and a Task Report returns through the Report Bus; the stacked outline marks that a project runs several Workers, each with its own pair of channels.}
+  \caption{Message Bus exchange between the Manager and Workers. A Task Prompt travels outward through a Worker's Task Bus, and a Task Report returns through its Report Bus; the stacked outline represents several Workers, each with its own pair of bus files.}
 \label{fig:framework-design-message-bus}
 \end{figure}
