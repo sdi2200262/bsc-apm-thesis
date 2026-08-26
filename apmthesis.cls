@@ -150,7 +150,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
     Path=fonts/arimo/,Extension=.ttf,
     UprightFont=Arimo-Regular,BoldFont=Arimo-Bold,
     ItalicFont=Arimo-Italic,BoldItalicFont=Arimo-BoldItalic,
-    Ligatures={Common,TeX}]{Arimo}
+    Ligatures=TeX]{Arimo}
   \setsansfont[
     Path=fonts/arimo/,Extension=.ttf,
     UprightFont=Arimo-Regular,BoldFont=Arimo-Bold,
@@ -561,7 +561,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
 \else
   \fancyfoot[R]{{\fontsize{10pt}{10pt}\selectfont \thepage}}
 \fi
-\fancyfoot[LE,LO]{{\scriptsize \@authorFirstAbrEn{} \@authorLastEn{}}}
+\fancyfoot[LO]{{\scriptsize \@authorFirstAbrEn{} \@authorLastEn{}}}
 
 \fancypagestyle{plain}{%
   \fancyhf{}
@@ -571,7 +571,7 @@ of Informatics and Telecommunications, NKUA; LPPL Derived Work of dithesis]
   \else
     \fancyfoot[R]{{\fontsize{10pt}{10pt}\selectfont \thepage}}
   \fi
-  \fancyfoot[LE,LO]{{\scriptsize \@authorFirstAbrEn{} \@authorLastEn{}}}%
+  \fancyfoot[LO]{{\scriptsize \@authorFirstAbrEn{} \@authorLastEn{}}}%
 }
 \renewcommand{\headrulewidth}{0pt}
 
