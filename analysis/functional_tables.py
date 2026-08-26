@@ -36,11 +36,11 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path, help="common asset root")
     args = parser.parse_args(argv)
     try:
         pairs = pair_by_participant(load_sessions(load_records(args.config)))
-        _write_outputs(pairs, args.output_dir)
+        _write_outputs(pairs, args.output_dir / "tables")
     except (ConfigError, KeyError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

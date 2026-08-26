@@ -106,7 +106,7 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path, help="common asset root")
     parser.add_argument("--cohort-config", type=Path)
     args = parser.parse_args(argv)
     try:
@@ -119,7 +119,7 @@ def main(argv: list[str] | None = None) -> int:
         if not summaries:
             raise ConfigError("no configured session peaks above its band's window")
         summaries.sort(key=lambda summary: summary.pid)
-        write_fragment(args.output_dir / FRAGMENT_NAME, rows(summaries))
+        write_fragment(args.output_dir / "tables" / FRAGMENT_NAME, rows(summaries))
         if args.cohort_config is not None:
             report_sensitivity(summaries, args.cohort_config)
     except (ConfigError, KeyError, ValueError) as error:

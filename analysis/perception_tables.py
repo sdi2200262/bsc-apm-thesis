@@ -70,7 +70,7 @@ def main(argv: list[str] | None = None) -> int:
     """Run the perception table generator."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path, help="common asset root")
     args = parser.parse_args(argv)
     try:
         records = load_records(args.config)
@@ -78,13 +78,14 @@ def main(argv: list[str] | None = None) -> int:
         if len(csv_paths) != 1:
             raise ConfigError("perception config must point every record at one questionnaire_csv")
         rows = _read_questionnaire(next(iter(csv_paths)))
-        write_fragment(args.output_dir / "perc-ratings-paired.tex", _rating_direction_rows(rows))
+        output_dir = args.output_dir / "tables"
+        write_fragment(output_dir / "perc-ratings-paired.tex", _rating_direction_rows(rows))
         write_fragment(
-            args.output_dir / "perc-ratings-distribution.tex", _rating_distribution_rows(rows)
+            output_dir / "perc-ratings-distribution.tex", _rating_distribution_rows(rows)
         )
-        write_fragment(args.output_dir / "perc-completion-state.tex", _completion_state_rows(rows))
+        write_fragment(output_dir / "perc-completion-state.tex", _completion_state_rows(rows))
         write_fragment(
-            args.output_dir / "perc-comparative-distribution.tex",
+            output_dir / "perc-comparative-distribution.tex",
             _comparative_distribution_rows(rows, records),
         )
     except (ConfigError, OSError, ValueError, KeyError) as error:

@@ -62,20 +62,21 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path, help="common asset root")
     args = parser.parse_args(argv)
     try:
         pairs = pair_by_participant(load_sessions(load_records(args.config)))
+        output_dir = args.output_dir / "figures" / "discussions"
         opus_pairs = [pair for pair in pairs if model_band(pair.apm) == "opus"]
         sonnet_pairs = [pair for pair in pairs if model_band(pair.apm) == "sonnet"]
         render(
             opus_pairs,
-            args.output_dir / "occupancy_opus.pdf",
+            output_dir / "occupancy_opus.pdf",
             plot_w_in=5.87,
             show_window=False,
             show_auto_compaction_bound=False,
         )
-        render(sonnet_pairs, args.output_dir / "occupancy_sonnet.pdf", plot_w_in=5.87)
+        render(sonnet_pairs, output_dir / "occupancy_sonnet.pdf", plot_w_in=5.87)
     except (ConfigError, KeyError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

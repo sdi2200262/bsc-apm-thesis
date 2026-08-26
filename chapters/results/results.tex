@@ -16,7 +16,7 @@ An APM session cost a median of about \$35 under Opus and \$15 under Sonnet, aga
     \toprule
     Group & Scope & Framework & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-session-levels-by-model.tex}
+    \InputTableRows{assets/tables/cost-session-levels-by-model.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -29,8 +29,8 @@ Figure~\ref{fig:cost-session-levels-by-model} plots each participant's two sessi
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_opus.pdf}\hfill
-  \includegraphics[width=0.49\textwidth]{figures/economic/cost_levels_sonnet.pdf}
+  \includegraphics[width=0.49\textwidth]{assets/figures/economic/cost_levels_opus.pdf}\hfill
+  \includegraphics[width=0.49\textwidth]{assets/figures/economic/cost_levels_sonnet.pdf}
   \caption{Per-participant session cost within each model, Opus on the left and Sonnet on the right. Each participant has a filled APM diamond and an open Spec-kit diamond joined by a line, and each panel carries its own scale. Each framework's cheapest and most expensive session carries its value.}
   \label{fig:cost-session-levels-by-model}
 \end{figure}
@@ -52,7 +52,7 @@ Table~\ref{tab:cost-paired-by-scope} gives these differences at session scope an
     \toprule
     Group & Scope & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-paired-by-scope.tex}
+    \InputTableRows{assets/tables/cost-paired-by-scope.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -67,7 +67,7 @@ Figure~\ref{fig:cost-paired-by-scope-by-participant} plots each participant's se
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/economic/cost_difference_by_scope.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/economic/cost_difference_by_scope.pdf}
   \caption{Per-participant paired cost difference by scope, APM minus Spec-kit, in US dollars. The bar gives the session difference and the markers the planning and implementation differences within it. The reference line marks no difference. P004 and P006 carry the phase-attribution caveats of notes~[a] and~[b] of Table~\ref{tab:cost-paired-by-scope}.}
   \label{fig:cost-paired-by-scope-by-participant}
 \end{figure}
@@ -83,7 +83,7 @@ Within an APM session, cost divided among the three agent roles in similar propo
     \toprule
     Group & Role & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-session-levels-by-role.tex}
+    \InputTableRows{assets/tables/cost-session-levels-by-role.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -102,7 +102,7 @@ For both frameworks, cache-read accounted for most cost, followed by output and 
     \toprule
     Group & Framework & Category & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-token-composition-by-model.tex}
+    \InputTableRows{assets/tables/cost-token-composition-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -118,7 +118,7 @@ Output and one-hour cache writes each carried a cohort difference of its own, wh
     \toprule
     Group & Category & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/cost-token-paired-by-category.tex}
+    \InputTableRows{assets/tables/cost-token-paired-by-category.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -146,7 +146,7 @@ An APM session lasted a median of about 119 minutes against Spec-kit's 71, as Ta
     \toprule
     Scope & Framework & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-duration-levels.tex}
+    \InputTableRows{assets/tables/proc-duration-levels.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -172,7 +172,7 @@ Table~\ref{tab:proc-time-paired-by-scope} gives the cohort's paired time differe
     \toprule
     Scope & Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-time-paired-by-scope.tex}
+    \InputTableRows{assets/tables/proc-time-paired-by-scope.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -187,7 +187,7 @@ Figure~\ref{fig:proc-temporal-sessions} shows each participant's two sessions as
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/process/temporal.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/process/temporal.pdf}
   \caption{Per-participant session temporal shape. Each participant has two bars, APM and Spec-kit; the filled lower segment is the turn time, the open upper segment the inter-turn time, and the full height the session duration.}
 \label{fig:proc-temporal-sessions}
 \end{figure}
@@ -206,7 +206,7 @@ An APM session had a median of about 22 turn prompts against Spec-kit's 13, as T
     \toprule
     Scope & Framework & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-turns-levels.tex}
+    \InputTableRows{assets/tables/proc-turns-levels.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -227,7 +227,7 @@ Paired within each participant, the added turns under APM fell almost entirely i
     \toprule
     Scope & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-turns-paired.tex}
+    \InputTableRows{assets/tables/proc-turns-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -252,7 +252,7 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
     \cmidrule(lr){4-6} \cmidrule(lr){7-9}
     Phase & Framework & Bucket & Median & HL & Mean & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-buckets-composition.tex}
+    \InputTableRows{assets/tables/proc-buckets-composition.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -264,7 +264,7 @@ Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean char
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/process/bucket_shares.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/process/bucket_shares.pdf}
   \caption{Per-session turn-prompt bucket shares by phase. A dashed outline marks a session that carried no turn prompt in the phase and so has no shares.}
   \label{fig:proc-buckets-sessions}
 \end{figure}
@@ -281,7 +281,7 @@ Within APM the turn prompts also split by agent role, as Table~\ref{tab:proc-tur
     \toprule
     Role & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/proc-turns-levels-by-role.tex}
+    \InputTableRows{assets/tables/proc-turns-levels-by-role.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -307,7 +307,7 @@ The model split changes that reading. Under Opus, all three summaries for both f
     \toprule
     Group & Framework & Median & HL & Mean \\
     \midrule
-    \InputTableRows{analysis/generated/tables/func-score-levels.tex}
+    \InputTableRows{assets/tables/func-score-levels.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -326,7 +326,7 @@ Table~\ref{tab:func-score-paired} gives the cohort and model-group differences.
     \toprule
     Group & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/func-score-paired.tex}
+    \InputTableRows{assets/tables/func-score-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -335,8 +335,8 @@ Figure~\ref{fig:func-score-paired-by-model} plots this contrast. Apart from one 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_opus.pdf}\hfill
-  \includegraphics[width=0.49\textwidth]{figures/functional/functional_dumbbell_sonnet.pdf}
+  \includegraphics[width=0.49\textwidth]{assets/figures/functional/functional_dumbbell_opus.pdf}\hfill
+  \includegraphics[width=0.49\textwidth]{assets/figures/functional/functional_dumbbell_sonnet.pdf}
   \caption{Per-participant total score within each model, Opus on the left and Sonnet on the right. Each participant has a filled APM diamond and an open Spec-kit diamond joined by a line.}
   \label{fig:func-score-paired-by-model}
 \end{figure}
@@ -352,7 +352,7 @@ Across the cohort, both task sections had a zero median difference but positive 
     \toprule
     Group & Section & $n$ & Sign ($+$/$-$/$=$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/func-score-paired-by-section.tex}
+    \InputTableRows{assets/tables/func-score-paired-by-section.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -376,7 +376,7 @@ Some of the eight rating items divided the cohort sharply and others not at all.
     \toprule
     Rating & Better when & Sign ($+$/$-$/$=$) \\
     \midrule
-    \InputTableRows{analysis/generated/tables/perc-ratings-paired.tex}
+    \InputTableRows{assets/tables/perc-ratings-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -393,7 +393,7 @@ Participants rated APM the more confidence-inspiring framework in nine of the tw
     \toprule
     Rating & Framework & 1 & 2 & 3 & 4 & 5 \\
     \midrule
-    \InputTableRows{analysis/generated/tables/perc-ratings-distribution.tex}
+    \InputTableRows{assets/tables/perc-ratings-distribution.tex}
     \bottomrule
   \end{tabular*}
 \end{table}

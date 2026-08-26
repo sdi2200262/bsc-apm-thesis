@@ -36,7 +36,12 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
-    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument(
+        "--output-dir",
+        required=True,
+        type=Path,
+        help="common asset root; table fragments are written under its tables directory",
+    )
     args = parser.parse_args(argv)
 
     generator_args = ["--config", str(args.config), "--output-dir", str(args.output_dir)]

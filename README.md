@@ -76,17 +76,19 @@ scripts under `analysis/` generate only table rows and figure PDFs, run
 against a config that lists each session's identity, framework, and the
 paths to its parser and grader artefacts. Figure scripts require
 matplotlib, and read the Latin Modern faces the figures are set in from
-`THESIS_LM_FONT_DIR`.
+`THESIS_LM_FONT_DIR`. Every generator takes `assets/` as its output root:
+table fragments go under `assets/tables/`, while figures go under the
+corresponding dimension in `assets/figures/`.
 
 ```bash
 export THESIS_LM_FONT_DIR="$(dirname "$(kpsewhich lmroman10-regular.otf)")"
-python3 analysis/generate_tables.py --config analysis/config/cohort.json --output-dir analysis/generated/tables
-python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir figures/economic
-python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir figures/process
-python3 analysis/functional_figures.py --config analysis/config/cohort.json --output-dir figures/functional
-python3 analysis/occupancy_figures.py --config analysis/config/cohort.json --output-dir figures/discussions
-python3 analysis/functional_compact_figure.py --config analysis/config/cohort.json --output-dir figures/discussions
-python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir figures/discussions
+python3 analysis/generate_tables.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/functional_figures.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/occupancy_figures.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/functional_compact_figure.py --config analysis/config/cohort.json --output-dir assets
+python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir assets
 ```
 
 ## Spec-kit Release Audit

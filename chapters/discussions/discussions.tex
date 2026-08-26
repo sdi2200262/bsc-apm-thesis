@@ -22,7 +22,7 @@ That difference in authority does not show in the size of the planning phase, wh
     \toprule
     Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-planning-behaviour-paired.tex}
+    \InputTableRows{assets/tables/disc-planning-behaviour-paired.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -56,7 +56,7 @@ No conversation reset under Opus. APM's several conversations together produced 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/discussions/occupancy_opus.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/discussions/occupancy_opus.pdf}
   \caption{Peaks of context windows per session, in thousands of tokens, across Opus model group participants.}
   \label{fig:disc-occupancy-sessions-opus}
 \end{figure}
@@ -71,7 +71,7 @@ Under Sonnet, five of the six Spec-kit conversations compacted, three more than 
     \toprule
     Model & Framework & Sessions & Compacted & More than once \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-compaction-incidence-by-model.tex}
+    \InputTableRows{assets/tables/disc-compaction-incidence-by-model.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -82,7 +82,7 @@ APM instead kept most of its conversations' context windows smaller, so their ca
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/discussions/occupancy_sonnet.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/discussions/occupancy_sonnet.pdf}
   \caption{Peaks of context windows per session, in thousands of tokens, across Sonnet model group participants. Reference lines mark the 171k observed automatic-compaction bound (dotted) and the two-hundred-thousand-token context window limit (dashed).}
   \label{fig:disc-occupancy-sessions-sonnet}
 \end{figure}
@@ -114,7 +114,7 @@ Because APM has several agents carry out its implementation where Spec-kit has o
     \toprule
     Measure & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-implementation-behaviour-paired.tex}
+    \InputTableRows{assets/tables/disc-implementation-behaviour-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -137,7 +137,7 @@ Each scored 34.0 points, with the Python part complete and almost all of the C p
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/discussions/functional_compact.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/discussions/functional_compact.pdf}
   \caption{Each Sonnet session's total score on the grader's standard JSON input, filled, and its diagnostic score on the compact JSON input, open, joined where they differ. The Opus sessions do not differ and are omitted.}
   \label{fig:disc-grading-compact-comparison}
 \end{figure}
@@ -150,7 +150,7 @@ Each scored 34.0 points, with the Python part complete and almost all of the C p
     \toprule
     Session & Standard total score & Compact-input diagnostic score \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-compact-regrade.tex}
+    \InputTableRows{assets/tables/disc-compact-regrade.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -165,7 +165,7 @@ The re-grade recovers three of the five sessions below fifty, both APM sessions 
     \toprule
     Group & $n$ & Sign ($+$/$-$) & Median & HL & Mean & CI \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-compact-regrade-paired.tex}
+    \InputTableRows{assets/tables/disc-compact-regrade-paired.tex}
     \bottomrule
   \end{tabular*}
 \end{table}
@@ -181,7 +181,7 @@ The same plot shows three participant pairs that depart from that pattern. In ea
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/discussions/cost_score.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/discussions/cost_score.pdf}
   \caption{Per-participant paired cost difference and total-score difference, APM minus Spec-kit, with Opus filled and Sonnet open. The reference lines mark no difference on each axis.}
   \label{fig:disc-cost-score-comparison}
 \end{figure}
@@ -234,7 +234,7 @@ The individual changes have no common direction. Four participants scored higher
     \toprule
     Participant & Model & Second framework & Score change\tnote{a} \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-learning-by-participant.tex}
+    \InputTableRows{assets/tables/disc-learning-by-participant.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
@@ -285,7 +285,7 @@ Claude Code itself was updated repeatedly over the same period, so some particip
     \toprule
     Participant & Cache read\tnote{a} & Above bound\tnote{b} & Cost & Session cost \\
     \midrule
-    \InputTableRows{analysis/generated/tables/disc-above-ceiling-cost.tex}
+    \InputTableRows{assets/tables/disc-above-ceiling-cost.tex}
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\footnotesize
