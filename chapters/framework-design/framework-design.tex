@@ -64,7 +64,9 @@ The planning documents define the intended work, but execution may reveal that t
 
 During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: project-level summaries with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
 
-After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review. Figure~\ref{fig:framework-design-state-reduction} summarises how execution and coordination detail enter Memory.
+After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review.
+
+Condensing execution and coordination detail is what allows the Manager to oversee several Workers, dispatch and review many Tasks, and maintain APM's project state without accumulating context excessively. Figure~\ref{fig:framework-design-state-reduction} summarises how both enter Memory.
 
 \begin{figure}[H]
   \centering
