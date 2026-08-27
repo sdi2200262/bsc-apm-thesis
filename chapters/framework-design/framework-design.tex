@@ -46,13 +46,13 @@ For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-spe
 
 The Manager can distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
 
-These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports, as Figure~\ref{fig:framework-design-message-bus} traces. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
+These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
 
 These intervention points are deliberate. They let the user exercise final authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{assets/figures/framework-design/agent-orchestration.pdf}
+  \includegraphics[width=\textwidth]{assets/figures/framework-design/message-bus.pdf}
   \caption{Message Bus exchange between the Manager and Workers. A Task Prompt travels outward through a Worker's Task Bus, and a Task Report returns through its Report Bus; the stacked outline represents several Workers, each with its own pair of bus files.}
 \label{fig:framework-design-message-bus}
 \end{figure}
