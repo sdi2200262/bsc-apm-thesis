@@ -42,11 +42,13 @@ Each Worker is assigned the Tasks of one domain from the Plan, which it executes
 
 The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while Workers consult only the Rules.
 
-For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the new Task depends on it. After carrying out the work, each Worker returns a \emph{Task Report} of the outcome and findings that affect subsequent work.
+For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome and findings that affect subsequent work.
 
 The Manager can distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
 
 These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports, as Figure~\ref{fig:framework-design-message-bus} traces. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
+
+These intervention points are deliberate. They let the user exercise final authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
 \begin{figure}[H]
   \centering
