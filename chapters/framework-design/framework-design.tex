@@ -42,7 +42,7 @@ Each Worker is assigned the Tasks of one domain from the Plan, which it executes
 
 The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while Workers consult only the Rules.
 
-For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome and findings that affect subsequent work.
+For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome.
 
 The Manager can distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
 
@@ -56,3 +56,35 @@ These intervention points are deliberate. They let the user exercise final autho
   \caption{Message Bus exchange between the Manager and Workers. A Task Prompt travels outward through a Worker's Task Bus, and a Task Report returns through its Report Bus; the stacked outline represents several Workers, each with its own pair of bus files.}
 \label{fig:framework-design-message-bus}
 \end{figure}
+
+\section{State Management}
+\label{sec:framework-design-state-management}
+
+The planning documents define the intended work, but execution may reveal that they need to change. The Manager can revise them within the project's established direction and Workers may propose changes to the Rules. Changes to direction or scope, however, require explicit user approval.
+
+During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: project-level summaries with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
+
+After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review. Figure~\ref{fig:framework-design-state-reduction} summarises how execution and coordination detail enter Memory.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/figures/framework-design/state-reduction.pdf}
+  \caption{Reduction of execution and coordination detail into persistent project history. Task outcomes are recorded in Task Logs which are later condensed into completed-work summaries, while Tracker working notes are distilled into durable observations in the Index.}
+
+  \label{fig:framework-design-state-reduction}
+\end{figure}
+
+The user invokes a \emph{Handoff} on demand to transfer a role from an agent conversation carrying accumulated context to a fresh one. The outgoing agent follows the framework's instructions to record what must carry over in two documents. The \emph{Handoff Log} records past work, decisions, and working knowledge not held in Task Logs, and joins them in Memory. The \emph{Handoff Prompt} describes the current state and tells the incoming agent what to read and do next. The user carries it through the role's \emph{Handoff Bus}. The incoming agent rereads its role instructions, then uses both documents and relevant project files to resume from where the outgoing agent left off. Figure~\ref{fig:framework-design-handoff} traces the transfer.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/figures/framework-design/handoff.pdf}
+  \caption{Handoff between outgoing and incoming agent conversations. The outgoing agent records a Handoff Log in Memory and sends a Handoff Prompt through its Handoff Bus. The incoming agent reads both with the other project state needed to resume the role.}
+  \label{fig:framework-design-handoff}
+\end{figure}
+
+A conversation approaching its context window limit is the usual occasion for a Handoff, but the user can invoke one earlier to reduce cost or try to restore performance. The system hosting the agent can also reset accumulated context through compaction, but the resulting summary is ephemeral to the conversation. If the conversation fills again, the next compaction summarises that summary together with the context accumulated since, further reducing the detail retained from earlier work. A Handoff instead records the transfer in persistent files, so successive Handoffs retain a durable history of the role's work.
+
+When an agent loses its working state without having performed a Handoff, the user can invoke APM's recovery procedure. The agent then rereads its role instructions and relevant project files to restore the framework's procedures and establish where its work stands.
+
+At project completion or a pause, APM can archive all files that hold project state and optionally add a summary of their scope, outcomes, decisions, deliverables, and issues. A later Planner can inspect a relevant archive to inform project research and planning.

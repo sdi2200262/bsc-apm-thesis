@@ -1,0 +1,159 @@
+direction: right
+
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+    pad: 18
+    center: true
+  }
+}
+
+classes: {
+  actor: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#333333"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 19
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  artefact: {
+    style: {
+      fill: "#f7f7f7"
+      stroke: "#555555"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 17
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  holder: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#777777"
+      stroke-width: 1
+      font-color: "#000000"
+      font-size: 16
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  annotation: {
+    shape: rectangle
+    width: 230
+    height: 38
+    style: {
+      fill: transparent
+      stroke: transparent
+      font-color: "#333333"
+      font-size: 17
+      bold: false
+      italic: true
+    }
+  }
+}
+
+execution: {
+  label: Execution detail
+  class: actor
+  width: 205
+  height: 70
+}
+
+coordination: {
+  label: Coordination detail
+  class: actor
+  width: 205
+  height: 70
+}
+
+task_logs: {
+  label: Task Logs
+  class: holder
+
+  outcomes: {
+    label: Task outcomes
+    class: artefact
+    width: 200
+    height: 62
+  }
+}
+
+tracker: {
+  label: Tracker
+  class: holder
+
+  working_notes: {
+    label: Working notes
+    class: artefact
+    width: 200
+    height: 62
+  }
+}
+
+index: {
+  label: Index
+  class: holder
+
+  completed_work: {
+    label: "Completed-work\nsummaries"
+    class: artefact
+    width: 225
+    height: 84
+  }
+
+  durable_notes: {
+    label: Durable notes
+    class: artefact
+    width: 225
+    height: 62
+  }
+}
+
+execution -> task_logs.outcomes: " recorded in " {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 16
+    border-radius: 10
+  }
+}
+
+task_logs.outcomes -> index.completed_work: " condensed into " {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 16
+    border-radius: 10
+  }
+}
+
+coordination -> tracker.working_notes: " recorded in " {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 16
+    border-radius: 10
+  }
+}
+
+tracker.working_notes -> index.durable_notes: " distilled into " {
+  style: {
+    stroke: "#333333"
+    stroke-width: 2
+    font-color: "#000000"
+    font-size: 16
+    border-radius: 10
+  }
+}
