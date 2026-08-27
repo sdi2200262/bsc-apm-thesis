@@ -54,7 +54,7 @@ These intervention points are deliberate. They let the user exercise final autho
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/message-bus.pdf}
   \caption{Message Bus exchange between the Manager and Workers. A Task Prompt travels outward through a Worker's Task Bus, and a Task Report returns through its Report Bus; the stacked outline represents several Workers, each with its own pair of bus files.}
-\label{fig:framework-design-message-bus}
+  \label{fig:framework-design-message-bus}
 \end{figure}
 
 \section{State Management}
@@ -70,7 +70,6 @@ After completing a Task, its Worker writes a \emph{Task Log} that reduces accumu
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/state-reduction.pdf}
   \caption{Reduction of execution and coordination detail into persistent project history. Task outcomes are recorded in Task Logs which are later condensed into completed-work summaries, while Tracker working notes are distilled into durable observations in the Index.}
-
   \label{fig:framework-design-state-reduction}
 \end{figure}
 
