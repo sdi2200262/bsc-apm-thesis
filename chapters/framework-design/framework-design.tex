@@ -93,7 +93,7 @@ At project completion or a pause, APM can archive all files that hold project st
 \section{Workflow}
 \label{sec:framework-design-workflow}
 
-APM exposes its workflow through structured documents and commands. Its artefacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. Across the coding-agent platforms it supports, APM packages each command as a pre-written prompt and adapts its invocation syntax to the platform. Table~\ref{tab:framework-design-commands} uses their common slash-prefixed form. The user invokes each command in the appropriate conversation, making transitions among separate conversations explicit user actions.
+APM exposes its workflow through structured documents and commands. Its artefacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. Across the coding-agent platforms it supports, APM packages each command as a pre-written prompt and adapts its invocation syntax to the platform. Table~\ref{tab:framework-design-commands} uses their common slash-prefixed form. The user invokes each command in the appropriate conversation.
 
 \begin{table}[H]
   \centering
@@ -116,4 +116,28 @@ APM exposes its workflow through structured documents and commands. Its artefact
   \end{tabular*}
 \end{table}
 
+Each command establishes a role and points the agent to the procedures its next step requires. Detailed procedures live in separate guides, each addressed to a single role, which the agent reads when it reaches the step that needs one; standards shared across roles, such as the Message Bus protocols, are packaged as skills.\footnote{Agent Skills, an open format for packaging instructions and resources that an agent loads when a task calls for them, originally developed by Anthropic and released as an open standard: \url{https://agentskills.io}.}
+
 APM's workflow has two phases. The planning phase produces the planning documents, and the implementation phase executes the work they define.
+
+\subsection{Planning Phase}
+\label{sec:framework-design-planning-phase}
+
+Planning begins with the Planner building an understanding of the project. It reads the materials the user identifies as authoritative and explores any codebase the project involves before questioning the user, so its questions address what remains unknown. Successive rounds go deeper, covering the project's purpose and deliverables, then its technical requirements and dependencies, then the constraints, standards, and conventions under which the work should be carried out. Where research or the user's answers open more than one viable approach, the Planner presents the alternatives with their trade-offs and the user chooses.
+
+The questioning ends with a consolidated account of the Planner's understanding, and planning advances only once the user approves it. Corrections send the Planner back to the material: it applies what the user raised, asks whatever the correction opens up, and presents the revised account again.
+
+The Planner then produces the Spec, the Plan, and the Rules, one at a time. It presents its reasoning for each in the conversation before writing it, and each document passes through that same review cycle before the next begins. The three are written against each other in turn, holding no competing account of the project.
+
+The Spec records the decisions that shape what is built: the choice made, the alternatives it displaced, and the constraints that bound it. Its structure follows the project's concerns, and where the user's documents already define a requirement it references them instead of restating it. Decisions are kept separable so the Manager can extract the ones a given Task needs.
+
+The Plan organises the work. It divides the project into domains, assigns a Worker to each, and defines for every Task what it delivers, the criteria that validate it, and the previous Tasks it depends on. It then sequences those Tasks into \emph{Stages}, each delivering a coherent part of the project, beginning only after the preceding one completes. Within a Stage, dependencies determine what can proceed: a Task waits for those producing what it needs, while Tasks with nothing outstanding can be executed successively by one Worker or concurrently across several. Parallel work therefore happens only within a Stage, as Figure~\ref{fig:framework-design-stage-progression} shows.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/figures/framework-design/stage-progression.pdf}
+  \caption{Progression of a project through its Stages. Every Stage holds Tasks and their dependencies; the figure expands a representative dependency graph in Stage 1 and compresses the Tasks of the Stages that follow.}
+  \label{fig:framework-design-stage-progression}
+\end{figure}
+
+The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards, governing how work is carried out. The distinction is one of kind. An output format or interface contract reaches every Worker, yet it defines what is built and so belongs to the Spec. Every Worker receives the same Rules.

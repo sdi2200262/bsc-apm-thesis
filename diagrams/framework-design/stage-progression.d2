@@ -1,0 +1,147 @@
+direction: right
+
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+    pad: 18
+    center: true
+  }
+}
+
+classes: {
+  stage: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#777777"
+      stroke-width: 1
+      font-color: "#000000"
+      font-size: 16
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  task: {
+    style: {
+      fill: "#f7f7f7"
+      stroke: "#555555"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 17
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+  terminal: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#333333"
+      stroke-width: 2
+      font-color: "#000000"
+      font-size: 19
+      bold: false
+      border-radius: 0
+      shadow: false
+    }
+  }
+}
+
+stage_1: {
+  label: Stage 1
+  class: stage
+
+  task_1: {
+    label: Task 1
+    class: task
+    width: 135
+    height: 60
+  }
+  task_2: {
+    label: Task 2
+    class: task
+    width: 135
+    height: 60
+  }
+  task_3: {
+    label: Task 3
+    class: task
+    width: 135
+    height: 60
+  }
+  task_4: {
+    label: Task 4
+    class: task
+    width: 135
+    height: 60
+  }
+  task_5: {
+    label: Task 5
+    class: task
+    width: 135
+    height: 60
+  }
+
+  task_1 -> task_2
+  task_1 -> task_3
+  task_2 -> task_4
+  task_3 -> task_4
+  task_3 -> task_5
+}
+
+stage_2: {
+  label: Stage 2
+  class: stage
+
+  tasks: {
+    label: Tasks
+    class: task
+    width: 145
+    height: 65
+    style.multiple: true
+  }
+}
+
+more: {
+  label: ···
+  shape: text
+  style: {
+    font-color: "#333333"
+    font-size: 24
+    bold: false
+  }
+}
+
+stage_n: {
+  label: Stage n
+  class: stage
+
+  tasks: {
+    label: Tasks
+    class: task
+    width: 145
+    height: 65
+    style.multiple: true
+  }
+}
+
+complete: {
+  label: Complete
+  class: terminal
+  width: 165
+  height: 70
+}
+
+stage_1 -> stage_2
+stage_2 -> more
+more -> stage_n
+stage_n -> complete
+
+(** -> **)[*].style: {
+  stroke: "#333333"
+  stroke-width: 2
+  font-color: "#000000"
+  font-size: 16
+  border-radius: 10
+}
