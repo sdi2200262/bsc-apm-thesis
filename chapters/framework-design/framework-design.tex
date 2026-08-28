@@ -5,7 +5,7 @@
 \section{Design Goals}
 \label{sec:framework-design-goals}
 
-APM is a framework operating on top of a coding agent. It uses several such agents to form a MAS intended for substantial, real-world software development projects. Its design limits context accumulation by dividing a project across separate agent conversations and giving each agent a distinct responsibility. One plans the project, producing a durable account of what to build and how to build it. Another maintains the project-wide view by distributing parts of the work to others and reviewing what they produce.
+APM is a framework operating on top of a coding agent. It uses several such agents to form a MAS intended for substantial, real-world software development projects. Its design limits context accumulation by dividing a project across separate agent conversations and giving each agent a distinct responsibility: one plans the project, one distributes the work and reviews what comes back, and the rest carry it out.
 
 That division, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
 
@@ -50,7 +50,7 @@ The Manager can distribute Tasks individually, combine several Tasks for one Wor
 
 These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
 
-These intervention points are deliberate. They let the user exercise final authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
+These intervention points are deliberate. They let the user exercise authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
 \begin{figure}[H]
   \centering
@@ -138,11 +138,11 @@ The Plan organises the work. It divides the project into domains, assigns a Work
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/stage-progression.pdf}
-  \caption{Progression of a project through its Stages. Every Stage holds Tasks and their dependencies; the figure expands a representative dependency graph in Stage 1 and compresses the Tasks of the Stages that follow.}
+  \caption{Progression of a project through its Stages. The figure expands a representative dependency graph in Stage 1 and compresses the Tasks of the Stages that follow.}
   \label{fig:framework-design-stage-progression}
 \end{figure}
 
-The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards. The Rules govern how work is carried out, while the Spec defines what is built. An output format or interface contract reaches every Worker, yet it belongs to the Spec. Every Worker receives the same Rules.
+The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards. Every Worker receives the same Rules, yet a requirement is not a Rule merely because it reaches every Worker: an output format or interface contract belongs to the Spec.
 
 \subsection{Implementation Phase}
 \label{sec:framework-design-implementation-phase}
@@ -156,7 +156,7 @@ The Manager reviews the Task Report and the Task Log. An outcome short of comple
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/task-cycle.pdf}
-  \caption{One Task through the implementation cycle. The Manager and its Worker exchange the Task Prompt and the Task Report through the Message Bus, while the Task Log is written to Memory and reviewed from there.}
+  \caption{One Task through the implementation cycle. The Task Prompt and the Task Report travel through the Message Bus, while the Task Log is written to Memory and reviewed from there.}
   \label{fig:framework-design-task-cycle}
 \end{figure}
 
