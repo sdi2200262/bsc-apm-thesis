@@ -90,3 +90,12 @@ The dollar-equivalent cost prices each request's tokens at the rates in Table~\r
 \end{table}
 
 Subagents launched within study sessions and some background operations were at times routed to Haiku. Some sessions therefore include a small share of Haiku tokens alongside their assigned model. The evaluation infrastructure listed in Appendix~\ref{app:evaluation-availability} holds the rates in \texttt{rates.yaml}.
+
+\section{Scoring Rubric}
+\label{app:evaluation-rubric}
+
+The rubric's ninety checks divide into twenty-seven over the Python server, worth thirty points, and sixty-three over the C replica, worth seventy. Ten checks carry two points and the remaining eighty carry one.
+
+A string-matched check compares the observed response against the responses the rubric accepts. An exact match earns the check's full points. Otherwise the grader measures how near the response came: it takes the edit distance to the nearest accepted response, divides it by the length of the longer of the two, and subtracts the result from one. At a ratio of 0.45 or above the check earns its points scaled by that ratio; below it the check earns zero. Every partial check is flagged for review before the score is accepted.
+
+Structural checks and memory checks carry no similarity. They pass or fail outright. Twenty-six of the C memory checks are each paired with a functional check and are awarded only where that check passes. A clean memory run of a non-functional program earns no points.
