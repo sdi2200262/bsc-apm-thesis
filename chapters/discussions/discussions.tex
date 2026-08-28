@@ -34,7 +34,7 @@ That difference in authority does not show in the size of the planning phase, wh
 
 Five sessions across the cohort fell well short. Two scored below fifty under APM and three under Spec-kit, as Table~\ref{tab:func-score-sessions} details, so the shortfall was not one framework's alone. They did not all fail in the same way. The re-grade of Section~\ref{sec:discussions-grading-blackbox} lifts a fault that occurred under both frameworks, leaving two Spec-kit sessions below fifty.
 
-In Spec-kit's largely autonomous planning, a step that settles an open question without the user can do so wrongly, and the build then rests on that decision. APM puts its open questions to the user in the Planner's question rounds and holds each planning document at a review gate. A wrong assumption therefore meets the user before the build inherits it. The two remaining low-score sessions align with that difference in planning authority, but they do not establish that it produced them.
+In Spec-kit's largely autonomous planning, a step that settles an open question without the user can do so wrongly, and the build then rests on that decision. APM puts its open questions to the user in the Planner's question rounds and holds each planning document at a review gate. A wrong assumption can therefore meet the user before the build inherits it. The two remaining low-score sessions align with that difference in planning authority, but they do not establish that it produced them.
 
 \section{Coordinating the Implementation}
 \label{sec:discussions-implementation}
@@ -44,9 +44,9 @@ Both frameworks build against their planning documents and revise them as findin
 \subsection{The Cost of Several Agents}
 \label{sec:discussions-cost-mechanics}
 
-Working across several agents changes where the context accumulation described in Section~\ref{sec:background-context-windows-and-context-decay} occurs. Each APM conversation accumulates context just like Spec-kit's, but handles only part of the work. At session scope, however, their costs add together: each builds its own cache and produces its own output. APM thus exchanges concentrated accumulation in one conversation for the aggregate cost of several smaller ones.
+Working across several agents changes where the context accumulation described in Section~\ref{sec:background-context-windows-and-context-decay} occurs. Each APM conversation accumulates context just like Spec-kit's, but handles only part of the work. At session scope, however, their costs add together: each builds its own cache and produces its own output. APM thus exchanges concentrated accumulation in one conversation for the aggregate cost of several.
 
-The observed balance differed with each model's context window limit and the resets that interrupted accumulation. Claude Code is expected to compact automatically at an auto-compaction threshold below that limit, and the user may compact manually. APM also supports Handoff, which opens a new conversation and context window.\footnote{Forthcoming. Framework Design will define APM's design principles, roles, phases, Message Bus, memory, Handoff, and distribution.} We refer to all three transitions as resets. After each reset, context begins from a smaller starting point, accumulates, and enters the cache again.
+The observed balance differed with each model's context window limit and the resets that interrupted accumulation. Claude Code is expected to compact automatically at an auto-compaction threshold below that limit, and the user may compact manually. APM also supports Handoff, which opens a new conversation and context window, as Section~\ref{sec:framework-design-state-management} describes. We refer to all three transitions as resets. After each reset, context begins from a smaller starting point, accumulates, and enters the cache again.
 
 Opus 4.7 had a one-million-token context window limit, large enough to hold the task from start to finish. Sonnet 4.6 had a two-hundred-thousand-token limit, and conversations often approached its auto-compaction threshold.
 
@@ -98,13 +98,13 @@ The cost result therefore appears to depend on how much of a task fits within th
 
 APM routes planning and implementation through the user, while Spec-kit leaves more of both to its agent. Spec-kit's planning autonomy extends into implementation as it works through the task list largely on its own.
 
-That difference appears in the user's input. Table~\ref{tab:proc-turns-levels} reports far more turn prompts under APM than under Spec-kit. In implementation, Table~\ref{tab:proc-buckets-composition} reports that most of APM's prompts are protocol. These commands are the per-cycle relays APM places in the user's hands: each dispatches work or returns a report.
+That difference appears in the user's input. Table~\ref{tab:proc-turns-levels} reports far more turn prompts under APM than under Spec-kit. In implementation, Table~\ref{tab:proc-buckets-composition} reports that most of APM's prompts are protocol. These include the per-cycle relays APM places in the user's hands.
 
 Standard prompts are the user's own non-command messages, which may carry instructions or other content directing the agent. They are few under both frameworks. Table~\ref{tab:proc-buckets-composition-by-role} in Appendix~\ref{app:results-process-breakdowns} reports that APM's few standard prompts reach the Manager rather than the Workers. Together, the turn-prompt and role data show that participants passed through APM's coordination points, though prompt counts alone cannot tell how much control they exercised through them.
 
 Spec-kit asks much less. Its few turns are the protocol command that launches the implementation and an occasional short or standard follow-up, too few to read as a settled composition. The agent proceeds largely on its own, and the user has little to do until the build is done.
 
-Because APM has several agents carry out its implementation where Spec-kit has one, it has a naturally larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, and its main agents made more tool calls in all twelve as well, as Table~\ref{tab:disc-implementation-behaviour-paired} reports. Both directions reverse the planning phase, where Spec-kit's main agent led on the two measures. Each agent also produces its own output, which is part of why APM's implementation cost the more of the two, as Section~\ref{sec:discussions-cost-mechanics} explains.
+APM's several-agent implementation plausibly contributes to its larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, and its main agents made more tool calls in all twelve as well, as Table~\ref{tab:disc-implementation-behaviour-paired} reports. Both directions reverse the planning phase, where Spec-kit's main agent led on the two measures. Each agent also produces its own output, which is part of why APM's implementation cost the more of the two, as Section~\ref{sec:discussions-cost-mechanics} explains.
 
 \begin{table}[H]
   \centering
