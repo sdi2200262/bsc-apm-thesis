@@ -64,7 +64,7 @@ These intervention points are deliberate. They let the user exercise authority a
 
 The planning documents define the intended work, but execution may reveal that they need to change. The Manager can revise them within the project's established direction and Workers may propose changes to the Rules. Changes to direction or scope, however, require explicit user approval.
 
-During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: project-level summaries with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
+During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
 
 After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review.
 
@@ -112,7 +112,7 @@ APM exposes its workflow through structured documents and commands. Its artefact
     \texttt{/apm-5-check-reports} & Manager & Deliver Task Reports to the Manager \\
     \texttt{/apm-6-handoff-manager} & Manager & Initiate a Manager Handoff \\
     \texttt{/apm-7-handoff-worker} & Worker & Initiate a Worker Handoff \\
-    \texttt{/apm-8-summarize-session} & New agent or completing Manager & Produce a project summary and optionally archive its state \\
+    \texttt{/apm-8-summarize-session} & Standalone agent & Summarise the project and optionally archive its state \\
     \texttt{/apm-9-recover} & Manager or Worker & Reconstruct the role's working context \\
     \bottomrule
   \end{tabular*}

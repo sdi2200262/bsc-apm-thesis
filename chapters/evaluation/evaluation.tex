@@ -33,7 +33,7 @@ Spec-kit's workflow is driven by a set of commands that the developer triggers, 
 
 Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artefact consistency checking, and custom quality checklists along the way.
 
-Across these steps the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the developer only where an ambiguity would change the scope of the work.
+Across these steps the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the user only where a choice is consequential or genuinely open, offering each as a short table of options with a recommendation.
 
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
@@ -47,7 +47,7 @@ Participants are provided with materials that include a task brief, a guide to p
 
 The task is delivered to each participant as a product requirements document (PRD) that defines its objectives, requirements, and acceptance criteria. It builds on \texttt{eclass-mcp-server},\footnote{Repository available at: \url{https://github.com/sdi2200262/eclass-mcp-server}} an existing open-source Python Model Context Protocol (MCP)\footnote{Protocol specification available at: \url{https://modelcontextprotocol.io}} server that connects to Open eClass,\footnote{Repository available at: \url{https://github.com/gunet/openeclass}} the learning-management platform used across Greek academic institutions. The existing server exposes four MCP tools for authentication and course retrieval. Participants are required to add two tools that retrieve course and platform announcements. This requires investigating the Open eClass PHP codebase to determine how the platform exposes those announcements, then implementing the new retrieval behaviour in the Python server.
 
-Participants are also required to build a standalone native C replica that exposes the four existing and the two new tools and matches the Python server's input schemas, responses, and error behaviour. The Python server receives its MCP and JSON-RPC protocol machinery from MCP's Python SDK; the C replica must implement that layer itself. Additional constraints from the PRD prohibit the use of external JSON-parsing libraries and require the program to report zero definitely or indirectly lost bytes across the supported tool-session surface. Together, the two deliverables give both frameworks a demanding end-to-end problem, spanning codebase investigation, application behaviour, and manual protocol implementation across the Python server and its native C replica.
+Participants are also required to build a standalone native C replica that exposes the four existing and the two new tools and matches the Python server's input schemas, responses, and error behaviour. The Python server receives its MCP and JSON-RPC protocol machinery from MCP's Python SDK; the C replica must implement that layer itself. Additional constraints from the PRD prohibit the use of external JSON-parsing libraries and require the C program to leak no memory across the supported tool-session surface under Valgrind. Together, the two deliverables give both frameworks a demanding end-to-end problem, spanning codebase investigation, application behaviour, and manual protocol implementation across the Python server and its native C replica.
 
 \subsection{Task Environment}
 \label{sec:evaluation-task-environment}
