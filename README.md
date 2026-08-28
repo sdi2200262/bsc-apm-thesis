@@ -1,84 +1,51 @@
 # BSc APM Thesis
 
-BSc thesis evaluating [Agentic Project Management (APM)](https://github.com/sdi2200262/agentic-project-management) against [GitHub Spec-kit](https://github.github.io/spec-kit/) on the Claude Code CLI, for AI-assisted software development.
+This thesis presents [Agentic Project Management (APM)](https://github.com/sdi2200262/agentic-project-management), which coordinates several agents through the user, and evaluates it against [Spec-kit](https://github.github.io/spec-kit/) in a comparative case study with Claude Code.
 
 ## Overview
 
-This thesis investigates whether user-mediated coordination between several agents provides tangible benefits over a workflow carried by one agent on complex software development tasks. The case study compares two open-source spec-driven frameworks running on the same coding agent, so the comparison isolates APM's coordination design from platform or tooling differences:
+Both open-source frameworks operate on the same coding agent:
 
-- **APM** (v1.0): spec-driven, with a Planner, a Manager, and Workers coordinated through the user over file-based protocols.
-- **GitHub Spec-kit**: spec-driven, with one agent driven by slash commands (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-implement`).
+- **APM v1** coordinates a Planner, a Manager, and Workers through a spec-driven workflow mediated by the user over file-based protocols.
+- **Spec-kit** takes one agent through a spec-driven workflow using slash commands.
 
-The evaluation compares the two along four dimensions, defined as research questions in the Evaluation chapter:
+The evaluation covers four dimensions:
 
-- **Economic**: the dollar cost of completing a task, priced against the platform's per-token rate card.
-- **Process**: the time a task takes and the effort it demands of the user.
-- **Functional**: how much of the task each framework completes, and how it fails when it falls short.
-- **Perception**: participants' self-reported experience, read against the behaviour measured from their sessions.
+- **Economic:** dollar-equivalent cost under the platform's per-token rate card.
+- **Process:** session duration and recorded user interaction.
+- **Functional:** task completion and failure.
+- **Perception:** participants' reported experience alongside their measured behaviour.
 
-## Evaluation Methodology
+Each participant attempts the same task once with each framework. The assigned model remains fixed across the pair, and framework order is counterbalanced across the cohort. Each attempt has a three-hour cap. A transcript parser computes the economic and process measures from the participants' transcripts, an automated grader scores their submitted solution patch against a fixed rubric, and a questionnaire supplies the perception measures.
 
-The study is a within-subjects experiment on Claude Code. Each participant completes the case-study task twice, once with APM and once with Spec-kit, with the framework order counterbalanced across the cohort to control for task-familiarity effects. One Claude model, Opus 4.7 or Sonnet 4.6, is held fixed across a participant's two sessions. Sessions are time-boxed to three hours.
-
-Transcript-derived metrics are extracted programmatically from the per-session Claude Code JSONL transcripts; the functional outcome is scored by an automated grader against a fixed 100-point rubric, and a post-session questionnaire captures self-report. The measures are organised by the four research questions (economic, process, functional, perception), alongside a small set of supplementary descriptors. Each session's submission bundles the solution patch, the transcripts, and the questionnaire response, anonymised and encrypted before storage.
-
-The methodology is set out in [`chapters/evaluation/`](chapters/evaluation/); the findings are reported in [`chapters/results/`](chapters/results/) and interpreted in [`chapters/discussions/`](chapters/discussions/). The grader, parser, and grading environment live in the infrastructure repository linked below.
+The methodology is in [`chapters/evaluation/`](chapters/evaluation/), the findings in [`chapters/results/`](chapters/results/), and their interpretation in [`chapters/discussions/`](chapters/discussions/). The related repositories hold the task, study infrastructure, and participant data.
 
 ## Building
 
-The thesis is one source of truth: `thesis.tex` sets the class and metadata and
-assembles one body file per chapter under `chapters/`, with the three appendix
-bodies gathered at the end. The `apmthesis` class implements the mandatory DIT
-BSc submission layout; it is an LPPL Derived Work of the community `dithesis`
-class. The body font defaults to the vendored, freely redistributable Arimo so
-the build is reproducible with no system font installed.
+`thesis.tex` configures the document and assembles one source file per chapter. The `apmthesis` class implements the DIT BSc submission layout and derives from the community `dithesis` class. The default build uses the vendored Arimo font.
 
-The build uses XeLaTeX and is automated via the `Makefile`. The finished
-`thesis.pdf` is written to the repository root; auxiliary files stay in
-`build/`. **Always run from the repository root** so `latexmkrc` and the
-`Makefile` are picked up and the class's relative font path resolves.
+Run every build from the repository root so `latexmkrc` and the class's font path resolve. XeLaTeX writes the finished `thesis.pdf` to the root and keeps auxiliary files under `build/`.
 
 ```bash
-cd /path/to/bsc-apm-thesis
-
-# Build the full thesis (default: vendored Arimo, fully reproducible)
 make pdf
-
-# Build with a system-installed Arial instead (requires Arial on the host)
 make arial
-
-# Continuous rebuild on source changes
 make watch
-
-# Clean auxiliary and output files
 make clean
 ```
 
-If you prefer running `latexmk` manually:
+`make arial` selects a system-installed Arial. The equivalent direct commands are:
 
 ```bash
-# Build the full thesis
 latexmk thesis.tex
-
-# Build with a system-installed Arial
 THESIS_ARIAL=1 latexmk thesis.tex
-
-# Clean auxiliary files
 latexmk -c
 ```
 
-Running from a subdirectory will miss `latexmkrc` and fail to resolve the font path.
-
 ## Result Generation
 
-The thesis keeps table and figure environments in the chapter files. Analysis
-scripts under `analysis/` generate only table rows and figure PDFs, run
-against a config that lists each session's identity, framework, and the
-paths to its parser and grader artefacts. Figure scripts require
-matplotlib, and read the Latin Modern faces the figures are set in from
-`THESIS_LM_FONT_DIR`. Every generator takes `assets/` as its output root:
-table fragments go under `assets/tables/`, while figures go under the
-corresponding dimension in `assets/figures/`.
+The `analysis/` package generates the table rows and figure PDFs imported by the chapters. Its config locates each session's data. Every generator receives `assets/` as its output root. Table fragments go to `assets/tables/`, and figures go to their dimension under `assets/figures/`.
+
+Figure generation requires matplotlib and the Latin Modern OpenType faces:
 
 ```bash
 export THESIS_LM_FONT_DIR="$(dirname "$(kpsewhich lmroman10-regular.otf)")"
@@ -91,30 +58,33 @@ python3 analysis/functional_compact_figure.py --config analysis/config/cohort.js
 python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir assets
 ```
 
-## Spec-kit Release Audit
+## Concept Diagrams
 
-The Spec-kit sessions ran a span of releases rather than one pinned version. The
-audit under `spec-kit-audit/` compares each release in that span against the one
-before it, over the instructions Spec-kit installs into a project, and holds the
-evidence the release-audit appendix cites: one unified diff per release step and a
-manifest hashing every installed file at every release, both committed under
-`spec-kit-audit/generated/`. It requires `git`, [`uv`](https://docs.astral.sh/uv/),
-and network access to GitHub.
+Concept-diagram sources live under `diagrams/`, and their rendered PDFs live under `assets/figures/`. Render each D2 source through SVG so the thesis receives a vector PDF:
 
 ```bash
-# Re-derive the committed outputs
-python3 spec-kit-audit/audit.py
+d2 diagrams/framework-design/message-bus.d2 /tmp/message-bus.svg
+rsvg-convert -b "#FDFCFA" -f pdf \
+  -o assets/figures/framework-design/message-bus.pdf /tmp/message-bus.svg
+```
 
-# Verify the committed outputs against a fresh derivation
+The D2 sources pin ELK as their layout engine and carry the chapter's shared visual styles.
+
+## Spec-kit Release Audit
+
+The study sessions used several Spec-kit releases. `spec-kit-audit/` compares the installed instructions of each release with its predecessor. The committed output contains one unified diff per release step and a manifest hashing every installed file. The audit requires `git`, [`uv`](https://docs.astral.sh/uv/), and network access to GitHub.
+
+```bash
+python3 spec-kit-audit/audit.py
 python3 spec-kit-audit/audit.py --check
 ```
 
-## Related
+## Related Repositories
 
 - [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task specification, participant package, and testing environment.
-- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): grader, transcript parser, and grading environment.
-- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): participant submissions (restricted access).
-- [eclass-mcp-server](https://github.com/sdi2200262/eclass-mcp-server): reference MCP client for the openeclass platform.
+- [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): transcript parser, grader, rubric, and grading environment.
+- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): participant submissions.
+- [eclass-mcp-server](https://github.com/sdi2200262/eclass-mcp-server): reference MCP client for Open eClass.
 
 ## License
 
