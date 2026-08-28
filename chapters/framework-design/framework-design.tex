@@ -14,13 +14,15 @@ Beyond coordinating its agents, APM aims to preserve user authority over develop
 \section{Agent Roles}
 \label{sec:framework-design-agent-roles}
 
-APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools, access permissions, and ability to dispatch subagents. Their specialisation comes from scoping the context that reaches them.
+APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
 
 The Planner does research, resolves requirements and design choices with the user, and records the result in three planning documents. The \emph{Spec} defines what to build. The \emph{Plan} divides implementation into bounded units of work called \emph{Tasks}, organised by domain. The \emph{Rules} govern how their execution is carried out. The Planner's participation ends when implementation begins, leaving its conversation's full context window available to develop these documents.
 
 The Manager coordinates implementation at project level. It distributes Tasks to Workers and supplies the context required to execute them. It reviews their results, maintaining the planning documents and project state that form its context alongside Task outcomes. The instructions the Manager receives establish its usual focus, while review or investigation may take it into code or execution detail.
 
 Each Worker is assigned the Tasks of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive Tasks, its accumulated context builds familiarity with that part of the project.
+
+Within a role, the agent can dispatch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
 
 \begin{table}[H]
   \centering
@@ -88,7 +90,7 @@ A conversation approaching its context window limit is the usual occasion for a 
 
 When an agent loses its working state without having performed a Handoff, the user can invoke APM's recovery procedure. The agent then rereads its role instructions and relevant project files to restore the framework's procedures and establish where its work stands.
 
-At project completion or a pause, APM can archive all files that hold project state and optionally add a summary of their scope, outcomes, decisions, deliverables, and issues. A later Planner can inspect a relevant archive to inform project research and planning.
+At project completion or a pause, APM can archive all files that hold project state and optionally add a summary of their scope, outcomes, decisions, deliverables, and issues. A later Planner can use APM's custom archive-research subagent to inspect a relevant archive and inform project research and planning.
 
 \section{Workflow}
 \label{sec:framework-design-workflow}
@@ -123,7 +125,7 @@ APM's workflow has two phases. The planning phase produces the planning document
 \subsection{Planning Phase}
 \label{sec:framework-design-planning-phase}
 
-Planning begins with the Planner building an understanding of the project. It reads the materials the user identifies as authoritative and explores any codebase the project involves before questioning the user, so its questions address what remains unknown. Successive rounds go deeper, covering the project's purpose and deliverables, then its technical requirements and dependencies, then the constraints, standards, and conventions under which the work should be carried out. Where research or the user's answers open more than one viable approach, the Planner presents the alternatives with their trade-offs and the user chooses.
+Planning begins with the Planner building an understanding of the project. It reads the materials the user identifies as authoritative and explores any codebase the project involves before questioning the user, so its questions address what remains unknown. The Planner may delegate substantial codebase research to subagents, then verifies their findings before using them in its questions or planning documents. Successive rounds go deeper, covering the project's purpose and deliverables, then its technical requirements and dependencies, then the constraints, standards, and conventions under which the work should be carried out. Where research or the user's answers open more than one viable approach, the Planner presents the alternatives with their trade-offs and the user chooses.
 
 The questioning ends with a consolidated account of the Planner's understanding, and planning advances only once the user approves it. Corrections send the Planner back to the material: it applies what the user raised, asks whatever the correction opens up, and presents the revised account again.
 
@@ -147,9 +149,9 @@ The Rules hold the execution patterns that apply across all or most Tasks, such 
 
 Implementation begins with the Manager reading the planning documents and presenting its understanding of the project and the conventions it will work under. It dispatches the first Task once the user approves.
 
-A Task is ready when the Tasks it depends on are complete. Its Worker works from the Task Prompt, the Rules, whatever it needs from the project's files, and the context it has accumulated over earlier Tasks. It executes the work and validates it against the Task's criteria, iterating where validation fails and pausing for the user where a criterion needs the user's judgement or an action outside the development environment. It then reports the outcome it reached: the Task complete, partial progress where iteration stalled, or a failure.
+A Task is ready when the Tasks it depends on are complete. Its Worker works from the Task Prompt, the Rules, whatever it needs from the project's files, and the context it has accumulated over earlier Tasks. It executes the work and validates it against the Task's criteria, iterating where validation fails and pausing for the user where a criterion needs the user's judgement or an action outside the development environment. A difficult failure may be delegated to a debugging subagent, whose findings the Worker verifies before applying them. It then reports the outcome it reached: the Task complete, partial progress where iteration stalled, or a failure.
 
-The Manager reviews the Task Report and the Task Log. An outcome short of complete, or a Worker's note that execution touched something beyond its Task, prompts investigation before anything is accepted, and its findings decide among three outcomes. The work stands as it is, the Worker retries under a refined Task Prompt, or the planning documents need updating, as Section~\ref{sec:framework-design-state-management} describes. In each case the Manager records the result in the Tracker and reassesses which Tasks have become ready. Figure~\ref{fig:framework-design-task-cycle} follows one Task through this cycle.
+The Manager reviews the Task Report and the Task Log. An outcome short of complete, or a Worker's note that execution touched something beyond its Task, prompts investigation before anything is accepted. The Manager handles contained checks directly and may delegate context-intensive investigation to a subagent. Its findings decide among three outcomes. The work stands as it is, the Worker retries under a refined Task Prompt, or the planning documents need updating, as Section~\ref{sec:framework-design-state-management} describes. In each case the Manager records the result in the Tracker and reassesses which Tasks have become ready. Figure~\ref{fig:framework-design-task-cycle} follows one Task through this cycle.
 
 \begin{figure}[H]
   \centering
