@@ -141,3 +141,23 @@ The Plan organises the work. It divides the project into domains, assigns a Work
 \end{figure}
 
 The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards, governing how work is carried out. The distinction is one of kind. An output format or interface contract reaches every Worker, yet it defines what is built and so belongs to the Spec. Every Worker receives the same Rules.
+
+\subsection{Implementation Phase}
+\label{sec:framework-design-implementation-phase}
+
+Implementation begins with the Manager reading the planning documents and presenting its understanding of the project and the conventions it will work under. It dispatches the first Task once the user approves.
+
+A Task is ready when the Tasks it depends on are complete. Its Worker works from the Task Prompt, the Rules, whatever it needs from the project's files, and the context it has accumulated over earlier Tasks. It executes the work and validates it against the Task's criteria, iterating where validation fails and pausing for the user where a criterion needs the user's judgement or an action outside the development environment. It then reports the outcome it reached: the Task complete, partial progress where iteration stalled, or a failure.
+
+The Manager reviews the Task Report and the Task Log. An outcome short of complete, or a Worker's note that execution touched something beyond its Task, prompts investigation before anything is accepted, and what it establishes decides among three outcomes. The work stands as it is, the Worker retries under a refined Task Prompt, or a finding reveals that the planning documents need updating, as Section~\ref{sec:framework-design-state-management} describes. In each case the Manager records the result in the Tracker and reassesses which Tasks have become ready. Figure~\ref{fig:framework-design-task-cycle} follows one Task through this cycle.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/figures/framework-design/task-cycle.pdf}
+  \caption{One Task through the implementation cycle. The Manager and its Worker exchange the Task Prompt and the Task Report through the Message Bus, while the Task Log is written to Memory and reviewed from there.}
+  \label{fig:framework-design-task-cycle}
+\end{figure}
+
+The Manager uses version control to keep each dispatched Task's work separate. At the start it establishes with the user which repositories the work targets and what branch and commit conventions each follows. Work for a dispatched Task goes on its own branch off the agreed base of the repository it touches, and concurrent Workers each get an isolated working copy of it through a git worktree. Workers commit their own work, while merging belongs to the Manager alone. This way work lands on the base branch only after passing the user who mediated its report and the Manager who reviewed and accepted it.
+
+When every Task of a Stage is complete, the Manager closes it with a summary written into Memory's Index, alongside the durable observations of Section~\ref{sec:framework-design-state-management}, and opens the next. When no Stage remains, the Manager records the project as complete, presents an account of what was built, and offers to archive the project state with the summary of Section~\ref{sec:framework-design-state-management}.
