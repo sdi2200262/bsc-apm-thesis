@@ -5,7 +5,7 @@
 \section{Design Goals}
 \label{sec:framework-design-goals}
 
-APM is a framework operating on top of a coding agent. It uses several such agents to form a MAS intended for substantial, real-world software development projects. Its design limits context accumulation by dividing a project across separate agent conversations and giving each agent a distinct responsibility. One plans the project, producing a durable account of what to build and how to build it. Another maintains the project-wide view by distributing bounded parts of the work to others and reviewing what they produce.
+APM is a framework operating on top of a coding agent. It uses several such agents to form a MAS intended for substantial, real-world software development projects. Its design limits context accumulation by dividing a project across separate agent conversations and giving each agent a distinct responsibility. One plans the project, producing a durable account of what to build and how to build it. Another maintains the project-wide view by distributing parts of the work to others and reviewing what they produce.
 
 That division, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
 
@@ -20,7 +20,7 @@ The Planner does research, resolves requirements and design choices with the use
 
 The Manager coordinates implementation at project level. It distributes Tasks to Workers and supplies the context required to execute them. It reviews their results, maintaining the planning documents and project state that form its context alongside Task outcomes. The instructions the Manager receives establish its usual focus, while review or investigation may take it into code or execution detail.
 
-Each Worker is assigned the Tasks of one domain from the Plan, which it executes and validates. For each Task, the Manager provides a self-contained assignment. Workers follow the Rules. Across successive Tasks, accumulated context allows the Worker to develop familiarity with that part of the project. After each Task, the Worker records its outcome and reports it to the Manager.
+Each Worker is assigned the Tasks of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive Tasks, its accumulated context builds familiarity with that part of the project.
 
 \begin{table}[H]
   \centering
@@ -40,7 +40,7 @@ Each Worker is assigned the Tasks of one domain from the Plan, which it executes
 \section{Agent Orchestration}
 \label{sec:framework-design-agent-orchestration}
 
-The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while Workers consult only the Rules.
+The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while neither the Spec nor the Plan reaches a Worker.
 
 For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome.
 
