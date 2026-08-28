@@ -22,7 +22,7 @@ The Manager coordinates implementation at project level. It distributes Tasks to
 
 Each Worker is assigned the Tasks of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive Tasks, its accumulated context builds familiarity with that part of the project.
 
-Within a role, the agent can dispatch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
+Within a role, the agent can launch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
 
 \begin{table}[H]
   \centering
@@ -86,11 +86,11 @@ The user invokes a \emph{Handoff} on demand to transfer a role from an agent con
   \label{fig:framework-design-handoff}
 \end{figure}
 
-A conversation approaching its context window limit is the usual occasion for a Handoff, but the user can invoke one earlier to reduce cost or try to restore performance. The system hosting the agent can also reset accumulated context through compaction, described in Section~\ref{sec:background-context-windows-and-context-decay}, but the resulting summary is ephemeral to the conversation. If the conversation fills again, the next compaction summarises that summary together with the context accumulated since, further reducing the detail retained from earlier work. A Handoff instead records the transfer in persistent files, so successive Handoffs retain a durable history of the role's work.
+A conversation approaching its context window limit is the usual occasion for a Handoff, but the user can invoke one earlier to reduce cost or try to restore performance. The system hosting the agent can also reset accumulated context through compaction, described in Section~\ref{sec:background-context-windows-and-context-decay}, but the resulting summary is ephemeral to the conversation. If the conversation fills again, the next compaction condenses it together with the context accumulated since, further reducing the detail retained from earlier work. A Handoff instead records the transfer in persistent files, so successive Handoffs retain a durable history of the role's work.
 
 When an agent loses its working state without having performed a Handoff, the user can invoke APM's recovery procedure. The agent then rereads its role instructions and relevant project files to restore the framework's procedures and establish where its work stands.
 
-At project completion or a pause, APM can archive all files that hold project state and optionally add a summary of their scope, outcomes, decisions, deliverables, and issues. A later Planner can use APM's custom archive-research subagent to inspect a relevant archive and inform project research and planning.
+At project completion or a pause, APM can archive all files that hold project state and optionally add a document summarising their scope, outcomes, decisions, deliverables, and issues. A later Planner can use APM's custom archive-research subagent to inspect a relevant archive and inform project research and planning.
 
 \section{Workflow}
 \label{sec:framework-design-workflow}
