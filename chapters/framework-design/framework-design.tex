@@ -89,3 +89,31 @@ A conversation approaching its context window limit is the usual occasion for a 
 When an agent loses its working state without having performed a Handoff, the user can invoke APM's recovery procedure. The agent then rereads its role instructions and relevant project files to restore the framework's procedures and establish where its work stands.
 
 At project completion or a pause, APM can archive all files that hold project state and optionally add a summary of their scope, outcomes, decisions, deliverables, and issues. A later Planner can inspect a relevant archive to inform project research and planning.
+
+\section{Workflow}
+\label{sec:framework-design-workflow}
+
+APM exposes its workflow through structured documents and commands. Its artefacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. Across the coding-agent platforms it supports, APM packages each command as a pre-written prompt and adapts its invocation syntax to the platform. Table~\ref{tab:framework-design-commands} uses their common slash-prefixed form. The user invokes each command in the appropriate conversation, making transitions among separate conversations explicit user actions.
+
+\begin{table}[H]
+  \centering
+  \caption{APM commands by addressed agent and function.}
+  \label{tab:framework-design-commands}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}p{0.25\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}}
+    \toprule
+    Command & Addressed agent & Function \\
+    \midrule
+    \texttt{/apm-1-initiate-planner} & Planner & Initiate a Planner conversation \\
+    \texttt{/apm-2-initiate-manager} & Manager & Initiate a Manager conversation \\
+    \texttt{/apm-3-initiate-worker} & Worker & Initiate a Worker conversation \\
+    \texttt{/apm-4-check-tasks} & Worker & Deliver a Task Prompt to the Worker \\
+    \texttt{/apm-5-check-reports} & Manager & Deliver Task Reports to the Manager \\
+    \texttt{/apm-6-handoff-manager} & Manager & Initiate a Manager Handoff \\
+    \texttt{/apm-7-handoff-worker} & Worker & Initiate a Worker Handoff \\
+    \texttt{/apm-8-summarize-session} & New agent or completing Manager & Produce a project summary and optionally archive its state \\
+    \texttt{/apm-9-recover} & Manager or Worker & Reconstruct the role's working context \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+APM's workflow has two phases. The planning phase produces the planning documents, and the implementation phase executes the work they define.
