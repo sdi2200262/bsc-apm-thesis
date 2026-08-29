@@ -1,6 +1,21 @@
 % !TEX root = ../../thesis.tex
 % Conclusion chapter body. Included by thesis.tex under \chapter{CONCLUSION}.
 
-\placeholder{Forthcoming. Restate the proposition and how the evidence bears
-on it; limitations (pointer to the Threats subsection); and Future Work as the
-closing section.}
+APM v1 brings persistent planning documents, role-specific coding agents, and user-mediated coordination into one open-source development framework. We evaluated this design against Spec-kit through a within-participant case study with twelve participants, covering economic, process, functional, and perception outcomes.
+
+Across the cohort, the frameworks carried no firm difference in functional outcome. That comparability is what a grader reading only the running program's responses can see. Section~\ref{sec:discussions-blackbox} bounds what it reaches.
+
+APM cost more, and its several conversations account for that. Each accumulates its own context, builds its own cache, and produces its own output. At session scope their costs add together. Under Opus the whole task fit within one context window limit and no conversation reset, leaving nothing to offset that aggregate against Spec-kit's single conversation. Under Sonnet the same task pushed Spec-kit past Claude Code's auto-compaction threshold repeatedly, and it reread a large accumulated cache before each reset. APM instead kept its conversations' context smaller and compacted less, bringing the two frameworks' costs close, as Section~\ref{sec:discussions-cost-mechanics} explains.
+
+The APM session lasted longer in every pair and had more turn prompts in eleven of the twelve, with its additional interaction and time falling together in implementation. APM coordinates several agent conversations through the user by design, and both follow from it. The user relays each Task Prompt and Task Report, and every relay opens a turn in the conversation receiving it. More turn prompts open more intervals of agent work, and turn time made up most of that phase's longer duration, as Section~\ref{sec:discussions-demands} reports.
+
+Against those additional process and economic demands, participants rated APM higher on effectiveness and confidence, and described greater control over the development process. Our interaction measurements show the user-mediated coordination operating. They leave open whether participants used it to review code, prevent defects, or improve the resulting software. The findings remain bounded by the factors Section~\ref{sec:discussions-threats} discusses.
+
+\section{Future Work}
+\label{sec:conclusion-future-work}
+
+Future evaluations of APM should vary task size and use models with different context window limits. Comparing it with a single-agent framework under those conditions would test how the fit between a task and one conversation's available context affects their relative cost.
+
+APM's user-mediated coordination should also be compared with a variant in which its agents communicate directly, such as APM Auto, described in Section~\ref{sec:framework-design-distribution-customisation}. This would isolate the effects of user mediation on interaction, time, perceived confidence and control, and functional outcome.
+
+Software is read, changed, and repaired long after it is delivered. A longer-running evaluation would follow software produced by APM, measuring code quality, maintainability, defect correction, and lifecycle cost. Two properties of APM's design bear on what it would find, both outside what our functional results report. Each Worker gains familiarity with one domain of the Plan across successive Tasks, on a context scoped to that domain and clear of the accumulation that decays reliability. The framework's instructions place the user in authority throughout: the user settles open questions in planning and approves each document, authorises any change of direction or scope during implementation, and relays every message between agents, intervening where needed. Each is an occasion to catch a mistake before it propagates. Such an evaluation would test whether either property repays APM's additional cost and interaction with more maintainable software and fewer costly defects later.
