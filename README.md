@@ -49,13 +49,14 @@ Figure generation requires matplotlib and the Latin Modern OpenType faces:
 
 ```bash
 export THESIS_LM_FONT_DIR="$(dirname "$(kpsewhich lmroman10-regular.otf)")"
-python3 analysis/generate_tables.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/economic_figures.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/process_figures.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/functional_figures.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/occupancy_figures.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/functional_compact_figure.py --config analysis/config/cohort.json --output-dir assets
-python3 analysis/cost_score_figure.py --config analysis/config/cohort.json --output-dir assets
+COHORT_CONFIG=/path/to/cohort.json
+python3 analysis/generate_tables.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/economic_figures.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/process_figures.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/functional_figures.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/occupancy_figures.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/functional_compact_figure.py --config "$COHORT_CONFIG" --output-dir assets
+python3 analysis/cost_score_figure.py --config "$COHORT_CONFIG" --output-dir assets
 ```
 
 ## Concept Diagrams
