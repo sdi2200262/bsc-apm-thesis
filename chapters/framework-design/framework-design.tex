@@ -2,19 +2,27 @@
 % Framework Design chapter body. Included by thesis.tex under
 % \chapter{FRAMEWORK DESIGN}.
 
+\ethan{I would switch the title to APM Design/APM Overview or APM Architecture, something that matches the system name.}
+
+\ethan{The section needs to be more declarative in its definition of components: the pieces that make up APM: what are they, and what's expected of them? Do you have type interfaces for each one of them?}
+
 \section{Design Goals}
 \label{sec:framework-design-goals}
 
 APM is a framework operating on top of a coding agent. It uses several such agents to form a MAS intended for substantial, real-world software development projects. Its design limits context accumulation by dividing a project across separate agent conversations and giving each agent a distinct responsibility: one plans the project, one distributes the work and reviews what comes back, and the rest carry it out.
 
-That division, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
+That\ethan{indirect, which division? \#strunk and white} division, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
 
-Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions and carries all communication between conversations. Review points of the workflow keep planning, coordination, and execution visible and open to intervention.
+Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions and carries all communication between conversations. Review points of the workflow keep planning, coordination, and execution visible and open to intervention.\ethan{How is this different from standard harnesses like Claude Code? A brief explanation on emphasis may help.}
 
 \section{Agent Roles}
 \label{sec:framework-design-agent-roles}
 
-APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
+\ethan{Before you start I think you need a high-level architecture diagram, showing how APM is envisioned to be used in practice for software development, e.g., in the context of a task - I Would expect to see the task, the user interaction with APM/ interview mode and then proceeding to the implementation / some cycle where you may have to move back to design and also showing the hierarchy of you (the user) and then the planner/manager(s) and workers.}
+
+APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}\ethan{Reference the Table you have created as well}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
+
+\ethan{May be worth creating a list of roles here, with bold terms in the beginning of each sentence, since you're defining what these roles are.}
 
 The Planner does research, resolves requirements and design choices with the user, and records the result in three planning documents. The \emph{Spec} defines what to build. The \emph{Plan} divides implementation into bounded units of work called \emph{Tasks}, organised by domain. The \emph{Rules} govern how their execution is carried out. The Planner's participation ends when implementation begins, leaving its conversation's full context window available to develop these documents.
 
@@ -22,7 +30,7 @@ The Manager coordinates implementation at project level. It distributes Tasks to
 
 Each Worker is assigned the Tasks of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive Tasks, its accumulated context builds familiarity with that part of the project.
 
-Within a role, the agent can launch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
+Within a role, the agent can\ethan{Avoid "Can" throughout the text to the extent possible, it is preferable to say "When" - the condition of something like that to happen instead of the possibility.} launch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
 
 \begin{table}[H]
   \centering
@@ -42,13 +50,13 @@ Within a role, the agent can launch platform-native subagents for focused work. 
 \section{Agent Orchestration}
 \label{sec:framework-design-agent-orchestration}
 
-The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while neither the Spec nor the Plan reaches a Worker.
+The Planner produces its three planning documents through iteration with the user. Its accumulated context does not pass into implementation: the Manager receives the finished Spec, Plan, and Rules, while neither the Spec nor the Plan reaches a Worker\ethan{why is this a good idea? I could believe that understanding at least a high-level view of the plan may be useful for the worker. May be worth listing under "Future Work" to investigate}.
 
-For each Task, the Manager constructs a \emph{Task Prompt} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome.
+For each Task, the Manager constructs a \emph{Task Prompt}\ethan{it would be nice if these terms were defined somewhere in the background} carrying the Task-specific information required for execution. It draws planned requirements from the Spec and Plan and adds context from relevant earlier contributions. Familiarity determines the detail: a pointer may recall a Worker's own output, while another Worker's contribution requires what it produced, where it resides, and how the Task depends on it. After carrying out the work, Workers return a \emph{Task Report} of the outcome.
 
-The Manager can distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
+The Manager can\ethan{again avoid "Can" - when does the manager dispatch? who allocates the workers? how is work allocation determined?} distribute Tasks individually, combine several Tasks for one Worker as a batch, or send independent Tasks to different Workers concurrently, processing Task Reports as they arrive. Dependencies among Tasks constrain these arrangements.
 
-These exchanges use a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
+These exchanges use a file-based \emph{Message Bus}\ethan{Will you define the protocol/data formats exchanged through the various buses?}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
 
 These intervention points are deliberate. They let the user exercise authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
@@ -64,10 +72,11 @@ These intervention points are deliberate. They let the user exercise authority a
 
 The planning documents define the intended work, but execution may reveal that they need to change. The Manager can revise them within the project's established direction and Workers may propose changes to the Rules. Changes to direction or scope, however, require explicit user approval.
 
-During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
+During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker}\ethan{Where is the "Tracker" definied? How is it different from version control? Every single term that's shown should be part of a starting architecture diagram and as a component it should be defined somewhere in the text.} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
 
 After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review.
 
+\ethan{Can the Manager kill tasks? Are there timeouts? If there is an analogy between the Manager design and a standard OS task / process scheduler you should use it because it may help explain the concepts.}
 Condensing execution and coordination detail lets the Manager oversee several Workers, dispatch and review many Tasks, and maintain APM's project state without its own context growing in proportion. Figure~\ref{fig:framework-design-state-reduction} summarises how both enter Memory.
 
 \begin{figure}[H]
@@ -77,7 +86,7 @@ Condensing execution and coordination detail lets the Manager oversee several Wo
   \label{fig:framework-design-state-reduction}
 \end{figure}
 
-The user invokes a \emph{Handoff} on demand to transfer a role from an agent conversation holding accumulated context to a fresh one. The outgoing agent follows the framework's instructions to record what must carry over in two documents. The \emph{Handoff Log} records past work, decisions, and working knowledge not held in Task Logs, and joins them in Memory. The \emph{Handoff Prompt} describes the current state and tells the incoming agent what to read and do next. The user carries it through the role's \emph{Handoff Bus}. The incoming agent rereads its role instructions, then uses both documents and relevant project files to resume from where the outgoing agent left off. Figure~\ref{fig:framework-design-handoff} traces the transfer.
+The user invokes a \emph{Handoff}\ethan{Is handoff defined above? again, should be introduced in that high-level diagram in the beginning} on demand to transfer a role from an agent conversation holding accumulated context to a fresh one. The outgoing agent follows the framework's instructions to record what must carry over in two documents. The \emph{Handoff Log} records past work, decisions, and working knowledge not held in Task Logs, and joins them in Memory. The \emph{Handoff Prompt} describes the current state and tells the incoming agent what to read and do next. The user carries it through the role's \emph{Handoff Bus}. The incoming agent rereads its role instructions, then uses both documents and relevant project files to resume from where the outgoing agent left off. Figure~\ref{fig:framework-design-handoff} traces the transfer.
 
 \begin{figure}[H]
   \centering
@@ -141,6 +150,8 @@ The Plan organises the work. It divides the project into domains, assigns a Work
   \caption{Progression of a project through its Stages. The figure expands a representative dependency graph in Stage 1 and compresses the Tasks of the Stages that follow.}
   \label{fig:framework-design-stage-progression}
 \end{figure}
+
+\ethan{In the figure above it would help you to have a "running example of a task you want completed" so that these breakdowns are not anonymous "Task 1" etc, but instead "Implement C MCP Server" and so on.}
 
 The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards. Every Worker receives the same Rules, yet a requirement is not a Rule merely because it reaches every Worker: an output format or interface contract belongs to the Spec.
 

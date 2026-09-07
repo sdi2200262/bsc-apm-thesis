@@ -2,6 +2,8 @@
 % Discussions chapter body. Included by thesis.tex under \chapter{DISCUSSIONS}.
 % This is an \input fragment, not a standalone document.
 
+\ethan{Rename to "Discussion" : D}
+
 \section{Two Realisations of Spec-Driven Planning}
 \label{sec:discussions-sdd}
 
@@ -76,7 +78,7 @@ Under Sonnet, five of the six Spec-kit conversations compacted, three more than 
   \end{tabular*}
 \end{table}
 
-Spec-kit's single conversation moved through consecutive context windows as it compacted. Before each reset, it grew close to the auto-compaction threshold, so later calls reread a large accumulated cache. Its cache-read cost exceeded APM's, reversing the Opus group's direction and offsetting APM's output and one-hour cache-write excess, as the Sonnet rows of Table~\ref{tab:cost-token-paired-by-category} report.
+Spec-kit's single conversation moved through consecutive context windows as it compacted. Before each reset, it grew close to the auto-compaction threshold, so later calls reread a large accumulated cache. Its cache-read cost exceeded APM's, reversing the Opus group's direction and offsetting APM's output and one-hour cache-write excess\ethan{definition missing}, as the Sonnet rows of Table~\ref{tab:cost-token-paired-by-category} report.
 
 APM instead kept most of its conversations' context windows smaller, so their calls reread less accumulated context. Figure~\ref{fig:disc-occupancy-sessions-sonnet} shows the difference: Spec-kit contributes repeated peaks near the auto-compaction threshold within individual sessions, while most APM context windows peak well below it.
 
@@ -108,6 +110,8 @@ Each turn prompt opens an interval of agent work. In implementation, APM added a
 
 APM's several-agent implementation plausibly contributes to its larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, and its main agents made more tool calls in all twelve as well, as Table~\ref{tab:disc-implementation-behaviour-paired} reports. Both directions reverse the planning phase, where Spec-kit's main agent led on the two measures. Each agent also produces its own output, which is part of why APM's implementation cost the more of the two, as Section~\ref{sec:discussions-cost-mechanics} explains.
 
+\ethan{referencing the 95.8\% coverage is a good reminder but I feel it distracts from the presentation of the results (it's in a bunch of tables, mentioning once in the top may make everything less busy)}
+
 \begin{table}[H]
   \centering
   \caption{Paired implementation-phase behaviour differences, APM minus Spec-kit, at 95.8\% coverage.}
@@ -133,7 +137,7 @@ The total score is the study's one measure of what each session produced. A grad
 
 The grader judges a submission only by the behaviour of the running program, never its source, as Section~\ref{sec:evaluation-measures-functional} describes. A single fault that blocks the program's responses can therefore be recorded as near-total failure, even where the rest of the implementation may be sound.
 
-The C part of the task required every participant to implement a JSON parser and route each MCP request to its requested operation. MCP carries requests as JSON-RPC objects\footnote{MCP transport specification: \url{https://modelcontextprotocol.io/specification/2025-06-18/basic/transports}.}, and the JSON standard treats whitespace between fields as insignificant.\footnote{RFC 8259, Section 2: \url{https://www.rfc-editor.org/rfc/rfc8259}.} Three Sonnet implementations shared one defect. Their parsers accepted a compact request such as \texttt{\{"id":1\}}, but not the ordinary spaced form \texttt{\{"id": 1\}} that the grader sends. A conformant parser should accept both forms.
+The C part of the task required every participant to implement a JSON parser and route each MCP request to its requested operation. MCP carries requests as JSON-RPC objects\footnote{MCP transport specification: \url{https://modelcontextprotocol.io/specification/2025-06-18/basic/transports}.}, and the JSON standard treats whitespace between fields as insignificant.\footnote{RFC 8259, Section 2: \url{https://www.rfc-editor.org/rfc/rfc8259}.} Three Sonnet implementations shared one defect. Their parsers accepted a compact request such as \texttt{\{"id":1\}}, but not the ordinary spaced form \texttt{\{"id": 1\}} that the grader sends. A conformant parser should accept both forms\ethan{fwiw, not handling spaces is a sign of an incorrect implementation}.
 
 Each scored 34.0 points, with the Python part complete and almost all of the C part lost. The grader's ordinary JSON requests elicited no response, so it could not exercise the affected C programs' behaviour at all. When re-graded with compact requests, the three sessions received diagnostic scores from 93.9 to 100.0. Figure~\ref{fig:disc-grading-compact-comparison} plots the full Sonnet group, and Table~\ref{tab:disc-grading-compact-sessions} gives the three changed scores.
 
@@ -190,14 +194,16 @@ The same plot shows three participant pairs that depart from that pattern. In ea
 
 The comparison prices software production. APM cost more for a functionally comparable outcome, but software also incurs corrective and maintenance costs after delivery. A more expensive session could still yield a lower lifecycle cost if it leaves software easier to understand, change, and repair. Those qualities depend on the maintainer, later changes, and other conditions that vary across projects and over time. This study therefore confines the comparison to production cost and functional behaviour.
 
-APM's added cost accompanied a more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while launching subagents where needed. The study did not test that counterfactual, so it leaves open whether the underlying coding agent would achieve comparable total scores, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
+APM's added cost accompanied a more structured workflow, which the total score does not read directly. In this study, the task proved bounded and self-contained. With either model and without either framework guiding it, Claude Code could plausibly work through the task largely on its own while launching subagents where needed. The study did not test that counterfactual\ethan{nvm, just saw this, may want to reference in future work}, so it leaves open whether the underlying coding agent would achieve comparable total scores, or how the grader would read its work. APM's heavier structure therefore had little total-score gap to close, while whether that structure earns its cost lies beyond what the total score can show.
 
 \section{Perceived Versus Measured Behaviour}
 \label{sec:discussions-perception}
 
+\ethan{In which case did participants have better "authority"/understanding over what was implemented? I think we don't have an answer because we didn't measure it - worth adding as an item in "Future Work" at the end.}
+
 The ratings reach what the instruments do not: a participant's confidence in what was built, and the control they kept over building it, leave little trace in a transcript or a score. We read each rating of Section~\ref{sec:results-perception} against the behaviour recorded beneath it, for agreement and for divergence.
 
-Effectiveness and confidence favour APM far more strongly than the total-score comparison does. No participant rated Spec-kit higher on either, as Table~\ref{tab:perc-ratings-paired} reports. The preference appears genuine. Yet the paired total-score comparison carries no firm difference across the cohort, so higher scores alone do not explain it. The accounts that follow point instead to participants' role in the process and the control they retained over the build.
+Effectiveness and confidence favour APM far more strongly than the total-score comparison does. No participant rated Spec-kit higher on either, as Table~\ref{tab:perc-ratings-paired} reports. The preference appears genuine\ethan{Rephrase, avoid subjective judgements}. Yet the paired total-score comparison carries no firm difference across the cohort, so higher scores alone do not explain it. The accounts that follow point instead to participants' role in the process and the control they retained over the build.
 
 One participant, who used APM in their second session, wrote that they were ``much more confident in APMs output'' despite ``not having manually checked either of the code output''. They named the framework being ``strict as to enforcing the PRD when speckit was more lenient'' as the reason. Their confidence reads as trust in a specification the participant helped settle during planning. It is not a judgement of code they verified, and it echoes the reading Section~\ref{sec:discussions-sdd} already builds from the scores. The Spec-kit accounts name the corresponding lack of control directly. One participant wrote that they ``felt lack of control when it came to the deliverables and how they were produced''. Another found it odd that the framework did not operate interactively, letting the agent take its own decisions with the user left out entirely.
 
@@ -205,7 +211,7 @@ Effort is the one item where APM is behind. It was the more effortful framework 
 
 Frustration points the other way from effort. APM was still rated the less frustrating framework, despite the added time and turns, so the added burden did not compound into felt friction.
 
-Mental demand and the effort spent checking the agent's output have no measured counterpart. That absence is itself a finding. Some of the cognitive work that AI-assisted development demands leaves almost no trace in the instrument set. Self-reporting attempts to fill that gap. One participant's account of a Spec-kit session is the clearest instance. They wrote, ``I didn't have a way to validate the results of the session despite taking the agents word which run tests with the mock instance''. They added, ``I didn't do my due diligence in reviewing the code output''. That session's total score is the lowest in the cohort, so here the participant's own doubt and the measured outcome point the same way.
+Mental demand and the effort spent checking the agent's output have no measured counterpart. That absence is itself a finding. Some of the cognitive work that AI-assisted development demands leaves almost no trace in the instrument set. Self-reporting attempts to fill that gap. One participant's account of a Spec-kit session is the clearest instance. They wrote, ``I didn't have a way to validate the results of the session despite taking the agents word which run tests with the mock instance''. They added, ``I didn't do my due diligence in reviewing the code output''. That session's total score is the lowest in the cohort, so here the participant's own doubt and the measured outcome point the same way.\ethan{Another weakness here is that these users were "given" the task so they didn't apply APM in a task that they "owned" and understood fully which also complicates results. It's possible some of our conclusions do not translate to other types of projects \#caveats}
 
 \section{APM's Value Across the Findings}
 \label{sec:discussions-structure-tradeoff}
@@ -260,7 +266,7 @@ A measured comparison is exposed at four points: what its instruments capture, w
 
 The turn-prompt buckets were constructed for this study to describe the form the user's interaction with the agent took. The three buckets of Section~\ref{sec:evaluation-measures-process} separate a framework command from a short message and a longer one at a fifty-character threshold. The study sets that boundary. As a description of interaction form the buckets measure what they were built to measure. As a stand-in for the effort behind the interaction they are weaker. A framework command is a few keystrokes for the user and can set a substantial amount of agent work in motion, while a short reply may follow a long stretch of reading. The comparison they support between the frameworks is therefore one of interaction form, and any reading of user effort taken from them carries that gap.
 
-The cost this study reports is a price rather than a bill. Every request's tokens are priced against the published per-token rates of Appendix~\ref{app:evaluation-rate-card}, putting every session on the same terms and making the framework comparison one of what each framework consumed. A developer's total cost would also include the participant's time and the cost of correcting a solution after delivery. Neither is measured here, and both can outweigh the token cost of the session that produced them. The paired differences are untouched by that, since both sides of every pair are priced identically.
+The cost this study reports is a price rather than a bill. Every request's tokens are priced against the published per-token rates of Appendix~\ref{app:evaluation-rate-card}\ethan{are you extracting the cost from the session or computing post-facto? the latter is more likely to have faults, from cache-read costs to ... anything}, putting every session on the same terms and making the framework comparison one of what each framework consumed. A developer's total cost would also include the participant's time and the cost of correcting a solution after delivery. Neither is measured here, and both can outweigh the token cost of the session that produced them. The paired differences are untouched by that, since both sides of every pair are priced identically.
 
 The cost of a session is a floor rather than a total, for two reasons. When a conversation compacts, the platform makes a further call to summarise the context it is about to discard. That call is not written to the transcripts participants supply, so its tokens are absent from every figure here. Nine of the twenty-four sessions compacted at least once, with twelve compactions between them. A session is also measured only to the three-hour cap of Section~\ref{sec:evaluation-sessions-data}, so anything after that boundary lies outside every value derived from the transcripts.
 

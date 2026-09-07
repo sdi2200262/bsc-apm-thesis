@@ -1,6 +1,8 @@
 % !TEX root = ../../thesis.tex
 % Introduction chapter body. Included by thesis.tex under \chapter{INTRODUCTION}.
 
+\ethan{This is a good start, but take a look at the stanford 5-paragraph essay for starting up the intro: https://en.wikipedia.org/wiki/Five-paragraph\_essay . It will be helpful to make a point about the state of the world today - with a few citations, and then finally you want to go into what is missing and what your thesis is, that you lay out by presenting your contributions}
+
 AI assistants have expanded from completing code to acting on whole software projects as coding agents, carrying out substantial tasks with limited direction from the developer. As those tasks grow, the agent must preserve the project's intent while an increasing body of context competes for the model's finite attention.
 
 Across recent tools and research, two common responses address different parts of this problem. Some record project intent in persistent artefacts before implementation. Others divide work among role-specific agents, each responsible for a bounded part of it. Agentic Project Management (APM) is an open-source framework that combines these two responses: several role-specific coding agents execute work guided by persistent planning documents.\footnote{APM repository: \url{https://github.com/sdi2200262/agentic-project-management}.}
@@ -11,18 +13,18 @@ We examine these effects through a comparative case study with twelve participan
 
 Across the cohort, the frameworks carried no firm difference in functional outcome. APM took longer and cost more, but the higher cost was concentrated among participants using Opus; among those using Sonnet, the frameworks cost about the same. Participants nevertheless rated APM more effective and confidence-inspiring.
 
-\section{Summary of Contributions}
-\label{sec:introduction-contributions}
+% \section{Summary of Contributions}
+% \label{sec:introduction-contributions}
 
-Our work makes three contributions:
+In this thesis, we\ethan{prefer "we" in general throughout the thesis} make the following contributions:
 
 \begin{enumerate}
-    \item It presents APM v1, which brings persistent planning documents, role-specific division of work, and user-mediated coordination into one development framework.
-    \item It evaluates APM against GitHub Spec-kit through a controlled within-participant comparison of economic, process, functional, and perception measures.
-    \item It provides the reproducible case-study methodology, measures, task environment, and supporting infrastructure required for that comparison.
+    \item We present APM v1\ethan{you present the design and implementation of APM, a system for ....}, which brings persistent planning documents, role-specific division of work, and user-mediated coordination into one development framework.
+    \item We evaluate APM against GitHub Spec-kit\ethan{You compare APM against state-of-the-art solutions today! hype it up!} through a controlled within-participant comparison of economic, process, functional, and perception measures.
+    \item We\ethan{Perhaps make this the second contribution and also who you think may benefit from it.} provide the reproducible case-study methodology, measures, task environment, and supporting infrastructure required for that comparison.
 \end{enumerate}
 
-\section{Structure of the Work}
-\label{sec:introduction-structure}
+% \section{Structure of the Work}
+% \label{sec:introduction-structure}
 
-The Background chapter defines the concepts used in the chapters that follow and establishes the research gap. The Framework Design chapter presents APM, and the Evaluation, Results, and Discussions chapters describe the study, report its findings, and interpret them. The Conclusion draws the findings together and identifies directions for further work.
+The thesis is organized as follows: Chapter~\ref{chap:background} introduces the concepts used in the chapters that follow and establishes the research gap.\ethan{use references to introduce each chapter.} The Framework Design chapter presents APM, and the Evaluation, Results, and Discussions chapters describe the study, report its findings, and interpret them. The Conclusion draws the findings together and identifies directions for further work.

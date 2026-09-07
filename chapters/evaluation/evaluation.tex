@@ -2,26 +2,33 @@
 % Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
 % This is an \input fragment, not a standalone document.
 
+\ethan{I would kick off the chapter by laying out the two sections I'll talk about: (1) our methodology/experimental setup and (2) the research questions}
+
+\ethan{You may want to turn this entire section into a "Evaluation Methodology for MAS Solutions in Software Engineering Tasks" chapter and turn the "Results" into the actual evaluation.}
+
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
 
-We evaluate APM v1 against Spec-kit\footnote{Spec-kit documentation: \url{https://github.github.io/spec-kit/}.} through a comparative case study with human participants. Both belong to the class of frameworks operating on top of a coding agent introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}. Within that class, each has its own realisation of the spec-driven development described in Section~\ref{sec:background-spec-driven-development}. They can operate on different coding agents; the study used both with the Claude Code command-line interface from 5 May to 5 June 2026. APM sessions used version 1.0.1 of both its templates and the \texttt{agentic-pm} command-line tool.\footnote{APM release v1.0.1: \url{https://github.com/sdi2200262/agentic-project-management/releases/tag/v1.0.1}; \texttt{agentic-pm} release v1.0.1: \url{https://www.npmjs.com/package/agentic-pm/v/1.0.1}.} Pricing, model, and command-set statements refer to that study window.
+We evaluate APM v1 against\ethan{I would avoid "against" - I would say alongside a state-of-the-art framework for spec-driven ...} Spec-kit\footnote{Spec-kit documentation: \url{https://github.github.io/spec-kit/}.} through a comparative case study with human participants. Both belong to the class of frameworks operating on top of a coding agent introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}. Within that class, each has its own realisation of the spec-driven development described in Section~\ref{sec:background-spec-driven-development}. They can operate on different coding agents; the study used both with the Claude Code command-line interface from 5 May to 5 June 2026\ethan{Pull out dates, models and versions into a separate "Experimental Setup" section}. APM sessions used version 1.0.1 of both its templates and the \texttt{agentic-pm} command-line tool.\footnote{APM release v1.0.1: \url{https://github.com/sdi2200262/agentic-project-management/releases/tag/v1.0.1}; \texttt{agentic-pm} release v1.0.1: \url{https://www.npmjs.com/package/agentic-pm/v/1.0.1}.} Pricing, model, and command-set statements refer to that study window.
 
 The comparison considers each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic):} How do APM v1 and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ1 (Economic):} How do APM v1\ethan{I'd remove the various v1 qualifiers} and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
     \item \textbf{RQ2 (Process):} How do APM v1 and Spec-kit differ in the time the task takes to complete and in the form and frequency of the user's recorded interactions with the frameworks' agents?
     \item \textbf{RQ3 (Functional):} How do APM v1 and Spec-kit differ in functional outcome, including how much of the task each completes and how they fail when they fall short?
+    \ethan{I was re-reading these questions and I'm realizing we have nothing for Code Quality. I noticed that APM spent most time / tokens on implementation and the implementor was focused on the task / the plan and other context were left outside. it is arguable that the code could be "better". Not sure how we would measure however. Perhaps a future work item. Maybe also get a model to find bugs in these implementations and do a count!} \ethan{On another note: did you check the completeness of the MCP protocol implementation? Did APM/Speckit fetch the documentation / definitions to ensure the correct implementation is followed?}
     \item \textbf{RQ4 (Perception):} What are the participants' self-reported experiences with each framework and how do they relate to the behaviour measured in their sessions?
 \end{itemize}
 
-Comparing frameworks of this class has no established procedure. The task, the environment, and the measurements that follow were built for this study.
+Comparing frameworks of this class has no established procedure. The task, the environment, and the measurements that follow were built for this study.\ethan{I would avoid saying there is no established procedure, but instead would claim "we introduce a methodology for evaluating ... to the best of our knowledge one of the first of its kind"}
 
 \section{Spec-kit, the Comparison Framework}
 \label{sec:evaluation-comparison-framework}
 
-Spec-kit is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
+\ethan{I would move to related work / background and gives you a reference point when you introduce your APM commands - you could talk about how they relate - if at all.}
+
+Spec-kit\ethan{Why spec-kit and not raw Claude Code with mandatory plan mode followed by auto-mode? There should be a quick justification "somewhere".} is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
 During our study window, participants used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target, so we audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, so our comparison is read as running against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
 
@@ -39,6 +46,10 @@ Across these steps the agent works largely on its own. It fills gaps in a brief 
 
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
+
+\ethan{The writing in this section needs a bit of tightening.}
+
+\ethan{You also did excellent work on coming up with the "Task Package" and distributing it to participants, you could mention this as well as part of the contribution / available as open-source.}
 
 Our case study's methodology uses a within-participant framework comparison across a cohort of twelve university students and working professionals. Each participant attempts the same task twice, once with each framework. This keeps the participant's skill, prior experience, and working style the same on both sides of the comparison. Each attempt is capped at a three-hour window.
 
@@ -59,7 +70,7 @@ Each participant works in a freshly created, dedicated Linux virtual machine. Th
 \subsection{Sessions and Data}
 \label{sec:evaluation-sessions-data}
 
-We call one attempt to complete the task with the assigned framework a study session. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
+We call one attempt to complete the task with the assigned framework a study session\ethan{Seems like a definition, would be fitting in a background section}. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
 
 Participants were assigned one model across both study sessions, either Claude Opus 4.7 or Claude Sonnet 4.6, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets us investigate whether improvement from growing task familiarity can be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
 
@@ -68,7 +79,9 @@ A post-session procedure has the participants package their solution patch writt
 \section{Measures}
 \label{sec:evaluation-measures}
 
-Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic and process measurements are computed from the session transcripts by a parser. The functional measurements are computed from the solution patch by an automated grader. The perception measurements come from the post-session questionnaire. The parser and grader are part of the study's infrastructure listed in Appendix~\ref{app:evaluation-availability}. The questionnaire's rating items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
+\ethan{Did you mean to say "Metrics" here?}
+
+Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic and process measurements are computed from the session transcripts by a parser\ethan{May be worth emphasizing deterministic / non-neural in the text somewhere to make it clear that grading / eval is not with LLM-as-a-Judge}. The functional measurements are computed from the solution patch by an automated grader. The perception measurements come from the post-session questionnaire. The parser and grader are part of the study's infrastructure listed in Appendix~\ref{app:evaluation-availability}. The questionnaire's rating items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
 
 Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
 
@@ -81,6 +94,8 @@ Within a phase, each measurement is attributed as the work happens: cost, tokens
 \subsection{Economic}
 \label{sec:evaluation-measures-economic}
 
+\ethan{I would align the titles of the subsections with the RQs you set above: RQ1 (Economic): Is APM cost-efficient?}
+
 The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
 \subsection{Process}
@@ -90,7 +105,7 @@ The process measures describe the session's temporal shape and the user's intera
 
 The temporal shape of the session is captured by the session duration and the two measures that decompose it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
-    \item \emph{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record within the three-hour attempt window.
+    \item \emph{Session duration}\ethan{All these terms could be defined in a background section. Your results in the abstract could be phrased in terms of these metrics.} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record within the three-hour attempt window.
     \item \emph{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\emph{solo}) from the time covered by two or more intervals (\emph{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
     \item \emph{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
@@ -117,7 +132,7 @@ Steers are reported at session scope only, as two counts: those \emph{delivered}
 \subsection{Functional}
 \label{sec:evaluation-measures-functional}
 
-The functional dimension is measured by a fixed rubric of behavioural assertions applied to each submission: ninety atomic checks, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
+The functional dimension is measured by a fixed rubric of behavioural assertions\ethan{Is this intended to say "functional tests" basically? I would tighten} applied to each submission: ninety atomic checks, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check matches no accepted form exactly but comes close to one, measured by Levenshtein edit distance~\cite{wagner1974stringcorrection}; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
@@ -139,13 +154,13 @@ Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} -
 
 The number of positive against negative differences gives the sign count. A difference of zero contributes to neither count.
 
-The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
+The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,\ethan{This also belongs in the background}
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
 It reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
 
-A confidence interval based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hodges1963location} captures the uncertainty surrounding the typical difference. The procedure ranks the absolute paired differences and sums the ranks of the positive differences,
+A confidence interval\ethan{This may be overkill due to number of samples, please do a spot check if that's acceptable practice for our numbers} based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hodges1963location} captures the uncertainty surrounding the typical difference. The procedure ranks the absolute paired differences and sums the ranks of the positive differences,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
@@ -161,4 +176,4 @@ The perception ratings are ordinal, so each item is summarised by order-based st
 
 The interpretation in Chapter~\ref{chap:discussions} draws further on supplementary descriptive counts where they support a specific reading. These counts are supporting evidence and not additional measures of the framework comparison, and their presentation follows the question they help interpret.
 
-These statistics are computed, and the figures and table data generated, by the analysis scripts listed in Appendix~\ref{app:evaluation-availability}.
+These statistics are computed, and the figures and table data generated, by the analysis scripts listed in Appendix~\ref{app:evaluation-availability}\ethan{Is this also in the open-source repo? If yes, I would refer the reader there for all these items, helps slim the thesis a bit as well}.

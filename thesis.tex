@@ -24,6 +24,9 @@
 \usepackage[bottom,flushmargin]{footmisc}
 \usepackage{hyperref}
 \usepackage{xurl}
+\usepackage{todonotes}
+\newcommand{\ethan}[1]{\todo{@Thanassis:~#1}}
+
 
 \hypersetup{
   unicode=true,
@@ -77,8 +80,11 @@
 
 \abstractEn{Coding agents now carry out substantial software tasks with limited direction from the developer. As a task grows, the agent must hold the project's intent while an increasing body of context competes for the model's finite attention. Recent frameworks answer this by recording intent in persistent planning documents and by dividing work among role-specific agents.
 
+\ethan{Reframe the abstract a bit: talk about current progress and then move into "We present Agentic Project Management (APM), a ...". In this thesis you document, the design, architecture and mindset behind APM. you aim for three mini-paragraphs: intro, APM and evaluation/conclusions}
+
 Agentic Project Management (APM) is an open-source framework that combines both answers and makes its coordination user-mediated: its agents communicate through the user, who reviews each message and decides whether to pass it on. The design aims to keep authority over development with the user.
 
+\ethan{Any other anchors/percentage/numeric value you want to highligh? Join the rest.}
 We evaluate APM v1 against GitHub's Spec-kit through a within-participant case study. Twelve participants each completed the same demanding task twice, once with each framework, on Claude Code with Claude Opus 4.7 or Claude Sonnet 4.6. The comparison covers economic, process, functional, and perception outcomes.
 
 The frameworks carried no firm difference in functional outcome. APM took longer in every pair and cost more, with the higher cost concentrated among participants using Opus. Its additional interaction and time fell together in implementation, where user-mediated coordination operates. Participants nevertheless rated APM higher on effectiveness and confidence, and described greater control over the development process.
