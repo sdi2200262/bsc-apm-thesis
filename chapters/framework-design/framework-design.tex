@@ -20,7 +20,7 @@ Beyond coordinating its agents, APM aims to preserve user authority over develop
 
 \ethan{Before you start I think you need a high-level architecture diagram, showing how APM is envisioned to be used in practice for software development, e.g., in the context of a task - I Would expect to see the task, the user interaction with APM/ interview mode and then proceeding to the implementation / some cycle where you may have to move back to design and also showing the hierarchy of you (the user) and then the planner/manager(s) and workers.}
 
-APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}\ethan{Reference the Table you have created as well}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
+APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}, summarised in Table~\ref{tab:framework-design-agent-roles}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
 
 \ethan{May be worth creating a list of roles here, with bold terms in the beginning of each sentence, since you're defining what these roles are.}
 
@@ -30,7 +30,7 @@ The Manager coordinates implementation at project level. It distributes Tasks to
 
 Each Worker is assigned the Tasks of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive Tasks, its accumulated context builds familiarity with that part of the project.
 
-Within a role, the agent can\ethan{Avoid "Can" throughout the text to the extent possible, it is preferable to say "When" - the condition of something like that to happen instead of the possibility.} launch platform-native subagents for focused work. Findings return to the role's conversation for verification and integration.
+When investigation or debugging threatens to consume a conversation's context, the agent launches platform-native subagents. Their findings return to the role's conversation for verification and integration.
 
 \begin{table}[H]
   \centering

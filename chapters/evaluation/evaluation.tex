@@ -14,9 +14,9 @@ We evaluate APM v1 against\ethan{I would avoid "against" - I would say alongside
 The comparison considers each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
 
 \begin{itemize}
-    \item \textbf{RQ1 (Economic):} How do APM v1\ethan{I'd remove the various v1 qualifiers} and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
-    \item \textbf{RQ2 (Process):} How do APM v1 and Spec-kit differ in the time the task takes to complete and in the form and frequency of the user's recorded interactions with the frameworks' agents?
-    \item \textbf{RQ3 (Functional):} How do APM v1 and Spec-kit differ in functional outcome, including how much of the task each completes and how they fail when they fall short?
+    \item \textbf{RQ1 (Economic):} How do APM and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
+    \item \textbf{RQ2 (Process):} How do APM and Spec-kit differ in the time the task takes to complete and in the form and frequency of the user's recorded interactions with the frameworks' agents?
+    \item \textbf{RQ3 (Functional):} How do APM and Spec-kit differ in functional outcome, including how much of the task each completes and how they fail when they fall short?
     \ethan{I was re-reading these questions and I'm realizing we have nothing for Code Quality. I noticed that APM spent most time / tokens on implementation and the implementor was focused on the task / the plan and other context were left outside. it is arguable that the code could be "better". Not sure how we would measure however. Perhaps a future work item. Maybe also get a model to find bugs in these implementations and do a count!} \ethan{On another note: did you check the completeness of the MCP protocol implementation? Did APM/Speckit fetch the documentation / definitions to ensure the correct implementation is followed?}
     \item \textbf{RQ4 (Perception):} What are the participants' self-reported experiences with each framework and how do they relate to the behaviour measured in their sessions?
 \end{itemize}
@@ -76,12 +76,10 @@ Participants were assigned one model across both study sessions, either Claude O
 
 A post-session procedure has the participants package their solution patch written against the pinned Python codebase and their Claude Code transcripts for every agent conversation they opened. They then submit that package and answer a short questionnaire.
 
-\section{Measures}
-\label{sec:evaluation-measures}
+\section{Metrics}
+\label{sec:evaluation-metrics}
 
-\ethan{Did you mean to say "Metrics" here?}
-
-Every measurement defined in this section is extracted from a participant's submission by the same procedure across the cohort. The economic and process measurements are computed from the session transcripts by a parser\ethan{May be worth emphasizing deterministic / non-neural in the text somewhere to make it clear that grading / eval is not with LLM-as-a-Judge}. The functional measurements are computed from the solution patch by an automated grader. The perception measurements come from the post-session questionnaire. The parser and grader are part of the study's infrastructure listed in Appendix~\ref{app:evaluation-availability}. The questionnaire's rating items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
+The metrics defined in this section combine automated computation with participant self-reporting. Automated tooling built for the study extracts the objective outcomes deterministically: a transcript parser processes the participants' Claude Code conversation logs to compute the economic and process metrics, while a test-based grader scores the participant's code patch against the functional assertions. A post-session questionnaire supplies the perception metrics. The parser and grader are part of the open-source infrastructure described in Appendix~\ref{app:evaluation-availability}, and the questionnaire items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
 
 Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
 
@@ -92,14 +90,14 @@ The phase and role scopes follow the frameworks' own workflow as recorded in the
 Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-request counts follow the individual record, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it.
 
 \subsection{Economic}
-\label{sec:evaluation-measures-economic}
+\label{sec:evaluation-metrics-economic}
 
 \ethan{I would align the titles of the subsections with the RQs you set above: RQ1 (Economic): Is APM cost-efficient?}
 
 The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
 \subsection{Process}
-\label{sec:evaluation-measures-process}
+\label{sec:evaluation-metrics-process}
 
 The process measures describe the session's temporal shape and the user's interaction with the agent.
 
@@ -130,7 +128,7 @@ Unlike the temporal measures, the turn-prompt measures are also reported at role
 Steers are reported at session scope only, as two counts: those \emph{delivered} to the agent and those \emph{not delivered}.
 
 \subsection{Functional}
-\label{sec:evaluation-measures-functional}
+\label{sec:evaluation-metrics-functional}
 
 The functional dimension is measured by a fixed rubric of behavioural assertions\ethan{Is this intended to say "functional tests" basically? I would tighten} applied to each submission: ninety atomic checks, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
 
@@ -139,7 +137,7 @@ Each check returns one of three verdicts. A \emph{passed} check matches an accep
 The \emph{total score} sums the points earned across the rubric. Its breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. A task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \emph{per-section scores} locate where each framework's work lands.
 
 \subsection{Perception}
-\label{sec:evaluation-measures-perception}
+\label{sec:evaluation-metrics-perception}
 
 The perception measures come from the post-session questionnaire, the self-reported counterpart to the measured behaviour. Its core is eight \emph{rating items} on a one-to-five ordinal scale, each answered once per session and paired by framework. The items cover the participant's prior familiarity with the framework, confidence in the submitted solution, the framework's perceived effectiveness, the session's mental demand and frustration, the overall effort invested, and the effort spent checking and steering the agent. The items differ in polarity, a higher rating being the better outcome for some, such as confidence and effectiveness, and the worse for others, such as mental demand, frustration, and the three effort items.
 
