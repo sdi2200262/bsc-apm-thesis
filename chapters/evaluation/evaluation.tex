@@ -93,6 +93,7 @@ Within a phase, each measurement is attributed as the work happens: cost, tokens
 \label{sec:evaluation-metrics-economic}
 
 \ethan{I would align the titles of the subsections with the RQs you set above: RQ1 (Economic): Is APM cost-efficient?}
+\me{The subsection titles are intentionally concise and parallel (Economic, Process, Functional, Perception) so they map one-to-one between chapters. Verbose titles with explicit RQ labels would clutter the section hierarchy... imo. Personal preference mostly.}
 
 The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
@@ -130,7 +131,7 @@ Steers are reported at session scope only, as two counts: those \emph{delivered}
 \subsection{Functional}
 \label{sec:evaluation-metrics-functional}
 
-The functional dimension is measured by a fixed rubric of behavioural assertions\ethan{Is this intended to say "functional tests" basically? I would tighten} applied to each submission: ninety atomic checks, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
+The functional dimension is measured by ninety atomic functional tests applied to each submission, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check matches no accepted form exactly but comes close to one, measured by Levenshtein edit distance~\cite{wagner1974stringcorrection}; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
@@ -153,6 +154,7 @@ Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} -
 The number of positive against negative differences gives the sign count. A difference of zero contributes to neither count.
 
 The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,\ethan{This also belongs in the background}
+\me{It is a summary statistic, defined alongside the others in our methodology. Background is intended to define field concepts rather than study-specific analysis metrics.}
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]

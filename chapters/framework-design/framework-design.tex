@@ -20,6 +20,7 @@ Beyond coordinating its agents, APM aims to preserve user authority over develop
 APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}, summarised in Table~\ref{tab:framework-design-agent-roles}. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
 
 \ethan{May be worth creating a list of roles here, with bold terms in the beginning of each sentence, since you're defining what these roles are.}
+\me{The roles are already systematically defined and contrasted in Table~\ref{tab:framework-design-agent-roles}.}
 
 The Planner does research, resolves requirements and design choices with the user, and records the result in three planning documents. The \emph{Spec} defines what to build. The \emph{Plan} divides implementation into bounded units of work called \emph{Tasks}, organised by domain. The \emph{Rules} govern how their execution is carried out. The Planner's participation ends when implementation begins, leaving its conversation's full context window available to develop these documents.
 
