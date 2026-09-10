@@ -2,14 +2,14 @@
 % Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION METHODOLOGY}.
 % This is an \input fragment, not a standalone document.
 
-\ethan{I would kick off the chapter by laying out the two sections I'll talk about: (1) our methodology/experimental setup and (2) the research questions}
-
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
 
-We evaluate APM alongside GitHub Spec-kit\footnote{Spec-kit documentation: \url{https://github.github.io/spec-kit/}.} through a comparative case study with human participants. Both belong to the class of frameworks operating on top of a coding agent introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}. Within that class, each has its own realisation of the spec-driven development described in Section~\ref{sec:background-spec-driven-development}. They can operate on different coding agents; the study used both with the Claude Code command-line interface from 5 May to 5 June 2026\ethan{Pull out dates, models and versions into a separate "Experimental Setup" section}. APM sessions used version 1.0.1 of both its templates and the \texttt{agentic-pm} command-line tool.\footnote{APM release v1.0.1: \url{https://github.com/sdi2200262/agentic-project-management/releases/tag/v1.0.1}; \texttt{agentic-pm} release v1.0.1: \url{https://www.npmjs.com/package/agentic-pm/v/1.0.1}.} Pricing, model, and command-set statements refer to that study window.
+We examine the research gap established in Section~\ref{sec:background-agentic-project-management-and-the-research-gap} through a reproducible empirical methodology centred on a within-participant case study of APM and Spec-kit. To the best of our knowledge, this is among the first methodologies developed to evaluate such interactive systems in use by developers.
 
-The comparison considers each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
+Both frameworks belong to the class introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}, and each has its own realisation of SDD described in Section~\ref{sec:background-spec-driven-development}.
+
+The comparison treats each framework as a complete workflow, including how it carries specification, planning, and implementation and how it coordinates the agents involved. Four Research Questions (RQs) organise the primary measured comparison:
 
 \begin{itemize}
     \item \textbf{RQ1 (Economic):} How do APM and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
@@ -19,17 +19,13 @@ The comparison considers each framework as a complete workflow, including how it
     \item \textbf{RQ4 (Perception):} What are the participants' self-reported experiences with each framework and how do they relate to the behaviour measured in their sessions?
 \end{itemize}
 
-We introduce an empirical methodology for evaluating frameworks of this class, to the best of our knowledge one of the first of its kind. The task, the environment, and the measurements that follow were built for this study.
-
 \section{Spec-kit, the Comparison Framework}
 \label{sec:evaluation-comparison-framework}
 
 \ethan{I would move to related work / background and gives you a reference point when you introduce your APM commands - you could talk about how they relate - if at all.}
 \me{Spec-kit is introduced here as the comparison baseline alongside APM. APM is the primary contribution, so presenting its design first establishes the framework architecture before introducing the baseline in the evaluation. Also the commands are not that comparable. Spec-kit commands advance sequential workflow phases within a single continuous conversation, while APM commands initialize agent roles, mediate communication, trigger handoffs, etc. Perhaps actually this distinction between them is worth mentioning.}
 
-Spec-kit is GitHub's open-source spec-driven development toolkit. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
-
-During our study window, participants used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target, so we audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, so our comparison is read as running against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
+Spec-kit is GitHub's open-source spec-driven development toolkit~\cite{github2026speckitdocs}. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
 Spec-kit's workflow is driven by a set of commands that the user triggers, or the agent autonomously invokes. Each is a pre-written prompt with instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artefacts:
 
@@ -43,6 +39,13 @@ Finally, \texttt{/speckit-implement} has the agent work through the task list in
 
 Across these steps the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the user only where a choice is consequential or genuinely open, offering each as a short table of options with a recommendation.
 
+\section{Study Conditions}
+\label{sec:evaluation-study-conditions}
+
+The study was conducted from 5 May to 5 June 2026. Both frameworks operated through the Claude Code command-line interface, and participants used the Claude Opus 4.7 or Claude Sonnet 4.6 models. Pricing, model, and framework descriptions refer to this study window.
+
+The study used version 1.0.1 of both the APM templates and the \texttt{agentic-pm} command-line tool~\cite{chaidemenos2026apm101,chaidemenos2026agenticpm101}. It used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026~\cite{github2026speckitreleases}. A fair comparison needs a fixed target, so we audited that span release by release over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, so we read the comparison as operating against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
+
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
 
@@ -53,7 +56,7 @@ Participants receive materials bundled as an open-source task package: a task br
 \subsection{Task Specification}
 \label{sec:evaluation-task-specification}
 
-The task is delivered to each participant as a product requirements document (PRD) that defines its objectives, requirements, and acceptance criteria. It builds on \texttt{eclass-mcp-server},\footnote{\texttt{eclass-mcp-server} repository: \url{https://github.com/sdi2200262/eclass-mcp-server}.} an existing open-source Python Model Context Protocol (MCP)\footnote{Model Context Protocol specification: \url{https://modelcontextprotocol.io}.} server that connects to Open eClass,\footnote{Open eClass repository: \url{https://github.com/gunet/openeclass}.} the learning-management platform used across Greek academic institutions. The existing server exposes four MCP tools for authentication and course retrieval. Participants are required to add two tools that retrieve course and platform announcements. This requires investigating the Open eClass PHP codebase to determine how the platform exposes those announcements, then implementing the new retrieval behaviour in the Python server.
+The task is delivered to each participant as a product requirements document (PRD) that defines its objectives, requirements, and acceptance criteria. It builds on \texttt{eclass-mcp-server}~\cite{chaidemenos2026eclassmcp}, an existing open-source Python Model Context Protocol (MCP)~\cite{mcp2025spec} server that connects to Open eClass~\cite{gunet2026openeclass}, the learning-management platform used across Greek academic institutions. The existing server exposes four MCP tools for authentication and course retrieval. Participants are required to add two tools that retrieve course and platform announcements. This requires investigating the Open eClass PHP codebase to determine how the platform exposes those announcements, then implementing the new retrieval behaviour in the Python server.
 
 Participants are also required to build a standalone native C replica that exposes the four existing and the two new tools and matches the Python server's input schemas, responses, and error behaviour. The Python server receives its MCP and JSON-RPC protocol machinery from MCP's Python SDK; the C replica must implement that layer itself. Additional constraints from the PRD prohibit the use of external JSON-parsing libraries and require the C program to leak no memory across the supported tool-session surface under Valgrind. Together, the two deliverables give both frameworks a demanding end-to-end problem, spanning codebase investigation, application behaviour, and manual protocol implementation across the Python server and its native C replica.
 
@@ -67,7 +70,7 @@ Each participant works in a freshly created, dedicated Linux virtual machine. Th
 
 We call one attempt to complete the task with the assigned framework a \emph{study session}\ethan{Seems like a definition, would be fitting in a background section}\me{A study session is specific to the evaluation methodology.}. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
 
-Participants were assigned one model across both study sessions, either Claude Opus 4.7 or Claude Sonnet 4.6, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets us investigate whether improvement from growing task familiarity can be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
+Participants were assigned one of the two models across both study sessions, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets us investigate whether improvement from growing task familiarity can be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
 
 A post-session procedure has the participants package their solution patch written against the pinned Python codebase and their Claude Code transcripts for every agent conversation they opened. They then submit that package and answer a short questionnaire.
 
