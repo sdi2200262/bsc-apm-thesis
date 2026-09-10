@@ -1,10 +1,8 @@
 % !TEX root = ../../thesis.tex
-% Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION}.
+% Evaluation chapter body. Included by thesis.tex under \chapter{EVALUATION METHODOLOGY}.
 % This is an \input fragment, not a standalone document.
 
 \ethan{I would kick off the chapter by laying out the two sections I'll talk about: (1) our methodology/experimental setup and (2) the research questions}
-
-\ethan{You may want to turn this entire section into a "Evaluation Methodology for MAS Solutions in Software Engineering Tasks" chapter and turn the "Results" into the actual evaluation.}
 
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
@@ -29,7 +27,7 @@ We introduce an empirical methodology for evaluating frameworks of this class, t
 \ethan{I would move to related work / background and gives you a reference point when you introduce your APM commands - you could talk about how they relate - if at all.}
 \me{Spec-kit is introduced here as the comparison baseline alongside APM. APM is the primary contribution, so presenting its design first establishes the framework architecture before introducing the baseline in the evaluation. Also the commands are not that comparable. Spec-kit commands advance sequential workflow phases within a single continuous conversation, while APM commands initialize agent roles, mediate communication, trigger handoffs, etc. Perhaps actually this distinction between them is worth mentioning.}
 
-Spec-kit\ethan{Why spec-kit and not raw Claude Code with mandatory plan mode followed by auto-mode? There should be a quick justification "somewhere".} is GitHub's open-source spec-driven development toolkit. One agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
+Spec-kit is GitHub's open-source spec-driven development toolkit. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
 During our study window, participants used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026. A fair comparison needs a fixed target, so we audited that span release by release, over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, so our comparison is read as running against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
 
@@ -48,13 +46,9 @@ Across these steps the agent works largely on its own. It fills gaps in a brief 
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
 
-\ethan{The writing in this section needs a bit of tightening.}
+The case study employs a within-participant comparison across twelve university students and working professionals. Each participant attempts the same task twice, once per framework, holding individual skill, prior experience, and working style constant across both attempts. Each attempt has a three-hour limit.
 
-\ethan{You also did excellent work on coming up with the "Task Package" and distributing it to participants, you could mention this as well as part of the contribution / available as open-source.}
-
-Our case study's methodology uses a within-participant framework comparison across a cohort of twelve university students and working professionals. Each participant attempts the same task twice, once with each framework. This keeps the participant's skill, prior experience, and working style the same on both sides of the comparison. Each attempt is capped at a three-hour window.
-
-Participants are provided with materials that include a task brief, a guide to preparing for and completing both framework attempts, and a portable testing environment. The brief and the environment are detailed in the two subsections that follow, and are listed in Appendix~\ref{app:evaluation-availability}.
+Participants receive materials bundled as an open-source task package: a task brief, a portable testing environment, and a self-contained guide to walk through setup and their task attempts. An optional agent helper skill accompanies the guide to automate or assist with setup; agents evaluated in the study sessions do not have this skill. The two subsections that follow detail the brief and the environment. Appendix~\ref{app:evaluation-availability} lists all package materials.
 
 \subsection{Task Specification}
 \label{sec:evaluation-task-specification}
