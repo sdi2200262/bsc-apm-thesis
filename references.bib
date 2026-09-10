@@ -3,7 +3,38 @@
 % Every entry carries the locators a reader needs to find the source: the venue,
 % the volume and issue where the journal assigns them, the month and year, and
 % an identifier in its own field. The style prints DOIs, ISBNs, and arXiv
-% numbers as plain text. Web pages and tools are cited in footnotes.
+% numbers as plain text. Web publications and documentation use @online; software,
+% repositories, and tagged releases use @software. Both carry a urldate.
+
+@online{friedman2021copilot,
+    author = {Friedman, Nat},
+    title = {Introducing {GitHub} {Copilot}: your {AI} pair programmer},
+    organization = {GitHub},
+    month = jun,
+    year = {2021},
+    url = {https://github.blog/2021-06-29-introducing-github-copilot-ai-pair-programmer/},
+    urldate = {2026-09-10},
+}
+
+@online{wu2024devin,
+    author = {Wu, Scott},
+    title = {Introducing {Devin}, the first {AI} software engineer},
+    organization = {Cognition},
+    month = mar,
+    year = {2024},
+    url = {https://cognition.com/blog/introducing-devin},
+    urldate = {2026-09-10},
+}
+
+@online{nikolic2025agentmode,
+    author = {Nikolic, Isidor},
+    title = {Introducing {GitHub} {Copilot} agent mode (preview)},
+    organization = {Visual Studio Code},
+    month = feb,
+    year = {2025},
+    url = {https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode},
+    urldate = {2026-09-10},
+}
 
 @book{russell2021aima,
     author = {Russell, Stuart J. and Norvig, Peter},
@@ -49,6 +80,14 @@
     doi = {10.1287/mnsc.2025.00535},
 }
 
+@software{anysphere2026cursor,
+    author = {{Anysphere, Inc.}},
+    title = {Cursor},
+    url = {https://cursor.com},
+    urldate = {2026-09-10},
+    year = {2026},
+}
+
 @online{becker2025metr,
     author = {Becker, Joel and Rush, Nate and Barnes, Elizabeth and Rein, David},
     title = {Measuring the Impact of Early-2025 {AI} on Experienced Open-Source
@@ -61,14 +100,40 @@
     pubstate = {prepublished},
 }
 
-@article{nliu2023lostmiddle,
-    author = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape,
-              Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
-    title = {Lost in the Middle: How Language Models Use Long Contexts},
-    journal = {Transactions of the Association for Computational Linguistics},
-    volume = {12},
-    year = {2024},
-    doi = {10.1162/tacl_a_00638},
+@inproceedings{thorgeirsson2026vibeskills,
+    author = {Thorgeirsson, Sverrir and Weidmann, Theo B. and Su, Zhendong},
+    title = {Computer Science Achievement and Writing Skills Predict Vibe
+             Coding Proficiency},
+    booktitle = {Proceedings of the 2026 {CHI} Conference on Human Factors in
+                 Computing Systems},
+    publisher = {ACM},
+    month = apr,
+    year = {2026},
+    doi = {10.1145/3772318.3791666},
+}
+
+@online{anthropic2026contextwindows,
+    author = {{Anthropic}},
+    title = {Context windows},
+    year = {2026},
+    url = {https://platform.claude.com/docs/en/build-with-claude/context-windows},
+    urldate = {2026-09-10},
+}
+
+@online{anthropic2026promptcaching,
+    author = {{Anthropic}},
+    title = {Prompt caching},
+    year = {2026},
+    url = {https://platform.claude.com/docs/en/build-with-claude/prompt-caching},
+    urldate = {2026-09-10},
+}
+
+@online{anthropic2026claudecodeworks,
+    author = {{Anthropic}},
+    title = {How {Claude} {Code} works},
+    year = {2026},
+    url = {https://code.claude.com/docs/en/how-claude-code-works},
+    urldate = {2026-09-10},
 }
 
 @online{gao2025turncontrol,
@@ -83,6 +148,16 @@
     pubstate = {prepublished},
 }
 
+@article{nliu2023lostmiddle,
+    author = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape,
+              Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
+    title = {Lost in the Middle: How Language Models Use Long Contexts},
+    journal = {Transactions of the Association for Computational Linguistics},
+    volume = {12},
+    year = {2024},
+    doi = {10.1162/tacl_a_00638},
+}
+
 @article{meyer1992dbc,
     author = {Meyer, Bertrand},
     title = {Applying {`Design by Contract'}},
@@ -92,6 +167,15 @@
     month = oct,
     year = {1992},
     doi = {10.1109/2.161279},
+}
+
+@book{beck2002tdd,
+    author = {Beck, Kent},
+    title = {Test-Driven Development: By Example},
+    publisher = {Addison-Wesley},
+    location = {Boston, MA},
+    year = {2002},
+    isbn = {978-0-321-14653-3},
 }
 
 @inproceedings{ostroff2004specdriven,
@@ -106,13 +190,40 @@
     doi = {10.1007/978-3-540-24853-8_12},
 }
 
-@book{beck2002tdd,
-    author = {Beck, Kent},
-    title = {Test-Driven Development: By Example},
-    publisher = {Addison-Wesley},
-    location = {Boston, MA},
-    year = {2002},
-    isbn = {978-0-321-14653-3},
+@online{swaminathan2025kiro,
+    author = {Swaminathan, Nikhil and Singh, Deepak},
+    title = {Introducing {Kiro}},
+    organization = {Kiro},
+    month = jul,
+    year = {2025},
+    url = {https://kiro.dev/blog/introducing-kiro/},
+    urldate = {2026-09-10},
+}
+
+@online{delimarsky2025speckit,
+    author = {Delimarsky, Den},
+    title = {Spec-driven development with {AI}: Get started with a new open
+             source toolkit},
+    organization = {GitHub},
+    month = sep,
+    year = {2025},
+    url = {https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/},
+    urldate = {2026-09-10},
+}
+
+@inproceedings{cemri2025masfail,
+    author = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and Agrawal,
+              Lakshya A. and Chopra, Bhavya and Tiwari, Rishabh and Keutzer, Kurt
+              and Parameswaran, Aditya and Klein, Dan and Ramchandran, Kannan and
+              Zaharia, Matei and Gonzalez, Joseph E. and Stoica, Ion},
+    title = {Why Do Multi-Agent {LLM} Systems Fail?},
+    booktitle = {Advances in Neural Information Processing Systems 38 ({NeurIPS}
+                 2025), Datasets and Benchmarks Track},
+    month = dec,
+    year = {2025},
+    eprint = {2503.13657},
+    eprinttype = {arxiv},
+    eprintclass = {cs.AI},
 }
 
 @inproceedings{li2023camel,
@@ -172,21 +283,6 @@
     eprintclass = {cs.AI},
 }
 
-@inproceedings{cemri2025masfail,
-    author = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and Agrawal,
-              Lakshya A. and Chopra, Bhavya and Tiwari, Rishabh and Keutzer, Kurt
-              and Parameswaran, Aditya and Klein, Dan and Ramchandran, Kannan and
-              Zaharia, Matei and Gonzalez, Joseph E. and Stoica, Ion},
-    title = {Why Do Multi-Agent {LLM} Systems Fail?},
-    booktitle = {Advances in Neural Information Processing Systems 38 ({NeurIPS}
-                 2025), Datasets and Benchmarks Track},
-    month = dec,
-    year = {2025},
-    eprint = {2503.13657},
-    eprinttype = {arxiv},
-    eprintclass = {cs.AI},
-}
-
 @online{gao2025singlemulti,
     author = {Gao, Mingyan and Li, Yanzi and Liu, Banruo and Yu, Yifan and Wang,
               Phillip and Lin, Ching-Yu and Lai, Fan},
@@ -197,6 +293,54 @@
     eprinttype = {arxiv},
     eprintclass = {cs.MA},
     pubstate = {prepublished},
+}
+
+@online{hadfield2025multiagent,
+    author = {Hadfield, Jeremy and Zhang, Barry and Lien, Kenneth and Scholz,
+              Florian and Fox, Jeremy and Ford, Daniel},
+    title = {How we built our multi-agent research system},
+    organization = {Anthropic},
+    month = jun,
+    year = {2025},
+    url = {https://www.anthropic.com/engineering/multi-agent-research-system},
+    urldate = {2026-09-10},
+}
+
+@online{yan2025multiagents,
+    author = {Yan, Walden},
+    title = {Don't Build Multi-Agents},
+    organization = {Cognition},
+    month = jun,
+    year = {2025},
+    url = {https://cognition.com/blog/dont-build-multi-agents},
+    urldate = {2026-09-10},
+}
+
+@software{bmad2025method,
+    author = {{BMad Code, LLC}},
+    title = {{BMAD-METHOD}: Breakthrough Method for Agile {Ai} Driven
+             Development},
+    year = {2025},
+    url = {https://github.com/bmad-code-org/BMAD-METHOD},
+    urldate = {2026-09-10},
+}
+
+@software{vincent2025superpowers,
+    author = {Vincent, Jesse},
+    title = {Superpowers},
+    year = {2025},
+    url = {https://github.com/obra/superpowers},
+    urldate = {2026-09-10},
+}
+
+@online{thoughtworks2025sdd,
+    author = {{Thoughtworks}},
+    title = {Spec-driven development},
+    note = {Technology Radar Vol. 34},
+    month = nov,
+    year = {2025},
+    url = {https://www.thoughtworks.com/radar/techniques/spec-driven-development},
+    urldate = {2026-09-10},
 }
 
 @inproceedings{chen2025codewith,
@@ -210,6 +354,71 @@
     month = apr,
     year = {2026},
     doi = {10.1145/3772318.3790850},
+}
+
+@online{github2026speckitdocs,
+    author = {{GitHub}},
+    title = {{GitHub} {Spec} {Kit}},
+    year = {2026},
+    url = {https://github.github.io/spec-kit/},
+    urldate = {2026-09-10},
+}
+
+@software{chaidemenos2026apm101,
+    author = {Chaidemenos, Konstantinos},
+    title = {{Agentic} {Project} {Management} {(APM)}},
+    version = {1.0.1},
+    month = apr,
+    year = {2026},
+    url = {https://github.com/sdi2200262/agentic-project-management/releases/tag/v1.0.1},
+    urldate = {2026-09-10},
+}
+
+@software{chaidemenos2026agenticpm101,
+    author = {Chaidemenos, Konstantinos},
+    title = {\texttt{agentic-pm}},
+    version = {1.0.1},
+    month = apr,
+    year = {2026},
+    url = {https://www.npmjs.com/package/agentic-pm/v/1.0.1},
+    urldate = {2026-09-10},
+}
+
+@software{github2026speckitreleases,
+    author = {{GitHub}},
+    title = {{Spec} {Kit}},
+    version = {0.8.5--0.8.13},
+    year = {2026},
+    url = {https://github.com/github/spec-kit/releases},
+    urldate = {2026-09-10},
+}
+
+@software{chaidemenos2026eclassmcp,
+    author = {Chaidemenos, Konstantinos},
+    title = {\texttt{eclass-mcp-server}: A {Model} {Context} {Protocol}
+             {(MCP)} server for the {Open} {eClass} platform},
+    version = {dbd2d16},
+    year = {2026},
+    url = {https://github.com/sdi2200262/eclass-mcp-server},
+    urldate = {2026-09-10},
+}
+
+@online{mcp2025spec,
+    author = {{Model Context Protocol}},
+    title = {{Model} {Context} {Protocol} specification, revision 2025-06-18},
+    month = jun,
+    year = {2025},
+    url = {https://modelcontextprotocol.io/specification/2025-06-18},
+    urldate = {2026-09-10},
+}
+
+@software{gunet2026openeclass,
+    author = {{GUnet}},
+    title = {Open {eClass}},
+    version = {4.3.3},
+    year = {2026},
+    url = {https://github.com/gunet/openeclass/releases/tag/Release_4.3.3},
+    urldate = {2026-09-10},
 }
 
 @article{wagner1974stringcorrection,
@@ -244,4 +453,3 @@
     year = {1945},
     doi = {10.2307/3001968},
 }
-
