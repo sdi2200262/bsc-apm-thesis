@@ -1,8 +1,6 @@
 % !TEX root = ../../thesis.tex
 % APM's Design chapter body. Included by thesis.tex under \chapter{APM'S DESIGN}.
 
-\ethan{The section needs to be more declarative in its definition of components: the pieces that make up APM: what are they, and what's expected of them? Do you have type interfaces for each one of them?}
-
 \section{Design Goals}
 \label{sec:framework-design-goals}
 
@@ -54,7 +52,7 @@ For each Task, the Manager constructs a \emph{Task Prompt}\ethan{it would be nic
 
 When a Worker receives its first Task from the Plan, the user creates it by opening a new conversation, which subsequent work reuses. As prerequisites complete and unblock downstream work, the Manager dispatches ready Tasks: individually, in sequential batches to a single Worker, or concurrently across separate domains.
 
-These exchanges use a file-based \emph{Message Bus}\ethan{Will you define the protocol/data formats exchanged through the various buses?}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
+These exchanges use a file-based \emph{Message Bus}\ethan{Will you define the protocol/data formats exchanged through the various buses?}\me{The first two paragraphs of Section~\ref{sec:framework-design-workflow} cover this: the artefacts are Markdown with YAML fields, and the bus protocols are packaged as a shared Agent Skill.}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-message-bus} maps these two directions of exchange. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who can inspect and review the content, returning corrections as needed, before directing the recipient to read it.
 
 These intervention points are deliberate. They let the user exercise authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
@@ -70,7 +68,7 @@ These intervention points are deliberate. They let the user exercise authority a
 
 The planning documents define the intended work, but execution may reveal that they need to change. The Manager can revise them within the project's established direction and Workers may propose changes to the Rules. Changes to direction or scope, however, require explicit user approval.
 
-During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker}\ethan{Where is the "Tracker" definied? How is it different from version control? Every single term that's shown should be part of a starting architecture diagram and as a component it should be defined somewhere in the text.} holds its live account of coordination state, recording Task and Worker status, and working notes accumulated during execution. These notes hold pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
+During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} is its live record of where the work stands, holding the status of every Task, the Worker on each one, and the version control state and conventions in force. Working notes accumulate beside them, carrying pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
 
 After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review.
 
@@ -84,7 +82,7 @@ Condensing execution and coordination detail lets the Manager oversee several Wo
   \label{fig:framework-design-state-reduction}
 \end{figure}
 
-The user invokes a \emph{Handoff}\ethan{Is handoff defined above? again, should be introduced in that high-level diagram in the beginning} on demand to transfer a role from an agent conversation holding accumulated context to a fresh one. The outgoing agent follows the framework's instructions to record what must carry over in two documents. The \emph{Handoff Log} records past work, decisions, and working knowledge not held in Task Logs, and joins them in Memory. The \emph{Handoff Prompt} describes the current state and tells the incoming agent what to read and do next. The user carries it through the role's \emph{Handoff Bus}. The incoming agent rereads its role instructions, then uses both documents and relevant project files to resume from where the outgoing agent left off. Figure~\ref{fig:framework-design-handoff} traces the transfer.
+To address a conversation's context pressure and decay, the user invokes a \emph{Handoff} on demand, transferring a role from an agent conversation holding accumulated context to a fresh one. The outgoing agent follows the framework's instructions to record what must carry over in two documents. The \emph{Handoff Log} records past work, decisions, and working knowledge not held in Task Logs, and joins them in Memory. The \emph{Handoff Prompt} describes the current state and tells the incoming agent what to read and do next. The user carries it through the role's \emph{Handoff Bus}. The incoming agent rereads its role instructions, then uses both documents and relevant project files to resume from where the outgoing agent left off. Figure~\ref{fig:framework-design-handoff} traces the transfer.
 
 \begin{figure}[H]
   \centering
@@ -93,7 +91,7 @@ The user invokes a \emph{Handoff}\ethan{Is handoff defined above? again, should 
   \label{fig:framework-design-handoff}
 \end{figure}
 
-A conversation approaching its context window limit is the usual occasion for a Handoff, but the user can invoke one earlier to reduce cost or try to restore performance. The system hosting the agent can also reset accumulated context through compaction, described in Section~\ref{sec:background-context-windows-and-context-decay}, but the resulting summary is ephemeral to the conversation. If the conversation fills again, the next compaction condenses it together with the context accumulated since, further reducing the detail retained from earlier work. A Handoff instead records the transfer in persistent files, so successive Handoffs retain a durable history of the role's work.
+The context window limit is the usual occasion for a Handoff to occur, but the user can invoke one earlier to reduce cost or try to restore performance. The system hosting the agent can also reset accumulated context through compaction, described in Section~\ref{sec:background-context-windows-and-context-decay}, but the resulting summary is ephemeral to the conversation. If the conversation fills again, the next compaction condenses it together with the context accumulated since, further reducing the detail retained from earlier work. A Handoff instead records the transfer in persistent files, so successive Handoffs retain a durable history of the role's work.
 
 When an agent loses its working state without having performed a Handoff, the user can invoke APM's recovery procedure. The agent then rereads its role instructions and relevant project files to restore the framework's procedures and establish where its work stands.
 
