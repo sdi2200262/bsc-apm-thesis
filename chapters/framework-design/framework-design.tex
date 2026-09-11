@@ -8,7 +8,7 @@ APM is a framework operating on top of a coding agent. It uses several such agen
 
 Partitioning responsibilities across conversations, however, also separates the knowledge and decisions needed to keep the agents' contributions consistent with what they should collectively produce. To address this separation, APM uses shared files to make that information persistent and available across conversations. They hold project intent, execution state, and information exchanged among agents, while explicit protocols define what each agent reads and writes.
 
-Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions and carries all communication between conversations. Review points of the workflow keep planning, coordination, and execution visible and open to intervention.\ethan{How is this different from standard harnesses like Claude Code? A brief explanation on emphasis may help.}
+Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions and carries all communication between conversations. Review points of the workflow keep planning, coordination, and execution visible and open to intervention. Unlike standard coding agents that delegate to subagents autonomously within a single conversation, APM places the user directly at the communication boundary between separate conversations, requiring explicit human mediation for their exchanges.
 
 \section{Agent Roles}
 \label{sec:framework-design-agent-roles}
@@ -56,6 +56,8 @@ These exchanges use a file-based \emph{Message Bus}\ethan{Will you define the pr
 
 These intervention points are deliberate. They let the user exercise authority as decisions and results pass between agents, allowing mistakes or unwanted directions to be addressed before they propagate through the project.
 
+Under this file-based exchange, running turns involve only the Worker and the user, while the Manager remains idle until the user delivers the Task Report. An agent that encounters blocking issues or failing validation reports incomplete or failed progress for the Manager to review. If an agent hangs or strays during execution, the user can interrupt the conversation directly to force that stoppage.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/message-bus.pdf}
@@ -70,10 +72,7 @@ The planning documents define the intended work, but execution may reveal that t
 
 During implementation, the Manager also maintains documents for coordination and project history. The \emph{Tracker} is its live record of where the work stands, holding the status of every Task, the Worker on each one, and the version control state and conventions in force. Working notes accumulate beside them, carrying pending considerations and findings that may affect later decisions. \emph{Memory} is a hierarchically organised collection of files that preserves project history. Its \emph{Index} provides the overview: summaries of completed work with references to their underlying records, and durable observations distilled from the Tracker's working notes, including established patterns, preferences, and project-level insights.
 
-After completing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation, deliverables, file changes, and findings bearing on the wider project. The Task Report briefly announces the results through the Message Bus, and points to the corresponding Task Log for review.
-
-\ethan{Can the Manager kill tasks? Are there timeouts? If there is an analogy between the Manager design and a standard OS task / process scheduler you should use it because it may help explain the concepts.}
-Condensing execution and coordination detail lets the Manager oversee several Workers, dispatch and review many Tasks, and maintain APM's project state without its own context growing in proportion. Figure~\ref{fig:framework-design-state-reduction} summarises how both enter Memory.
+After executing a Task, its Worker writes a \emph{Task Log} that reduces accumulated execution detail to what the Manager needs for coordination: the outcome, validation results, deliverables, file changes, and findings bearing on the wider project. The Task Report points to this log for review. Condensing execution and coordination detail lets the Manager oversee several Workers, dispatch and review many Tasks, and maintain APM's project state without its own context growing in proportion. Figure~\ref{fig:framework-design-state-reduction} summarises how both enter Memory.
 
 \begin{figure}[H]
   \centering
@@ -143,11 +142,9 @@ The Plan organises the work. It partitions the project into cohesive domains, se
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/stage-progression.pdf}
-  \caption{Progression of a project through its Stages. The figure expands a representative dependency graph in Stage 1 and compresses the Tasks of the Stages that follow.}
+  \caption{Progression of a project through its Stages, illustrated with modular service tasks in Stage 1 and compressed representations of the Stages that follow.}
   \label{fig:framework-design-stage-progression}
 \end{figure}
-
-\ethan{In the figure above it would help you to have a "running example of a task you want completed" so that these breakdowns are not anonymous "Task 1" etc, but instead "Implement C MCP Server" and so on.}
 
 The Rules hold the execution patterns that apply across all or most Tasks, such as coding conventions and quality standards. Every Worker receives the same Rules, yet a requirement is not a Rule merely because it reaches every Worker: an output format or interface contract belongs to the Spec.
 

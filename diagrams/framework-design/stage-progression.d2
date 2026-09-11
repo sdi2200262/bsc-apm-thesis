@@ -49,38 +49,38 @@ classes: {
 }
 
 stage_1: {
-  label: Stage 1
+  label: "Stage 1: Core Service"
   class: stage
 
   task_1: {
-    label: Task 1
+    label: "Task 1.1\nData models"
     class: task
-    width: 135
-    height: 60
+    width: 160
+    height: 65
   }
   task_2: {
-    label: Task 2
+    label: "Task 1.2\nStorage layer"
     class: task
-    width: 135
-    height: 60
+    width: 160
+    height: 65
   }
   task_3: {
-    label: Task 3
+    label: "Task 1.3\nAuth handler"
     class: task
-    width: 135
-    height: 60
+    width: 160
+    height: 65
   }
   task_4: {
-    label: Task 4
+    label: "Task 1.4\nAPI endpoints"
     class: task
-    width: 135
-    height: 60
+    width: 160
+    height: 65
   }
   task_5: {
-    label: Task 5
+    label: "Task 1.5\nIntegration tests"
     class: task
-    width: 135
-    height: 60
+    width: 165
+    height: 65
   }
 
   task_1 -> task_2
@@ -91,7 +91,7 @@ stage_1: {
 }
 
 stage_2: {
-  label: Stage 2
+  label: "Stage 2: Client Interface"
   class: stage
 
   tasks: {
@@ -114,7 +114,7 @@ more: {
 }
 
 stage_n: {
-  label: Stage n
+  label: "Stage n: Deployment"
   class: stage
 
   tasks: {
