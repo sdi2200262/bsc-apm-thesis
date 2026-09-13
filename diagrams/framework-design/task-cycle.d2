@@ -13,13 +13,13 @@ task_cycle: {
 
   manager: Manager
   message_bus: Message Bus
-  workers: Worker(s)
+  workers: Worker
   memory: Memory
 
   manager.width: 260
   manager.style: {
     fill: "#ffffff"
-    stroke: "#333333"
+    stroke: "#000000"
     stroke-width: 2
     font-color: "#000000"
     font-size: 19
@@ -31,10 +31,10 @@ task_cycle: {
   message_bus.width: 260
   message_bus.style: {
     fill: "#ffffff"
-    stroke: "#777777"
-    stroke-width: 1
+    stroke: "#000000"
+    stroke-width: 2
     font-color: "#000000"
-    font-size: 16
+    font-size: 19
     bold: false
     border-radius: 0
     shadow: false
@@ -43,7 +43,7 @@ task_cycle: {
   workers.width: 260
   workers.style: {
     fill: "#ffffff"
-    stroke: "#333333"
+    stroke: "#000000"
     stroke-width: 2
     font-color: "#000000"
     font-size: 19
@@ -55,10 +55,10 @@ task_cycle: {
   memory.width: 260
   memory.style: {
     fill: "#ffffff"
-    stroke: "#777777"
-    stroke-width: 1
+    stroke: "#000000"
+    stroke-width: 2
     font-color: "#000000"
-    font-size: 16
+    font-size: 19
     bold: false
     border-radius: 0
     shadow: false
@@ -67,7 +67,7 @@ task_cycle: {
   "For each Task": {
     style: {
       fill: "#ebebeb"
-      stroke: "#777777"
+      stroke: "#000000"
       font-color: "#000000"
       font-size: 16
     }
@@ -75,7 +75,7 @@ task_cycle: {
     manager -> manager: " Select a ready Task and\nprepare its Task Prompt "
     manager -> message_bus: " Write Task Prompt\nto Task Bus "
     message_bus -> workers: " Read Task Prompt\nfrom Task Bus "
-    workers -> workers: " Execute and validate Task "
+    workers -> workers: "  Execute and validate Task  "
     workers -> memory: " Write Task Log "
     workers -> message_bus: " Write Task Report\nto Report Bus "
     message_bus -> manager: " Read Task Report\nfrom Report Bus "
@@ -86,7 +86,7 @@ task_cycle: {
   manager."Project complete when no required Task remains": {
     style: {
       fill: "#ebebeb"
-      stroke: "#777777"
+      stroke: "#000000"
       stroke-width: 1
       font-color: "#000000"
       font-size: 16
@@ -98,7 +98,7 @@ task_cycle: {
   }
 
   (** -> **)[*].style: {
-    stroke: "#333333"
+    stroke: "#000000"
     stroke-width: 2
     font-color: "#000000"
     font-size: 16
