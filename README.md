@@ -61,15 +61,25 @@ python3 analysis/cost_score_figure.py --config "$COHORT_CONFIG" --output-dir ass
 
 ## Concept Diagrams
 
-Concept-diagram sources live under `diagrams/`, and their rendered PDFs live under `assets/figures/`. Render each D2 source through SVG so the thesis receives a vector PDF:
+Concept-diagram sources live under `diagrams/`, and their rendered PDFs live under `assets/figures/`.
+
+Render D2 sources through SVG so the thesis receives a vector PDF:
 
 ```bash
-d2 diagrams/framework-design/message-bus.d2 /tmp/message-bus.svg
+d2 diagrams/framework-design/stage-progression.d2 /tmp/stage-progression.svg
 rsvg-convert -b "#FDFCFA" -f pdf \
-  -o assets/figures/framework-design/message-bus.pdf /tmp/message-bus.svg
+  -o assets/figures/framework-design/stage-progression.pdf /tmp/stage-progression.svg
 ```
 
 The D2 sources pin ELK as their layout engine and carry the chapter's shared visual styles.
+
+Export draw.io sources directly as cropped vector PDFs:
+
+```bash
+drawio --export --format pdf --crop \
+  --output assets/figures/framework-design/planning-phase-overview.pdf \
+  diagrams/framework-design/planning-phase-overview.drawio
+```
 
 ## Spec-kit Release Audit
 
