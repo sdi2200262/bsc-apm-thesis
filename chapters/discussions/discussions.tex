@@ -132,7 +132,7 @@ The total score is the study's one measure of what each session produced. A grad
 \subsection{Grading with a Black Box}
 \label{sec:discussions-grading-blackbox}
 
-The grader judges a submission only by the behaviour of the running program, never its source, as Section~\ref{sec:evaluation-metrics-functional} describes. A single fault that blocks the program's responses can therefore be recorded as near-total failure, even where the rest of the implementation may be sound.
+The grader judges a submission only by the task-required behaviour of the running program, never its source, as Section~\ref{sec:evaluation-metrics-functional} describes. A single fault that blocks the program's responses can therefore be recorded as near-total failure, even where the rest of the implementation may be sound.
 
 The C part of the task required every participant to implement a JSON parser and route each MCP request to its requested operation. MCP carries requests as JSON-RPC objects~\cite{mcp2025spec}, and the JSON standard treats whitespace between fields as insignificant~\cite{json2017rfc8259}. Three Sonnet implementations shared one defect. Their parsers accepted a compact request such as \texttt{\{"id":1\}}, but not the ordinary spaced form \texttt{\{"id": 1\}}. A conformant parser must accept both forms; failing to handle whitespace is an incorrect implementation of the task.
 
