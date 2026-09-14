@@ -17,7 +17,7 @@ That difference in authority does not show in the size of the planning phase, wh
 \begin{table}[H]
   \centering
   \begin{threeparttable}
-  \caption{Paired planning-phase behaviour differences, APM minus Spec-kit, at 95.8\% coverage.}
+  \caption{Paired planning-phase behaviour differences, APM minus Spec-kit.}
   \label{tab:disc-planning-behaviour-paired}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
@@ -109,11 +109,9 @@ Each turn prompt opens an interval of agent work. In implementation, APM added a
 
 APM's several-agent implementation plausibly contributes to its larger model request count. APM issued more requests than Spec-kit in every one of the twelve pairs, and its main agents made more tool calls in all twelve as well, as Table~\ref{tab:disc-implementation-behaviour-paired} reports. Both directions reverse the planning phase, where Spec-kit's main agent led on the two measures. Each agent also produces its own output, which is part of why APM's implementation cost the more of the two, as Section~\ref{sec:discussions-cost-mechanics} explains.
 
-\ethan{referencing the 95.8\% coverage is a good reminder but I feel it distracts from the presentation of the results (it's in a bunch of tables, mentioning once in the top may make everything less busy)}
-
 \begin{table}[H]
   \centering
-  \caption{Paired implementation-phase behaviour differences, APM minus Spec-kit, at 95.8\% coverage.}
+  \caption{Paired implementation-phase behaviour differences, APM minus Spec-kit.}
   \label{tab:disc-implementation-behaviour-paired}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
@@ -164,7 +162,7 @@ The re-grade recovers three of the five sessions below fifty, both APM sessions 
 
 \begin{table}[H]
   \centering
-  \caption{Paired compact-input diagnostic total-score difference within the Sonnet group, APM minus Spec-kit, at 96.9\% coverage. This diagnostic does not replace the framework comparison.}
+  \caption{Paired compact-input diagnostic total-score difference within the Sonnet group, APM minus Spec-kit. This diagnostic does not replace the framework comparison.}
   \label{tab:disc-grading-compact-paired}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrr}
     \toprule
