@@ -15,16 +15,12 @@ The comparison treats each framework as a complete workflow, including how it ca
     \item \textbf{RQ1 (Economic):} How do APM and Spec-kit differ in the dollar cost of completing a demanding task, and is that difference consistent across models of differing capability?
     \item \textbf{RQ2 (Process):} How do APM and Spec-kit differ in the time the task takes to complete and in the form and frequency of the user's recorded interactions with the frameworks' agents?
     \item \textbf{RQ3 (Functional):} How do APM and Spec-kit differ in functional outcome, including how much of the task each completes and how they fail when they fall short?
-    \ethan{I was re-reading these questions and I'm realizing we have nothing for Code Quality. I noticed that APM spent most time / tokens on implementation and the implementor was focused on the task / the plan and other context were left outside. it is arguable that the code could be "better". Not sure how we would measure however. Perhaps a future work item. Maybe also get a model to find bugs in these implementations and do a count!}
-    \me{We do not measure code quality directly, confining evaluation to deterministic functional scoring to avoid the variance and subjective bias of LLM bug counts. Evaluating maintainability requires human-centred inspection or downstream maintenance tasks, which I framed as an open challenge in Future Work citing recent empirical literature.}
     \item \textbf{RQ4 (Perception):} What are the participants' self-reported experiences with each framework and how do they relate to the behaviour measured in their sessions?
 \end{itemize}
 
 \section{Spec-kit, the Comparison Framework}
 \label{sec:evaluation-comparison-framework}
 
-\ethan{I would move to related work / background and gives you a reference point when you introduce your APM commands - you could talk about how they relate - if at all.}
-\me{Spec-kit is introduced here as the comparison baseline alongside APM. APM is the primary contribution, so presenting its design first establishes the framework architecture before introducing the baseline in the evaluation. Also the commands are not that comparable. Spec-kit commands advance sequential workflow phases within a single continuous conversation, while APM commands initialize agent roles, mediate communication, trigger handoffs, etc. Perhaps actually this distinction between them is worth mentioning.}
 
 Spec-kit is GitHub's open-source spec-driven development toolkit~\cite{github2026speckitdocs}. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
@@ -69,7 +65,7 @@ Each participant works in a freshly created, dedicated Linux virtual machine. Th
 \subsection{Sessions and Data}
 \label{sec:evaluation-sessions-data}
 
-We call one attempt to complete the task with the assigned framework a \emph{study session}\ethan{Seems like a definition, would be fitting in a background section}\me{A study session is specific to the evaluation methodology.}. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
+We call one attempt to complete the task with the assigned framework a \emph{study session}. It begins with the first prompt sent to the agent and ends when the participant stops task work or reaches a three-hour cap. Across the cohort, this gives twenty-four study sessions. Between each pair the environment is reset to its initial state, so that no code, workspace modification, or assistant context from the first session carries into the second.
 
 Participants were assigned one of the two models across both study sessions, forming two six-participant model groups. Framework order was assigned separately, placing APM in the first or the second session. Counterbalancing the framework order lets us investigate whether improvement from growing task familiarity can be distinguished from the framework difference. Together, the two assignments formed four model-and-order groups of three participants each.\footnote{\label{fn:evaluation-realised-order}One participant departed from their assigned order in practice: a tooling failure ended their first Spec-kit attempt before any task work was completed, they ran APM the following day, and then repeated Spec-kit. Analyses by order therefore use realised framework order. The realised APM-first and APM-second groups contain seven and five participants. Within them, the two realised Opus model-and-order groups contain three participants each, while the two realised Sonnet model-and-order groups contain four and two participants. All tables grouped by realised framework order in Appendix~\ref{app:results-cost-breakdowns}, Appendix~\ref{app:results-process-breakdowns}, Appendix~\ref{app:results-functional-breakdowns}, and Appendix~\ref{app:results-perception-breakdowns} use this classification.}
 
@@ -91,8 +87,6 @@ Within a phase, each measurement is attributed as the work happens: cost, tokens
 \subsection{Economic}
 \label{sec:evaluation-metrics-economic}
 
-\ethan{I would align the titles of the subsections with the RQs you set above: RQ1 (Economic): Is APM cost-efficient?}
-\me{The subsection titles are intentionally concise and parallel (Economic, Process, Functional, Perception) so they map one-to-one between chapters. Verbose titles with explicit RQ labels would clutter the section hierarchy... imo. Personal preference mostly.}
 
 The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
@@ -103,7 +97,7 @@ The process measures describe the session's temporal shape and the user's intera
 
 The temporal shape of the session is captured by the session duration and the two measures that decompose it, the turn time and the inter-turn time, all reported at session and phase scope only:
 \begin{itemize}
-    \item \emph{Session duration}\ethan{All these terms could be defined in a background section. Your results in the abstract could be phrased in terms of these metrics.}\me{These terms define the study's specific operational measures, supporting the evaluation methodology as a core contribution. Defining them here keeps the methodology self-contained and preserves the parallel structure mapping each metric category to its results.} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record within the three-hour attempt window.
+    \item \emph{Session duration} is the wall-clock span from the prompt that opens the first turn to the latest retained timestamped transcript record within the three-hour attempt window.
     \item \emph{Turn time} is the wall-clock union of the turn intervals, each spanning from its opening prompt to its last retained assistant record. Its breakdown separates the time covered by exactly one interval (\emph{solo}) from the time covered by two or more intervals (\emph{concurrent}). For APM this shows whether its agents' turns overlap or proceed serially.
     \item \emph{Inter-turn time} is the part of the session duration covered by no turn interval. It is not read as a measure of participant activity, since a gap may be spent reading, thinking, or away from the task.
 \end{itemize}
@@ -152,14 +146,13 @@ Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} -
 
 The number of positive against negative differences gives the sign count, following the convention of the paired sign test~\cite{corder2014nonparametric}. It reports the directional consistency of the difference across participants without assuming symmetry or a specific distribution shape, with zero-difference pairs contributing to neither count.
 
-The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,\ethan{This also belongs in the background}
-\me{It is a summary statistic, defined alongside the others in our methodology. Background is intended to define field concepts rather than study-specific analysis metrics.}
+The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
 It reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
 
-A confidence interval\ethan{This may be overkill due to number of samples, please do a spot check if that's acceptable practice for our numbers}\me{I used the exact Wilcoxon interval because twelve participants (and six per model group) is too small for large-sample approximations or Student's $t$ normality assumptions. With $2^{12} = 4{,}096$ and $2^6 = 64$ possible sign combinations, the full distribution is small enough to enumerate directly without approximation, giving exact discrete coverage of 95.8\% and 96.9\%. I added two standard textbook references that explain this procedure and recommend it for small samples.} based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hollander2013nonparametric, corder2014nonparametric} captures the uncertainty surrounding the typical difference. Rather than approximating the distribution, the procedure computes it directly, fitting a small sample where normality cannot be assumed. The test statistic ranks the absolute paired differences and sums the ranks of the positive differences,
+A confidence interval based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hollander2013nonparametric, corder2014nonparametric} captures the uncertainty surrounding the typical difference. Rather than approximating the distribution, the procedure computes it directly, fitting a small sample where normality cannot be assumed. The test statistic ranks the absolute paired differences and sums the ranks of the positive differences,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]

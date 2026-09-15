@@ -236,7 +236,7 @@ The same pattern appeared under both models, with the per-model split across the
 
 In planning, APM's turn prompts were mostly short or standard text, at mean character counts of 19 and 146 respectively. Spec-kit's planning instead centred on the framework's commands, with few standard prompts from the user. That division held steady across APM's participants, while Spec-kit's varied widely from one session to the next.
 
-In implementation the pattern reversed for APM, and the protocol commands\ethan{does it make sense to you that protocol commands were so expensive for the implementation? why? may be worth spelling out}\me{The explanation is in Section~\ref{sec:discussions-cost-mechanics}. Here we are reporting the measurements only.} that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried few turn prompts of any kind, and one session opened none. Both its division and its character counts there rest on those few prompts, too sparse to read as typical.
+In implementation the pattern reversed for APM, and the protocol commands that drive its workflow made up most of its turn prompts. Spec-kit's implementation carried few turn prompts of any kind, and one session opened none. Both its division and its character counts there rest on those few prompts, too sparse to read as typical.
 
 Table~\ref{tab:proc-buckets-composition} gives each bucket's share and mean character count, and Figure~\ref{fig:proc-buckets-sessions} plots each session's shares.
 
@@ -314,7 +314,7 @@ The model split changes that reading. Under Opus, all three summaries for both f
 
 Paired within each participant, the scores were close. APM scored higher than Spec-kit for six participants and Spec-kit for only two, with four pairs tied. The cohort median difference was about half a point, its Hodges-Lehmann estimate about 2 points, and its mean about 7 points. These summaries point to a small positive cohort difference, but the cohort interval includes zero, so the paired comparison carries no firm score difference.
 
-The model-group split locates the cohort's positive score pattern under Sonnet. Under Opus, both frameworks' summary values remained near the ceiling, and three paired comparisons tied; the paired median and Hodges-Lehmann estimate were zero, while one $+23.4$-point APM difference kept the mean positive. Under Sonnet, APM's values were higher on all three summaries\ethan{I think this is one of the metrics you can highlight in the abstract and it makes sense: when the model is strong you don't even need a harness, but if the task is too big / model not as strong, context and planning/mgmt matters more}, and four pairs favoured APM, one favoured Spec-kit, and one was tied.
+The model-group split locates the cohort's positive score pattern under Sonnet. Under Opus, both frameworks' summary values remained near the ceiling, and three paired comparisons tied; the paired median and Hodges-Lehmann estimate were zero, while one $+23.4$-point APM difference kept the mean positive. Under Sonnet, APM's values were higher on all three summaries, and four pairs favoured APM, one favoured Spec-kit, and one was tied.
 
 Table~\ref{tab:func-score-paired} gives the cohort and model-group differences.
 
