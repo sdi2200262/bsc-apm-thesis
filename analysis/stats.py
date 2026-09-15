@@ -76,21 +76,18 @@ def hodges_lehmann(values: list[float]) -> float:
 
 
 def wilcoxon_shift_interval(differences: list[float]) -> tuple[float, float, float]:
-    """Return an exact signed-rank shift interval from Walsh averages.
+    """Return a signed-rank shift interval from Walsh averages.
 
-    Uses the exact Hollander-Wolfe interval over the sorted Walsh averages
-    (d_i + d_j) / 2 for i <= j, computed over the full sample (zero-valued
-    differences are not filtered out). The interval is bounded by the
-    largest signed-rank critical index whose per-tail probability does not
-    exceed 2.5%, so the returned coverage is the exact two-sided coverage
-    that search achieves; it varies with ``n`` rather than being fixed.
+    Keeps all differences, including zeros. Inference assumes independent,
+    symmetric differences. Coverage is computed from the continuous, untied
+    reference distribution; ties can make actual coverage conservative.
+    For one to five pairs, the fallback coverage is below 95%.
 
     Args:
         differences: Paired difference values (APM minus Spec-kit).
 
     Returns:
-        Tuple of ``(low, high, coverage)``: the interval bounds and the
-        exact coverage achieved by the critical-index search.
+        Tuple of ``(low, high, coverage)``: bounds and reference coverage.
     """
     if not differences:
         return 0.0, 0.0, 1.0
@@ -106,23 +103,18 @@ def wilcoxon_shift_interval(differences: list[float]) -> tuple[float, float, flo
 
 
 def _signed_rank_critical(n: int, target: float) -> tuple[int, int]:
-    """Return the largest signed-rank critical index whose tail stays within target.
+    """Return a signed-rank critical index and its cumulative count.
 
-    Finds the largest integer C such that the exact null cumulative count
-    P(W+ <= C) does not exceed ``target`` (expressed as a fraction of the
-    ``2**n`` equally likely sign assignments). This is the monotonic
-    threshold search behind the exact Hollander-Wolfe Wilcoxon signed-rank
-    confidence interval; it never selects a C whose tail exceeds ``target``.
+    Uses ranks 1 through ``n`` and ``2**n`` equally likely sign assignments.
+    Selects the largest index within the tail target, or index 0 if even
+    its tail exceeds the target.
 
     Args:
-        n: Sample size underlying the signed-rank null distribution.
+        n: Sample size underlying the reference distribution.
         target: Maximum per-tail probability, e.g. 0.025.
 
     Returns:
-        Tuple of ``(critical_index, cumulative_count)`` where
-        ``cumulative_count`` is the integer count of sign assignments with
-        W+ <= ``critical_index``. Falls back to index 0 (with its own
-        cumulative count) when even that index's tail exceeds ``target``.
+        Tuple of ``(critical_index, cumulative_count)`` for W+ <= index.
     """
     total = 2**n
     target_count = target * total
