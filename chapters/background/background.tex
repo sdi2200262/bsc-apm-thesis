@@ -61,13 +61,36 @@ Later, coding agents gained the ability to delegate work to other agents launche
 \label{sec:background-agentic-project-management-and-the-research-gap}
 
 
-\ethan{is it possible to get a table here with the various classes, where other works belong and where APM sits? What makes it different from co-pilot or metagpt or other harnesses that have been written and are circulating? How many of them handle context blowup? How many of them have structured messages between manager / workers? How many are MAS vs one monolithic agent?}
-
 We present and evaluate Agentic Project Management (APM). The author designed and built APM independently, first releasing it as open source in May 2025~\cite{chaidemenos2026apmrepo}. APM operates on top of an existing coding agent and combines the context-engineering strategies of Section~\ref{sec:background-spec-driven-development} and Section~\ref{sec:background-multi-agent-systems} by having several agents follow a spec-driven workflow. APM's May 2025 release predated Kiro in July and Spec-kit in September. Those later tools helped popularise spec-driven development as the name for this kind of AI-assisted workflow~\cite{thoughtworks2025sdd}.
 
 APM has been revised continually as the coding agents beneath it and the underlying models improved. For this thesis, APM v1 was developed as a ground-up redesign whose roles, workflow, artefacts, and file structure differ substantially from earlier releases.
 
-One design choice persisted through that redesign: APM's coordination is user-mediated, with the user carrying communication among several agents in their own conversations. File-based protocols govern both communication among APM agents and the spec-driven workflow they follow. Chapter~\ref{chap:framework-design} describes these architectural choices in full.
+One design choice persisted through that redesign: APM's coordination is user-mediated, with the user carrying communication among several agents in their own conversations. File-based protocols govern both communication among APM agents and the spec-driven workflow they follow. Chapter~\ref{chap:framework-design} describes these architectural choices in full. Table~\ref{tab:background-systems-comparison} places APM v1 beside selected earlier systems, ordered by their first public appearance.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Selected systems and how they handle long tasks and coordinate work.}
+  \label{tab:background-systems-comparison}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.32\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}}
+    \toprule
+    System & How it handles a long task & How work is coordinated \\
+    \midrule
+    GitHub Copilot (2021)~\cite{friedman2021copilot} & Suggests code from the current editing context. & The developer accepts or rejects each suggestion. \\
+    \addlinespace[2pt]
+    MetaGPT (2023)~\cite{hong2024metagpt} & Specialist agents receive information relevant to their roles. & The system routes structured messages through a shared pool. \\
+    \addlinespace[2pt]
+    Early BMAD (Apr 2025)~\cite{bmad2025method} & Documents carry plans and decisions between roles. & The user moves work between role-specific conversations. \\
+    \addlinespace[2pt]
+    Spec-kit (Sep 2025)~\cite{delimarsky2025speckit} & Keeps the specification, plan, and tasks in project files. & The developer steers a coding agent through specification, planning, and implementation. \\
+    \addlinespace[2pt]
+    Superpowers (Oct 2025)~\cite{vincent2025superpowers} & Keeps a written plan and gives each task a fresh subagent context. & The coding agent dispatches tasks in sequence and arranges a review after each. \\
+    \midrule
+    APM v1 (2026) & Divides work across role-specific conversations and preserves plans, state, and history in files. & The user relays Task Prompts and Task Reports between Manager and Workers. \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
 
 APM v1 has attracted visible interest in the open-source community,\footnote{On 17 June 2026, APM had roughly 2,300 stars on GitHub and its command-line tool had over 16,000 downloads from npm. By 18 July 2026, the readings were roughly 2,400 stars and over 19,000 downloads.} yet it has not been evaluated in use by developers. The studies of Section~\ref{sec:background-multi-agent-systems} evaluate purpose-built programmatic multi-agent systems on benchmarks without developers in the loop. Frameworks operating on top of coding agents remain outside their scope. That omission matters because this framework class has entered everyday development through interactive workflows in which developers assign and steer work. The closest controlled human-participant study we found compares OpenHands, a purpose-built coding-agent application, with the completion-and-chat form of GitHub Copilot available at the time \cite{chen2025codewith}. The two conditions therefore belong to different tool classes. A benchmark also supplies both the task and the measurement, and neither carries over once the developer is in the loop.
 
