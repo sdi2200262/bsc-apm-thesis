@@ -10,10 +10,8 @@ Partitioning responsibilities across conversations, however, also separates the 
 
 Beyond coordinating its agents, APM aims to preserve user authority over development and agent interaction. The user holds final authority over project decisions, while workflow review points keep planning, coordination, and execution visible and open to intervention. Unlike standard coding agents that delegate to subagents autonomously within a single conversation, APM places the user directly at the communication boundary between agents, requiring explicit human mediation for their exchanges. Previous work in human–computer and human–AI interaction has also explored how slower interaction can invite reflection~\cite{hallnas2001slowtechnology,chen2024positivefriction}.
 
-\section{Design Overview}
-\label{sec:framework-design-overview}
-
-\ethan{Is this the design overview or the workflow? Perhaps analogies with CC and two-step workflow: first plan, then implement help stage this.}
+\section{Workflow Overview}
+\label{sec:framework-design-workflow-overview}
 
 APM realises these goals through a development workflow of two phases: a planning phase and an implementation phase. Planning begins with an agent exploring the project and questioning the user until they share an understanding of what the project requires. The agent records that understanding in documents that define the intended result, break down its implementation into parts, and set the rules for carrying it out.
 
