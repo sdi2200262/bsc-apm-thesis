@@ -61,6 +61,8 @@ Later, coding agents gained the ability to delegate work to other agents launche
 \label{sec:background-agentic-project-management-and-the-research-gap}
 
 
+\ethan{is it possible to get a table here with the various classes, where other works belong and where APM sits? What makes it different from co-pilot or metagpt or other harnesses that have been written and are circulating? How many of them handle context blowup? How many of them have structured messages between manager / workers? How many are MAS vs one monolithic agent?}
+
 We present and evaluate Agentic Project Management (APM). The author designed and built APM independently, first releasing it as open source in May 2025~\cite{chaidemenos2026apmrepo}. APM operates on top of an existing coding agent and combines the context-engineering strategies of Section~\ref{sec:background-spec-driven-development} and Section~\ref{sec:background-multi-agent-systems} by having several agents follow a spec-driven workflow. APM's May 2025 release predated Kiro in July and Spec-kit in September. Those later tools helped popularise spec-driven development as the name for this kind of AI-assisted workflow~\cite{thoughtworks2025sdd}.
 
 APM has been revised continually as the coding agents beneath it and the underlying models improved. For this thesis, APM v1 was developed as a ground-up redesign whose roles, workflow, artefacts, and file structure differ substantially from earlier releases.
