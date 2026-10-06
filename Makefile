@@ -9,13 +9,17 @@
 MAIN := thesis.tex
 PDF  := thesis.pdf
 
-.PHONY: all pdf arial watch clean help
+.PHONY: all pdf diagrams arial watch clean help
 
 # Default: build with the vendored Arimo font (reproducible, no system font).
 all: pdf
 
 pdf:
 	latexmk $(MAIN)
+
+# Programmatically generate concept diagrams and export PDF figures.
+diagrams:
+	python3 diagrams/build.py
 
 # Build with a system-installed Arial instead (requires Arial on the host).
 arial:
@@ -31,7 +35,8 @@ clean:
 	rm -f $(PDF)
 
 help:
-	@echo "make pdf    - build $(PDF) with the vendored Arimo font (default)"
-	@echo "make arial  - build with a system-installed Arial"
+	@echo "make pdf      - build $(PDF) with the vendored Arimo font (default)"
+	@echo "make diagrams - regenerate draw.io diagrams and export PDF figures"
+	@echo "make arial    - build with a system-installed Arial"
 	@echo "make watch  - rebuild continuously on changes"
 	@echo "make clean  - remove build artifacts"

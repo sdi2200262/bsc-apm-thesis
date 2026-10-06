@@ -73,7 +73,15 @@ rsvg-convert -b "#FDFCFA" -f pdf \
 
 The D2 sources pin ELK as their layout engine and carry the chapter's shared visual styles.
 
-Export draw.io sources directly as cropped vector PDFs:
+Programmatically generate all draw.io diagram sources and export cropped vector PDFs:
+
+```bash
+make diagrams
+# or directly:
+python3 diagrams/build.py
+```
+
+Individual draw.io sources can also be exported directly:
 
 ```bash
 drawio --export --format pdf --crop \
