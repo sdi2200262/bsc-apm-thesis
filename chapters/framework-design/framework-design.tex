@@ -22,7 +22,7 @@ APM realises these goals through a development workflow of two phases: a plannin
   \label{fig:framework-design-planning-overview}
 \end{figure}
 
-Implementation begins when a coordinating agent, acting much like a job scheduler, reads those documents and prepares work assignments for other agents. Each of those agents executes and validates its work, records the outcome, and reports back for review. Based on the outcome of the review, the coordinating agent decides the next action and continues until project completion. Across this cycle, the user carries every exchange between the separate conversations and can intervene at any point providing input for direction or correction. Shared files hold assignments, reports, project state, and history.
+Implementation begins when a coordinating agent, acting much like a job scheduler, reads those documents and prepares work assignments for other agents. Each of those agents executes and validates its work, records the outcome, and reports back for review. Based on the outcome of the review, the coordinating agent decides the next action and continues until project completion. Across this cycle, every exchange between the separate conversations passes through the user, who can review the work behind it and intervene at any point with direction or correction. Shared files hold assignments, reports, project state, and history.
 
 \begin{figure}[H]
   \centering
@@ -73,7 +73,9 @@ When a Worker receives its first Task from the Plan, the user creates it by open
 
 These exchanges between conversations are carried through a file-based \emph{Message Bus}. Each Worker has a \emph{Task Bus}, where the Manager writes its Task Prompts, and a \emph{Report Bus}, where the Worker writes its Task Reports. Figure~\ref{fig:framework-design-implementation-overview} places this exchange in the implementation phase loop, while Figure~\ref{fig:framework-design-message-bus} maps its two directions. A bus file is empty or holds one message awaiting delivery. Its recipient clears the file after processing that message, before the channel is reused. The user serves as the mediator between the separate conversations: when an agent writes to a bus file, it informs the user, who directs the recipient to read it.
 
-These friction points are deliberate. They let the user exercise authority as decisions and results pass between agents. Before passing a message on, the user can review the work it refers to and return corrections to its sender or raise them with its recipient. Mistakes or unwanted directions can thus be addressed before they propagate through the project.
+These friction points are deliberate. They let the user exercise authority as decisions and results pass between agents. Before passing a message on, the user can review the work in any way they choose, such as reading the changes or running tests. They can ask its sender to correct the work and update the message, or raise the issue with its recipient. Mistakes or unwanted directions can thus be addressed before they propagate through the project.
+
+The user can also shape how often these points occur. At any stage, they can ask for smaller or larger Tasks, and for Tasks to be dispatched one at a time or in batches. Smaller Tasks sent one at a time give more chances to review. Larger Tasks and batches speed up implementation but leave more work to review at each point.
 
 Under this file-based exchange, running turns involve only the Worker and the user, while the Manager remains idle until the user delivers the Task Report. An agent that encounters blocking issues or failing validation reports incomplete or failed progress for the Manager to review. If an agent hangs or strays during execution, the user can interrupt the conversation directly to force that stoppage.
 

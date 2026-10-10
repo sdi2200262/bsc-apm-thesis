@@ -65,7 +65,7 @@ We present and evaluate Agentic Project Management (APM). The author designed an
 
 APM has been revised continually as the coding agents beneath it and the underlying models improved. For this thesis, APM v1 was developed as a ground-up redesign whose roles, workflow, artefacts, and file structure differ substantially from earlier releases.
 
-One design choice persisted through that redesign: APM's coordination is user-mediated, with the user carrying communication among several agents in their own conversations. File-based protocols govern both communication among APM agents and the spec-driven workflow they follow. Chapter~\ref{chap:framework-design} describes these architectural choices in full. Table~\ref{tab:background-systems-comparison} places APM v1 beside selected earlier systems, ordered by their first public appearance.
+One design choice persisted through that redesign: APM's coordination is user-mediated. Several agents work in their own conversations, and every exchange among them passes through the user, who can review the work behind it. File-based protocols govern both communication among APM agents and the spec-driven workflow they follow. Chapter~\ref{chap:framework-design} describes these architectural choices in full. Table~\ref{tab:background-systems-comparison} places APM v1 beside selected earlier systems, ordered by their first public appearance.
 
 \begin{table}[H]
   \centering
@@ -87,7 +87,7 @@ One design choice persisted through that redesign: APM's coordination is user-me
     \addlinespace[2pt]
     Superpowers (Oct 2025)~\cite{vincent2025superpowers} & Keeps a written plan and gives each task a fresh subagent context. & The coding agent dispatches tasks in sequence and arranges a review after each. \\
     \midrule
-    APM v1 (2026) & Divides work across role-specific conversations and preserves plans, state, and history in files. & The user relays Task Prompts and Task Reports between Manager and Workers. \\
+    APM v1 (2026) & Divides work across role-specific conversations and preserves plans, state, and history in files. & Task Prompts and Task Reports pass through the user. \\
     \bottomrule
   \end{tabular*}
 \end{table}
