@@ -75,7 +75,7 @@ These exchanges between conversations are carried through a file-based \emph{Mes
 
 These friction points are deliberate. They let the user exercise authority as decisions and results pass between agents. Before passing a message on, the user can review the work in any way they choose, such as reading the changes or running tests. They can ask its sender to correct the work and update the message, or raise the issue with its recipient. Mistakes or unwanted directions can thus be addressed before they propagate through the project.
 
-The user can also shape how often these points occur. At any stage, they can ask for smaller or larger Tasks, and for Tasks to be dispatched one at a time or in batches. Smaller Tasks sent one at a time give more chances to review. Larger Tasks and batches speed up implementation but leave more work to review at each point.
+The user can also shape how often these points occur. At any stage, they can ask for smaller or larger Tasks, and for Tasks to be dispatched one at a time or in batches. Smaller Tasks sent one at a time give more chances to review, each covering less work. Larger Tasks and batches speed up implementation but give fewer, each covering more.
 
 Under this file-based exchange, running turns involve only the Worker and the user, while the Manager remains idle until the user delivers the Task Report. An agent that encounters blocking issues or failing validation reports incomplete or failed progress for the Manager to review. If an agent hangs or strays during execution, the user can interrupt the conversation directly to force that stoppage.
 
