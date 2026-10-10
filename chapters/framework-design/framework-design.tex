@@ -118,6 +118,7 @@ When an agent loses its working state without having performed a Handoff, the us
 \section{Project Management}
 \label{sec:framework-design-project-management}
 
+% ethan: I'd use artifacts ; )
 APM operates through structured documents and commands. Its artefacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. APM packages each command as a pre-written prompt and adapts its invocation syntax to each coding-agent platform it supports. Table~\ref{tab:framework-design-commands} lists the commands in the slash-prefixed form common to those platforms. The user invokes each command in the appropriate conversation.
 
 \begin{table}[H]
@@ -155,6 +156,8 @@ The Planner then produces the Spec, the Plan, and the Rules, one at a time. It p
 The Spec records the decisions that shape what is built: the choice made, the alternatives it displaced, and the constraints that bound it. Its structure follows the project's concerns, and where the user's documents already define a requirement it references them instead of restating it. Decisions are kept separable so the Manager can extract the ones a given Task needs.
 
 The Plan organises the work. It partitions the project into cohesive domains, separating areas requiring distinct expertise or mental models, and combining those sharing tight context and dependencies. Distinct Worker instances are assigned to each. For every Task, it defines what it delivers, the criteria that validate it, and the previous Tasks it depends on. A \emph{Stage} is a group of related Tasks that delivers a coherent part of the project and begins only after the preceding Stage completes. Within a Stage, a Task waits for the ones it depends on, while those whose dependencies are complete can proceed together. Parallel work therefore happens only within a Stage, as Figure~\ref{fig:framework-design-stage-progression} shows.
+
+% ethan: fonts in fig:framework-design-stage-progression are tiny, it may not pass pergamos
 
 \begin{figure}[H]
   \centering

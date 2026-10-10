@@ -91,7 +91,11 @@ One design choice persisted through that redesign: APM's coordination is user-me
     \bottomrule
   \end{tabular*}
 \end{table}
+% ethan: in the table: the textual descriptions are ok but make it quite hard to review. How about a boolean view of these with one column per feature? E.g., Multi-agent? Multiple Roles? Interactive? User-in-the-loop? It would give a cleaner view I think. Even if you leave it as is it's an improvement but going for the extra mile.
+
 
 APM v1 has attracted visible interest in the open-source community,\footnote{On 17 June 2026, APM had roughly 2,300 stars on GitHub and its command-line tool had over 16,000 downloads from npm. By 18 July 2026, the readings were roughly 2,400 stars and over 19,000 downloads.} yet it has not been evaluated in use by developers. The studies of Section~\ref{sec:background-multi-agent-systems} evaluate purpose-built programmatic multi-agent systems on benchmarks without developers in the loop. Frameworks operating on top of coding agents remain outside their scope. That omission matters because this framework class has entered everyday development through interactive workflows in which developers assign and steer work. The closest controlled human-participant study we found compares OpenHands, a purpose-built coding-agent application, with the completion-and-chat form of GitHub Copilot available at the time \cite{chen2025codewith}. The two conditions therefore belong to different tool classes. A benchmark also supplies both the task and the measurement, and neither carries over once the developer is in the loop.
+
+% ethan: what does "this" refer to? you would benefit by naming the class of tools that APM belongs to. you use User-Mediated above, perhaps that's the right phrasing (you could use that as the title of the section as well). I think you could even make the statement that APM stands in juxtaposition to vibe-coding frameworks as you said in your defense.
 
 In the literature we reviewed, this emerging class of development framework remains unevaluated. APM belongs to that class. We describe its design, evaluate it with human participants against another framework that also applies spec-driven development, and report the task, procedure, and measures the comparison required.

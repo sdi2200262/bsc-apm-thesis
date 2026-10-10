@@ -74,6 +74,8 @@ A post-session procedure has the participants package their solution patch writt
 \section{Metrics}
 \label{sec:evaluation-metrics}
 
+% ethan: this section also defines the terms, you could call it "Metrics and Terminology" or something to that effect. My main concern is someone looking at the graphs in the results section that wants to remind themselves "what's turn time again" - it would be nice to have a quick way to find it from the index of the document.
+
 The metrics defined in this section combine automated computation with participant self-reporting. Automated tooling built for the study extracts the objective outcomes deterministically: a transcript parser processes the participants' Claude Code conversation logs to compute the economic and process metrics, while a test-based grader scores the participant's code patch against the functional assertions. A post-session questionnaire supplies the perception metrics. The parser and grader are part of the open-source infrastructure described in Appendix~\ref{app:evaluation-availability}, and the questionnaire items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
 
 Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
@@ -145,6 +147,8 @@ Our findings lead with the measured values for APM and Spec-kit. Where a measure
 Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$. The cohort analysis uses these twelve differences, while each model-group breakdown uses the group's six. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
 
 The number of positive against negative differences gives the sign count, following the convention of the paired sign test~\cite{corder2014nonparametric}. It reports the directional consistency of the difference across participants without assuming symmetry or a specific distribution shape, with zero-difference pairs contributing to neither count.
+
+% ethan: in your results below you used HL without setting the acronym, perhaps introduce it - at least I couldn't find where you introduced it but I'm happy to see it in the Abbreviations table before the appendix. May be worth doing a quick check to ensure all key acronyms are included in there.
 
 The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
 \[
