@@ -26,5 +26,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git tag -f latest && git push -f origin latest
-          gh release view latest >/dev/null 2>&1 || gh release create latest --title "Latest build" --notes "Built from main on every push."
+          gh release view latest >/dev/null 2>&1 || gh release create latest --title "Latest build" --notes ""
           gh release upload latest thesis.pdf build/thesis.aux build/thesis.bbl --clobber
