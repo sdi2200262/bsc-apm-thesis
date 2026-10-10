@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: docker run --rm -v "$PWD:/thesis" -w /thesis texlive/texlive:latest latexmk thesis.tex
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git tag -f latest && git push -f origin latest
+          gh release view latest >/dev/null 2>&1 || gh release create latest --title "Latest build" --notes "Built from main on every push."
+          gh release upload latest thesis.pdf build/thesis.aux build/thesis.bbl --clobber
