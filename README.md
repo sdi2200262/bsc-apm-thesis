@@ -66,7 +66,8 @@ Concept-diagram sources live under `diagrams/`, and their rendered PDFs live und
 Render D2 sources through SVG so the thesis receives a vector PDF:
 
 ```bash
-d2 diagrams/framework-design/stage-progression.d2 /tmp/stage-progression.svg
+d2 --elk-nodeNodeBetweenLayers 40 --elk-padding "[top=40,left=20,bottom=20,right=20]" \
+  diagrams/framework-design/stage-progression.d2 /tmp/stage-progression.svg
 rsvg-convert -b "#FDFCFA" -f pdf \
   -o assets/figures/framework-design/stage-progression.pdf /tmp/stage-progression.svg
 ```

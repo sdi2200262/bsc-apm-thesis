@@ -38,12 +38,11 @@ Sections~\ref{sec:framework-design-agent-roles} and~\ref{sec:framework-design-ag
 
 APM organises its agents into three roles: the \emph{Planner}, \emph{Manager}, and \emph{Worker}. Figures~\ref{fig:framework-design-planning-overview} and~\ref{fig:framework-design-implementation-overview} place them in the workflow, while Table~\ref{tab:framework-design-agent-roles} summarises their properties. Each is a coding agent operating in its own conversation under role-specific instructions. Those instructions define the agent's responsibilities, workflow, and protocols, which determine the project information its conversation needs to hold. Planning involves one Planner, while implementation involves one Manager at a time and one or more Workers. Each retains the coding agent's ordinary tools and access permissions. Their specialisation comes from scoping the context that reaches them.
 
-
 The Planner does research, resolves requirements and design choices with the user, and records the result in three planning documents. The \emph{Spec} defines what to build. The \emph{Plan} divides implementation into bounded units of work organised by domain. The \emph{Rules} govern how their execution is carried out. The Planner's participation ends when implementation begins, leaving its conversation's full context window available to develop these documents.
 
 The Manager coordinates implementation at project level. It distributes assignments to Workers and supplies the context required to execute them. It reviews their results, maintaining the planning documents and project state that form its context alongside their outcomes. The instructions the Manager receives establish its usual focus, while review or investigation may take it into code or execution detail.
 
-Each Worker receives the assignments of one domain from the Plan, then executes and validates them. Workers follow the Rules. Across successive assignments accumulating context, they build familiarity with their respective part of the project.
+Each Worker receives the assignments of one domain from the Plan, then executes and validates them. Workers follow the Rules. As context accumulates across successive assignments, they build familiarity with their respective part of the project.
 
 When investigation or debugging threatens to consume a conversation's context, the agent launches platform-native subagents. Their findings return to the role's conversation for verification and integration.
 
@@ -118,8 +117,7 @@ When an agent loses its working state without having performed a Handoff, the us
 \section{Project Management}
 \label{sec:framework-design-project-management}
 
-% ethan: I'd use artifacts ; )
-APM operates through structured documents and commands. Its artefacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. APM packages each command as a pre-written prompt and adapts its invocation syntax to each coding-agent platform it supports. Table~\ref{tab:framework-design-commands} lists the commands in the slash-prefixed form common to those platforms. The user invokes each command in the appropriate conversation.
+APM operates through structured documents and commands. Its artifacts use Markdown, often paired with YAML fields that identify state and determine procedural branches. APM packages each command as a pre-written prompt and adapts its invocation syntax to each coding-agent platform it supports. Table~\ref{tab:framework-design-commands} lists the commands in the slash-prefixed form common to those platforms. The user invokes each command in the appropriate conversation.
 
 \begin{table}[H]
   \centering
@@ -157,8 +155,6 @@ The Spec records the decisions that shape what is built: the choice made, the al
 
 The Plan organises the work. It partitions the project into cohesive domains, separating areas requiring distinct expertise or mental models, and combining those sharing tight context and dependencies. Distinct Worker instances are assigned to each. For every Task, it defines what it delivers, the criteria that validate it, and the previous Tasks it depends on. A \emph{Stage} is a group of related Tasks that delivers a coherent part of the project and begins only after the preceding Stage completes. Within a Stage, a Task waits for the ones it depends on, while those whose dependencies are complete can proceed together. Parallel work therefore happens only within a Stage, as Figure~\ref{fig:framework-design-stage-progression} shows.
 
-% ethan: fonts in fig:framework-design-stage-progression are tiny, it may not pass pergamos
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/figures/framework-design/stage-progression.pdf}
@@ -175,7 +171,7 @@ Implementation begins with the Manager reading the planning documents and presen
 
 A Task is ready when the Tasks it depends on are complete. Its Worker works from the Task Prompt, the Rules, whatever it needs from the project's files, and the context it has accumulated over earlier Tasks. It executes the work and validates it against the Task's criteria, iterating where validation fails and pausing for the user where a criterion needs the user's judgement or an action outside the development environment. A difficult failure may be delegated to a debugging subagent, whose findings the Worker verifies before applying them. It then reports the outcome it reached: the Task complete, partial progress where iteration stalled, or a failure.
 
-The Manager reviews the Task Report and the Task Log. An outcome short of complete, or a Worker's note that execution touched something beyond its Task, prompts investigation before anything is accepted. The Manager handles contained checks directly and may delegate context-intensive investigation to a subagent. Its findings decide among three outcomes. The work stands as it is, the Worker retries under a refined Task Prompt, or the planning documents need updating, as Section~\ref{sec:framework-design-state-management} describes. In each case the Manager records the result in the Tracker and reassesses which Tasks have become ready. Figure~\ref{fig:framework-design-task-cycle} follows one Task through this cycle.
+The Manager reviews the Task Report and the Task Log. An outcome short of complete, or a Worker's note that execution touched something beyond its Task, prompts investigation before anything is accepted. The Manager handles contained checks directly and may delegate context-intensive investigation to a subagent. The findings of this review decide among three outcomes. The work stands as it is, the Worker retries under a refined Task Prompt, or the planning documents need updating, as Section~\ref{sec:framework-design-state-management} describes. In each case the Manager records the result in the Tracker and reassesses which Tasks have become ready. Figure~\ref{fig:framework-design-task-cycle} follows one Task through this cycle.
 
 The Manager uses version control to keep each dispatched Task's work separate. At the start it establishes with the user which repositories the work targets and what branch and commit conventions each follows. Work for a dispatched Task goes on its own branch off the agreed base of the repository it touches, and concurrent Workers each get an isolated working copy of it through a git worktree. Workers commit their own work, while merging belongs to the Manager alone. This way work lands on the base branch only after passing the user who mediated its report and the Manager who reviewed and accepted it.
 
@@ -193,10 +189,10 @@ At project completion or any point requested by the user, APM can archive all fi
 \section{Distribution and Customisation}
 \label{sec:framework-design-distribution-customisation}
 
-APM keeps a single platform-neutral source of commands, guides, skills, subagent definitions, and project artefacts as templates in its GitHub repository. Coding-agent platforms differ in where and how they accept these documents. During a release build, the build system inserts each platform's unique paths, formats, and syntax into the templates, and the resulting packages are published in a GitHub Release with a manifest identifying which package belongs to each supported platform~\cite{chaidemenos2026apmrepo}.
+APM keeps a single platform-neutral source of commands, guides, skills, subagent definitions, and project artifacts as templates in its GitHub repository. Coding-agent platforms differ in where and how they accept these documents. During a release build, the build system inserts each platform's unique paths, formats, and syntax into the templates, and the resulting packages are published in a GitHub Release with a manifest identifying which package belongs to each supported platform~\cite{chaidemenos2026apmrepo}.
 
 A command-line tool, \texttt{agentic-pm}, provides the user interface to this distribution. It is released separately through npm~\cite{chaidemenos2026agenticpm101}. The user selects a platform; the tool fetches a compatible release, resolves the corresponding package from its manifest, and scaffolds it into the project's workspace. It records the source and release for later updates. The tool and templates follow independent semantic versioning, with only the major version shared for compatibility.
 
 The same architecture also makes the workflow customisable. Within their own copy or fork of the repository, users can extend or adapt any part of the framework's workflow, protocols, and procedures. The build system turns that custom source into platform packages and a release manifest that users can publish as their own GitHub Release. Through its custom-repository interface, the command-line tool fetches and scaffolds these releases in the same way as the official distribution.
 
-Two official variants demonstrate this extension surface. APM Auto~\cite{chaidemenos2026apmauto} replaces the original workflow's separate, user-mediated Worker conversations with Worker subagents launched directly by the Manager. APM Semi~\cite{chaidemenos2026apmsemi} retains the original workflow but gives the user more control by letting them claim any Task to complete themselves, with the assigned Worker standing by for assistance and validation.
+Two official variants demonstrate this extension surface. APM Auto~\cite{chaidemenos2026apmauto} replaces the original workflow's separate, user-mediated Worker conversations with Worker subagents launched directly by the Manager. APM Semi~\cite{chaidemenos2026apmsemi} retains the original workflow but gives the user more control by letting them claim any Task to complete themselves, with the Manager or assigned Worker standing by for assistance and validation.

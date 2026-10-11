@@ -1,7 +1,7 @@
 % !TEX root = ../../thesis.tex
 % Introduction chapter body. Included by thesis.tex under \chapter{INTRODUCTION}.
 
-AI assistants have expanded from completing code to acting on whole software projects as coding agents, carrying out substantial tasks with limited direction from the developer~\cite{liu2024llmagents}. As those tasks grow, the agent must preserve the project's intent while accumulating context competes for the model's finite attention~\cite{nliu2023lostmiddle}.
+AI assistants have expanded from completing code to acting as coding agents that autonomously carry out multi-step software tasks, up to end-to-end development~\cite{liu2024llmagents}. As those tasks grow, the agent must preserve the project's intent while accumulating context competes for the model's finite attention~\cite{nliu2023lostmiddle}.
 
 Recent tools and research offer two responses relevant to this problem. Some record project intent in persistent documents before implementation~\cite{delimarsky2025speckit}. Others divide work among agents, each responsible for a bounded part of it~\cite{hong2024metagpt}.
 
@@ -15,7 +15,7 @@ In this thesis, we make the following contributions:
 
 \begin{enumerate}
     \item We present the design and implementation of APM, a development framework that brings persistent planning documents, role-specific division of work, and user-mediated coordination into one system.
-    \item We provide a reproducible case-study methodology, measures, task environment, and supporting infrastructure to compare such developer-agent frameworks, benefiting researchers and practitioners evaluating human-in-the-loop AI assistance. % ethan: good to add that others can benefit from this methodology, it is general enough to be used by ...
+    \item We provide a reproducible case-study methodology, measures, task environment, and supporting infrastructure to compare such developer-agent frameworks, benefiting researchers and practitioners evaluating human-in-the-loop AI assistance. The methodology itself does not depend on APM; its implementation here is specific to this comparison, task, and environment.
     \item We evaluate APM alongside GitHub Spec-kit through a controlled within-participant comparison of economic, process, functional, and perception measures.
 \end{enumerate}
 

@@ -70,24 +70,9 @@ stage_1: {
     width: 160
     height: 65
   }
-  task_4: {
-    label: "Task 1.4\nAPI endpoints"
-    class: task
-    width: 160
-    height: 65
-  }
-  task_5: {
-    label: "Task 1.5\nIntegration tests"
-    class: task
-    width: 165
-    height: 65
-  }
 
   task_1 -> task_2
   task_1 -> task_3
-  task_2 -> task_4
-  task_3 -> task_4
-  task_3 -> task_5
 }
 
 stage_2: {
@@ -106,6 +91,7 @@ stage_2: {
 more: {
   label: ···
   shape: text
+  width: 56
   style: {
     font-color: "#000000"
     font-size: 24

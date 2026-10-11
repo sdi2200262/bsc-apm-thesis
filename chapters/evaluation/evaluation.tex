@@ -21,10 +21,9 @@ The comparison treats each framework as a complete workflow, including how it ca
 \section{Spec-kit, the Comparison Framework}
 \label{sec:evaluation-comparison-framework}
 
-
 Spec-kit is GitHub's open-source spec-driven development toolkit~\cite{github2026speckitdocs}. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
-Spec-kit's workflow is driven by a set of commands that the user triggers, or the agent autonomously invokes. Each is a pre-written prompt with instructions that walks the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artefacts:
+Spec-kit's workflow is driven by a set of commands that the user triggers, or the agent autonomously invokes. Each is a pre-written prompt whose instructions walk the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artifacts:
 
 \begin{enumerate}
     \item \texttt{/speckit-specify}: directs the agent to produce a structured specification of requirements, user stories, and acceptance criteria from a feature description.
@@ -32,7 +31,7 @@ Spec-kit's workflow is driven by a set of commands that the user triggers, or th
     \item \texttt{/speckit-tasks}: instructs it to derive an executable task list from the plan, annotated with dependencies and sequencing constraints.
 \end{enumerate}
 
-Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artefact consistency checking, and custom quality checklists along the way.
+Finally, \texttt{/speckit-implement} has the agent work through the task list in sequence, while further commands support iterative refinement, cross-artifact consistency checking, and custom quality checklists along the way.
 
 Across these steps the agent works largely on its own. It fills gaps in a brief with documented assumptions and puts a question to the user only where a choice is consequential or genuinely open, offering each as a short table of options with a recommendation.
 
@@ -74,8 +73,6 @@ A post-session procedure has the participants package their solution patch writt
 \section{Metrics}
 \label{sec:evaluation-metrics}
 
-% ethan: this section also defines the terms, you could call it "Metrics and Terminology" or something to that effect. My main concern is someone looking at the graphs in the results section that wants to remind themselves "what's turn time again" - it would be nice to have a quick way to find it from the index of the document.
-
 The metrics defined in this section combine automated computation with participant self-reporting. Automated tooling built for the study extracts the objective outcomes deterministically: a transcript parser processes the participants' Claude Code conversation logs to compute the economic and process metrics, while a test-based grader scores the participant's code patch against the functional assertions. A post-session questionnaire supplies the perception metrics. The parser and grader are part of the open-source infrastructure described in Appendix~\ref{app:evaluation-availability}, and the questionnaire items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
 
 Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
@@ -88,7 +85,6 @@ Within a phase, each measurement is attributed as the work happens: cost, tokens
 
 \subsection{Economic}
 \label{sec:evaluation-metrics-economic}
-
 
 The economic measurement is the \emph{dollar-equivalent cost}, computed by pricing the recorded token usage of each billed model request against Anthropic's published per-token rate card in effect during the study window, recorded in Appendix~\ref{app:evaluation-rate-card}. Cost is measured at session and phase scope, and for APM at role scope. Its session-scope value is also broken down by token category to locate where the spending accrues.
 
@@ -126,9 +122,9 @@ Steers are reported at session scope only, as two counts: those \emph{delivered}
 \subsection{Functional}
 \label{sec:evaluation-metrics-functional}
 
-The functional dimension is measured by ninety atomic functional tests applied to each submission, each testing one expected behaviour and carrying one or two points toward a hundred-point total. The grader tests the resulting behaviour against the MCP surface required by the task. It observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
+The functional dimension is measured by ninety atomic functional tests applied to each submission, each testing one expected behaviour and carrying one or two points towards a hundred-point total. The grader tests the resulting behaviour against the MCP surface required by the task. It observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
 
-Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check matches no accepted form exactly but comes close to one, measured by Levenshtein edit distance~\cite{wagner1974stringcorrection}; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
+Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check matches no accepted form exactly but comes close to one, measured by Levenshtein edit distance~\cite{levenshtein1966binary} and computed with the Wagner-Fischer algorithm~\cite{wagner1974stringcorrection}; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
 The \emph{total score} sums the points earned across the rubric. Its breakdown separates a strict part, the full points earned by passed checks, from a partial part, the fractional credit earned by partial checks. A task-section breakdown divides the 100 points between the Python extension, worth 30, and the heavier C replica, worth 70. The resulting \emph{per-section scores} locate where each framework's work lands.
 
@@ -144,19 +140,17 @@ Beyond the rating items, the questionnaire asks a \emph{comparison question} aft
 
 Our findings lead with the measured values for APM and Spec-kit. Where a measure supports a within-participant comparison, it is followed by each participant's APM-minus-Spec-kit difference and summaries of its sign, typical size, and uncertainty. Model-group breakdowns present the respective group's paired differences separately and compare them descriptively.
 
-Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$. The cohort analysis uses these twelve differences, while each model-group breakdown uses the group's six. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
+Each participant~$i$ contributes the paired difference $d_i = x_i^{\text{APM}} - x_i^{\text{SK}}$, where SK denotes Spec-kit. The cohort analysis uses these twelve differences, while each model-group breakdown uses the group's six. Since the Opus and Sonnet differences come from different participants, a contrast between the groups carries their differences in skill and working style alongside the assigned model.
 
 The number of positive against negative differences gives the sign count, following the convention of the paired sign test~\cite{corder2014nonparametric}. It reports the directional consistency of the difference across participants without assuming symmetry or a specific distribution shape, with zero-difference pairs contributing to neither count.
 
-% ethan: in your results below you used HL without setting the acronym, perhaps introduce it - at least I couldn't find where you introduced it but I'm happy to see it in the Abbreviations table before the appendix. May be worth doing a quick check to ensure all key acronyms are included in there.
-
-The typical difference is reported through the median, the Hodges-Lehmann estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
+The typical difference is reported through the median, the Hodges-Lehmann (HL) estimate~\cite{hodges1963location}, and the mean. The Hodges-Lehmann estimate is the median of the averages of every pair of differences,
 \[
     \hat{\theta} = \operatorname{median}\left\{ \frac{d_i + d_j}{2} \;:\; 1 \le i \le j \le n \right\}.
 \]
 It reflects more of the observed differences than the median while being less affected by a few large differences than the mean. Read together, the three show the centre of the paired differences and whether asymmetry changes that reading.
 
-A confidence interval based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hollander2013nonparametric, corder2014nonparametric} captures the uncertainty surrounding the typical difference. Rather than approximating the distribution, the procedure computes it directly, fitting a small sample where normality cannot be assumed. The test statistic ranks the absolute paired differences and sums the ranks of the positive differences,
+A confidence interval (CI) based on the exact Wilcoxon signed-rank procedure~\cite{wilcoxon1945signedrank, hollander2013nonparametric, corder2014nonparametric} captures the uncertainty surrounding the typical difference. Rather than approximating the distribution, the procedure computes it directly, fitting a small sample where normality cannot be assumed. The test statistic ranks the absolute paired differences and sums the ranks of the positive differences,
 \[
     W^{+} = \sum_{i \,:\, d_i > 0} \operatorname{rank}\!\left( |d_i| \right).
 \]
