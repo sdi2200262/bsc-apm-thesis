@@ -5,7 +5,7 @@
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
 
-We examine the research gap established in Section~\ref{sec:background-agentic-project-management-and-the-research-gap} through a reproducible empirical methodology centred on a within-participant case study of APM and Spec-kit. To the best of our knowledge, this is among the first methodologies developed to evaluate such interactive systems in use by developers.
+We examine the research gap established in Section~\ref{sec:background-agentic-project-management-and-the-research-gap} through a reproducible case-study methodology, implemented here as a within-participant case study of APM and Spec-kit. To the best of our knowledge, this is among the first methodologies developed to evaluate such interactive systems in use by developers.
 
 Both frameworks belong to the class introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}, and each has its own realisation of SDD described in Section~\ref{sec:background-spec-driven-development}.
 
@@ -73,9 +73,9 @@ A post-session procedure has the participants package their solution patch writt
 \section{Metrics}
 \label{sec:evaluation-metrics}
 
-The metrics defined in this section combine automated computation with participant self-reporting. Automated tooling built for the study extracts the objective outcomes deterministically: a transcript parser processes the participants' Claude Code conversation logs to compute the economic and process metrics, while a test-based grader scores the participant's code patch against the functional assertions. A post-session questionnaire supplies the perception metrics. The parser and grader are part of the open-source infrastructure described in Appendix~\ref{app:evaluation-availability}, and the questionnaire items are detailed in Appendix~\ref{app:evaluation-questionnaire}.
+This section defines the study's metrics, which combine automated computation with participant self-reporting, and the terminology used with them. Automated tooling built for the study extracts the objective outcomes deterministically: a transcript parser processes the participants' Claude Code conversation logs to compute the economic and process metrics, while a test-based grader scores the participant's code patch against the functional assertions. A post-session questionnaire supplies the perception metrics. The parser and grader belong to the open-source infrastructure of Appendix~\ref{app:evaluation-availability}, and Appendix~\ref{app:evaluation-questionnaire} details the questionnaire items.
 
-Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review so its contents can be checked before the session's measurements are accepted.
+Every transcript-derived measurement covers the three-hour attempt window. Records timestamped more than three hours after a session's first user message are excluded before any measurement is computed. Any excluded tail is flagged for review before the session's measurements are accepted.
 
 Each transcript-derived measurement is computed at one or more scopes. A measurement scope is the level of the recorded workflow over which a value is aggregated. The session scope covers the whole study session. The phase scope gives separate values for planning and implementation. The role scope gives APM-only values for each agent role, since Spec-kit has no roles to separate. A measurement breakdown further separates a value at one scope into named components.
 
@@ -115,7 +115,7 @@ Turn prompts are counted, and each falls into one of three content buckets:
 
 The turn-prompt breakdown is described by the \emph{bucket-share distribution}, which gives each bucket's share of the prompts, and the \emph{magnitude per bucket}, their mean character count within each bucket. Together with the \emph{turn-prompt count}, these measures describe how often the user opened turns, the form those prompts took, and the amount of text recorded in each form.
 
-Unlike the temporal measures, the turn-prompt measures are also reported at role scope for APM, attributing each prompt to the agent the participant was addressing. This shows how the user interacted with each of the framework's roles.
+Unlike the temporal measures, the turn-prompt measures are also reported at role scope for APM, attributing each prompt to the agent the participant was addressing.
 
 Steers are reported at session scope only, as two counts: those \emph{delivered} to the agent and those \emph{not delivered}.
 
