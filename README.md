@@ -120,10 +120,10 @@ python3 spec-kit-audit/audit.py --check
 
 ## Related Repositories
 
-- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task specification, participant package, and testing environment.
+- [bsc-apm-case-study-task](https://github.com/sdi2200262/bsc-apm-case-study-task): task, participant package, and testing environment.
 - [bsc-apm-case-study-infra](https://github.com/sdi2200262/bsc-apm-case-study-infra): transcript parser, grader, rubric, and grading environment.
-- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): participant submissions.
-- [eclass-mcp-server](https://github.com/sdi2200262/eclass-mcp-server): reference MCP client for Open eClass.
+- [bsc-apm-case-study-data](https://github.com/sdi2200262/bsc-apm-case-study-data): encrypted study dataset.
+- [agentic-project-management](https://github.com/sdi2200262/agentic-project-management): the APM framework.
 
 ## License
 
@@ -131,4 +131,7 @@ GPL-3.0-or-later. See [LICENSE](LICENSE).
 
 ---
 
-*BSc thesis, Department of Informatics and Telecommunications, University of Athens.*
+*BSc thesis "Agentic Project Management: A Spec-Driven Multi-Agent Framework for
+AI-Assisted Software Engineering" by Konstantinos Chaidemenos, supervised by Thanassis Avgerinos,
+Department of Informatics and Telecommunications, National and Kapodistrian University of Athens,
+2026.*
