@@ -5,7 +5,7 @@
 \section{Evaluation Scope and Research Questions}
 \label{sec:evaluation-scope}
 
-We examine the research gap established in Section~\ref{sec:background-agentic-project-management-and-the-research-gap} through a reproducible case-study methodology, implemented here as a within-participant case study of APM and Spec-kit. To the best of our knowledge, this is among the first methodologies developed to evaluate such interactive systems in use by developers.
+We examine the research gap established in Section~\ref{sec:background-agentic-project-management-and-the-research-gap} through a reproducible case-study methodology, implemented here as a within-participant case study of APM and Spec-kit. To the best of our knowledge, this is among the first methodologies for evaluating frameworks of this class in use by developers.
 
 Both frameworks belong to the class introduced in Section~\ref{sec:background-frameworks-on-top-of-a-coding-agent}, and each has its own realisation of SDD described in Section~\ref{sec:background-spec-driven-development}.
 
@@ -23,7 +23,7 @@ The comparison treats each framework as a complete workflow, including how it ca
 
 Spec-kit is GitHub's open-source spec-driven development toolkit~\cite{github2026speckitdocs}. Evaluating APM alongside Spec-kit compares two realisations of spec-driven development, contrasting single-agent and multi-agent coordination. In Spec-kit, one agent applies the discipline from end to end, producing a specification and a plan and then implementing them, all within one continuous conversation. That agent may still launch subagents through the underlying coding agent, just as APM's agents can.
 
-Spec-kit's workflow is driven by a set of commands that the user triggers, or the agent autonomously invokes. Each is a pre-written prompt whose instructions walk the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artifacts:
+Spec-kit's workflow is driven by a set of commands that the user triggers or the agent invokes on its own. Each is a pre-written prompt whose instructions walk the agent through one step of the workflow. The first is \texttt{/speckit-constitution}, which fixes the project's governing principles in a file; these come either from the user or from the agent's reading of the existing project, and the agent is to uphold them throughout. The core workflow then produces three successive artifacts:
 
 \begin{enumerate}
     \item \texttt{/speckit-specify}: directs the agent to produce a structured specification of requirements, user stories, and acceptance criteria from a feature description.
@@ -40,14 +40,14 @@ Across these steps the agent works largely on its own. It fills gaps in a brief 
 
 The study was conducted from 5 May to 5 June 2026. Both frameworks operated through the Claude Code command-line interface, and participants used the Claude Opus 4.7 or Claude Sonnet 4.6 models. Pricing, model, and framework descriptions refer to this study window.
 
-The study used version 1.0.1 of both the APM templates and the \texttt{agentic-pm} command-line tool~\cite{chaidemenos2026apm101,chaidemenos2026agenticpm101}. It used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026~\cite{github2026speckitreleases}. A fair comparison needs a fixed target, so we audited that span release by release over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, so we read the comparison as operating against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
+The study used version 1.0.1 of both the APM templates and the \texttt{agentic-pm} command-line tool~\cite{chaidemenos2026apm101,chaidemenos2026agenticpm101}. It used Spec-kit versions from v0.8.5, tagged on 4 May 2026, through v0.8.13, tagged on 21 May 2026~\cite{github2026speckitreleases}. Because a fair comparison needs a fixed target, we audited that span release by release over the instructions that reach the agent and compose the framework's workflow. The change across the eight release steps is minimal, and we therefore read the comparison as operating against one fixed version. Appendix~\ref{app:evaluation-speckit-audit} reports the audit, and Section~\ref{sec:discussions-threats} treats the risk it leaves.
 
 \section{Case-Study Methodology}
 \label{sec:evaluation-case-study-methodology}
 
 The case study employs a within-participant comparison across twelve university students and working professionals. Each participant attempts the same task twice, once per framework, holding individual skill, prior experience, and working style constant across both attempts. Each attempt has a three-hour limit.
 
-Participants receive materials bundled as an open-source task package: a task brief, a portable testing environment, and a self-contained guide to walk through setup and their task attempts. An optional agent helper skill accompanies the guide to automate or assist with setup; agents evaluated in the study sessions do not have this skill. The two subsections that follow detail the brief and the environment. Appendix~\ref{app:evaluation-availability} lists all package materials.
+Participants receive materials bundled as an open-source task package: a task brief, a portable testing environment, and a self-contained guide that walks them through setup and their task attempts. An optional agent helper skill accompanies the guide to automate or assist with setup; agents evaluated in the study sessions do not have this skill. The two subsections that follow detail the brief and the environment. Appendix~\ref{app:evaluation-availability} lists all package materials.
 
 \subsection{Task Specification}
 \label{sec:evaluation-task-specification}
@@ -59,7 +59,7 @@ Participants are also required to build a standalone native C replica that expos
 \subsection{Task Environment}
 \label{sec:evaluation-task-environment}
 
-Each participant works in a freshly created, dedicated Linux virtual machine. The participant's workspace contains the PRD and an opening prompt alongside two pinned codebases: \texttt{eclass-mcp-server}, which they are required to modify, and Open eClass, which they can investigate as a reference. Installed in its own directory inside the same virtual machine, the portable testing environment runs a containerised instance of the same Open eClass release together with a mock single-sign-on service. The installed instance holds a deterministic mock dataset and is reached over localhost, so participants are able to develop in their workspace and validate their work against a live platform on the same virtual machine.
+Each participant works in a freshly created, dedicated Linux virtual machine. The participant's workspace contains the PRD and an opening prompt alongside two pinned codebases: \texttt{eclass-mcp-server}, which they are required to modify, and Open eClass, which they can investigate as a reference. Installed in its own directory inside the same virtual machine, the portable testing environment runs a containerised instance of the same Open eClass release together with a mock single-sign-on service. The installed instance holds a deterministic mock dataset and is reached over localhost, letting participants develop in their workspace and validate their work against a live platform on the same virtual machine.
 
 \subsection{Sessions and Data}
 \label{sec:evaluation-sessions-data}
@@ -79,7 +79,7 @@ Every transcript-derived measurement covers the three-hour attempt window. Recor
 
 Each transcript-derived measurement is computed at one or more scopes. A measurement scope is the level of the recorded workflow over which a value is aggregated. The session scope covers the whole study session. The phase scope gives separate values for planning and implementation. The role scope gives APM-only values for each agent role, since Spec-kit has no roles to separate. A measurement breakdown further separates a value at one scope into named components.
 
-The phase and role scopes follow the frameworks' own workflow as recorded in the transcript. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own; APM divides by role, its Planner conversation being planning and its Manager and Worker conversations implementation.
+The phase and role scopes follow the frameworks' own workflow as recorded in the transcript. Spec-kit's single conversation turns to implementation when its workflow reaches \texttt{/speckit-implement}, whether the participant types it or the agent invokes it on its own. APM divides by role, with its Planner conversation forming planning and its Manager and Worker conversations forming implementation.
 
 Within a phase, each measurement is attributed as the work happens: cost, tokens, and model-request counts follow the individual record, and a turn that crosses from planning into implementation divides its time at the crossing. The counts of user messages instead follow the turn, attributed to the phase in which the participant opened it.
 
@@ -122,7 +122,7 @@ Steers are reported at session scope only, as two counts: those \emph{delivered}
 \subsection{Functional}
 \label{sec:evaluation-metrics-functional}
 
-The functional dimension is measured by ninety atomic functional tests applied to each submission, each testing one expected behaviour and carrying one or two points towards a hundred-point total. The grader tests the resulting behaviour against the MCP surface required by the task. It observes only the running Python server's and the compiled C binary's responses, never the participant's source, so it is indifferent to how the solution is built. It runs each submission against an equivalent environment to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
+The functional dimension is measured by ninety atomic functional tests applied to each submission, each testing one expected behaviour and carrying one or two points towards a hundred-point total. The grader tests the resulting behaviour against the MCP surface required by the task. It observes only the running Python server's and the compiled C binary's responses, never the participant's source, and is therefore indifferent to how the solution is built. It runs each submission against an environment equivalent to the one participants used in their sessions. Appendix~\ref{app:evaluation-rubric} specifies the rubric's weighting and its partial-credit rule.
 
 Each check returns one of three verdicts. A \emph{passed} check matches an accepted form and earns its full points. A \emph{partial} check matches no accepted form exactly but comes close to one, measured by Levenshtein edit distance~\cite{levenshtein1966binary} and computed with the Wagner-Fischer algorithm~\cite{wagner1974stringcorrection}; it earns points scaled by that similarity and is flagged for review. A \emph{failed} check earns zero.
 
