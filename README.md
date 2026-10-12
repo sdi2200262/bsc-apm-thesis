@@ -59,6 +59,25 @@ python3 analysis/functional_compact_figure.py --config "$COHORT_CONFIG" --output
 python3 analysis/cost_score_figure.py --config "$COHORT_CONFIG" --output-dir assets
 ```
 
+`COHORT_CONFIG` names a JSON file with one `records` entry per session. Each entry gives `pid`, `session` (`S1` or `S2`), `framework` (`apm` or `speckit`), and the paths to that session's `parser_data.json`, `parser_metrics.json`, and `grader_results.json`. The optional `compact_grader_results` and `questionnaire_csv` paths feed the compact re-grade and the perception outputs. Relative paths resolve against the config file's directory.
+
+```json
+{
+  "records": [
+    {
+      "pid": "P001",
+      "session": "S1",
+      "framework": "apm",
+      "parser_data": "my-submissions/P001/S1_apm_opus/parser_data.json",
+      "parser_metrics": "my-submissions/P001/S1_apm_opus/parser_metrics.json",
+      "grader_results": "my-submissions/P001/S1_apm_opus/grader_results.json",
+      "compact_grader_results": "my-submissions/P001/S1_apm_opus/grader_results_compact_serialization.json",
+      "questionnaire_csv": "my-submissions/questionnaire/raw/responses.csv"
+    }
+  ]
+}
+```
+
 ## Concept Diagrams
 
 Concept-diagram sources live under `diagrams/`, and their rendered PDFs live under `assets/figures/`.
